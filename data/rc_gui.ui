@@ -23,10 +23,11 @@
             </child>
             <child>
               <object class="GtkButton" id="button1">
-                <property name="label" translatable="yes">OK</property>
+                <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -47,7 +48,7 @@
             <property name="can_focus">True</property>
             <property name="homogeneous">True</property>
             <child>
-              <object class="GtkVBox" id="vbox2">
+              <object class="GtkVBox" id="vbox1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
@@ -82,10 +83,12 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="button3">
-                        <property name="label" translatable="yes">Expand Filesystem</property>
+                        <property name="label" translatable="yes">Expand _Filesystem</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Ensure that all of the SD card storage is available to the OS</property>
+                        <property name="use_underline">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -131,10 +134,12 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="button4">
-                        <property name="label" translatable="yes">Change Password...</property>
+                        <property name="label" translatable="yes">Change _Password...</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Change password for the default user (pi)</property>
+                        <property name="use_underline">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -180,10 +185,12 @@
                     </child>
                     <child>
                       <object class="GtkRadioButton" id="radiobutton1">
-                        <property name="label" translatable="yes">Desktop</property>
+                        <property name="label" translatable="yes">_Desktop</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Launch the desktop environment automatically on boot</property>
+                        <property name="use_underline">True</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                       </object>
@@ -195,10 +202,12 @@
                     </child>
                     <child>
                       <object class="GtkRadioButton" id="radiobutton2">
-                        <property name="label" translatable="yes">CLI</property>
+                        <property name="label" translatable="yes">_CLI</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Boot into a command line shell rather than the desktop</property>
+                        <property name="use_underline">True</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radiobutton1</property>
@@ -237,10 +246,12 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="button5">
-                        <property name="label" translatable="yes">Set Locale...</property>
+                        <property name="label" translatable="yes">Set _Locale...</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Set internationalisation settings for units etc.</property>
+                        <property name="use_underline">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -250,10 +261,12 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="button6">
-                        <property name="label" translatable="yes">Set Timezone...</property>
+                        <property name="label" translatable="yes">Set _Timezone...</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Set the timezone to be used by the internal clock</property>
+                        <property name="use_underline">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -263,10 +276,12 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="button7">
-                        <property name="label" translatable="yes">Set Keyboard...</property>
+                        <property name="label" translatable="yes">Set _Keyboard...</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Set international keyboard options</property>
+                        <property name="use_underline">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -312,10 +327,12 @@
                     </child>
                     <child>
                       <object class="GtkRadioButton" id="radiobutton3">
-                        <property name="label" translatable="yes">Enable</property>
+                        <property name="label" translatable="yes">_Enable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Enable the Raspberry Pi Camera Board</property>
+                        <property name="use_underline">True</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                       </object>
@@ -327,10 +344,12 @@
                     </child>
                     <child>
                       <object class="GtkRadioButton" id="radiobutton4">
-                        <property name="label" translatable="yes">Disable</property>
+                        <property name="label" translatable="yes">D_isable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Disable the Raspberry Pi Camera Board</property>
+                        <property name="use_underline">True</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radiobutton3</property>
@@ -380,10 +399,12 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="button8">
-                        <property name="label" translatable="yes">Add to Rastrack...</property>
+                        <property name="label" translatable="yes">Add to _Rastrack...</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Add this Pi to the online Raspberry Pi map</property>
+                        <property name="use_underline">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -407,7 +428,9 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Overclock:</property>
+                        <property name="label" translatable="yes">O_verclock:</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">comboboxtext1</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -419,6 +442,7 @@
                       <object class="GtkComboBoxText" id="comboboxtext1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">Set the level of overclock to control performance</property>
                         <items>
                           <item translatable="yes">None (700MHz)</item>
                           <item translatable="yes">Modest (800MHz)</item>
@@ -444,7 +468,7 @@
               </object>
             </child>
             <child type="tab">
-              <object class="GtkLabel" id="label8">
+              <object class="GtkLabel" id="tablabel1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Basic</property>
@@ -454,7 +478,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox1">
+              <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
@@ -492,6 +516,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Enable overscan to hide the black outline on the screen</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                       </object>
@@ -507,6 +532,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Disable overscan to show the very edges of the screen</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radiobutton5</property>
@@ -557,6 +583,7 @@
                       <object class="GtkEntry" id="entry1">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">Set the name of your Pi on a local network</property>
                         <property name="invisible_char">●</property>
                         <property name="primary_icon_activatable">False</property>
                         <property name="secondary_icon_activatable">False</property>
@@ -608,6 +635,7 @@
                       <object class="GtkSpinButton" id="spinbutton1">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">Enter the amount of memory available to the GPU</property>
                         <property name="invisible_char">●</property>
                         <property name="primary_icon_activatable">False</property>
                         <property name="secondary_icon_activatable">False</property>
@@ -662,6 +690,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Enable remote access to this Pi via SSH</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                       </object>
@@ -677,6 +706,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Disable remote access to this Pi via SSH</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radiobutton7</property>
@@ -730,6 +760,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Enable the use of Device Tree</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                       </object>
@@ -745,6 +776,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Disable the use of Device Tree</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radiobutton9</property>
@@ -798,6 +830,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Enable the automatic loading of the SPI kernel module</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                       </object>
@@ -813,6 +846,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Disable the automatic loading of the SPI kernel module</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radiobutton11</property>
@@ -866,6 +900,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Enable the automatic loading of the I2C kernel module</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                       </object>
@@ -881,6 +916,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Disable the automatic loading of the I2C kernel module</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radiobutton13</property>
@@ -934,6 +970,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Enable shell and kernel messages on the serial connection</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                       </object>
@@ -949,82 +986,10 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Disable shell and kernel messages on the serial connection</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radiobutton15</property>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">3</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="padding">3</property>
-                    <property name="position">7</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkHBox" id="hbox18">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
-                    <child>
-                      <object class="GtkLabel" id="label18">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Audio:</property>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="radiobutton17">
-                        <property name="label" translatable="yes">Auto</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="radiobutton18">
-                        <property name="label" translatable="yes">Analog</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
-                        <property name="group">radiobutton17</property>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="radiobutton19">
-                        <property name="label" translatable="yes">HDMI</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
-                        <property name="group">radiobutton17</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1046,7 +1011,7 @@
               </packing>
             </child>
             <child type="tab">
-              <object class="GtkLabel" id="label9">
+              <object class="GtkLabel" id="tablabel2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Advanced</property>
