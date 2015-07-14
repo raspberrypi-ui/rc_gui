@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+datadir=@datadir@
+
+Name: rc_gui
+Description: GTK version of raspi-config configuration utility
+Requires: libgtk2.0
+Version: @VERSION@

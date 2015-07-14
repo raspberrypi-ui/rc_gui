@@ -1,0 +1,122 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-02-03 13:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/pipanel.ui.h:1 ../data/pipanel.desktop.in.h:1
+msgid "Appearance Settings"
+msgstr "Appearance Settings"
+
+#: ../data/pipanel.ui.h:2
+msgid "Defaults"
+msgstr "Defaults"
+
+#: ../data/pipanel.ui.h:3
+msgid "Colour"
+msgstr "Colour"
+
+#: ../data/pipanel.ui.h:4
+msgid "Text Colour"
+msgstr "Text Colour"
+
+#: ../data/pipanel.ui.h:5
+msgid "Layout"
+msgstr "Layout"
+
+#: ../data/pipanel.ui.h:6
+msgid "No image"
+msgstr "No image"
+
+#: ../data/pipanel.ui.h:7
+msgid "Centre image on screen"
+msgstr "Centre image on screen"
+
+#: ../data/pipanel.ui.h:8
+msgid "Fit image onto screen"
+msgstr "Fit image onto screen"
+
+#: ../data/pipanel.ui.h:9
+msgid "Fill screen with image"
+msgstr "Fill screen with image"
+
+#: ../data/pipanel.ui.h:10
+msgid "Stretch to cover screen"
+msgstr "Stretch to cover screen"
+
+#: ../data/pipanel.ui.h:11
+msgid "Tile image"
+msgstr "Tile image"
+
+#: ../data/pipanel.ui.h:12
+msgid "Picture"
+msgstr "Picture"
+
+#: ../data/pipanel.ui.h:13
+msgid "Desktop"
+msgstr "Desktop"
+
+#: ../data/pipanel.ui.h:14
+msgid "Size"
+msgstr "Size"
+
+#: ../data/pipanel.ui.h:15
+msgid "Position"
+msgstr "Position"
+
+#: ../data/pipanel.ui.h:16
+msgid "Large    "
+msgstr "Large    "
+
+#: ../data/pipanel.ui.h:17
+msgid "Medium"
+msgstr "Medium"
+
+#: ../data/pipanel.ui.h:18
+msgid "Small"
+msgstr "Small"
+
+#: ../data/pipanel.ui.h:19
+msgid "Top"
+msgstr "Top"
+
+#: ../data/pipanel.ui.h:20
+msgid "Bottom"
+msgstr "Bottom"
+
+#: ../data/pipanel.ui.h:21
+msgid "Menu Bar"
+msgstr "Menu Bar"
+
+#: ../data/pipanel.ui.h:22
+msgid "Font"
+msgstr "Font"
+
+#: ../data/pipanel.ui.h:23
+msgid "Highlight Colour"
+msgstr "Highlight Colour"
+
+#: ../data/pipanel.ui.h:24
+msgid "Highlight Text Colour"
+msgstr "Highlight Text Colour"
+
+#: ../data/pipanel.ui.h:25
+msgid "System"
+msgstr "System"
+
+#: ../data/pipanel.desktop.in.h:2
+msgid "Configure the appearance of the desktop and windows"
+msgstr "Configure the appearance of the desktop and windows"

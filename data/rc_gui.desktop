@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Raspberry Pi Configuration
+GenericName=Raspberry Pi Configuration
+Comment=Configure Raspberry Pi system
+Icon=/usr/share/raspberrypi-artwork/raspitr.png
+Exec=rc_gui
+NotShowIn=GNOME;XFCE;
+StartupNotify=true
+Categories=Settings;DesktopSettings;GTK;X-LXDE-Settings;
