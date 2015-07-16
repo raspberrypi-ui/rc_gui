@@ -16,6 +16,8 @@
 #define IS_PI2          "cat /proc/cpuinfo | grep BCM2709"
 #define GET_MEM_ARM     "vcgencmd get_mem arm"
 #define GET_MEM_GPU     "vcgencmd get_mem gpu"
+#define SET_RASTRACK    "curl --data \"name=%s&email=%s\" http://rastrack.co.uk/api.php"
+#define CHANGE_PASSWD   "echo pi:%s | sudo chpasswd"
 #define GET_SPI         "sudo raspi-config get_spi"
 #define GET_I2C         "sudo raspi-config get_i2c"
 #define GET_SERIAL      "sudo raspi-config get_serial"
@@ -31,6 +33,7 @@
 #define SET_HOSTNAME    "sudo raspi-config do_change_hostname %s"
 #define SET_OVERCLOCK   "sudo raspi-config do_overclock %s"
 #define SET_GPU_MEM     "sudo raspi-config do_memory_split %d"
+#define GET_CAN_CONF    "sudo raspi-config get_can_configure"
 
 /* Controls */
 
@@ -39,6 +42,8 @@ static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb;
+static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
+static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
 
 /* Helpers */
 
@@ -95,7 +100,6 @@ static int get_total_mem (void)
         
     return arm + gpu;    
 }
-
 
 /* Dialog box "changed" signal handlers */
 
@@ -243,9 +247,37 @@ static void on_expand_fs (GtkButton* btn, gpointer ptr)
     system (EXPAND_FS);
 }
 
+static void on_set_passwd (GtkEntry *entry, gpointer ptr)
+{
+	if (strcmp (gtk_entry_get_text (GTK_ENTRY(pwentry1_tb)), gtk_entry_get_text (GTK_ENTRY(pwentry2_tb))))
+	    gtk_widget_set_sensitive (GTK_WIDGET(pwok_btn), FALSE);
+	else
+	    gtk_widget_set_sensitive (GTK_WIDGET(pwok_btn), TRUE);
+}
+
 static void on_change_passwd (GtkButton* btn, gpointer ptr)
 {
-    system ("lxterminal -e passwd");
+	GtkBuilder *builder;
+	GtkWidget *dlg;
+	char buffer[128];
+
+	builder = gtk_builder_new ();
+	gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+	dlg = (GtkWidget *) gtk_builder_get_object (builder, "passwddialog");
+	pwentry1_tb = gtk_builder_get_object (builder, "pwentry1");
+	pwentry2_tb = gtk_builder_get_object (builder, "pwentry2");
+	g_signal_connect (pwentry1_tb, "changed", G_CALLBACK (on_set_passwd), NULL);
+	g_signal_connect (pwentry2_tb, "changed", G_CALLBACK (on_set_passwd), NULL);
+	pwok_btn = gtk_builder_get_object (builder, "passwdok");
+	gtk_widget_set_sensitive (GTK_WIDGET(pwok_btn), FALSE);
+	g_object_unref (builder);
+
+	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
+	{
+	    sprintf (buffer, CHANGE_PASSWD, gtk_entry_get_text (GTK_ENTRY(pwentry1_tb)));
+	    system (buffer);
+	}
+	gtk_widget_destroy (dlg);
 }
 
 static void on_set_locale (GtkButton* btn, gpointer ptr)
@@ -263,8 +295,37 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     system ("lxterminal -e sudo dpkg-reconfigure keyboard-configuration");
 }
 
+static void on_rt_change (GtkEntry *entry, gpointer ptr)
+{
+	if (strlen (gtk_entry_get_text (GTK_ENTRY(rtname_tb))) && strlen (gtk_entry_get_text (GTK_ENTRY(rtemail_tb))))
+	    gtk_widget_set_sensitive (GTK_WIDGET(rtok_btn), TRUE);
+	else
+	    gtk_widget_set_sensitive (GTK_WIDGET(rtok_btn), FALSE);
+}
+
 static void on_set_rastrack (GtkButton* btn, gpointer ptr)
 {
+	GtkBuilder *builder;
+	GtkWidget *dlg;
+	char buffer[128];
+
+	builder = gtk_builder_new ();
+	gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+	dlg = (GtkWidget *) gtk_builder_get_object (builder, "rastrackdialog");
+	rtname_tb = gtk_builder_get_object (builder, "rtentry1");
+	rtemail_tb = gtk_builder_get_object (builder, "rtentry2");
+	g_signal_connect (rtname_tb, "changed", G_CALLBACK (on_rt_change), NULL);
+	g_signal_connect (rtemail_tb, "changed", G_CALLBACK (on_rt_change), NULL);
+	rtok_btn = gtk_builder_get_object (builder, "rastrackok");
+	gtk_widget_set_sensitive (GTK_WIDGET(rtok_btn), FALSE);
+	g_object_unref (builder);
+
+	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
+	{
+	    sprintf (buffer, SET_RASTRACK, gtk_entry_get_text (GTK_ENTRY(rtname_tb)), gtk_entry_get_text (GTK_ENTRY(rtemail_tb)));
+	    system (buffer);
+	}
+	gtk_widget_destroy (dlg);
 }
 
 /* The dialog... */
@@ -283,6 +344,16 @@ int main (int argc, char *argv[])
 	// build the UI
 	builder = gtk_builder_new ();
 	gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+
+	if (!get_status (GET_CAN_CONF))
+	{
+	    dlg = (GtkWidget *) gtk_builder_get_object (builder, "errordialog");
+	    g_object_unref (builder);
+	    gtk_dialog_run (GTK_DIALOG (dlg));
+	    gtk_widget_destroy (dlg);
+	    return 0;
+	}
+
 	dlg = (GtkWidget *) gtk_builder_get_object (builder, "dialog1");
 	
 	expandfs_btn = gtk_builder_get_object (builder, "button3");
