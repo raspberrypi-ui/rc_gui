@@ -13,6 +13,7 @@
 
 /* Command strings */
 #define GET_HOSTNAME    "cat /etc/hostname | tr -d \" \t\n\r\""
+#define GET_TIMEZONE    "cat /etc/timezone | tr -d \" \t\n\r\""
 #define IS_PI2          "cat /proc/cpuinfo | grep BCM2709"
 #define GET_MEM_ARM     "vcgencmd get_mem arm"
 #define GET_MEM_GPU     "vcgencmd get_mem gpu"
@@ -44,6 +45,9 @@ static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, 
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
+static GObject *tzarea_cb, *tzloc_cb;
+
+static int cb_count;
 
 /* Helpers */
 
@@ -71,9 +75,9 @@ static int get_status (char *cmd)
     return res;
 }
 
-static void get_hostname (char *name)
+static void get_string (char *cmd, char *name)
 {
-    FILE *fp = popen (GET_HOSTNAME, "r");
+    FILE *fp = popen (cmd, "r");
     char buf[64];
     int res;
 
@@ -199,14 +203,14 @@ static void on_set_serial (GtkRadioButton* btn, gpointer ptr)
 static void on_set_memsplit (GtkRadioButton* btn, gpointer ptr)
 {
     char buffer[128];
-    sprintf (buffer, SET_GPU_MEM, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(memsplit_sb)));
+    sprintf (buffer, SET_GPU_MEM, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)));
     system (buffer);
 }
 
 static void on_set_hostname (GtkEntry *ent, gpointer ptr)
 {
     char buffer[128];
-    sprintf (buffer, SET_HOSTNAME, gtk_entry_get_text (GTK_ENTRY(hostname_tb)));
+    sprintf (buffer, SET_HOSTNAME, gtk_entry_get_text (GTK_ENTRY (hostname_tb)));
     system (buffer);
 }
 
@@ -249,10 +253,10 @@ static void on_expand_fs (GtkButton* btn, gpointer ptr)
 
 static void on_set_passwd (GtkEntry *entry, gpointer ptr)
 {
-	if (strcmp (gtk_entry_get_text (GTK_ENTRY(pwentry1_tb)), gtk_entry_get_text (GTK_ENTRY(pwentry2_tb))))
-	    gtk_widget_set_sensitive (GTK_WIDGET(pwok_btn), FALSE);
+	if (strcmp (gtk_entry_get_text (GTK_ENTRY (pwentry1_tb)), gtk_entry_get_text (GTK_ENTRY(pwentry2_tb))))
+	    gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), FALSE);
 	else
-	    gtk_widget_set_sensitive (GTK_WIDGET(pwok_btn), TRUE);
+	    gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), TRUE);
 }
 
 static void on_change_passwd (GtkButton* btn, gpointer ptr)
@@ -269,12 +273,12 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
 	g_signal_connect (pwentry1_tb, "changed", G_CALLBACK (on_set_passwd), NULL);
 	g_signal_connect (pwentry2_tb, "changed", G_CALLBACK (on_set_passwd), NULL);
 	pwok_btn = gtk_builder_get_object (builder, "passwdok");
-	gtk_widget_set_sensitive (GTK_WIDGET(pwok_btn), FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), FALSE);
 	g_object_unref (builder);
 
 	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
 	{
-	    sprintf (buffer, CHANGE_PASSWD, gtk_entry_get_text (GTK_ENTRY(pwentry1_tb)));
+	    sprintf (buffer, CHANGE_PASSWD, gtk_entry_get_text (GTK_ENTRY (pwentry1_tb)));
 	    system (buffer);
 	}
 	gtk_widget_destroy (dlg);
@@ -285,22 +289,125 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     system ("lxterminal -e sudo dpkg-reconfigure locales");
 }
 
+static void on_area_changed (GtkComboBox *cb, gpointer ptr)
+{
+	char buffer[128];
+    DIR *dirp, *sdirp;
+    struct dirent *dp, *sdp;
+    struct stat st_buf;
+
+    while (cb_count--) gtk_combo_box_remove_text (GTK_COMBO_BOX (tzloc_cb), 0);
+
+    cb_count = 0;
+    sprintf (buffer, "/usr/share/zoneinfo/%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
+    stat (buffer, &st_buf);
+
+    if (S_ISDIR (st_buf.st_mode))
+    {
+        dirp = opendir (buffer);
+        do
+        {
+            dp = readdir (dirp);
+            if (dp && dp->d_name[0] != '.')
+            {
+                if (dp->d_type == DT_DIR)
+                {
+                    sprintf (buffer, "/usr/share/zoneinfo/%s/%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)), dp->d_name);
+                    sdirp = opendir (buffer);
+                    do
+                    {
+                        sdp = readdir (sdirp);
+                        if (sdp && sdp->d_name[0] != '.')
+                        {
+                            sprintf (buffer, "%s/%s", dp->d_name, sdp->d_name);
+	                        gtk_combo_box_append_text (GTK_COMBO_BOX (tzloc_cb), buffer);
+	                        if (ptr && !strcmp (ptr, buffer)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), cb_count);
+	                        cb_count++;
+                        }
+                    } while (sdp);
+                }
+                else
+                {
+	                gtk_combo_box_append_text (GTK_COMBO_BOX (tzloc_cb), dp->d_name);
+	                if (ptr && !strcmp (ptr, dp->d_name)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), cb_count);
+	                cb_count++;
+	            }
+	        }
+        } while (dp);
+        if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), 0);
+    }
+}
+
 static void on_set_timezone (GtkButton* btn, gpointer ptr)
 {
-    system ("lxterminal -e sudo dpkg-reconfigure tzdata");
+	GtkBuilder *builder;
+	GtkWidget *dlg;
+	char buffer[128], *cptr;
+    DIR *dirp;
+    struct dirent *dp;
+
+	builder = gtk_builder_new ();
+	gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+	dlg = (GtkWidget *) gtk_builder_get_object (builder, "tzdialog");
+
+	GtkWidget *table = (GtkWidget *) gtk_builder_get_object (builder, "tztable");
+	tzarea_cb = (GObject *) gtk_combo_box_new_text ();
+	tzloc_cb = (GObject *) gtk_combo_box_new_text ();
+	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (tzarea_cb), 1, 2, 0, 1, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (tzloc_cb), 1, 2, 1, 2, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
+	gtk_widget_show_all (GTK_WIDGET (tzarea_cb));
+	gtk_widget_show_all (GTK_WIDGET (tzloc_cb));
+
+	// select the current timezone area
+	get_string (GET_TIMEZONE, buffer);
+	strtok (buffer, "/");
+	cptr = strtok (NULL, "");
+
+    // populate the area combo box from the timezone database
+    dirp = opendir ("/usr/share/zoneinfo");
+    int count = 0;
+    do
+    {
+        dp = readdir (dirp);
+        if (dp && dp->d_name[0] >= 'A' && dp->d_name[0] <= 'Z')
+        {
+	        gtk_combo_box_append_text (GTK_COMBO_BOX (tzarea_cb), dp->d_name);
+	        if (!strcmp (dp->d_name, buffer)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzarea_cb), count);
+	        count++;
+	    }
+    } while (dp);
+	g_signal_connect (tzarea_cb, "changed", G_CALLBACK (on_area_changed), NULL);
+
+	// populate the location list and set the current location
+	on_area_changed (GTK_COMBO_BOX (tzarea_cb), cptr);
+
+	g_object_unref (builder);
+
+	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
+	{
+	    if (gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)))
+            sprintf (buffer, "echo '%s/%s' | sudo tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)),
+                gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)));
+        else
+            sprintf (buffer, "echo '%s' | sudo tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
+
+        system (buffer);
+        system ("sudo dpkg-reconfigure --frontend noninteractive tzdata");
+	}
+	gtk_widget_destroy (dlg);
 }
 
 static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 {
-    system ("lxterminal -e sudo dpkg-reconfigure keyboard-configuration");
+    system ("python -S /usr/local/bin/lxkeymap");
 }
 
 static void on_rt_change (GtkEntry *entry, gpointer ptr)
 {
-	if (strlen (gtk_entry_get_text (GTK_ENTRY(rtname_tb))) && strlen (gtk_entry_get_text (GTK_ENTRY(rtemail_tb))))
-	    gtk_widget_set_sensitive (GTK_WIDGET(rtok_btn), TRUE);
+	if (strlen (gtk_entry_get_text (GTK_ENTRY (rtname_tb))) && strlen (gtk_entry_get_text (GTK_ENTRY (rtemail_tb))))
+	    gtk_widget_set_sensitive (GTK_WIDGET (rtok_btn), TRUE);
 	else
-	    gtk_widget_set_sensitive (GTK_WIDGET(rtok_btn), FALSE);
+	    gtk_widget_set_sensitive (GTK_WIDGET (rtok_btn), FALSE);
 }
 
 static void on_set_rastrack (GtkButton* btn, gpointer ptr)
@@ -322,7 +429,7 @@ static void on_set_rastrack (GtkButton* btn, gpointer ptr)
 
 	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
 	{
-	    sprintf (buffer, SET_RASTRACK, gtk_entry_get_text (GTK_ENTRY(rtname_tb)), gtk_entry_get_text (GTK_ENTRY(rtemail_tb)));
+	    sprintf (buffer, SET_RASTRACK, gtk_entry_get_text (GTK_ENTRY (rtname_tb)), gtk_entry_get_text (GTK_ENTRY (rtemail_tb)));
 	    system (buffer);
 	}
 	gtk_widget_destroy (dlg);
@@ -466,7 +573,7 @@ int main (int argc, char *argv[])
 	g_signal_connect (memsplit_sb, "changed", G_CALLBACK (on_set_memsplit), NULL);
 
 	hostname_tb = gtk_builder_get_object (builder, "entry1");
-	get_hostname (hname);
+	get_string (GET_HOSTNAME, hname);
 	gtk_entry_set_text (GTK_ENTRY (hostname_tb), hname);
 	g_signal_connect (hostname_tb, "changed", G_CALLBACK (on_set_hostname), NULL);
 
