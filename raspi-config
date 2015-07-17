@@ -3,7 +3,7 @@
 #
 # See LICENSE file for copyright and license details
 
-INTERACTIVE=False
+INTERACTIVE=True
 ASK_TO_REBOOT=0
 BLACKLIST=/etc/modprobe.d/raspi-blacklist.conf
 CONFIG=/boot/config.txt
@@ -765,7 +765,28 @@ get_boot_to_gui() {
   fi
 }
 
+get_can_configure() {
+    if [ ! -e /etc/init.d/lightdm ]; then
+        echo "0"
+        return
+    fi
+    if !(id -u pi > /dev/null 2>&1); then
+        echo "0"
+        return
+    fi
+    if [ -e $CONFIG ] && grep -q "^device_tree=$" $CONFIG; then
+        echo "0"
+        return
+    fi
+    if [ ! -e /boot/start_x.elf ]; then
+        echo "0"
+        return
+    fi
+    echo "1"
+}
+
 do_boot_behaviour() {
+  get_init_sys
   if [ "$INTERACTIVE" = True ]; then
   BOOTOPT=$(whiptail --menu "Chose boot option" 20 60 10 \
     "Console" "Text console, requiring login (default)" \
@@ -808,7 +829,7 @@ do_boot_behaviour() {
     ASK_TO_REBOOT=1
   fi
   else
-  BOOTOPT = $1
+  BOOTOPT=$1
     case "$BOOTOPT" in
       Console)
         if [ -e /etc/init.d/lightdm ]; then
@@ -1024,6 +1045,10 @@ EOF
   return 0
 }
 
+nonint() {
+    $1 $2 $3
+}
+
 #
 # Command line options for non-interactive use
 #
@@ -1050,6 +1075,10 @@ do
     INTERACTIVE=False
     do_apply_os_config
     exit $?
+    ;;
+  nonint)
+    INTERACTIVE=False
+    $@
     ;;
   *)
     # unknown option
@@ -1167,6 +1196,4 @@ while true; do
     exit 1
   fi
 done
-else
-$@
 fi
