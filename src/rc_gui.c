@@ -35,6 +35,15 @@
 #define SET_OVERCLOCK   "sudo raspi-config nonint do_overclock %s"
 #define SET_GPU_MEM     "sudo raspi-config nonint do_memory_split %d"
 #define GET_CAN_CONF    "sudo raspi-config nonint get_can_configure"
+#define SET_OVERSCAN    "sudo raspi-config nonint do_overscan %d"
+#define SET_SSH         "sudo raspi-config nonint do_ssh %d"
+#define SET_SPI         "sudo raspi-config nonint do_spi %d"
+#define SET_I2C         "sudo raspi-config nonint do_i2c %d"
+#define SET_SERIAL      "sudo raspi-config nonint do_serial %d"
+#define SET_CAMERA      "sudo raspi-config nonint do_camera %d"
+#define SET_BOOT_CLI    "sudo raspi-config nonint do_boot_behaviour Console"
+#define SET_BOOT_GUI    "sudo raspi-config nonint do_boot_behaviour Desktop"
+
 
 /* Controls */
 
@@ -46,6 +55,13 @@ static GObject *overclock_cb, *memsplit_sb, *hostname_tb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
 static GObject *tzarea_cb, *tzloc_cb;
+
+/* Initial values */
+
+static char orig_hostname[128];
+static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial;
+static int orig_clock, orig_gpumem;
+
 
 static int cb_count;
 
@@ -105,144 +121,7 @@ static int get_total_mem (void)
     return arm + gpu;    
 }
 
-/* Dialog box "changed" signal handlers */
-
-static void on_set_boot (GtkRadioButton* btn, gpointer ptr)
-{
-	// only respond to the button which is now active
-	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn))) return;
-
-	// find out which button in the group is active
-	GSList *group = gtk_radio_button_get_group (btn);
-	if (gtk_toggle_button_get_active (group->data))
-        system ("sudo raspi-config nonint do_boot_behaviour Console");
-	else
-        system ("sudo raspi-config nonint do_boot_behaviour Desktop");
-}
-
-static void on_set_camera (GtkRadioButton* btn, gpointer ptr)
-{
-	// only respond to the button which is now active
-	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn))) return;
-
-	// find out which button in the group is active
-	GSList *group = gtk_radio_button_get_group (btn);
-	if (gtk_toggle_button_get_active (group->data))
-	    system ("sudo raspi-config nonint do_camera 0");
-	else
-	    system ("sudo raspi-config nonint do_camera 1");
-}
-
-static void on_set_overscan (GtkRadioButton* btn, gpointer ptr)
-{
-	// only respond to the button which is now active
-	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn))) return;
-
-	// find out which button in the group is active
-	GSList *group = gtk_radio_button_get_group (btn);
-	if (gtk_toggle_button_get_active (group->data))
-	    system ("sudo raspi-config nonint do_overscan 0");
-	else
-	    system ("sudo raspi-config nonint do_overscan 1");
-}
-
-static void on_set_ssh (GtkRadioButton* btn, gpointer ptr)
-{
-	// only respond to the button which is now active
-	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn))) return;
-
-	// find out which button in the group is active
-	GSList *group = gtk_radio_button_get_group (btn);
-	if (gtk_toggle_button_get_active (group->data))
-	    system ("sudo raspi-config nonint do_ssh 1");
-	else
-	    system ("sudo raspi-config nonint do_ssh 0");
-}
-
-static void on_set_spi (GtkRadioButton* btn, gpointer ptr)
-{
-	// only respond to the button which is now active
-	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn))) return;
-
-	// find out which button in the group is active
-	GSList *group = gtk_radio_button_get_group (btn);
-	if (gtk_toggle_button_get_active (group->data))
-	    system ("sudo raspi-config nonint do_spi 1");
-	else
-	    system ("sudo raspi-config nonint do_spi 0");
-}
-
-static void on_set_i2c (GtkRadioButton* btn, gpointer ptr)
-{
-	// only respond to the button which is now active
-	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn))) return;
-
-	// find out which button in the group is active
-	GSList *group = gtk_radio_button_get_group (btn);
-	if (gtk_toggle_button_get_active (group->data))
-	    system ("sudo raspi-config nonint do_i2c 1");
-	else
-	    system ("sudo raspi-config nonint do_i2c 0");
-}
-
-static void on_set_serial (GtkRadioButton* btn, gpointer ptr)
-{
-	// only respond to the button which is now active
-	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn))) return;
-
-	// find out which button in the group is active
-	GSList *group = gtk_radio_button_get_group (btn);
-	if (gtk_toggle_button_get_active (group->data))
-	    system ("sudo raspi-config nonint do_serial 1");
-	else
-	    system ("sudo raspi-config nonint do_serial 0");
-}
-
-static void on_set_memsplit (GtkRadioButton* btn, gpointer ptr)
-{
-    char buffer[128];
-    sprintf (buffer, SET_GPU_MEM, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)));
-    system (buffer);
-}
-
-static void on_set_hostname (GtkEntry *ent, gpointer ptr)
-{
-    char buffer[128];
-    sprintf (buffer, SET_HOSTNAME, gtk_entry_get_text (GTK_ENTRY (hostname_tb)));
-    system (buffer);
-}
-
-static void on_overclock_set (GtkComboBox* box, gpointer ptr)
-{
-    char buffer[128];
-	if (is_pi2 ())
-	{
-	    switch (gtk_combo_box_get_active (box))
-	    {
-		    case 0 :    sprintf (buffer, SET_OVERCLOCK, "Pi2None");
-		                break;
-		    case 1 :    sprintf (buffer, SET_OVERCLOCK, "Pi2");
-		                break;
-		}
-	}
-	else
-	{
-	    switch (gtk_combo_box_get_active (box))
-	    {
-		    case 0 :    sprintf (buffer, SET_OVERCLOCK, "None");
-		                break;
-		    case 1 :    sprintf (buffer, SET_OVERCLOCK, "Modest");
-		                break;
-		    case 2 :    sprintf (buffer, SET_OVERCLOCK, "Medium");
-		                break;
-		    case 3 :    sprintf (buffer, SET_OVERCLOCK, "High");
-		                break;
-		    case 4 :    sprintf (buffer, SET_OVERCLOCK, "Turbo");
-		                break;
-	    }
-	}
-	system (buffer);
-}
+/* Button handlers */
 
 static void on_expand_fs (GtkButton* btn, gpointer ptr)
 {
@@ -433,6 +312,111 @@ static void on_set_rastrack (GtkButton* btn, gpointer ptr)
 	gtk_widget_destroy (dlg);
 }
 
+/* Write the changes to the system when OK is pressed */
+
+static int process_changes (void)
+{
+    char buffer[128];
+    int reboot = 0;
+
+    if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)))
+    {
+	    if (orig_boot) system (SET_BOOT_CLI);
+	    else system (SET_BOOT_GUI);
+	    reboot = 1;
+    }
+
+    if (orig_camera != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (camera_on_rb)))
+    {
+	    sprintf (buffer, SET_CAMERA, (1 - orig_camera));
+	    system (buffer);
+	    reboot = 1;
+    }
+
+    if (orig_overscan != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (overscan_off_rb)))
+    {
+	    sprintf (buffer, SET_OVERSCAN, orig_overscan);
+	    system (buffer);
+	    reboot = 1;
+    }
+
+    if (orig_ssh != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ssh_on_rb)))
+    {
+	    sprintf (buffer, SET_SSH, orig_ssh);
+	    system (buffer);
+    }
+
+    if (orig_spi != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (spi_on_rb)))
+    {
+	    sprintf (buffer, SET_SPI, orig_spi);
+	    system (buffer);
+	    reboot = 1;
+    }
+
+    if (orig_i2c != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (i2c_on_rb)))
+    {
+	    sprintf (buffer, SET_I2C, orig_i2c);
+	    system (buffer);
+	    reboot = 1;
+    }
+
+    if (orig_serial != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (serial_on_rb)))
+    {
+	    sprintf (buffer, SET_SERIAL, orig_serial);
+	    system (buffer);
+	    reboot = 1;
+    }
+
+    if (strcmp (orig_hostname, gtk_entry_get_text (GTK_ENTRY (hostname_tb))))
+    {
+        sprintf (buffer, SET_HOSTNAME, gtk_entry_get_text (GTK_ENTRY (hostname_tb)));
+        system (buffer);
+	    reboot = 1;
+    }
+
+    if (orig_gpumem != gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)))
+    {
+        sprintf (buffer, SET_GPU_MEM, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)));
+        system (buffer);
+	    reboot = 1;
+    }
+
+    if (orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
+    {
+        if (is_pi2 ())
+        {
+            switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
+            {
+                case 0 :    sprintf (buffer, SET_OVERCLOCK, "Pi2None");
+                            break;
+                case 1 :    sprintf (buffer, SET_OVERCLOCK, "Pi2");
+                            break;
+            }
+        }
+        else
+        {
+            switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
+            {
+                case 0 :    sprintf (buffer, SET_OVERCLOCK, "None");
+                            break;
+                case 1 :    sprintf (buffer, SET_OVERCLOCK, "Modest");
+                            break;
+                case 2 :    sprintf (buffer, SET_OVERCLOCK, "Medium");
+                            break;
+                case 3 :    sprintf (buffer, SET_OVERCLOCK, "High");
+                            break;
+                case 4 :    sprintf (buffer, SET_OVERCLOCK, "Turbo");
+                            break;
+            }
+        }
+        system (buffer);
+	    reboot = 1;
+	}
+
+	return reboot;
+}
+
+
 /* The dialog... */
 
 int main (int argc, char *argv[])
@@ -440,7 +424,6 @@ int main (int argc, char *argv[])
 	GtkBuilder *builder;
 	GObject *item;
 	GtkWidget *dlg;
-	char hname[128];
 	
 	// GTK setup
 	gtk_init (&argc, &argv);
@@ -483,63 +466,50 @@ int main (int argc, char *argv[])
 		
 	boot_desktop_rb = gtk_builder_get_object (builder, "radiobutton1");
 	boot_cli_rb = gtk_builder_get_object (builder, "radiobutton2");
-	if (get_status (GET_BOOT_GUI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
+	if (orig_boot = get_status (GET_BOOT_GUI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
 	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
-	g_signal_connect (boot_desktop_rb, "toggled", G_CALLBACK (on_set_boot), NULL);
-	g_signal_connect (boot_cli_rb, "toggled", G_CALLBACK (on_set_boot), NULL);
 
 	camera_on_rb = gtk_builder_get_object (builder, "radiobutton3");
 	camera_off_rb = gtk_builder_get_object (builder, "radiobutton4");
-	if (get_status (GET_CAMERA)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_on_rb), TRUE);
+	if (orig_camera = get_status (GET_CAMERA)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_on_rb), TRUE);
 	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_off_rb), TRUE);
-	g_signal_connect (camera_on_rb, "toggled", G_CALLBACK (on_set_camera), NULL);
-	g_signal_connect (camera_off_rb, "toggled", G_CALLBACK (on_set_camera), NULL);
 	
 	overscan_on_rb = gtk_builder_get_object (builder, "radiobutton5");
 	overscan_off_rb = gtk_builder_get_object (builder, "radiobutton6");
-	if (get_status (GET_OVERSCAN)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overscan_off_rb), TRUE);
+	if (orig_overscan = get_status (GET_OVERSCAN)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overscan_off_rb), TRUE);
 	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overscan_on_rb), TRUE);
-	g_signal_connect (overscan_on_rb, "toggled", G_CALLBACK (on_set_overscan), NULL);
-	g_signal_connect (overscan_off_rb, "toggled", G_CALLBACK (on_set_overscan), NULL);
 	
 	ssh_on_rb = gtk_builder_get_object (builder, "radiobutton7");
 	ssh_off_rb = gtk_builder_get_object (builder, "radiobutton8");
-	if (get_status (GET_SSH)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_on_rb), TRUE);
+	if (orig_ssh = get_status (GET_SSH)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_on_rb), TRUE);
 	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_off_rb), TRUE);
-	g_signal_connect (ssh_on_rb, "toggled", G_CALLBACK (on_set_ssh), NULL);
-	g_signal_connect (ssh_off_rb, "toggled", G_CALLBACK (on_set_ssh), NULL);
 	
 	spi_on_rb = gtk_builder_get_object (builder, "radiobutton11");
 	spi_off_rb = gtk_builder_get_object (builder, "radiobutton12");
-	if (get_status (GET_SPI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_on_rb), TRUE);
+	if (orig_spi = get_status (GET_SPI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_on_rb), TRUE);
 	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_off_rb), TRUE);
-	g_signal_connect (spi_on_rb, "toggled", G_CALLBACK (on_set_spi), NULL);
-	g_signal_connect (spi_off_rb, "toggled", G_CALLBACK (on_set_spi), NULL);
 	
 	i2c_on_rb = gtk_builder_get_object (builder, "radiobutton13");
 	i2c_off_rb = gtk_builder_get_object (builder, "radiobutton14");
-	if (get_status (GET_I2C)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_on_rb), TRUE);
+	if (orig_i2c = get_status (GET_I2C)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_on_rb), TRUE);
 	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_off_rb), TRUE);
-	g_signal_connect (i2c_on_rb, "toggled", G_CALLBACK (on_set_i2c), NULL);
-	g_signal_connect (i2c_off_rb, "toggled", G_CALLBACK (on_set_i2c), NULL);
 	
 	serial_on_rb = gtk_builder_get_object (builder, "radiobutton15");
 	serial_off_rb = gtk_builder_get_object (builder, "radiobutton16");
-	if (get_status (GET_SERIAL)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
+	if (orig_serial = get_status (GET_SERIAL)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
 	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
-	g_signal_connect (serial_on_rb, "toggled", G_CALLBACK (on_set_serial), NULL);
-	g_signal_connect (serial_off_rb, "toggled", G_CALLBACK (on_set_serial), NULL);
 	
 	if (is_pi2 ())
 	{
 	    overclock_cb = gtk_builder_get_object (builder, "comboboxtext2");
 	    switch (get_status (GET_OVERCLOCK))
 	    {
-	        case 1000 : gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 1);
+	        case 1000 : orig_clock = 1;
 	                    break;
-	        default   : gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 0);
+	        default   : orig_clock = 0;
 	                    break;
 	    }
+	    gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
 	    gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox7")));
 	    gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox8")));
 	}
@@ -548,39 +518,46 @@ int main (int argc, char *argv[])
 	    overclock_cb = gtk_builder_get_object (builder, "comboboxtext1");
 	    switch (get_status (GET_OVERCLOCK))
 	    {
-	        case 800  : gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 1);
+	        case 800  : orig_clock = 1;
 	                    break;
-	        case 900  : gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 2);
+	        case 900  : orig_clock = 2;
 	                    break;
-	        case 950  : gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 3);
+	        case 950  : orig_clock = 3;
 	                    break;
-	        case 1000 : gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 4);
+	        case 1000 : orig_clock = 4;
 	                    break;
-	        default   : gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 0);
+	        default   : orig_clock = 0;
 	                    break;
         }	
+	    gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
 	    gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox8")));
 	    gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox7")));
-	}	
-	g_signal_connect (overclock_cb, "changed", G_CALLBACK (on_overclock_set), NULL);
-	
+	}
+
 	GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 16.0, 64.0, 0);
 	memsplit_sb = gtk_builder_get_object (builder, "spinbutton1");
 	gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (memsplit_sb), GTK_ADJUSTMENT (adj));
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (memsplit_sb), get_status (GET_GPU_MEM));
-	g_signal_connect (memsplit_sb, "changed", G_CALLBACK (on_set_memsplit), NULL);
+	orig_gpumem = get_status (GET_GPU_MEM);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (memsplit_sb), orig_gpumem);
 
 	hostname_tb = gtk_builder_get_object (builder, "entry1");
-	get_string (GET_HOSTNAME, hname);
-	gtk_entry_set_text (GTK_ENTRY (hostname_tb), hname);
-	g_signal_connect (hostname_tb, "changed", G_CALLBACK (on_set_hostname), NULL);
+	get_string (GET_HOSTNAME, orig_hostname);
+	gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hostname);
+
+	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
+	{
+	    if (process_changes ())
+	    {
+	        dlg = (GtkWidget *) gtk_builder_get_object (builder, "rebootdlg");
+	        g_object_unref (builder);
+	        if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_YES)
+	        {
+                system ("sudo reboot");
+            }
+	    }
+	}
 
 	g_object_unref (builder);
-
-	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_CANCEL)
-	{
-	}
-	
 	gtk_widget_destroy (dlg);
 
 	return 0;
