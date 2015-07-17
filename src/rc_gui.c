@@ -19,31 +19,29 @@
 #define GET_MEM_GPU     "vcgencmd get_mem gpu"
 #define SET_RASTRACK    "curl --data \"name=%s&email=%s\" http://rastrack.co.uk/api.php"
 #define CHANGE_PASSWD   "echo pi:%s | sudo chpasswd"
+#define CAN_EXPAND      "sudo raspi-config nonint can_expand_rootfs"
+#define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
+#define GET_OVERCLOCK   "sudo raspi-config nonint get_config_var arm_freq /boot/config.txt"
+#define GET_GPU_MEM     "sudo raspi-config nonint get_config_var gpu_mem /boot/config.txt"
+#define GET_OVERSCAN    "sudo raspi-config nonint get_config_var disable_overscan /boot/config.txt"
+#define GET_CAMERA      "sudo raspi-config nonint get_config_var start_x /boot/config.txt"
+#define GET_SSH         "sudo raspi-config nonint get_ssh"
 #define GET_SPI         "sudo raspi-config nonint get_spi"
 #define GET_I2C         "sudo raspi-config nonint get_i2c"
 #define GET_SERIAL      "sudo raspi-config nonint get_serial"
-#define GET_SSH         "sudo raspi-config nonint get_ssh"
 #define GET_BOOT_GUI    "sudo raspi-config nonint get_boot_to_gui"
-#define GET_OVERSCAN    "sudo raspi-config nonint get_config_var disable_overscan /boot/config.txt"
-#define GET_CAMERA      "sudo raspi-config nonint get_config_var start_x /boot/config.txt"
-#define GET_GPU_MEM     "sudo raspi-config nonint get_config_var gpu_mem /boot/config.txt"
-#define GET_OVERCLOCK   "sudo raspi-config nonint get_config_var arm_freq /boot/config.txt"
-#define GET_SDRAMF      "sudo raspi-config nonint get_config_var sdram_freq /boot/config.txt"
-#define CAN_EXPAND      "sudo raspi-config nonint can_expand_rootfs"
-#define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
+#define GET_CAN_CONF    "sudo raspi-config nonint get_can_configure"
 #define SET_HOSTNAME    "sudo raspi-config nonint do_change_hostname %s"
 #define SET_OVERCLOCK   "sudo raspi-config nonint do_overclock %s"
 #define SET_GPU_MEM     "sudo raspi-config nonint do_memory_split %d"
-#define GET_CAN_CONF    "sudo raspi-config nonint get_can_configure"
 #define SET_OVERSCAN    "sudo raspi-config nonint do_overscan %d"
+#define SET_CAMERA      "sudo raspi-config nonint do_camera %d"
 #define SET_SSH         "sudo raspi-config nonint do_ssh %d"
 #define SET_SPI         "sudo raspi-config nonint do_spi %d"
 #define SET_I2C         "sudo raspi-config nonint do_i2c %d"
 #define SET_SERIAL      "sudo raspi-config nonint do_serial %d"
-#define SET_CAMERA      "sudo raspi-config nonint do_camera %d"
 #define SET_BOOT_CLI    "sudo raspi-config nonint do_boot_behaviour Console"
 #define SET_BOOT_GUI    "sudo raspi-config nonint do_boot_behaviour Desktop"
-
 
 /* Controls */
 
@@ -62,6 +60,7 @@ static char orig_hostname[128];
 static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial;
 static int orig_clock, orig_gpumem;
 
+/* Number of items in location combobox */
 
 static int cb_count;
 
