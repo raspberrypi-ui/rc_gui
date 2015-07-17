@@ -19,22 +19,22 @@
 #define GET_MEM_GPU     "vcgencmd get_mem gpu"
 #define SET_RASTRACK    "curl --data \"name=%s&email=%s\" http://rastrack.co.uk/api.php"
 #define CHANGE_PASSWD   "echo pi:%s | sudo chpasswd"
-#define GET_SPI         "sudo raspi-config get_spi"
-#define GET_I2C         "sudo raspi-config get_i2c"
-#define GET_SERIAL      "sudo raspi-config get_serial"
-#define GET_SSH         "sudo raspi-config get_ssh"
-#define GET_BOOT_GUI    "sudo raspi-config get_boot_to_gui"
-#define GET_OVERSCAN    "sudo raspi-config get_config_var disable_overscan /boot/config.txt"
-#define GET_CAMERA      "sudo raspi-config get_config_var start_x /boot/config.txt"
-#define GET_GPU_MEM     "sudo raspi-config get_config_var gpu_mem /boot/config.txt"
-#define GET_OVERCLOCK   "sudo raspi-config get_config_var arm_freq /boot/config.txt"
-#define GET_SDRAMF      "sudo raspi-config get_config_var sdram_freq /boot/config.txt"
-#define CAN_EXPAND      "sudo raspi-config can_expand_rootfs"
-#define EXPAND_FS       "sudo raspi-config do_expand_rootfs"
-#define SET_HOSTNAME    "sudo raspi-config do_change_hostname %s"
-#define SET_OVERCLOCK   "sudo raspi-config do_overclock %s"
-#define SET_GPU_MEM     "sudo raspi-config do_memory_split %d"
-#define GET_CAN_CONF    "sudo raspi-config get_can_configure"
+#define GET_SPI         "sudo raspi-config nonint get_spi"
+#define GET_I2C         "sudo raspi-config nonint get_i2c"
+#define GET_SERIAL      "sudo raspi-config nonint get_serial"
+#define GET_SSH         "sudo raspi-config nonint get_ssh"
+#define GET_BOOT_GUI    "sudo raspi-config nonint get_boot_to_gui"
+#define GET_OVERSCAN    "sudo raspi-config nonint get_config_var disable_overscan /boot/config.txt"
+#define GET_CAMERA      "sudo raspi-config nonint get_config_var start_x /boot/config.txt"
+#define GET_GPU_MEM     "sudo raspi-config nonint get_config_var gpu_mem /boot/config.txt"
+#define GET_OVERCLOCK   "sudo raspi-config nonint get_config_var arm_freq /boot/config.txt"
+#define GET_SDRAMF      "sudo raspi-config nonint get_config_var sdram_freq /boot/config.txt"
+#define CAN_EXPAND      "sudo raspi-config nonint can_expand_rootfs"
+#define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
+#define SET_HOSTNAME    "sudo raspi-config nonint do_change_hostname %s"
+#define SET_OVERCLOCK   "sudo raspi-config nonint do_overclock %s"
+#define SET_GPU_MEM     "sudo raspi-config nonint do_memory_split %d"
+#define GET_CAN_CONF    "sudo raspi-config nonint get_can_configure"
 
 /* Controls */
 
@@ -115,11 +115,9 @@ static void on_set_boot (GtkRadioButton* btn, gpointer ptr)
 	// find out which button in the group is active
 	GSList *group = gtk_radio_button_get_group (btn);
 	if (gtk_toggle_button_get_active (group->data))
-	{
-	}
+        system ("sudo raspi-config do_boot_behaviour Console");
 	else
-	{
-	}
+        system ("sudo raspi-config do_boot_behaviour Desktop");
 }
 
 static void on_set_camera (GtkRadioButton* btn, gpointer ptr)
