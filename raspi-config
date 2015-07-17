@@ -504,7 +504,7 @@ do_devicetree() {
 }
 
 get_spi() {
-  if lsmod | grep spi_bcm2708; then
+  if cat $CONFIG | grep dtparam=spi=on; then
     echo "1"
   else
     echo "0"
@@ -597,7 +597,7 @@ do_spi() {
 }
 
 get_i2c() {
-  if lsmod | grep i2c_bcm2708; then
+  if cat $CONFIG | grep dtparam=i2c_arm=on; then
     echo "1"
   else
     echo "0"
@@ -678,7 +678,9 @@ do_i2c() {
     fi
     modprobe i2c-bcm2708
     modprobe i2c-dev
+  if [ "$INTERACTIVE" = True ]; then
     whiptail --msgbox "I2C kernel module will now be loaded by default" 20 60 1
+  fi
   elif [ $RET -eq 1 ]; then
     sed $BLACKLIST -i -e "s/^#\(blacklist[[:space:]]*i2c[-_]bcm2708\)/\1/"
     if ! grep -q "^blacklist i2c[-_]bcm2708" $BLACKLIST; then
