@@ -115,9 +115,9 @@ static void on_set_boot (GtkRadioButton* btn, gpointer ptr)
 	// find out which button in the group is active
 	GSList *group = gtk_radio_button_get_group (btn);
 	if (gtk_toggle_button_get_active (group->data))
-        system ("sudo raspi-config do_boot_behaviour Console");
+        system ("sudo raspi-config nonint do_boot_behaviour Console");
 	else
-        system ("sudo raspi-config do_boot_behaviour Desktop");
+        system ("sudo raspi-config nonint do_boot_behaviour Desktop");
 }
 
 static void on_set_camera (GtkRadioButton* btn, gpointer ptr)
@@ -128,9 +128,9 @@ static void on_set_camera (GtkRadioButton* btn, gpointer ptr)
 	// find out which button in the group is active
 	GSList *group = gtk_radio_button_get_group (btn);
 	if (gtk_toggle_button_get_active (group->data))
-	    system ("sudo raspi-config do_camera 0");
+	    system ("sudo raspi-config nonint do_camera 0");
 	else
-	    system ("sudo raspi-config do_camera 1");
+	    system ("sudo raspi-config nonint do_camera 1");
 }
 
 static void on_set_overscan (GtkRadioButton* btn, gpointer ptr)
@@ -141,9 +141,9 @@ static void on_set_overscan (GtkRadioButton* btn, gpointer ptr)
 	// find out which button in the group is active
 	GSList *group = gtk_radio_button_get_group (btn);
 	if (gtk_toggle_button_get_active (group->data))
-	    system ("sudo raspi-config do_overscan 0");
+	    system ("sudo raspi-config nonint do_overscan 0");
 	else
-	    system ("sudo raspi-config do_overscan 1");
+	    system ("sudo raspi-config nonint do_overscan 1");
 }
 
 static void on_set_ssh (GtkRadioButton* btn, gpointer ptr)
@@ -154,9 +154,9 @@ static void on_set_ssh (GtkRadioButton* btn, gpointer ptr)
 	// find out which button in the group is active
 	GSList *group = gtk_radio_button_get_group (btn);
 	if (gtk_toggle_button_get_active (group->data))
-	    system ("sudo raspi-config do_ssh 1");
+	    system ("sudo raspi-config nonint do_ssh 1");
 	else
-	    system ("sudo raspi-config do_ssh 0");
+	    system ("sudo raspi-config nonint do_ssh 0");
 }
 
 static void on_set_spi (GtkRadioButton* btn, gpointer ptr)
@@ -167,9 +167,9 @@ static void on_set_spi (GtkRadioButton* btn, gpointer ptr)
 	// find out which button in the group is active
 	GSList *group = gtk_radio_button_get_group (btn);
 	if (gtk_toggle_button_get_active (group->data))
-	    system ("sudo raspi-config do_spi 1");
+	    system ("sudo raspi-config nonint do_spi 1");
 	else
-	    system ("sudo raspi-config do_spi 0");
+	    system ("sudo raspi-config nonint do_spi 0");
 }
 
 static void on_set_i2c (GtkRadioButton* btn, gpointer ptr)
@@ -180,9 +180,9 @@ static void on_set_i2c (GtkRadioButton* btn, gpointer ptr)
 	// find out which button in the group is active
 	GSList *group = gtk_radio_button_get_group (btn);
 	if (gtk_toggle_button_get_active (group->data))
-	    system ("sudo raspi-config do_i2c 1");
+	    system ("sudo raspi-config nonint do_i2c 1");
 	else
-	    system ("sudo raspi-config do_i2c 0");
+	    system ("sudo raspi-config nonint do_i2c 0");
 }
 
 static void on_set_serial (GtkRadioButton* btn, gpointer ptr)
@@ -193,9 +193,9 @@ static void on_set_serial (GtkRadioButton* btn, gpointer ptr)
 	// find out which button in the group is active
 	GSList *group = gtk_radio_button_get_group (btn);
 	if (gtk_toggle_button_get_active (group->data))
-	    system ("sudo raspi-config do_serial 1");
+	    system ("sudo raspi-config nonint do_serial 1");
 	else
-	    system ("sudo raspi-config do_serial 0");
+	    system ("sudo raspi-config nonint do_serial 0");
 }
 
 static void on_set_memsplit (GtkRadioButton* btn, gpointer ptr)
