@@ -1,7 +1,7 @@
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
-#include <mem.h>
+#include <stdlib.h>
 
 #include <glib.h>
 #include <glib/gi18n.h>
@@ -140,10 +140,11 @@ static void get_quoted_param (char *fname, char *toseek, char *buffer)
         {
             // find string in quotes
             strtok (cptr, "\"");
-            dptr = strtok (NULL, "\"");
+            dptr = strtok (NULL, "\"\n\r");
 
             // copy to dest
-            strcpy (buffer, dptr);
+            if (dptr) strcpy (buffer, dptr);
+            else buffer[0] = 0;
 
             // done
             free (linebuf);
@@ -213,53 +214,75 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
 
 static void on_country_changed (GtkComboBox *cb, gpointer ptr)
 {
-    char buffer[1024], country[64], lang[64], *ext, cchar[32];
+    char buffer[1024], lang[64], country[64], *ext, cur_char[32], *cptr;
     FILE *fp;
 
+    // clear the combo box
     while (char_count--) gtk_combo_box_remove_text (GTK_COMBO_BOX (locchar_cb), 0);
     char_count = 0;
 
     if (ptr)
     {
-        // need to find the line in SUPPORTED that exactly matches the country string
-        // and set the charset to the second half
+        // find the line in SUPPORTED that exactly matches the country string
         sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", ptr);
-       fp = popen (buffer, "r");
+        fp = popen (buffer, "r");
         if (fp == NULL) return;
-        while (fgets (buffer, 1023, fp))
+        while (fgets (buffer, sizeof (buffer) - 1, fp))
         {
+            // copy the current character code into cur_char
             strtok (buffer, " ");
-            ext = strtok (NULL, " \n\r");
-            strcpy (cchar, ext);
+            cptr = strtok (NULL, " \n\r");
+            strcpy (cur_char, cptr);
         }
         fclose (fp);
     }
+    else *cur_char = 0;
 
-    // split the country code into code and extension (if any)
-    sprintf (lang, gtk_combo_box_get_active_text (GTK_COMBO_BOX (loclang_cb)));
-    strtok (lang, " ");
-    sprintf (country, gtk_combo_box_get_active_text (GTK_COMBO_BOX (loccount_cb)));
-    if (!strlen (country)) return;
-    strtok (country, "@ ");
-    ext = strtok (NULL, "@ ");
-    if (ext[0] == '(') ext[0] = 0;
+    // read the language from the combo box and split off the code into lang
+    cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (loclang_cb));
+    if (cptr)
+    {
+        strcpy (lang, cptr);
+        strtok (lang, " ");
+    }
+    else *lang = 0;
 
-    // build the relevant grep expression to search the file of supported formats
-    if (ext[0]) sprintf (buffer, "grep -E '%s_%s.*%s' /usr/share/i18n/SUPPORTED", lang, country, ext);
-    else sprintf (buffer, "grep %s_%s /usr/share/i18n/SUPPORTED | grep -v @", lang, country);
+    // read the country from the combo box and split off code and extension
+    cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (loccount_cb));
+    if (cptr)
+    {
+        strcpy (country, cptr);
+        strtok (country, "@ ");
+        ext = strtok (NULL, "@ ");
+        if (*ext == '(') *ext = 0;
+    }
+    else *country = 0;
+
+    // build the grep expression to search the file of supported formats
+    if (*country == 0)
+        sprintf (buffer, "grep %s /usr/share/i18n/SUPPORTED", lang);
+    else if (*ext == 0)
+        sprintf (buffer, "grep %s_%s /usr/share/i18n/SUPPORTED | grep -v @", lang, country);
+    else
+        sprintf (buffer, "grep -E '%s_%s.*%s' /usr/share/i18n/SUPPORTED", lang, country, ext);
 
     // run the grep and parse the returned lines
     fp = popen (buffer, "r");
     if (fp == NULL) return;
-    while (fgets (buffer, 1023, fp))
+    while (fgets (buffer, sizeof (buffer) - 1, fp))
     {
+        // find the second part of the returned line, separated by a space, and add to combo box
         strtok (buffer, " ");
-        ext = strtok (NULL, " \n\r");
-        gtk_combo_box_append_text (GTK_COMBO_BOX (locchar_cb), ext);
-        if (!strcmp (ext, cchar)) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), char_count);
+        cptr = strtok (NULL, " \n\r");
+        gtk_combo_box_append_text (GTK_COMBO_BOX (locchar_cb), cptr);
+
+        // check to see if it matches the initial string and set active if so
+        if (!strcmp (cptr, cur_char)) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), char_count);
         char_count++;
     }
     fclose (fp);
+
+    // set the first entry active if not initialising from file
     if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), 0);
 }
 
@@ -294,14 +317,18 @@ static void on_language_changed (GtkComboBox *cb, gpointer ptr)
                 sprintf (buffer, "/usr/share/i18n/locales/%s", dp->d_name);
                 get_quoted_param (buffer, "territory", text);
                 cptr = dp->d_name;
-                while (*cptr++ != '_');
-                sprintf (buffer, "%s (%s)", cptr, text);
+                while (*cptr && *cptr != '_') cptr++;
+                if (*cptr)
+                {
+                    cptr++;
+                    sprintf (buffer, "%s (%s)", cptr, text);
 
-	            gtk_combo_box_append_text (GTK_COMBO_BOX (loccount_cb), buffer);
+	                gtk_combo_box_append_text (GTK_COMBO_BOX (loccount_cb), buffer);
 
-	            if (dptr && !strcmp (dptr, cptr))
-	                gtk_combo_box_set_active (GTK_COMBO_BOX (loccount_cb), country_count);
-	            country_count++;
+	                if (dptr && !strcmp (dptr, cptr))
+	                    gtk_combo_box_set_active (GTK_COMBO_BOX (loccount_cb), country_count);
+	                country_count++;
+	            }
 	        }
 	    }
     } while (dp);
@@ -315,7 +342,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 {
 	GtkBuilder *builder;
 	GtkWidget *dlg;
-	char buffer[256], code[8], lastcode[8], text[128], ccode[8], country[32], *cptr;
+	char buffer[1024], code[8], lastcode[8], text[128], ccode[8], country[32], *cptr;
     DIR *dirp;
     struct dirent *dp;
 
@@ -324,9 +351,9 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 	dlg = (GtkWidget *) gtk_builder_get_object (builder, "localedlg");
 
 	GtkWidget *table = (GtkWidget *) gtk_builder_get_object (builder, "loctable");
-	loclang_cb = (GObject *) gtk_combo_box_new_text ();
-	loccount_cb = (GObject *) gtk_combo_box_new_text ();
-	locchar_cb = (GObject *) gtk_combo_box_new_text ();
+	loclang_cb = (GObject *) gtk_combo_box_text_new ();
+	loccount_cb = (GObject *) gtk_combo_box_text_new ();
+	locchar_cb = (GObject *) gtk_combo_box_text_new ();
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (loclang_cb), 1, 2, 0, 1, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (loccount_cb), 1, 2, 1, 2, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (locchar_cb), 1, 2, 2, 3, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
@@ -383,14 +410,45 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 
 	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
 	{
-	    //if (gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)))
-        //    sprintf (buffer, "echo '%s/%s' | sudo tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)),
-        //        gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)));
-        //else
-        //    sprintf (buffer, "echo '%s' | sudo tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
+        char country[64], lang[64], *ext;
+        // get the codes from comboboxes
+        strcpy (lang, gtk_combo_box_get_active_text (GTK_COMBO_BOX (loclang_cb)));
+        strtok (lang, " ");
+        // lang now holds language code
 
-        //system (buffer);
-        //system ("sudo dpkg-reconfigure --frontend noninteractive tzdata");
+        sprintf (country, gtk_combo_box_get_active_text (GTK_COMBO_BOX (loccount_cb)));
+        if (strlen (country))
+        {
+            strtok (country, "@ ");
+            ext = strtok (NULL, "@ ");
+            if (*ext == '(') *ext = 0;
+        }
+        // country now holds country code
+        // ext holds extension if any
+
+        // build the relevant grep expression to search the file of supported formats
+        if (!strlen(country)) sprintf (buffer, "grep %s.*%s$ /usr/share/i18n/SUPPORTED", lang, gtk_combo_box_get_active_text (GTK_COMBO_BOX (locchar_cb)));
+        else if (ext[0]) sprintf (buffer, "grep -E '%s_%s.*%s.*%s$' /usr/share/i18n/SUPPORTED", lang, country, ext, gtk_combo_box_get_active_text (GTK_COMBO_BOX (locchar_cb)));
+        else sprintf (buffer, "grep %s_%s.*%s$ /usr/share/i18n/SUPPORTED | grep -v @", lang, country, gtk_combo_box_get_active_text (GTK_COMBO_BOX (locchar_cb)));
+
+        // run the grep and parse the returned lines
+        system (buffer);
+#if 0
+        fp = popen (buffer, "r");
+        if (fp == NULL) return;
+        while (fgets (buffer, 1023, fp))
+        {
+            strtok (buffer, " ");
+            ext = strtok (NULL, " \n\r");
+            gtk_combo_box_append_text (GTK_COMBO_BOX (locchar_cb), ext);
+            if (!strcmp (ext, cchar)) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), char_count);
+            char_count++;
+        }
+        fclose (fp);
+
+#endif
+
+
 	}
 	gtk_widget_destroy (dlg);
 
