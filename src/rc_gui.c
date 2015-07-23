@@ -508,7 +508,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                 fclose (fp);
             }
 
-            if (result[0])
+            if (glocale[0] && strcmp (glocale, init_locale))
             {
                 // look up the current locale setting from init_locale in /etc/locale.gen
                 sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", init_locale);
@@ -832,6 +832,7 @@ int main (int argc, char *argv[])
 	GtkBuilder *builder;
 	GObject *item;
 	GtkWidget *dlg;
+	int res;
 	
 	// GTK setup
 	gdk_threads_init ();
@@ -955,17 +956,15 @@ int main (int argc, char *argv[])
 	gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hostname);
 
     locale_changed = 0;
-	if (gtk_dialog_run (GTK_DIALOG (main_dlg)) == GTK_RESPONSE_OK)
+    res = gtk_dialog_run (GTK_DIALOG (main_dlg));
+	if (locale_changed || (res == GTK_RESPONSE_OK && process_changes()))
 	{
-	    if (process_changes () || locale_changed)
+	    dlg = (GtkWidget *) gtk_builder_get_object (builder, "rebootdlg");
+	    if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_YES)
 	    {
-	        dlg = (GtkWidget *) gtk_builder_get_object (builder, "rebootdlg");
-	        g_object_unref (builder);
-	        if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_YES)
-	        {
-                system ("sudo reboot");
-            }
-	    }
+            system ("sudo reboot");
+        }
+	    gtk_widget_destroy (dlg);
 	}
 
 	g_object_unref (builder);
