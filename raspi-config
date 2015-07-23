@@ -429,14 +429,6 @@ set_overclock() {
   fi
 }
 
-get_ssh() {
-  if service ssh status | grep inactive; then
-    echo "0"
-  else
-    echo "1"
-  fi
-}
-
 do_ssh() {
   if [ -e /var/log/regen_ssh_keys.log ] && ! grep -q "^finished" /var/log/regen_ssh_keys.log; then
     whiptail --msgbox "Initial ssh key generation still running. Please wait and try again." 20 60 2
@@ -501,14 +493,6 @@ do_devicetree() {
     ASK_TO_REBOOT=1
   fi
   whiptail --msgbox "Device Tree $TENSE $SETTING$REBOOT" 20 60 1
-}
-
-get_spi() {
-  if cat $CONFIG | grep dtparam=spi=on; then
-    echo "1"
-  else
-    echo "0"
-  fi
 }
 
 do_spi() {
@@ -593,14 +577,6 @@ do_spi() {
   fi
   else
     return 0
-  fi
-}
-
-get_i2c() {
-  if cat $CONFIG | grep dtparam=i2c_arm=on; then
-    echo "1"
-  else
-    echo "0"
   fi
 }
 
@@ -695,14 +671,6 @@ do_i2c() {
   fi
 }
 
-get_serial() {
-  if grep -q "console=ttyAMA0" /boot/cmdline.txt; then
-    echo "1"
-  else
-    echo "0"
-  fi
-}
-
 do_serial() {
   get_init_sys
   DEFAULT=
@@ -756,14 +724,6 @@ disable_raspi_config_at_boot() {
         -e "/#\s*RPICFG_TO_DISABLE/d"
     fi
     telinit q
-  fi
-}
-
-get_boot_to_gui() {
-  if service lightdm status | grep inactive; then
-    echo "0"
-  else
-    echo "1"
   fi
 }
 
