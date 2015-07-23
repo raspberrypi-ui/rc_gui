@@ -467,29 +467,74 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
         else cb_ctry[0] = 0;
 
         // build the relevant grep expression to search the file of supported formats
-        if (!cb_ctry[0])
-            sprintf (buffer, "grep %s.*%s$ /usr/share/i18n/SUPPORTED", cb_lang, gtk_combo_box_get_active_text (GTK_COMBO_BOX (locchar_cb)));
-        else if (!cb_ext[0])
-            sprintf (buffer, "grep %s_%s.*%s$ /usr/share/i18n/SUPPORTED | grep -v @", cb_lang, cb_ctry, gtk_combo_box_get_active_text (GTK_COMBO_BOX (locchar_cb)));
-        else
-            sprintf (buffer, "grep -E '%s_%s.*%s.*%s$' /usr/share/i18n/SUPPORTED", cb_lang, cb_ctry, cb_ext, gtk_combo_box_get_active_text (GTK_COMBO_BOX (locchar_cb)));
-
-        // run the grep and parse the returned line
-        fp = popen (buffer, "r");
-        if (fp == NULL) return;
-        while (fgets (buffer, sizeof (buffer) - 1, fp))
+        cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (locchar_cb));
+        if (cptr)
         {
-            cptr = strtok (buffer, " ");
-        }
-        fclose (fp);
+            if (!cb_ctry[0])
+                sprintf (buffer, "grep %s.*%s$ /usr/share/i18n/SUPPORTED", cb_lang, cptr);
+            else if (!cb_ext[0])
+                sprintf (buffer, "grep %s_%s.*%s$ /usr/share/i18n/SUPPORTED | grep -v @", cb_lang, cb_ctry, cptr);
+            else
+                sprintf (buffer, "grep -E '%s_%s.*%s.*%s$' /usr/share/i18n/SUPPORTED", cb_lang, cb_ctry, cb_ext, cptr);
 
-        // use sed to update the default setting
-	    sprintf (result, "sudo sed -i s/LANG=.*/LANG=%s/g /etc/default/locale", cptr);
-	    system (result);
+            // run the grep and parse the returned line
+            fp = popen (buffer, "r");
+            if (fp != NULL)
+            {
+                fgets (buffer, sizeof (buffer) - 1, fp);
+                cptr = strtok (buffer, " ");
+                strcpy (result, cptr);
+                fclose (fp);
+            }
+
+            if (result[0])
+            {
+                // get the current locale setting from init_locale
+                // look it up in /etc/locale.gen
+                sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", init_locale);
+                fp = popen (buffer, "r");
+                if (fp != NULL)
+                {
+                    fgets (cb_lang, sizeof (cb_lang) - 1, fp);
+                    strtok (cb_lang, "\n\r");
+                    fclose (fp);
+                }
+
+                // use sed to comment that line if uncommented
+                if (cb_lang[0])
+                {
+                    sprintf (buffer, "sudo sed -i 's/^%s/# %s/g' /etc/locale.gen", cb_lang, cb_lang);
+                    system (buffer);
+                }
+
+                // get the new locale setting from cptr
+                // look it up in /etc/locale.gen
+                sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", result);
+                fp = popen (buffer, "r");
+                if (fp != NULL)
+                {
+                    fgets (cb_lang, sizeof (cb_lang) - 1, fp);
+                    strtok (cb_lang, "\n\r");
+                    fclose (fp);
+                }
+
+                // use sed to uncomment that line if commented
+                if (cb_lang[0])
+                {
+                    sprintf (buffer, "sudo sed -i 's/^# %s/%s/g' /etc/locale.gen", cb_lang, cb_lang);
+                    system (buffer);
+                }
+
+                // use sed to update the default setting
+                sprintf (buffer, "sudo sed -i s/LANG=.*/LANG=%s/g /etc/default/locale", result);
+                system (buffer);
+
+                // finally, make the system call to update the generated locales
+                system ("sudo locale-gen");
+            }
+        }
 	}
 	gtk_widget_destroy (dlg);
-
-//    system ("lxterminal -e sudo dpkg-reconfigure locales");
 }
 
 static void on_area_changed (GtkComboBox *cb, gpointer ptr)
