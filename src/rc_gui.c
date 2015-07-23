@@ -20,18 +20,18 @@
 #define GET_MEM_GPU     "vcgencmd get_mem gpu"
 #define SET_RASTRACK    "curl --data \"name=%s&email=%s\" http://rastrack.co.uk/api.php"
 #define CHANGE_PASSWD   "echo pi:%s | sudo chpasswd"
-#define CAN_EXPAND      "sudo raspi-config nonint can_expand_rootfs"
+   #define CAN_EXPAND      "sudo raspi-config nonint can_expand_rootfs"
 #define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
 #define GET_OVERCLOCK   "sudo raspi-config nonint get_config_var arm_freq /boot/config.txt"
 #define GET_GPU_MEM     "sudo raspi-config nonint get_config_var gpu_mem /boot/config.txt"
 #define GET_OVERSCAN    "sudo raspi-config nonint get_config_var disable_overscan /boot/config.txt"
 #define GET_CAMERA      "sudo raspi-config nonint get_config_var start_x /boot/config.txt"
-#define GET_SSH         "sudo raspi-config nonint get_ssh"
-#define GET_SPI         "sudo raspi-config nonint get_spi"
-#define GET_I2C         "sudo raspi-config nonint get_i2c"
-#define GET_SERIAL      "sudo raspi-config nonint get_serial"
-#define GET_BOOT_GUI    "sudo raspi-config nonint get_boot_to_gui"
-#define GET_CAN_CONF    "sudo raspi-config nonint get_can_configure"
+#define GET_SSH         "service ssh status | grep inactive"
+#define GET_SPI         "cat /boot/config.txt | grep dtparam=spi=on"
+#define GET_I2C         "cat /boot/config.txt | grep dtparam=i2c_arm=on"
+#define GET_SERIAL      "cat /boot/cmdline.txt | grep console=ttyAMA0"
+#define GET_BOOT_GUI    "service lightdm status | grep inactive"
+   #define GET_CAN_CONF    "sudo raspi-config nonint get_can_configure"
 #define SET_HOSTNAME    "sudo raspi-config nonint do_change_hostname %s"
 #define SET_OVERCLOCK   "sudo raspi-config nonint do_overclock %s"
 #define SET_GPU_MEM     "sudo raspi-config nonint do_memory_split %d"
@@ -107,11 +107,20 @@ static void get_string (char *cmd, char *name)
 {
     FILE *fp = popen (cmd, "r");
     char buf[64];
-    int res;
 
     if (fp == NULL) return;
     while (fgets (buf, sizeof (buf) - 1, fp) != NULL)
         sscanf (buf, "%s", name);
+}
+
+static int get_response (char *cmd)
+{
+    FILE *fp = popen (cmd, "r");
+    char buf[64], res[64];
+
+    if (fp == NULL) return;
+    while (fgets (buf, sizeof (buf) - 1, fp) != NULL)
+        return sscanf (buf, "%s", res);
 }
 
 static int get_total_mem (void)
@@ -727,10 +736,10 @@ static int process_changes (void)
     char buffer[128];
     int reboot = 0;
 
-    if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)))
+    if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_cli_rb)))
     {
-	    if (orig_boot) system (SET_BOOT_CLI);
-	    else system (SET_BOOT_GUI);
+	    if (orig_boot) system (SET_BOOT_GUI);
+	    else system (SET_BOOT_CLI);
 	    reboot = 1;
     }
 
@@ -748,9 +757,9 @@ static int process_changes (void)
 	    reboot = 1;
     }
 
-    if (orig_ssh != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ssh_on_rb)))
+    if (orig_ssh != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ssh_off_rb)))
     {
-	    sprintf (buffer, SET_SSH, orig_ssh);
+	    sprintf (buffer, SET_SSH, (1 - orig_ssh));
 	    system (buffer);
     }
 
@@ -833,7 +842,7 @@ int main (int argc, char *argv[])
 	GObject *item;
 	GtkWidget *dlg;
 	int res;
-	
+
 	// GTK setup
 	gdk_threads_init ();
 	gdk_threads_enter ();
@@ -877,8 +886,8 @@ int main (int argc, char *argv[])
 		
 	boot_desktop_rb = gtk_builder_get_object (builder, "radiobutton1");
 	boot_cli_rb = gtk_builder_get_object (builder, "radiobutton2");
-	if (orig_boot = get_status (GET_BOOT_GUI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
-	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
+	if (orig_boot = get_response (GET_BOOT_GUI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
+	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
 
 	camera_on_rb = gtk_builder_get_object (builder, "radiobutton3");
 	camera_off_rb = gtk_builder_get_object (builder, "radiobutton4");
@@ -892,22 +901,22 @@ int main (int argc, char *argv[])
 	
 	ssh_on_rb = gtk_builder_get_object (builder, "radiobutton7");
 	ssh_off_rb = gtk_builder_get_object (builder, "radiobutton8");
-	if (orig_ssh = get_status (GET_SSH)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_on_rb), TRUE);
-	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_off_rb), TRUE);
+	if (orig_ssh = get_response (GET_SSH)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_off_rb), TRUE);
+	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_on_rb), TRUE);
 	
 	spi_on_rb = gtk_builder_get_object (builder, "radiobutton11");
 	spi_off_rb = gtk_builder_get_object (builder, "radiobutton12");
-	if (orig_spi = get_status (GET_SPI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_on_rb), TRUE);
+	if (orig_spi = get_response (GET_SPI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_on_rb), TRUE);
 	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_off_rb), TRUE);
 	
 	i2c_on_rb = gtk_builder_get_object (builder, "radiobutton13");
 	i2c_off_rb = gtk_builder_get_object (builder, "radiobutton14");
-	if (orig_i2c = get_status (GET_I2C)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_on_rb), TRUE);
+	if (orig_i2c = get_response (GET_I2C)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_on_rb), TRUE);
 	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_off_rb), TRUE);
 	
 	serial_on_rb = gtk_builder_get_object (builder, "radiobutton15");
 	serial_off_rb = gtk_builder_get_object (builder, "radiobutton16");
-	if (orig_serial = get_status (GET_SERIAL)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
+	if (orig_serial = get_response (GET_SERIAL)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
 	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
 	
 	if (is_pi2 ())
