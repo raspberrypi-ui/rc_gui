@@ -57,15 +57,25 @@ static GObject *tzarea_cb, *tzloc_cb;
 static GObject *loclang_cb, *loccount_cb, *locchar_cb;
 static GObject *language_ls, *country_ls;
 
+static GtkWidget *main_dlg;
+
 /* Initial values */
 
 static char orig_hostname[128];
 static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial;
 static int orig_clock, orig_gpumem;
 
-/* Number of items in location combobox */
+/* Reboot flag set after locale change */
+
+static int locale_changed;
+
+/* Number of items in comboboxes */
 
 static int loc_count, country_count, char_count;
+
+/* global locale accessed from multiple threads */
+
+static char glocale[64];
 
 /* Helpers */
 
@@ -364,6 +374,17 @@ static void on_language_changed (GtkComboBox *cb, gpointer ptr)
 	g_signal_connect (loccount_cb, "changed", G_CALLBACK (on_country_changed), NULL);
 }
 
+static gpointer locale_thread (gpointer data)
+{
+    char buffer[256];
+
+    system ("sudo locale-gen");
+    sprintf (buffer, "sudo update-locale LANG=%s", glocale);
+    system (buffer);
+	gtk_widget_hide (GTK_WIDGET (data));
+    return NULL;
+}
+
 static void on_set_locale (GtkButton* btn, gpointer ptr)
 {
 	GtkBuilder *builder;
@@ -483,14 +504,13 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
             {
                 fgets (buffer, sizeof (buffer) - 1, fp);
                 cptr = strtok (buffer, " ");
-                strcpy (result, cptr);
+                strcpy (glocale, cptr);
                 fclose (fp);
             }
 
             if (result[0])
             {
-                // get the current locale setting from init_locale
-                // look it up in /etc/locale.gen
+                // look up the current locale setting from init_locale in /etc/locale.gen
                 sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", init_locale);
                 fp = popen (buffer, "r");
                 if (fp != NULL)
@@ -507,9 +527,8 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                     system (buffer);
                 }
 
-                // get the new locale setting from cptr
-                // look it up in /etc/locale.gen
-                sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", result);
+                // look up the new locale setting from glocale in /etc/locale.gen
+                sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", glocale);
                 fp = popen (buffer, "r");
                 if (fp != NULL)
                 {
@@ -525,15 +544,19 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                     system (buffer);
                 }
 
-                // use sed to update the default setting
-                sprintf (buffer, "sudo sed -i s/LANG=.*/LANG=%s/g /etc/default/locale", result);
-                system (buffer);
+                // warn about a short delay...
+                GtkWidget *msg_dlg = (GtkWidget *) gtk_message_dialog_new (GTK_WINDOW (main_dlg), GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_MESSAGE_OTHER, GTK_BUTTONS_NONE, "Setting locale - please wait...");
+	            gtk_widget_show_all (msg_dlg);
 
-                // finally, make the system call to update the generated locales
-                system ("sudo locale-gen");
+                // launch a thread with the system call to update the generated locales
+                g_thread_new (NULL, locale_thread, msg_dlg);
+
+                // set reboot flag
+                locale_changed = 1;
             }
         }
 	}
+
 	gtk_widget_destroy (dlg);
 }
 
@@ -584,6 +607,13 @@ static void on_area_changed (GtkComboBox *cb, gpointer ptr)
         } while (dp);
         if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), 0);
     }
+}
+
+static gpointer timezone_thread (gpointer data)
+{
+    system ("sudo dpkg-reconfigure --frontend noninteractive tzdata");
+	gtk_widget_hide (GTK_WIDGET (data));
+    return NULL;
 }
 
 static void on_set_timezone (GtkButton* btn, gpointer ptr)
@@ -641,7 +671,13 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
             sprintf (buffer, "echo '%s' | sudo tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
 
         system (buffer);
-        system ("sudo dpkg-reconfigure --frontend noninteractive tzdata");
+
+        // warn about a short delay...
+        GtkWidget *msg_dlg = (GtkWidget *) gtk_message_dialog_new (GTK_WINDOW (main_dlg), GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_MESSAGE_OTHER, GTK_BUTTONS_NONE, "Setting timezone - please wait...");
+	    gtk_widget_show_all (msg_dlg);
+
+        // launch a thread with the system call to update the timezone
+        g_thread_new (NULL, timezone_thread, msg_dlg);
 	}
 	gtk_widget_destroy (dlg);
 }
@@ -798,6 +834,8 @@ int main (int argc, char *argv[])
 	GtkWidget *dlg;
 	
 	// GTK setup
+	gdk_threads_init ();
+	gdk_threads_enter ();
 	gtk_init (&argc, &argv);
 	gtk_icon_theme_prepend_search_path (gtk_icon_theme_get_default(), PACKAGE_DATA_DIR);
 
@@ -814,7 +852,7 @@ int main (int argc, char *argv[])
 	    return 0;
 	}
 
-	dlg = (GtkWidget *) gtk_builder_get_object (builder, "dialog1");
+	main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "dialog1");
 	
 	expandfs_btn = gtk_builder_get_object (builder, "button3");
 	g_signal_connect (expandfs_btn, "clicked", G_CALLBACK (on_expand_fs), NULL);
@@ -916,9 +954,10 @@ int main (int argc, char *argv[])
 	get_string (GET_HOSTNAME, orig_hostname);
 	gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hostname);
 
-	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
+    locale_changed = 0;
+	if (gtk_dialog_run (GTK_DIALOG (main_dlg)) == GTK_RESPONSE_OK)
 	{
-	    if (process_changes ())
+	    if (process_changes () || locale_changed)
 	    {
 	        dlg = (GtkWidget *) gtk_builder_get_object (builder, "rebootdlg");
 	        g_object_unref (builder);
@@ -930,7 +969,8 @@ int main (int argc, char *argv[])
 	}
 
 	g_object_unref (builder);
-	gtk_widget_destroy (dlg);
+	gtk_widget_destroy (main_dlg);
+	gdk_threads_leave ();
 
 	return 0;
 }
