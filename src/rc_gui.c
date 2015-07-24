@@ -31,7 +31,6 @@
 #define GET_I2C         "cat /boot/config.txt | grep dtparam=i2c_arm=on"
 #define GET_SERIAL      "cat /boot/cmdline.txt | grep console=ttyAMA0"
 #define GET_BOOT_GUI    "service lightdm status | grep inactive"
-   #define GET_CAN_CONF    "sudo raspi-config nonint get_can_configure"
 #define SET_HOSTNAME    "sudo raspi-config nonint do_change_hostname %s"
 #define SET_OVERCLOCK   "sudo raspi-config nonint do_overclock %s"
 #define SET_GPU_MEM     "sudo raspi-config nonint do_memory_split %d"
@@ -833,6 +832,26 @@ static int process_changes (void)
 	return reboot;
 }
 
+static int can_configure (void)
+{
+    struct stat buf;
+
+    // check lightdm is installed
+    if (stat ("/etc/init.d/lightdm", &buf)) return 0;
+
+    // check config file exists
+    if (stat ("/boot/config.txt", &buf)) return 0;
+
+    // check startx.elf is present
+    if (stat ("/boot/start_x.elf", &buf)) return 0;
+
+    // check device tree is enabled
+    if (!get_response ("cat /boot/config.txt | grep ^device_tree=$")) return 0;
+
+    // check pi user exists
+    if (!get_status ("id -u pi")) return 0;
+    return 1;
+}
 
 /* The dialog... */
 
@@ -853,7 +872,7 @@ int main (int argc, char *argv[])
 	builder = gtk_builder_new ();
 	gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
 
-	if (!get_status (GET_CAN_CONF))
+	if (!can_configure ())
 	{
 	    dlg = (GtkWidget *) gtk_builder_get_object (builder, "errordialog");
 	    g_object_unref (builder);
