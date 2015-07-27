@@ -20,7 +20,6 @@
 #define GET_MEM_GPU     "vcgencmd get_mem gpu"
 #define SET_RASTRACK    "curl --data \"name=%s&email=%s\" http://rastrack.co.uk/api.php"
 #define CHANGE_PASSWD   "echo pi:%s | sudo chpasswd"
-   #define CAN_EXPAND      "sudo raspi-config nonint can_expand_rootfs"
 #define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
 #define GET_OVERCLOCK   "sudo raspi-config nonint get_config_var arm_freq /boot/config.txt"
 #define GET_GPU_MEM     "sudo raspi-config nonint get_config_var gpu_mem /boot/config.txt"
@@ -109,7 +108,10 @@ static void get_string (char *cmd, char *name)
 
     if (fp == NULL) return;
     while (fgets (buf, sizeof (buf) - 1, fp) != NULL)
+    {
         sscanf (buf, "%s", name);
+        return;
+    }
 }
 
 static int get_response (char *cmd)
@@ -853,6 +855,33 @@ static int can_configure (void)
     return 1;
 }
 
+static int can_expand_fs (void)
+{
+    char buffer[128];
+    int part_num, last_part_num;
+
+    // first check whether systemd is used
+    if (!get_status ("command -v systemctl > /dev/null; echo $?") && !get_status ("systemctl | grep -q '\\-\\.mount'; echo $?"))
+    {
+        // systemd used
+        get_string ("mount | sed -n 's|^/dev/\\(.*\\) on /.*|\\1|p'", buffer);
+    }
+    else
+    {
+        // systemd not used - check that /dev/root is a symlink
+        if (!get_status ("[ -h /dev/root ]; echo $?"))
+        {
+            get_string ("readlink /dev/root", buffer);
+        }
+        else return 0;
+    }
+    if (sscanf (buffer, "mmcblk0p%d", &part_num) != 1) return 0;
+    if (part_num != 2) return 0;
+    last_part_num = get_status ("sudo parted /dev/mmcblk0 -ms unit s p | tail -n 1 | cut -f 1 -d:");
+    if (last_part_num != part_num) return 0;
+    return 1;
+}
+
 /* The dialog... */
 
 int main (int argc, char *argv[])
@@ -885,7 +914,7 @@ int main (int argc, char *argv[])
 	
 	expandfs_btn = gtk_builder_get_object (builder, "button3");
 	g_signal_connect (expandfs_btn, "clicked", G_CALLBACK (on_expand_fs), NULL);
-	if (get_status (CAN_EXPAND)) gtk_widget_set_sensitive (GTK_WIDGET(expandfs_btn), TRUE);
+	if (can_expand_fs ()) gtk_widget_set_sensitive (GTK_WIDGET(expandfs_btn), TRUE);
 	else gtk_widget_set_sensitive (GTK_WIDGET(expandfs_btn), FALSE);
 	
 	passwd_btn = gtk_builder_get_object (builder, "button4");

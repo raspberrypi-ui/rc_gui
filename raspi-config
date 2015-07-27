@@ -44,53 +44,8 @@ you have heavily customised your installation.\
 " 20 70 1
 }
 
-can_expand_rootfs() {
-  get_init_sys
-  if [ $SYSTEMD -eq 1 ]; then
-    ROOT_PART=$(mount | sed -n 's|^/dev/\(.*\) on / .*|\1|p')
-  else
-    if ! [ -h /dev/root ]; then
-  if [ "$INTERACTIVE" = True ]; then
-      whiptail --msgbox "/dev/root does not exist or is not a symlink. Don't know how to expand" 20 60 2
-  fi
-    echo "0"
-    return
-    fi
-    ROOT_PART=$(readlink /dev/root)
-  fi
-
-  PART_NUM=${ROOT_PART#mmcblk0p}
-  if [ "$PART_NUM" = "$ROOT_PART" ]; then
-  if [ "$INTERACTIVE" = True ]; then
-    whiptail --msgbox "$ROOT_PART is not an SD card. Don't know how to expand" 20 60 2
-  fi
-    echo "0"
-    return
-  fi
-
-  # NOTE: the NOOBS partition layout confuses parted. For now, let's only
-  # agree to work with a sufficiently simple partition layout
-  if [ "$PART_NUM" -ne 2 ]; then
-  if [ "$INTERACTIVE" = True ]; then
-    whiptail --msgbox "Your partition layout is not currently supported by this tool. You are probably using NOOBS, in which case your root filesystem is already expanded anyway." 20 60 2
-  fi
-    echo "0"
-    return
-  fi
-
-  LAST_PART_NUM=$(parted /dev/mmcblk0 -ms unit s p | tail -n 1 | cut -f 1 -d:)
-  if [ $LAST_PART_NUM -ne $PART_NUM ]; then
-  if [ "$INTERACTIVE" = True ]; then
-    whiptail --msgbox "$ROOT_PART is not the last partition. Don't know how to expand" 20 60 2
-  fi
-    echo "0"
-    return
-  fi
-
-  echo "1"
-}
-
 do_expand_rootfs() {
+  get_init_sys
   if [ $SYSTEMD -eq 1 ]; then
     ROOT_PART=$(mount | sed -n 's|^/dev/\(.*\) on / .*|\1|p')
   else
