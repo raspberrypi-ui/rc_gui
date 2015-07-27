@@ -13,23 +13,20 @@
 #include <X11/XKBlib.h>
 
 /* Command strings */
+#define GET_IS_PI2      "cat /proc/cpuinfo | grep -q BCM2709 ; echo $?"
 #define GET_HOSTNAME    "cat /etc/hostname | tr -d \" \t\n\r\""
 #define GET_TIMEZONE    "cat /etc/timezone | tr -d \" \t\n\r\""
-#define IS_PI2          "cat /proc/cpuinfo | grep BCM2709"
 #define GET_MEM_ARM     "vcgencmd get_mem arm"
 #define GET_MEM_GPU     "vcgencmd get_mem gpu"
-#define SET_RASTRACK    "curl --data \"name=%s&email=%s\" http://rastrack.co.uk/api.php"
-#define CHANGE_PASSWD   "echo pi:%s | sudo chpasswd"
-#define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
 #define GET_OVERCLOCK   "sudo raspi-config nonint get_config_var arm_freq /boot/config.txt"
 #define GET_GPU_MEM     "sudo raspi-config nonint get_config_var gpu_mem /boot/config.txt"
 #define GET_OVERSCAN    "sudo raspi-config nonint get_config_var disable_overscan /boot/config.txt"
 #define GET_CAMERA      "sudo raspi-config nonint get_config_var start_x /boot/config.txt"
-#define GET_SSH         "service ssh status | grep inactive"
-#define GET_SPI         "cat /boot/config.txt | grep dtparam=spi=on"
-#define GET_I2C         "cat /boot/config.txt | grep dtparam=i2c_arm=on"
-#define GET_SERIAL      "cat /boot/cmdline.txt | grep console=ttyAMA0"
-#define GET_BOOT_GUI    "service lightdm status | grep inactive"
+#define GET_SSH         "service ssh status | grep -q inactive ; echo $?"
+#define GET_SPI         "cat /boot/config.txt | grep -q dtparam=spi=on ; echo $?"
+#define GET_I2C         "cat /boot/config.txt | grep -q dtparam=i2c_arm=on ; echo $?"
+#define GET_SERIAL      "cat /boot/cmdline.txt | grep -q console=ttyAMA0 ; echo $?"
+#define GET_BOOT_GUI    "service lightdm status | grep -q inactive ; echo $?"
 #define SET_HOSTNAME    "sudo raspi-config nonint do_change_hostname %s"
 #define SET_OVERCLOCK   "sudo raspi-config nonint do_overclock %s"
 #define SET_GPU_MEM     "sudo raspi-config nonint do_memory_split %d"
@@ -41,6 +38,9 @@
 #define SET_SERIAL      "sudo raspi-config nonint do_serial %d"
 #define SET_BOOT_CLI    "sudo raspi-config nonint do_boot_behaviour Console"
 #define SET_BOOT_GUI    "sudo raspi-config nonint do_boot_behaviour Desktop"
+#define SET_RASTRACK    "curl --data \"name=%s&email=%s\" http://rastrack.co.uk/api.php"
+#define CHANGE_PASSWD   "echo pi:%s | sudo chpasswd"
+#define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
 
 /* Controls */
 
@@ -65,7 +65,7 @@ static int orig_clock, orig_gpumem;
 
 /* Reboot flag set after locale change */
 
-static int locale_changed;
+static int needs_reboot;
 
 /* Number of items in comboboxes */
 
@@ -77,18 +77,6 @@ static char glocale[64];
 
 /* Helpers */
 
-static int is_pi2 (void)
-{
-    FILE *fp = popen (IS_PI2, "r");
-    char buf[64];
-    int res;
-
-    if (fp == NULL) return 0;
-    while (fgets (buf, sizeof (buf) - 1, fp) != NULL)
-        if (buf[0] == 'H') return 1;
-    return 0;
-}
-
 static int get_status (char *cmd)
 {
     FILE *fp = popen (cmd, "r");
@@ -96,9 +84,12 @@ static int get_status (char *cmd)
     int res;
 
     if (fp == NULL) return 0;
-    while (fgets (buf, sizeof (buf) - 1, fp) != NULL)
+    if (fgets (buf, sizeof (buf) - 1, fp) != NULL)
+    {
         sscanf (buf, "%d", &res);
-    return res;
+        return res;
+    }
+    return 0;
 }
 
 static void get_string (char *cmd, char *name)
@@ -107,21 +98,11 @@ static void get_string (char *cmd, char *name)
     char buf[64];
 
     if (fp == NULL) return;
-    while (fgets (buf, sizeof (buf) - 1, fp) != NULL)
+    if (fgets (buf, sizeof (buf) - 1, fp) != NULL)
     {
         sscanf (buf, "%s", name);
         return;
     }
-}
-
-static int get_response (char *cmd)
-{
-    FILE *fp = popen (cmd, "r");
-    char buf[64], res[64];
-
-    if (fp == NULL) return;
-    while (fgets (buf, sizeof (buf) - 1, fp) != NULL)
-        return sscanf (buf, "%s", res);
 }
 
 static int get_total_mem (void)
@@ -216,6 +197,7 @@ static void get_country (char *instr, char *ctry)
 static void on_expand_fs (GtkButton* btn, gpointer ptr)
 {
     system (EXPAND_FS);
+    needs_reboot = 1;
 }
 
 static void on_set_passwd (GtkEntry *entry, gpointer ptr)
@@ -562,7 +544,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                 g_thread_new (NULL, locale_thread, msg_dlg);
 
                 // set reboot flag
-                locale_changed = 1;
+                needs_reboot = 1;
             }
         }
 	}
@@ -737,10 +719,10 @@ static int process_changes (void)
     char buffer[128];
     int reboot = 0;
 
-    if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_cli_rb)))
+    if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)))
     {
-	    if (orig_boot) system (SET_BOOT_GUI);
-	    else system (SET_BOOT_CLI);
+	    if (orig_boot) system (SET_BOOT_CLI);
+	    else system (SET_BOOT_GUI);
 	    reboot = 1;
     }
 
@@ -758,29 +740,29 @@ static int process_changes (void)
 	    reboot = 1;
     }
 
-    if (orig_ssh != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ssh_off_rb)))
+    if (orig_ssh != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ssh_on_rb)))
     {
-	    sprintf (buffer, SET_SSH, (1 - orig_ssh));
+	    sprintf (buffer, SET_SSH, orig_ssh);
 	    system (buffer);
     }
 
-    if (orig_spi != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (spi_on_rb)))
+    if (orig_spi != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (spi_off_rb)))
     {
-	    sprintf (buffer, SET_SPI, orig_spi);
-	    system (buffer);
-	    reboot = 1;
-    }
-
-    if (orig_i2c != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (i2c_on_rb)))
-    {
-	    sprintf (buffer, SET_I2C, orig_i2c);
+	    sprintf (buffer, SET_SPI, (1 - orig_spi));
 	    system (buffer);
 	    reboot = 1;
     }
 
-    if (orig_serial != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (serial_on_rb)))
+    if (orig_i2c != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (i2c_off_rb)))
     {
-	    sprintf (buffer, SET_SERIAL, orig_serial);
+	    sprintf (buffer, SET_I2C, (1 - orig_i2c));
+	    system (buffer);
+	    reboot = 1;
+    }
+
+    if (orig_serial != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (serial_off_rb)))
+    {
+	    sprintf (buffer, SET_SERIAL, (1 - orig_serial));
 	    system (buffer);
 	    reboot = 1;
     }
@@ -801,7 +783,7 @@ static int process_changes (void)
 
     if (orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
     {
-        if (is_pi2 ())
+        if (!get_status (GET_IS_PI2))
         {
             switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
             {
@@ -848,7 +830,7 @@ static int can_configure (void)
     if (stat ("/boot/start_x.elf", &buf)) return 0;
 
     // check device tree is enabled
-    if (!get_response ("cat /boot/config.txt | grep ^device_tree=$")) return 0;
+    if (!get_status ("cat /boot/config.txt | grep -q ^device_tree=$ ; echo $?")) return 0;
 
     // check pi user exists
     if (!get_status ("id -u pi")) return 0;
@@ -934,8 +916,8 @@ int main (int argc, char *argv[])
 		
 	boot_desktop_rb = gtk_builder_get_object (builder, "radiobutton1");
 	boot_cli_rb = gtk_builder_get_object (builder, "radiobutton2");
-	if (orig_boot = get_response (GET_BOOT_GUI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
-	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
+	if (orig_boot = get_status (GET_BOOT_GUI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
+	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
 
 	camera_on_rb = gtk_builder_get_object (builder, "radiobutton3");
 	camera_off_rb = gtk_builder_get_object (builder, "radiobutton4");
@@ -949,25 +931,25 @@ int main (int argc, char *argv[])
 	
 	ssh_on_rb = gtk_builder_get_object (builder, "radiobutton7");
 	ssh_off_rb = gtk_builder_get_object (builder, "radiobutton8");
-	if (orig_ssh = get_response (GET_SSH)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_off_rb), TRUE);
-	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_on_rb), TRUE);
+	if (orig_ssh = get_status (GET_SSH)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_on_rb), TRUE);
+	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_off_rb), TRUE);
 	
 	spi_on_rb = gtk_builder_get_object (builder, "radiobutton11");
 	spi_off_rb = gtk_builder_get_object (builder, "radiobutton12");
-	if (orig_spi = get_response (GET_SPI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_on_rb), TRUE);
-	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_off_rb), TRUE);
+	if (orig_spi = get_status (GET_SPI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_off_rb), TRUE);
+	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_on_rb), TRUE);
 	
 	i2c_on_rb = gtk_builder_get_object (builder, "radiobutton13");
 	i2c_off_rb = gtk_builder_get_object (builder, "radiobutton14");
-	if (orig_i2c = get_response (GET_I2C)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_on_rb), TRUE);
-	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_off_rb), TRUE);
+	if (orig_i2c = get_status (GET_I2C)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_off_rb), TRUE);
+	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_on_rb), TRUE);
 	
 	serial_on_rb = gtk_builder_get_object (builder, "radiobutton15");
 	serial_off_rb = gtk_builder_get_object (builder, "radiobutton16");
-	if (orig_serial = get_response (GET_SERIAL)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
-	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
+	if (orig_serial = get_status (GET_SERIAL)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
+	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
 	
-	if (is_pi2 ())
+    if (!get_status (GET_IS_PI2))
 	{
 	    overclock_cb = gtk_builder_get_object (builder, "comboboxtext2");
 	    switch (get_status (GET_OVERCLOCK))
@@ -1012,9 +994,9 @@ int main (int argc, char *argv[])
 	get_string (GET_HOSTNAME, orig_hostname);
 	gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hostname);
 
-    locale_changed = 0;
+    needs_reboot = 0;
     res = gtk_dialog_run (GTK_DIALOG (main_dlg));
-	if (locale_changed || (res == GTK_RESPONSE_OK && process_changes()))
+	if (needs_reboot || (res == GTK_RESPONSE_OK && process_changes()))
 	{
 	    dlg = (GtkWidget *) gtk_builder_get_object (builder, "rebootdlg");
 	    if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_YES)
