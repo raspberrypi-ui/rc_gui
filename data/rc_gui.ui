@@ -1207,7 +1207,7 @@
 
 Your configuration appears to have been modified by other tools, and so this application cannot be used on your system.
 
-In order to use this application, you need to have the lastest firmware installled, Device Tree enabled, the default "pi" user set up and the lightdm application installed. </property>
+In order to use this application, you need to have the latest firmware installled, Device Tree enabled, the default "pi" user set up and the lightdm application installed. </property>
             <property name="wrap">True</property>
           </object>
           <packing>
