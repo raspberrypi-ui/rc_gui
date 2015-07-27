@@ -13,6 +13,14 @@
 #include <X11/XKBlib.h>
 
 /* Command strings */
+#define CHECK_SYSTEMCTL "command -v systemctl > /dev/null ; echo $?"
+#define CHECK_SYSTEMD   "systemctl | grep -q '\\-\\.mount' ; echo $?"
+#define CHECK_DEVROOT   "[ -h /dev/root ]; echo $?"
+#define GET_SYSD_PART   "mount | sed -n 's|^/dev/\\(.*\\) on /.*|\\1|p'"
+#define GET_DR_PART     "readlink /dev/root"
+#define GET_LAST_PART   "sudo parted /dev/mmcblk0 -ms unit s p | tail -n 1 | cut -f 1 -d:"
+#define GET_PIUSER      "id -u pi"
+#define GET_DEVICETREE  "cat /boot/config.txt | grep -q ^device_tree=$ ; echo $?"
 #define GET_IS_PI2      "cat /proc/cpuinfo | grep -q BCM2709 ; echo $?"
 #define GET_HOSTNAME    "cat /etc/hostname | tr -d \" \t\n\r\""
 #define GET_TIMEZONE    "cat /etc/timezone | tr -d \" \t\n\r\""
@@ -537,7 +545,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                 }
 
                 // warn about a short delay...
-                GtkWidget *msg_dlg = (GtkWidget *) gtk_message_dialog_new (GTK_WINDOW (main_dlg), GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_MESSAGE_OTHER, GTK_BUTTONS_NONE, "Setting locale - please wait...");
+                GtkWidget *msg_dlg = (GtkWidget *) gtk_message_dialog_new (GTK_WINDOW (main_dlg), GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_MESSAGE_OTHER, GTK_BUTTONS_NONE, _("Setting locale - please wait..."));
 	            gtk_widget_show_all (msg_dlg);
 
                 // launch a thread with the system call to update the generated locales
@@ -665,7 +673,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
         system (buffer);
 
         // warn about a short delay...
-        GtkWidget *msg_dlg = (GtkWidget *) gtk_message_dialog_new (GTK_WINDOW (main_dlg), GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_MESSAGE_OTHER, GTK_BUTTONS_NONE, "Setting timezone - please wait...");
+        GtkWidget *msg_dlg = (GtkWidget *) gtk_message_dialog_new (GTK_WINDOW (main_dlg), GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_MESSAGE_OTHER, GTK_BUTTONS_NONE, _("Setting timezone - please wait..."));
 	    gtk_widget_show_all (msg_dlg);
 
         // launch a thread with the system call to update the timezone
@@ -830,10 +838,10 @@ static int can_configure (void)
     if (stat ("/boot/start_x.elf", &buf)) return 0;
 
     // check device tree is enabled
-    if (!get_status ("cat /boot/config.txt | grep -q ^device_tree=$ ; echo $?")) return 0;
+    if (!get_status (GET_DEVICETREE)) return 0;
 
     // check pi user exists
-    if (!get_status ("id -u pi")) return 0;
+    if (!get_status (GET_PIUSER)) return 0;
     return 1;
 }
 
@@ -843,23 +851,23 @@ static int can_expand_fs (void)
     int part_num, last_part_num;
 
     // first check whether systemd is used
-    if (!get_status ("command -v systemctl > /dev/null; echo $?") && !get_status ("systemctl | grep -q '\\-\\.mount'; echo $?"))
+    if (!get_status (CHECK_SYSTEMCTL) && !get_status (CHECK_SYSTEMD))
     {
         // systemd used
-        get_string ("mount | sed -n 's|^/dev/\\(.*\\) on /.*|\\1|p'", buffer);
+        get_string (GET_SYSD_PART, buffer);
     }
     else
     {
         // systemd not used - check that /dev/root is a symlink
-        if (!get_status ("[ -h /dev/root ]; echo $?"))
+        if (!get_status (CHECK_DEVROOT))
         {
-            get_string ("readlink /dev/root", buffer);
+            get_string (GET_DR_PART, buffer);
         }
         else return 0;
     }
     if (sscanf (buffer, "mmcblk0p%d", &part_num) != 1) return 0;
     if (part_num != 2) return 0;
-    last_part_num = get_status ("sudo parted /dev/mmcblk0 -ms unit s p | tail -n 1 | cut -f 1 -d:");
+    last_part_num = get_status (GET_LAST_PART);
     if (last_part_num != part_num) return 0;
     return 1;
 }
