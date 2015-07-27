@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-03 13:55+0000\n"
+"POT-Creation-Date: 2015-07-27 17:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,106 +17,355 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../data/pipanel.ui.h:1 ../data/pipanel.desktop.in.h:1
-msgid "Appearance Settings"
+#. warn about a short delay...
+#: ../src/rc_gui.c:548
+msgid "Setting locale - please wait..."
 msgstr ""
 
-#: ../data/pipanel.ui.h:2
-msgid "Defaults"
+#. warn about a short delay...
+#: ../src/rc_gui.c:676
+msgid "Setting timezone - please wait..."
 msgstr ""
 
-#: ../data/pipanel.ui.h:3
-msgid "Colour"
+#: ../data/rc_gui.ui.h:1 ../data/rc_gui.desktop.in.h:1
+msgid "Raspberry Pi Configuration"
 msgstr ""
 
-#: ../data/pipanel.ui.h:4
-msgid "Text Colour"
+#: ../data/rc_gui.ui.h:2
+msgid "Filesystem:"
 msgstr ""
 
-#: ../data/pipanel.ui.h:5
-msgid "Layout"
+#: ../data/rc_gui.ui.h:3
+msgid "Expand _Filesystem"
 msgstr ""
 
-#: ../data/pipanel.ui.h:6
-msgid "No image"
+#: ../data/rc_gui.ui.h:4
+msgid "Ensure that all of the SD card storage is available to the OS"
 msgstr ""
 
-#: ../data/pipanel.ui.h:7
-msgid "Centre image on screen"
+#: ../data/rc_gui.ui.h:5
+msgid "Password:"
 msgstr ""
 
-#: ../data/pipanel.ui.h:8
-msgid "Fit image onto screen"
+#: ../data/rc_gui.ui.h:6
+msgid "Change _Password..."
 msgstr ""
 
-#: ../data/pipanel.ui.h:9
-msgid "Fill screen with image"
+#: ../data/rc_gui.ui.h:7
+msgid "Change password for the default user (pi)"
 msgstr ""
 
-#: ../data/pipanel.ui.h:10
-msgid "Stretch to cover screen"
+#: ../data/rc_gui.ui.h:8
+msgid "Hostname:"
 msgstr ""
 
-#: ../data/pipanel.ui.h:11
-msgid "Tile image"
+#: ../data/rc_gui.ui.h:9
+msgid "Set the name of your Pi on a local network"
 msgstr ""
 
-#: ../data/pipanel.ui.h:12
-msgid "Picture"
+#: ../data/rc_gui.ui.h:10
+msgid "Boot:"
 msgstr ""
 
-#: ../data/pipanel.ui.h:13
-msgid "Desktop"
+#: ../data/rc_gui.ui.h:11
+msgid "To _Desktop"
 msgstr ""
 
-#: ../data/pipanel.ui.h:14
-msgid "Size"
+#: ../data/rc_gui.ui.h:12
+msgid "Launch the desktop environment automatically on boot"
 msgstr ""
 
-#: ../data/pipanel.ui.h:15
-msgid "Position"
+#: ../data/rc_gui.ui.h:13
+msgid "To C_LI"
 msgstr ""
 
-#: ../data/pipanel.ui.h:16
-msgid "Large    "
+#: ../data/rc_gui.ui.h:14
+msgid "Boot into a command line shell rather than the desktop"
 msgstr ""
 
-#: ../data/pipanel.ui.h:17
-msgid "Medium"
+#: ../data/rc_gui.ui.h:15
+msgid "Overscan:"
 msgstr ""
 
-#: ../data/pipanel.ui.h:18
-msgid "Small"
+#: ../data/rc_gui.ui.h:16
+msgid "_Enable"
 msgstr ""
 
-#: ../data/pipanel.ui.h:19
-msgid "Top"
+#: ../data/rc_gui.ui.h:17
+msgid "Enable overscan to show the edges of the screen"
 msgstr ""
 
-#: ../data/pipanel.ui.h:20
-msgid "Bottom"
+#: ../data/rc_gui.ui.h:18
+msgid "D_isable"
 msgstr ""
 
-#: ../data/pipanel.ui.h:21
-msgid "Menu Bar"
+#: ../data/rc_gui.ui.h:19
+msgid "Disable overscan to hide black outline on screen"
 msgstr ""
 
-#: ../data/pipanel.ui.h:22
-msgid "Font"
+#: ../data/rc_gui.ui.h:20
+msgid "Rastrack:"
 msgstr ""
 
-#: ../data/pipanel.ui.h:23
-msgid "Highlight Colour"
+#: ../data/rc_gui.ui.h:21
+msgid "Add to _Rastrack..."
 msgstr ""
 
-#: ../data/pipanel.ui.h:24
-msgid "Highlight Text Colour"
+#: ../data/rc_gui.ui.h:22
+msgid "Add this Pi to the online Raspberry Pi map"
 msgstr ""
 
-#: ../data/pipanel.ui.h:25
+#: ../data/rc_gui.ui.h:23
 msgid "System"
 msgstr ""
 
-#: ../data/pipanel.desktop.in.h:2
-msgid "Configure the appearance of the desktop and windows"
+#: ../data/rc_gui.ui.h:24
+msgid "Camera:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:25
+msgid "Enable"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:26
+msgid "Enable the Raspberry Pi Camera Board"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:27
+msgid "Disable"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:28
+msgid "Disable the Raspberry Pi Camera Board"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:29
+msgid "SSH:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:30
+msgid "Enable remote access to this Pi via SSH"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:31
+msgid "Disable remote access to this Pi via SSH"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:32
+msgid "SPI:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:33
+msgid "Enable the automatic loading of the SPI kernel module"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:34
+msgid "Disable the automatic loading of the SPI kernel module"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:35
+msgid "I2C:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:36
+msgid "Enable the automatic loading of the I2C kernel module"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:37
+msgid "Disable the automatic loading of the I2C kernel module"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:38
+msgid "Serial:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:39
+msgid "Enable shell and kernel messages on the serial connection"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:40
+msgid "Disable shell and kernel messages on the serial connection"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:41
+msgid "Interfaces"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:42
+msgid "O_verclock:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:43
+msgid "Set the level of overclock to control performance"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:44
+msgid "None (700MHz)"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:45
+msgid "Modest (800MHz)"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:46
+msgid "Medium (900MHz)"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:47
+msgid "High (950MHz)"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:48
+msgid "Turbo (1000MHz)"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:49
+msgid "None (900MHz)"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:50
+msgid "High (1000MHz)"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:51
+msgid "_GPU Memory:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:52
+msgid "Enter the amount of memory available to the GPU"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:53
+msgid "Performance"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:54
+msgid "Locale:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:55
+msgid "Set _Locale..."
+msgstr ""
+
+#: ../data/rc_gui.ui.h:56
+msgid "Set internationalisation settings for units etc."
+msgstr ""
+
+#: ../data/rc_gui.ui.h:57
+msgid "Timezone:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:58
+msgid "Set _Timezone..."
+msgstr ""
+
+#: ../data/rc_gui.ui.h:59
+msgid "Set the timezone to be used by the internal clock"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:60
+msgid "Keyboard:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:61
+msgid "Set _Keyboard..."
+msgstr ""
+
+#: ../data/rc_gui.ui.h:62
+msgid "Set international keyboard options"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:63
+msgid "Localisation"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:64
+msgid ""
+"The Raspberry Pi Configuration application can only modify a standard "
+"configuration.\n"
+"\n"
+"Your configuration appears to have been modified by other tools, and so this "
+"application cannot be used on your system.\n"
+"\n"
+"In order to use this application, you need to have the latest firmware "
+"installed, Device Tree enabled, the default \"pi\" user set up and the "
+"lightdm application installed. "
+msgstr ""
+
+#: ../data/rc_gui.ui.h:69
+msgid "Locale"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:70
+msgid "Language:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:71
+msgid "Country:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:72
+msgid "Character Set:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:73
+msgid "Change Password"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:74
+msgid "Enter new password:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:75
+msgid "Confirm new password:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:76
+msgid "Rastrack Registration"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:77
+msgid ""
+"Rastrack (http://www.rastrack.co.uk is a website which tracks the location "
+"of Raspberry Pis around the world. If you would like to be added to it, "
+"enter your name and email address below.\n"
+"\n"
+"This is entirely optional and does not form an official registration "
+"process.\n"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:81
+msgid "Username:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:82
+msgid "Email Address:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:83
+msgid "Reboot needed"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:84
+msgid ""
+"The changes you have made require the Raspberry Pi to be rebooted to take "
+"effect.\n"
+"\n"
+"Would you like to reboot now? "
+msgstr ""
+
+#: ../data/rc_gui.ui.h:87
+msgid "Timezone"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:88
+msgid "Area:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:89
+msgid "Location:"
+msgstr ""
+
+#: ../data/rc_gui.desktop.in.h:2
+msgid "Configure Raspberry Pi system"
 msgstr ""
