@@ -1516,7 +1516,7 @@ In order to use this application, you need to have the latest firmware installed
               <object class="GtkLabel" id="rastrackmsg">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Rastrack (http://www.rastrack.co.uk is a website which tracks the location of Raspberry Pis around the world. If you would like to be added to it, enter your name and email address below.
+                <property name="label" translatable="yes">Rastrack (http://www.rastrack.co.uk) is a website which tracks the location of Raspberry Pis around the world. If you would like to be added to it, enter your name and email address below.
 
 This is entirely optional and does not form an official registration process.
 </property>

@@ -55,6 +55,7 @@
 #define SET_RASTRACK    "curl --data \"name=%s&email=%s\" http://rastrack.co.uk/api.php"
 #define CHANGE_PASSWD   "echo pi:%s | sudo chpasswd"
 #define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
+#define FIND_LOCALE     "grep '%s ' /usr/share/i18n/SUPPORTED"
 
 /* Controls */
 
@@ -85,7 +86,7 @@ static int needs_reboot;
 
 static int loc_count, country_count, char_count;
 
-/* global locale accessed from multiple threads */
+/* Global locale accessed from multiple threads */
 
 static char glocale[64];
 
@@ -205,16 +206,9 @@ static void get_country (char *instr, char *ctry)
     }
 }
 
+/* Password setting */
 
-/* Button handlers */
-
-static void on_expand_fs (GtkButton* btn, gpointer ptr)
-{
-    system (EXPAND_FS);
-    needs_reboot = 1;
-}
-
-static void on_set_passwd (GtkEntry *entry, gpointer ptr)
+static void set_passwd (GtkEntry *entry, gpointer ptr)
 {
 	if (strcmp (gtk_entry_get_text (GTK_ENTRY (pwentry1_tb)), gtk_entry_get_text (GTK_ENTRY(pwentry2_tb))))
 	    gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), FALSE);
@@ -233,8 +227,8 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
 	dlg = (GtkWidget *) gtk_builder_get_object (builder, "passwddialog");
 	pwentry1_tb = gtk_builder_get_object (builder, "pwentry1");
 	pwentry2_tb = gtk_builder_get_object (builder, "pwentry2");
-	g_signal_connect (pwentry1_tb, "changed", G_CALLBACK (on_set_passwd), NULL);
-	g_signal_connect (pwentry2_tb, "changed", G_CALLBACK (on_set_passwd), NULL);
+	g_signal_connect (pwentry1_tb, "changed", G_CALLBACK (set_passwd), NULL);
+	g_signal_connect (pwentry2_tb, "changed", G_CALLBACK (set_passwd), NULL);
 	pwok_btn = gtk_builder_get_object (builder, "passwdok");
 	gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), FALSE);
 	g_object_unref (builder);
@@ -247,7 +241,9 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
 	gtk_widget_destroy (dlg);
 }
 
-static void on_country_changed (GtkComboBox *cb, gpointer ptr)
+/* Locale setting */
+
+static void country_changed (GtkComboBox *cb, gpointer ptr)
 {
     char buffer[1024], cb_lang[64], cb_ctry[64], *cb_ext, init_char[32], *cptr;
     FILE *fp;
@@ -260,7 +256,7 @@ static void on_country_changed (GtkComboBox *cb, gpointer ptr)
     if (ptr)
     {
         // find the line in SUPPORTED that exactly matches the supplied country string
-        sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", ptr);
+        sprintf (buffer, FIND_LOCALE, ptr);
         fp = popen (buffer, "r");
         if (fp == NULL) return;
         while (fgets (buffer, sizeof (buffer) - 1, fp))
@@ -322,7 +318,7 @@ static void on_country_changed (GtkComboBox *cb, gpointer ptr)
     if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), 0);
 }
 
-static void on_language_changed (GtkComboBox *cb, gpointer ptr)
+static void language_changed (GtkComboBox *cb, gpointer ptr)
 {
     DIR *dirp;
     struct dirent *dp;
@@ -377,7 +373,7 @@ static void on_language_changed (GtkComboBox *cb, gpointer ptr)
     // set the first entry active if not initialising from file
 	if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (loccount_cb), 0);
 
-	g_signal_connect (loccount_cb, "changed", G_CALLBACK (on_country_changed), NULL);
+	g_signal_connect (loccount_cb, "changed", G_CALLBACK (country_changed), NULL);
 }
 
 static gpointer locale_thread (gpointer data)
@@ -463,10 +459,10 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 
 	// populate the country and character lists and set the current values
 	country_count = char_count = 0;
-	on_language_changed (GTK_COMBO_BOX (loclang_cb), init_locale);
-	on_country_changed (GTK_COMBO_BOX (loclang_cb), init_locale);
+	language_changed (GTK_COMBO_BOX (loclang_cb), init_locale);
+	country_changed (GTK_COMBO_BOX (loclang_cb), init_locale);
 
-	g_signal_connect (loclang_cb, "changed", G_CALLBACK (on_language_changed), NULL);
+	g_signal_connect (loclang_cb, "changed", G_CALLBACK (language_changed), NULL);
 
 	g_object_unref (builder);
 
@@ -517,7 +513,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
             if (glocale[0] && strcmp (glocale, init_locale))
             {
                 // look up the current locale setting from init_locale in /etc/locale.gen
-                sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", init_locale);
+                sprintf (buffer, FIND_LOCALE, init_locale);
                 fp = popen (buffer, "r");
                 if (fp != NULL)
                 {
@@ -534,7 +530,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                 }
 
                 // look up the new locale setting from glocale in /etc/locale.gen
-                sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", glocale);
+                sprintf (buffer, FIND_LOCALE, glocale);
                 fp = popen (buffer, "r");
                 if (fp != NULL)
                 {
@@ -566,7 +562,9 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 	gtk_widget_destroy (dlg);
 }
 
-static void on_area_changed (GtkComboBox *cb, gpointer ptr)
+/* Timezone setting */
+
+static void area_changed (GtkComboBox *cb, gpointer ptr)
 {
 	char buffer[128];
     DIR *dirp, *sdirp;
@@ -661,10 +659,10 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
 	        count++;
 	    }
     } while (dp);
-	g_signal_connect (tzarea_cb, "changed", G_CALLBACK (on_area_changed), NULL);
+	g_signal_connect (tzarea_cb, "changed", G_CALLBACK (area_changed), NULL);
 
 	// populate the location list and set the current location
-	on_area_changed (GTK_COMBO_BOX (tzarea_cb), cptr);
+	area_changed (GTK_COMBO_BOX (tzarea_cb), cptr);
 
 	g_object_unref (builder);
 
@@ -688,12 +686,9 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
 	gtk_widget_destroy (dlg);
 }
 
-static void on_set_keyboard (GtkButton* btn, gpointer ptr)
-{
-    system ("python -S /usr/local/bin/lxkeymap");
-}
+/* Rastrack setting */
 
-static void on_rt_change (GtkEntry *entry, gpointer ptr)
+static void rt_change (GtkEntry *entry, gpointer ptr)
 {
 	if (strlen (gtk_entry_get_text (GTK_ENTRY (rtname_tb))) && strlen (gtk_entry_get_text (GTK_ENTRY (rtemail_tb))))
 	    gtk_widget_set_sensitive (GTK_WIDGET (rtok_btn), TRUE);
@@ -712,8 +707,8 @@ static void on_set_rastrack (GtkButton* btn, gpointer ptr)
 	dlg = (GtkWidget *) gtk_builder_get_object (builder, "rastrackdialog");
 	rtname_tb = gtk_builder_get_object (builder, "rtentry1");
 	rtemail_tb = gtk_builder_get_object (builder, "rtentry2");
-	g_signal_connect (rtname_tb, "changed", G_CALLBACK (on_rt_change), NULL);
-	g_signal_connect (rtemail_tb, "changed", G_CALLBACK (on_rt_change), NULL);
+	g_signal_connect (rtname_tb, "changed", G_CALLBACK (rt_change), NULL);
+	g_signal_connect (rtemail_tb, "changed", G_CALLBACK (rt_change), NULL);
 	rtok_btn = gtk_builder_get_object (builder, "rastrackok");
 	gtk_widget_set_sensitive (GTK_WIDGET(rtok_btn), FALSE);
 	g_object_unref (builder);
@@ -724,6 +719,19 @@ static void on_set_rastrack (GtkButton* btn, gpointer ptr)
 	    system (buffer);
 	}
 	gtk_widget_destroy (dlg);
+}
+
+/* Button handlers */
+
+static void on_expand_fs (GtkButton* btn, gpointer ptr)
+{
+    system (EXPAND_FS);
+    needs_reboot = 1;
+}
+
+static void on_set_keyboard (GtkButton* btn, gpointer ptr)
+{
+    system ("python -S /usr/local/bin/lxkeymap");
 }
 
 /* Write the changes to the system when OK is pressed */
@@ -829,6 +837,8 @@ static int process_changes (void)
 
 	return reboot;
 }
+
+/* Status checks */
 
 static int can_configure (void)
 {
