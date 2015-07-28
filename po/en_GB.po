@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -12,7 +11,7 @@ msgstr ""
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -193,7 +192,7 @@ msgstr "Interfaces"
 
 #: ../data/rc_gui.ui.h:42
 msgid "O_verclock:"
-msgstr "O_verclock:"
+msgstr "Overclock:"
 
 #: ../data/rc_gui.ui.h:43
 msgid "Set the level of overclock to control performance"
@@ -229,7 +228,7 @@ msgstr "High (1000MHz)"
 
 #: ../data/rc_gui.ui.h:51
 msgid "_GPU Memory:"
-msgstr "_GPU Memory:"
+msgstr "GPU Memory:"
 
 #: ../data/rc_gui.ui.h:52
 msgid "Enter the amount of memory available to the GPU"

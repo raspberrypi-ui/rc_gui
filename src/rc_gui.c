@@ -1,3 +1,7 @@
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
@@ -11,6 +15,8 @@
 
 #include <X11/Xlib.h>
 #include <X11/XKBlib.h>
+
+#include <libintl.h>
 
 /* Command strings */
 #define CHECK_SYSTEMCTL "command -v systemctl > /dev/null ; echo $?"
@@ -880,6 +886,13 @@ int main (int argc, char *argv[])
 	GObject *item;
 	GtkWidget *dlg;
 	int res;
+
+#ifdef ENABLE_NLS
+    setlocale (LC_ALL, "");
+    bindtextdomain ( GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR );
+    bind_textdomain_codeset ( GETTEXT_PACKAGE, "UTF-8" );
+    textdomain ( GETTEXT_PACKAGE );
+#endif
 
 	// GTK setup
 	gdk_threads_init ();
