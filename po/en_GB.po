@@ -88,7 +88,7 @@ msgstr "Overscan:"
 
 #: ../data/rc_gui.ui.h:16
 msgid "_Enable"
-msgstr "_Enable"
+msgstr "_Enabled"
 
 #: ../data/rc_gui.ui.h:17
 msgid "Enable overscan to show the edges of the screen"
@@ -96,7 +96,7 @@ msgstr "Enable overscan to show the edges of the screen"
 
 #: ../data/rc_gui.ui.h:18
 msgid "D_isable"
-msgstr "D_isable"
+msgstr "D_isabled"
 
 #: ../data/rc_gui.ui.h:19
 msgid "Disable overscan to hide black outline on screen"
@@ -124,7 +124,7 @@ msgstr "Camera:"
 
 #: ../data/rc_gui.ui.h:25
 msgid "Enable"
-msgstr "Enable"
+msgstr "Enabled"
 
 #: ../data/rc_gui.ui.h:26
 msgid "Enable the Raspberry Pi Camera Board"
@@ -132,7 +132,7 @@ msgstr "Enable the Raspberry Pi Camera Board"
 
 #: ../data/rc_gui.ui.h:27
 msgid "Disable"
-msgstr "Disable"
+msgstr "Disabled"
 
 #: ../data/rc_gui.ui.h:28
 msgid "Disable the Raspberry Pi Camera Board"
@@ -248,7 +248,7 @@ msgstr "Set _Locale..."
 
 #: ../data/rc_gui.ui.h:56
 msgid "Set internationalisation settings for units etc."
-msgstr "Set internationalisation settings for units etc."
+msgstr "Set internationalisation settings for language, units etc."
 
 #: ../data/rc_gui.ui.h:57
 msgid "Timezone:"
