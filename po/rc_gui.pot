@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-27 17:59+0100\n"
+"POT-Creation-Date: 2015-08-17 10:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,12 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:548
+#: ../src/rc_gui.c:550
 msgid "Setting locale - please wait..."
 msgstr ""
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:676
+#: ../src/rc_gui.c:680
 msgid "Setting timezone - please wait..."
 msgstr ""
 
@@ -326,7 +326,7 @@ msgstr ""
 
 #: ../data/rc_gui.ui.h:77
 msgid ""
-"Rastrack (http://www.rastrack.co.uk is a website which tracks the location "
+"Rastrack (http://www.rastrack.co.uk) is a website which tracks the location "
 "of Raspberry Pis around the world. If you would like to be added to it, "
 "enter your name and email address below.\n"
 "\n"
@@ -364,6 +364,17 @@ msgstr ""
 
 #: ../data/rc_gui.ui.h:89
 msgid "Location:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:90
+msgid "Filesystem Expanded"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:91
+msgid ""
+"The filesystem has been expanded.\n"
+"\n"
+"The new space will not be available until you reboot your Raspberry Pi."
 msgstr ""
 
 #: ../data/rc_gui.desktop.in.h:2

@@ -727,6 +727,16 @@ static void on_expand_fs (GtkButton* btn, gpointer ptr)
 {
     system (EXPAND_FS);
     needs_reboot = 1;
+
+	GtkBuilder *builder;
+	GtkWidget *dlg;
+
+	builder = gtk_builder_new ();
+	gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+	dlg = (GtkWidget *) gtk_builder_get_object (builder, "fsdonedlg");
+	g_object_unref (builder);
+	gtk_dialog_run (GTK_DIALOG (dlg));
+	gtk_widget_destroy (dlg);
 }
 
 static void on_set_keyboard (GtkButton* btn, gpointer ptr)

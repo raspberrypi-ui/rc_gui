@@ -1,15 +1,15 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Raspberry Pi Configuration utility
+# Copyright (C) 2015 Raspberry Pi
+# This file is distributed under the same license as the rc_gui package.
+# Simon Long <simon@raspberrypi.org>, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-27 17:41+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2015-08-17 11:05+0100\n"
+"Last-Translator: Simon Long <simon@raspberrypi.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:548
+#: ../src/rc_gui.c:550
 msgid "Setting locale - please wait..."
 msgstr "Setting locale - please wait..."
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:676
+#: ../src/rc_gui.c:680
 msgid "Setting timezone - please wait..."
 msgstr "Setting timezone - please wait..."
 
@@ -383,6 +383,20 @@ msgstr "Area:"
 #: ../data/rc_gui.ui.h:89
 msgid "Location:"
 msgstr "Location:"
+
+#: ../data/rc_gui.ui.h:90
+msgid "Filesystem Expanded"
+msgstr "Filesystem Expanded"
+
+#: ../data/rc_gui.ui.h:91
+msgid ""
+"The filesystem has been expanded.\n"
+"\n"
+"The new space will not be available until you reboot your Raspberry Pi."
+msgstr ""
+"The filesystem has been expanded.\n"
+"\n"
+"The new space will not be available until you reboot your Raspberry Pi."
 
 #: ../data/rc_gui.desktop.in.h:2
 msgid "Configure Raspberry Pi system"
