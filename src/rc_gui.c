@@ -320,9 +320,9 @@ static void country_changed (GtkComboBox *cb, gpointer ptr)
 
 static void language_changed (GtkComboBox *cb, gpointer ptr)
 {
-    DIR *dirp;
-    struct dirent *dp;
+    struct dirent **filelist, *dp;
     char buffer[1024], result[128], cb_lang[64], init_ctry[32], file_lang[8], file_ctry[64], *cptr;
+    int entries, entry;
 
     // clear the combo box
     while (country_count--) gtk_combo_box_text_remove (GTK_COMBO_BOX_TEXT (loccount_cb), 0);
@@ -342,33 +342,32 @@ static void language_changed (GtkComboBox *cb, gpointer ptr)
     else cb_lang[0] = 0;
 
     // loop through locale files
-    dirp = opendir ("/usr/share/i18n/locales");
-    do
+    entries = scandir ("/usr/share/i18n/locales", &filelist, 0, alphasort);
+    for (entry = 0; entry < entries; entry++)
     {
-        dp = readdir (dirp);
-        if (dp)
+        dp = filelist[entry];
+        // get the language and country codes from the locale file name
+        get_language (dp->d_name, file_lang);
+        get_country (dp->d_name, file_ctry);
+
+        // if the country code from the filename is valid,
+        // and the language code from the filename matches the one in the combo box...
+        if (*file_ctry && !strcmp (cb_lang, file_lang))
         {
-            // get the language and country codes from the locale file name
-            get_language (dp->d_name, file_lang);
-            get_country (dp->d_name, file_ctry);
+            // read the territory description from the file
+            get_quoted_param ("/usr/share/i18n/locales", dp->d_name, "territory", result);
 
-            // if the country code from the filename is valid,
-            // and the language code from the filename matches the one in the combo box...
-            if (*file_ctry && !strcmp (cb_lang, file_lang))
-            {
-                // read the territory description from the file
-                get_quoted_param ("/usr/share/i18n/locales", dp->d_name, "territory", result);
+            // add country code and description to combo box
+            sprintf (buffer, "%s (%s)", file_ctry, result);
+            gtk_combo_box_append_text (GTK_COMBO_BOX (loccount_cb), buffer);
 
-                // add country code and description to combo box
-                sprintf (buffer, "%s (%s)", file_ctry, result);
-	            gtk_combo_box_append_text (GTK_COMBO_BOX (loccount_cb), buffer);
-
-                // check to see if it matches the initial string and set active if so
-	            if (!strcmp (file_ctry, init_ctry)) gtk_combo_box_set_active (GTK_COMBO_BOX (loccount_cb), country_count);
-	            country_count++;
-	        }
-	    }
-    } while (dp);
+            // check to see if it matches the initial string and set active if so
+            if (!strcmp (file_ctry, init_ctry)) gtk_combo_box_set_active (GTK_COMBO_BOX (loccount_cb), country_count);
+            country_count++;
+        }
+        free (dp);
+    }
+    free (filelist);
 
     // set the first entry active if not initialising from file
 	if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (loccount_cb), 0);
@@ -391,10 +390,9 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 {
 	GtkBuilder *builder;
 	GtkWidget *dlg;
-    DIR *dirp;
-    struct dirent *dp;
+    struct dirent **filelist, *dp;
 	char buffer[1024], result[128], init_locale[64], file_lang[8], last_lang[8], init_lang[8], *cptr;
-	int count;
+	int count, entries, entry;
 
 	builder = gtk_builder_new ();
 	gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
@@ -428,34 +426,33 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     // loop through locale files
     last_lang[0] = 0;
     count = 0;
-    dirp = opendir ("/usr/share/i18n/locales");
-    do
+    entries = scandir ("/usr/share/i18n/locales", &filelist, 0, alphasort);
+    for (entry = 0; entry < entries; entry++)
     {
-        dp = readdir (dirp);
-        if (dp)
+        dp = filelist[entry];
+        // get the language code from the locale file name
+        get_language (dp->d_name, file_lang);
+
+        // if it differs from the last one read, create a new entry
+        if (file_lang[0] && strcmp (file_lang, last_lang))
         {
-            // get the language code from the locale file name
-            get_language (dp->d_name, file_lang);
+            // read the language description from the file
+            get_quoted_param ("/usr/share/i18n/locales", dp->d_name, "language", result);
 
-            // if it differs from the last one read, create a new entry
-            if (file_lang[0] && strcmp (file_lang, last_lang))
-            {
-                // read the language description from the file
-                get_quoted_param ("/usr/share/i18n/locales", dp->d_name, "language", result);
+            // add language code and description to combo box
+            sprintf (buffer, "%s (%s)", file_lang, result);
+            gtk_combo_box_append_text (GTK_COMBO_BOX (loclang_cb), buffer);
 
-                // add language code and description to combo box
-                sprintf (buffer, "%s (%s)", file_lang, result);
-	            gtk_combo_box_append_text (GTK_COMBO_BOX (loclang_cb), buffer);
+            // make a local copy of the language code for comparisons
+            strcpy (last_lang, file_lang);
 
-	            // make a local copy of the language code for comparisons
-	            strcpy (last_lang, file_lang);
-
-	            // highlight the current language setting...
-	            if (!strcmp (file_lang, init_lang)) gtk_combo_box_set_active (GTK_COMBO_BOX (loclang_cb), count);
-	            count++;
-	        }
-	    }
-    } while (dp);
+            // highlight the current language setting...
+            if (!strcmp (file_lang, init_lang)) gtk_combo_box_set_active (GTK_COMBO_BOX (loclang_cb), count);
+            count++;
+        }
+        free (dp);
+    }
+    free (filelist);
 
 	// populate the country and character lists and set the current values
 	country_count = char_count = 0;
@@ -564,12 +561,19 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 
 /* Timezone setting */
 
+int dirfilter (const struct dirent *entry)
+{
+    if (entry->d_name[0] != '.') return 1;
+    return 0;
+}
+
 static void area_changed (GtkComboBox *cb, gpointer ptr)
 {
 	char buffer[128];
-    DIR *dirp, *sdirp;
-    struct dirent *dp, *sdp;
+    //DIR *dirp, *sdirp;
+    struct dirent **filelist, *dp, **sfilelist, *sdp;
     struct stat st_buf;
+    int entries, entry, sentries, sentry;
 
     while (loc_count--) gtk_combo_box_remove_text (GTK_COMBO_BOX (tzloc_cb), 0);
     loc_count = 0;
@@ -579,36 +583,34 @@ static void area_changed (GtkComboBox *cb, gpointer ptr)
 
     if (S_ISDIR (st_buf.st_mode))
     {
-        dirp = opendir (buffer);
-        do
+        entries = scandir (buffer, &filelist, dirfilter, alphasort);
+        for (entry = 0; entry < entries; entry++)
         {
-            dp = readdir (dirp);
-            if (dp && dp->d_name[0] != '.')
+            dp = filelist[entry];
+            if (dp->d_type == DT_DIR)
             {
-                if (dp->d_type == DT_DIR)
+                sprintf (buffer, "/usr/share/zoneinfo/%s/%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)), dp->d_name);
+                sentries = scandir (buffer, &sfilelist, dirfilter, alphasort);
+                for (sentry = 0; sentry < sentries; sentry++)
                 {
-                    sprintf (buffer, "/usr/share/zoneinfo/%s/%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)), dp->d_name);
-                    sdirp = opendir (buffer);
-                    do
-                    {
-                        sdp = readdir (sdirp);
-                        if (sdp && sdp->d_name[0] != '.')
-                        {
-                            sprintf (buffer, "%s/%s", dp->d_name, sdp->d_name);
-	                        gtk_combo_box_append_text (GTK_COMBO_BOX (tzloc_cb), buffer);
-	                        if (ptr && !strcmp (ptr, buffer)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), loc_count);
-	                        loc_count++;
-                        }
-                    } while (sdp);
+                    sdp = sfilelist[sentry];
+                    sprintf (buffer, "%s/%s", dp->d_name, sdp->d_name);
+                    gtk_combo_box_append_text (GTK_COMBO_BOX (tzloc_cb), buffer);
+                    if (ptr && !strcmp (ptr, buffer)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), loc_count);
+                    loc_count++;
+                    free (sdp);
                 }
-                else
-                {
-	                gtk_combo_box_append_text (GTK_COMBO_BOX (tzloc_cb), dp->d_name);
-	                if (ptr && !strcmp (ptr, dp->d_name)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), loc_count);
-	                loc_count++;
-	            }
-	        }
-        } while (dp);
+                free (sfilelist);
+            }
+            else
+            {
+                gtk_combo_box_append_text (GTK_COMBO_BOX (tzloc_cb), dp->d_name);
+                if (ptr && !strcmp (ptr, dp->d_name)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), loc_count);
+                loc_count++;
+            }
+	        free (dp);
+        }
+        free (filelist);
         if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), 0);
     }
 }
@@ -620,13 +622,19 @@ static gpointer timezone_thread (gpointer data)
     return NULL;
 }
 
+int tzfilter (const struct dirent *entry)
+{
+    if (entry->d_name[0] >= 'A' && entry->d_name[0] <= 'Z') return 1;
+    return 0;
+}
+
 static void on_set_timezone (GtkButton* btn, gpointer ptr)
 {
 	GtkBuilder *builder;
 	GtkWidget *dlg;
 	char buffer[128], *cptr;
-    DIR *dirp;
-    struct dirent *dp;
+    struct dirent **filelist, *dp;
+    int entries, entry;
 
 	builder = gtk_builder_new ();
 	gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
@@ -646,19 +654,18 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
 	cptr = strtok (NULL, "");
 
     // populate the area combo box from the timezone database
-    dirp = opendir ("/usr/share/zoneinfo");
     loc_count = 0;
     int count = 0;
-    do
+    entries = scandir ("/usr/share/zoneinfo", &filelist, tzfilter, alphasort);
+    for (entry = 0; entry < entries; entry++)
     {
-        dp = readdir (dirp);
-        if (dp && dp->d_name[0] >= 'A' && dp->d_name[0] <= 'Z')
-        {
-	        gtk_combo_box_append_text (GTK_COMBO_BOX (tzarea_cb), dp->d_name);
-	        if (!strcmp (dp->d_name, buffer)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzarea_cb), count);
-	        count++;
-	    }
-    } while (dp);
+        dp = filelist[entry];
+	    gtk_combo_box_append_text (GTK_COMBO_BOX (tzarea_cb), dp->d_name);
+	    if (!strcmp (dp->d_name, buffer)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzarea_cb), count);
+	    count++;
+	    free (dp);
+    }
+    free (filelist);
 	g_signal_connect (tzarea_cb, "changed", G_CALLBACK (area_changed), NULL);
 
 	// populate the location list and set the current location
