@@ -1036,6 +1036,7 @@ int main (int argc, char *argv[])
 	memsplit_sb = gtk_builder_get_object (builder, "spinbutton1");
 	gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (memsplit_sb), GTK_ADJUSTMENT (adj));
 	orig_gpumem = get_status (GET_GPU_MEM);
+	if (orig_gpumem == 0) orig_gpumem = 64;
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (memsplit_sb), orig_gpumem);
 
 	hostname_tb = gtk_builder_get_object (builder, "entry1");
