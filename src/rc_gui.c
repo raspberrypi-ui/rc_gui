@@ -748,7 +748,7 @@ static void on_expand_fs (GtkButton* btn, gpointer ptr)
 
 static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 {
-    system ("python -S /usr/local/bin/lxkeymap");
+    system ("lxkeymap");
 }
 
 /* Write the changes to the system when OK is pressed */
