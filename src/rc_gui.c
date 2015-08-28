@@ -41,6 +41,9 @@
 #define GET_I2C         "cat /boot/config.txt | grep -q -E \"^(device_tree_param|dtparam)=([^,]*,)*i2c(_arm)?(=(on|true|yes|1))?(,.*)?$\" ; echo $?"
 #define GET_SERIAL      "cat /boot/cmdline.txt | grep -q console=ttyAMA0 ; echo $?"
 #define GET_BOOT_GUI    "service lightdm status | grep -q inactive ; echo $?"
+#define GET_ALOG_SYSD   "cat /etc/systemd/system/getty.target.wants/getty@tty1.service | grep -q autologin ; echo $?"
+#define GET_ALOG_INITD  "cat /etc/inittab | grep -q login ; echo $?"
+#define GET_ALOG_GUI    "cat /etc/lightdm/lightdm.conf | grep -q \"#autologin-user=\" ; echo $?"
 #define SET_HOSTNAME    "sudo raspi-config nonint do_change_hostname %s"
 #define SET_OVERCLOCK   "sudo raspi-config nonint do_overclock %s"
 #define SET_GPU_MEM     "sudo raspi-config nonint do_memory_split %d"
@@ -50,8 +53,10 @@
 #define SET_SPI         "sudo raspi-config nonint do_spi %d"
 #define SET_I2C         "sudo raspi-config nonint do_i2c %d"
 #define SET_SERIAL      "sudo raspi-config nonint do_serial %d"
-#define SET_BOOT_CLI    "sudo raspi-config nonint do_boot_behaviour Console"
-#define SET_BOOT_GUI    "sudo raspi-config nonint do_boot_behaviour Desktop"
+#define SET_BOOT_CLI    "sudo raspi-config nonint do_boot_behaviour_new B1"
+#define SET_BOOT_CLIA   "sudo raspi-config nonint do_boot_behaviour_new B2"
+#define SET_BOOT_GUI    "sudo raspi-config nonint do_boot_behaviour_new B3"
+#define SET_BOOT_GUIA   "sudo raspi-config nonint do_boot_behaviour_new B4"
 #define SET_RASTRACK    "curl --data \"name=%s&email=%s\" http://rastrack.co.uk/api.php"
 #define CHANGE_PASSWD   "echo pi:%s | sudo chpasswd"
 #define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
@@ -63,6 +68,7 @@ static GObject *expandfs_btn, *passwd_btn, *locale_btn, *timezone_btn, *keyboard
 static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb;
+static GObject *autologin_cb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
@@ -76,7 +82,7 @@ static GtkWidget *main_dlg;
 
 static char orig_hostname[128];
 static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial;
-static int orig_clock, orig_gpumem;
+static int orig_clock, orig_gpumem, orig_autolog;
 
 /* Reboot flag set after locale change */
 
@@ -758,11 +764,20 @@ static int process_changes (void)
     char buffer[128];
     int reboot = 0;
 
-    if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)))
+    if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)) 
+        || orig_autolog != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (autologin_cb)))
     {
-	    if (orig_boot) system (SET_BOOT_CLI);
-	    else system (SET_BOOT_GUI);
-	    reboot = 1;
+        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (autologin_cb)))
+        {
+            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) system (SET_BOOT_GUIA);
+            else system (SET_BOOT_CLIA);
+        }
+        else
+        {
+            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) system (SET_BOOT_GUI);
+            else system (SET_BOOT_CLI);
+        }
+        reboot = 1;
     }
 
     if (orig_camera != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (camera_on_rb)))
@@ -905,6 +920,33 @@ static int can_expand_fs (void)
     return 1;
 }
 
+/* Auto login and boot options */
+
+static int autologin_enabled (void)
+{
+    if (get_status (GET_BOOT_GUI))
+    {
+        /* booting to desktop - check the autologin for lightdm */
+        return get_status (GET_ALOG_GUI);
+    }
+    else
+    {
+        /* booting to CLI - check the autologin in getty */
+        if (!get_status (CHECK_SYSTEMD))
+        {
+            /* systemd used - check getty */
+            if (!get_status (GET_ALOG_SYSD)) return 1;
+            else return 0;
+        }
+        else
+        {
+            /* systemd not used - check initd */
+            if (!get_status (GET_ALOG_INITD)) return 1;
+            else return 0;
+        }
+    }
+}
+
 /* The dialog... */
 
 int main (int argc, char *argv[])
@@ -966,6 +1008,10 @@ int main (int argc, char *argv[])
 	boot_cli_rb = gtk_builder_get_object (builder, "radiobutton2");
 	if (orig_boot = get_status (GET_BOOT_GUI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
 	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
+
+	autologin_cb = gtk_builder_get_object (builder, "checkbutton1");
+    if (orig_autolog = autologin_enabled ()) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autologin_cb), TRUE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autologin_cb), FALSE);
 
 	camera_on_rb = gtk_builder_get_object (builder, "radiobutton3");
 	camera_off_rb = gtk_builder_get_object (builder, "radiobutton4");

@@ -663,6 +663,84 @@ disable_raspi_config_at_boot() {
   fi
 }
 
+do_boot_behaviour_new() {
+  if [ "$INTERACTIVE" = True ]; then
+    BOOTOPT=$(whiptail --title "Raspberry Pi Software Configuration Tool (raspi-config)" --menu "Boot Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT \
+      "B1 Console" "Text console, requiring user to login" \
+      "B2 Console Autologin" "Text console, automatically logged in as 'pi' user" \
+      "B3 Desktop" "Desktop GUI, requiring user to login" \
+      "B4 Desktop Autologin" "Desktop GUI, automatically logged in as 'pi' user" \
+      3>&1 1>&2 2>&3)
+  else
+    get_init_sys
+    BOOTOPT=$1
+    true
+  fi
+  if [ $? -eq 0 ]; then
+    case "$BOOTOPT" in
+      B1*)
+        if [ -e /etc/init.d/lightdm ]; then
+          if [ $SYSTEMD -eq 1 ]; then
+            systemctl set-default multi-user.target
+            sudo ln -fs /lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@tty1.service
+          else
+            update-rc.d lightdm disable 2
+            sed /etc/inittab -i -e "s/1:2345:respawn:\/bin\/login -f pi tty1 <\/dev\/tty1 >\/dev\/tty1 2>&1/1:2345:respawn:\/sbin\/getty --noclear 38400 tty1/"
+          fi
+        fi
+        ;;
+      B2*)
+        if [ -e /etc/init.d/lightdm ]; then
+          if [ $SYSTEMD -eq 1 ]; then
+            systemctl set-default multi-user.target
+            sudo ln -fs /etc/systemd/system/autologin@.service /etc/systemd/system/getty.target.wants/getty@tty1.service
+          else
+            update-rc.d lightdm disable 2
+            sed /etc/inittab -i -e "s/1:2345:respawn:\/sbin\/getty --noclear 38400 tty1/1:2345:respawn:\/bin\/login -f pi tty1 <\/dev\/tty1 >\/dev\/tty1 2>&1/"
+          fi
+        fi
+        ;;
+      B3*)
+        if [ -e /etc/init.d/lightdm ]; then
+          if [ $SYSTEMD -eq 1 ]; then
+            systemctl set-default graphical.target
+          else
+            update-rc.d lightdm enable 2
+          fi
+          sed /etc/lightdm/lightdm.conf -i -e "s/^autologin-user=pi/#autologin-user=/"
+          disable_raspi_config_at_boot
+        else
+          whiptail --msgbox "Do sudo apt-get install lightdm to allow configuration of boot to desktop" 20 60 2
+          return 1
+        fi
+        ;;
+      B4*)
+        if [ -e /etc/init.d/lightdm ]; then
+          if id -u pi > /dev/null 2>&1; then
+            if [ $SYSTEMD -eq 1 ]; then
+              systemctl set-default graphical.target
+            else
+              update-rc.d lightdm enable 2
+            fi
+            sed /etc/lightdm/lightdm.conf -i -e "s/^#autologin-user=.*/autologin-user=pi/"
+            disable_raspi_config_at_boot
+          else
+            whiptail --msgbox "The pi user has been removed, can't set up boot to desktop" 20 60 2
+          fi
+        else
+          whiptail --msgbox "Do sudo apt-get install lightdm to allow configuration of boot to desktop" 20 60 2
+          return 1
+        fi
+        ;;
+      *)
+        whiptail --msgbox "Programmer error, unrecognised boot option" 20 60 2
+        return 1
+        ;;
+    esac
+    ASK_TO_REBOOT=1
+  fi
+}
+
 do_boot_behaviour() {
   if [ "$INTERACTIVE" = True ]; then
     BOOTOPT=$(whiptail --menu "Chose boot option" 20 60 10 \
@@ -1017,7 +1095,7 @@ if [ "$INTERACTIVE" = True ]; then
     FUN=$(whiptail --title "Raspberry Pi Software Configuration Tool (raspi-config)" --menu "Setup Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Finish --ok-button Select \
       "1 Expand Filesystem" "Ensures that all of the SD card storage is available to the OS" \
       "2 Change User Password" "Change password for the default user (pi)" \
-      "3 Enable Boot to Desktop/Scratch" "Choose whether to boot into a desktop environment, Scratch, or the command-line" \
+      "3 Boot Options" "Choose whether to boot into a desktop environment or the command line" \
       "4 Internationalisation Options" "Set up language and regional settings to match your location" \
       "5 Enable Camera" "Enable this Pi to work with the Raspberry Pi Camera" \
       "6 Add to Rastrack" "Add this Pi to the online Raspberry Pi Map (Rastrack)" \
@@ -1032,7 +1110,7 @@ if [ "$INTERACTIVE" = True ]; then
       case "$FUN" in
         1\ *) do_expand_rootfs ;;
         2\ *) do_change_pass ;;
-        3\ *) do_boot_behaviour ;;
+        3\ *) do_boot_behaviour_new ;;
         4\ *) do_internationalisation_menu ;;
         5\ *) do_camera ;;
         6\ *) do_rastrack ;;
