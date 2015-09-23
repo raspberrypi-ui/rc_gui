@@ -704,6 +704,7 @@ do_boot_behaviour_new() {
         if [ -e /etc/init.d/lightdm ]; then
           if [ $SYSTEMD -eq 1 ]; then
             systemctl set-default graphical.target
+            sudo ln -fs /lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@tty1.service
           else
             update-rc.d lightdm enable 2
           fi
@@ -719,6 +720,7 @@ do_boot_behaviour_new() {
           if id -u pi > /dev/null 2>&1; then
             if [ $SYSTEMD -eq 1 ]; then
               systemctl set-default graphical.target
+              sudo ln -fs /etc/systemd/system/autologin@.service /etc/systemd/system/getty.target.wants/getty@tty1.service
             else
               update-rc.d lightdm enable 2
             fi
