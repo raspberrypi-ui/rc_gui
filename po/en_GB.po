@@ -84,7 +84,7 @@ msgstr "Boot into a command line shell rather than the desktop"
 
 #: ../data/rc_gui.ui.h:15
 msgid "Auto login:"
-msgstr "Auto login:"
+msgstr "Auto Login:"
 
 #: ../data/rc_gui.ui.h:16
 msgid "Login as user 'pi'"
