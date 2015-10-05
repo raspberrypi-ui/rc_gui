@@ -2,10 +2,16 @@
 Type=Application
 Name=Raspberry Pi Configuration
 Name[en_GB]=Raspberry Pi Configuration
+Name[id_ID]=Konfigurasi Raspberry Pi
+Name[zh_TW]=Raspberry Pi 設定
 GenericName=Raspberry Pi Configuration
 GenericName[en_GB]=Raspberry Pi Configuration
+GenericName[id_ID]=Konfigurasi Raspberry Pi
+GenericName[zh_TW]=Raspberry Pi 設定
 Comment=Configure Raspberry Pi system
 Comment[en_GB]=Configure Raspberry Pi system
+Comment[id_ID]=Konfigurasikan sistem Raspberry Pi
+Comment[zh_TW]=設定 Raspberry Pi 系統
 Icon=/usr/share/raspberrypi-artwork/raspitr.png
 Exec=rc_gui
 NotShowIn=GNOME;XFCE;
