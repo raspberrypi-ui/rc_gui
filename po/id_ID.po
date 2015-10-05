@@ -152,7 +152,7 @@ msgstr "Aktifkan akses remote ke Pi ini melalui SSH"
 
 #: ../data/rc_gui.ui.h:32
 msgid "Disable remote access to this Pi via SSH"
-msgstr "Nonaktifkan akses remote ke Pi ini melalui SSH
+msgstr "Nonaktifkan akses remote ke Pi ini melalui SSH"
 
 #: ../data/rc_gui.ui.h:33
 msgid "SPI:"
@@ -208,7 +208,7 @@ msgstr "Tidak ada (700MHz)"
 
 #: ../data/rc_gui.ui.h:46
 msgid "Modest (800MHz)"
-msgstr Sedikit (800MHz)"
+msgstr "Sedikit (800MHz)"
 
 #: ../data/rc_gui.ui.h:47
 msgid "Medium (900MHz)"
