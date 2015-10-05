@@ -388,7 +388,7 @@ static gpointer locale_thread (gpointer data)
     system ("sudo locale-gen");
     sprintf (buffer, "sudo update-locale LANG=%s", glocale);
     system (buffer);
-	gtk_widget_hide (GTK_WIDGET (data));
+	gtk_widget_destroy (GTK_WIDGET (data));
     return NULL;
 }
 
@@ -550,7 +550,14 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                 }
 
                 // warn about a short delay...
-                GtkWidget *msg_dlg = (GtkWidget *) gtk_message_dialog_new (GTK_WINDOW (main_dlg), GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_MESSAGE_OTHER, GTK_BUTTONS_NONE, _("Setting locale - please wait..."));
+                GtkWidget *msg_dlg = (GtkWidget *) gtk_dialog_new ();
+                gtk_window_set_title (GTK_WINDOW (msg_dlg), "");
+                gtk_window_set_modal (GTK_WINDOW (msg_dlg), TRUE);
+                gtk_window_set_destroy_with_parent (GTK_WINDOW (msg_dlg), TRUE);
+                gtk_window_set_skip_taskbar_hint (GTK_WINDOW (msg_dlg), TRUE);
+                GtkWidget *label = (GtkWidget *) gtk_label_new (_("Setting locale - please wait..."));
+                gtk_misc_set_padding (GTK_MISC (label), 20, 20);
+                gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (msg_dlg))), label);
 	            gtk_widget_show_all (msg_dlg);
 
                 // launch a thread with the system call to update the generated locales
@@ -624,7 +631,7 @@ static void area_changed (GtkComboBox *cb, gpointer ptr)
 static gpointer timezone_thread (gpointer data)
 {
     system ("sudo dpkg-reconfigure --frontend noninteractive tzdata");
-	gtk_widget_hide (GTK_WIDGET (data));
+	gtk_widget_destroy (GTK_WIDGET (data));
     return NULL;
 }
 
@@ -690,7 +697,14 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
         system (buffer);
 
         // warn about a short delay...
-        GtkWidget *msg_dlg = (GtkWidget *) gtk_message_dialog_new (GTK_WINDOW (main_dlg), GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_MESSAGE_OTHER, GTK_BUTTONS_NONE, _("Setting timezone - please wait..."));
+        GtkWidget *msg_dlg = (GtkWidget *) gtk_dialog_new ();
+        gtk_window_set_title (GTK_WINDOW (msg_dlg), "");
+        gtk_window_set_modal (GTK_WINDOW (msg_dlg), TRUE);
+        gtk_window_set_destroy_with_parent (GTK_WINDOW (msg_dlg), TRUE);
+        gtk_window_set_skip_taskbar_hint (GTK_WINDOW (msg_dlg), TRUE);
+        GtkWidget *label = (GtkWidget *) gtk_label_new (_("Setting timezone - please wait..."));
+        gtk_misc_set_padding (GTK_MISC (label), 20, 20);
+        gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (msg_dlg))), label);
 	    gtk_widget_show_all (msg_dlg);
 
         // launch a thread with the system call to update the timezone
@@ -1088,6 +1102,11 @@ int main (int argc, char *argv[])
 	hostname_tb = gtk_builder_get_object (builder, "entry1");
 	get_string (GET_HOSTNAME, orig_hostname);
 	gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hostname);
+
+	GdkPixbuf *win_icon = gtk_window_get_icon (GTK_WINDOW (main_dlg));
+	GList *list;
+	list = g_list_append (list, win_icon);
+	gtk_window_set_default_icon_list (list);
 
     needs_reboot = 0;
     res = gtk_dialog_run (GTK_DIALOG (main_dlg));
