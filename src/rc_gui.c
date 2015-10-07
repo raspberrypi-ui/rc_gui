@@ -553,11 +553,14 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                 GtkWidget *msg_dlg = (GtkWidget *) gtk_dialog_new ();
                 gtk_window_set_title (GTK_WINDOW (msg_dlg), "");
                 gtk_window_set_modal (GTK_WINDOW (msg_dlg), TRUE);
+                gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
                 gtk_window_set_destroy_with_parent (GTK_WINDOW (msg_dlg), TRUE);
                 gtk_window_set_skip_taskbar_hint (GTK_WINDOW (msg_dlg), TRUE);
+                GtkWidget *frame = gtk_frame_new (NULL);
                 GtkWidget *label = (GtkWidget *) gtk_label_new (_("Setting locale - please wait..."));
                 gtk_misc_set_padding (GTK_MISC (label), 20, 20);
-                gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (msg_dlg))), label);
+                gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (msg_dlg))), frame);
+                gtk_container_add (GTK_CONTAINER (frame), label);
 	            gtk_widget_show_all (msg_dlg);
 
                 // launch a thread with the system call to update the generated locales
@@ -700,11 +703,14 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
         GtkWidget *msg_dlg = (GtkWidget *) gtk_dialog_new ();
         gtk_window_set_title (GTK_WINDOW (msg_dlg), "");
         gtk_window_set_modal (GTK_WINDOW (msg_dlg), TRUE);
+        gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
         gtk_window_set_destroy_with_parent (GTK_WINDOW (msg_dlg), TRUE);
         gtk_window_set_skip_taskbar_hint (GTK_WINDOW (msg_dlg), TRUE);
+        GtkWidget *frame = gtk_frame_new (NULL);
         GtkWidget *label = (GtkWidget *) gtk_label_new (_("Setting timezone - please wait..."));
         gtk_misc_set_padding (GTK_MISC (label), 20, 20);
-        gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (msg_dlg))), label);
+        gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (msg_dlg))), frame);
+        gtk_container_add (GTK_CONTAINER (frame), label);
 	    gtk_widget_show_all (msg_dlg);
 
         // launch a thread with the system call to update the timezone
