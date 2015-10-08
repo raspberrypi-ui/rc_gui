@@ -974,7 +974,6 @@ int main (int argc, char *argv[])
 	GtkBuilder *builder;
 	GObject *item;
 	GtkWidget *dlg;
-	int res;
 
 #ifdef ENABLE_NLS
     setlocale (LC_ALL, "");
@@ -1115,8 +1114,11 @@ int main (int argc, char *argv[])
 	gtk_window_set_default_icon_list (list);
 
     needs_reboot = 0;
-    res = gtk_dialog_run (GTK_DIALOG (main_dlg));
-	if (needs_reboot || (res == GTK_RESPONSE_OK && process_changes()))
+    if (gtk_dialog_run (GTK_DIALOG (main_dlg)) == GTK_RESPONSE_OK)
+    {
+        if (process_changes ()) needs_reboot = 1;
+    }
+	if (needs_reboot)
 	{
 	    dlg = (GtkWidget *) gtk_builder_get_object (builder, "rebootdlg");
 	    if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_YES)
