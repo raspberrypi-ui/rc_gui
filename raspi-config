@@ -756,7 +756,7 @@ do_wait_for_network() {
   fi
   if [ "$INTERACTIVE" = True ]; then
     RET=$(whiptail --menu "Chose boot option" 20 70 10 \
-      "Fast" "Boot without waiting for network connection (default)" \
+      "Fast" "Boot without waiting for network connection" \
       "Slow" "Wait for network connection before completing boot" \
       3>&1 1>&2 2>&3)
   else
