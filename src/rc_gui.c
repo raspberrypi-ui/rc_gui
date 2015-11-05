@@ -234,6 +234,8 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
 	builder = gtk_builder_new ();
 	gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
 	dlg = (GtkWidget *) gtk_builder_get_object (builder, "passwddialog");
+    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    gtk_window_set_position (GTK_WINDOW (dlg), GTK_WIN_POS_CENTER_ON_PARENT);
 	pwentry1_tb = gtk_builder_get_object (builder, "pwentry1");
 	pwentry2_tb = gtk_builder_get_object (builder, "pwentry2");
 	g_signal_connect (pwentry1_tb, "changed", G_CALLBACK (set_passwd), NULL);
@@ -406,6 +408,8 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 	builder = gtk_builder_new ();
 	gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
 	dlg = (GtkWidget *) gtk_builder_get_object (builder, "localedlg");
+    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    gtk_window_set_position (GTK_WINDOW (dlg), GTK_WIN_POS_CENTER_ON_PARENT);
 
 	GtkWidget *table = (GtkWidget *) gtk_builder_get_object (builder, "loctable");
 	loclang_cb = (GObject *) gtk_combo_box_text_new ();
@@ -559,6 +563,8 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                 gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
                 gtk_window_set_destroy_with_parent (GTK_WINDOW (msg_dlg), TRUE);
                 gtk_window_set_skip_taskbar_hint (GTK_WINDOW (msg_dlg), TRUE);
+                gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
+                gtk_window_set_position (GTK_WINDOW (msg_dlg), GTK_WIN_POS_CENTER_ON_PARENT);
                 GtkWidget *frame = gtk_frame_new (NULL);
                 GtkWidget *label = (GtkWidget *) gtk_label_new (_("Setting locale - please wait..."));
                 gtk_misc_set_padding (GTK_MISC (label), 20, 20);
@@ -658,6 +664,8 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
 	builder = gtk_builder_new ();
 	gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
 	dlg = (GtkWidget *) gtk_builder_get_object (builder, "tzdialog");
+    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    gtk_window_set_position (GTK_WINDOW (dlg), GTK_WIN_POS_CENTER_ON_PARENT);
 
 	GtkWidget *table = (GtkWidget *) gtk_builder_get_object (builder, "tztable");
 	tzarea_cb = (GObject *) gtk_combo_box_new_text ();
@@ -709,6 +717,8 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
         gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
         gtk_window_set_destroy_with_parent (GTK_WINDOW (msg_dlg), TRUE);
         gtk_window_set_skip_taskbar_hint (GTK_WINDOW (msg_dlg), TRUE);
+        gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
+        gtk_window_set_position (GTK_WINDOW (msg_dlg), GTK_WIN_POS_CENTER_ON_PARENT);
         GtkWidget *frame = gtk_frame_new (NULL);
         GtkWidget *label = (GtkWidget *) gtk_label_new (_("Setting timezone - please wait..."));
         gtk_misc_set_padding (GTK_MISC (label), 20, 20);
@@ -741,6 +751,8 @@ static void on_set_rastrack (GtkButton* btn, gpointer ptr)
 	builder = gtk_builder_new ();
 	gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
 	dlg = (GtkWidget *) gtk_builder_get_object (builder, "rastrackdialog");
+    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    gtk_window_set_position (GTK_WINDOW (dlg), GTK_WIN_POS_CENTER_ON_PARENT);
 	rtname_tb = gtk_builder_get_object (builder, "rtentry1");
 	rtemail_tb = gtk_builder_get_object (builder, "rtentry2");
 	g_signal_connect (rtname_tb, "changed", G_CALLBACK (rt_change), NULL);
@@ -770,6 +782,8 @@ static void on_expand_fs (GtkButton* btn, gpointer ptr)
 	builder = gtk_builder_new ();
 	gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
 	dlg = (GtkWidget *) gtk_builder_get_object (builder, "fsdonedlg");
+    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    gtk_window_set_position (GTK_WINDOW (dlg), GTK_WIN_POS_CENTER_ON_PARENT);
 	g_object_unref (builder);
 	gtk_dialog_run (GTK_DIALOG (dlg));
 	gtk_widget_destroy (dlg);
@@ -1010,6 +1024,8 @@ int main (int argc, char *argv[])
 	if (!can_configure ())
 	{
 	    dlg = (GtkWidget *) gtk_builder_get_object (builder, "errordialog");
+        gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+        gtk_window_set_position (GTK_WINDOW (dlg), GTK_WIN_POS_CENTER_ON_PARENT);
 	    g_object_unref (builder);
 	    gtk_dialog_run (GTK_DIALOG (dlg));
 	    gtk_widget_destroy (dlg);
@@ -1140,6 +1156,8 @@ int main (int argc, char *argv[])
 	if (needs_reboot)
 	{
 	    dlg = (GtkWidget *) gtk_builder_get_object (builder, "rebootdlg");
+        gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+        gtk_window_set_position (GTK_WINDOW (dlg), GTK_WIN_POS_CENTER_ON_PARENT);
 	    if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_YES)
 	    {
             system ("sudo reboot");
