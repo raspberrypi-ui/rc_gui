@@ -19,7 +19,7 @@
 
 GETTEXT_PACKAGE = rc_gui
 PACKAGE = rc_gui
-VERSION = 0.1
+VERSION = 0.3
 
 SHELL = /bin/bash
 
