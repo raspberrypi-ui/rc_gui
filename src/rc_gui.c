@@ -654,7 +654,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
 {
 	GtkBuilder *builder;
 	GtkWidget *dlg;
-	char buffer[128], *cptr;
+	char buffer[128], before[128], *cptr;
     struct dirent **filelist, *dp;
     int entries, entry;
 
@@ -673,6 +673,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
 
 	// select the current timezone area
 	get_string (GET_TIMEZONE, buffer);
+	strcpy (before, buffer);
 	strtok (buffer, "/");
 	cptr = strtok (NULL, "");
 
@@ -699,30 +700,38 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
 	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
 	{
 	    if (gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)))
-            sprintf (buffer, "echo '%s/%s' | sudo tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)),
+            sprintf (buffer, "%s/%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)),
                 gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)));
         else
-            sprintf (buffer, "echo '%s' | sudo tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
+            sprintf (buffer, "%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
 
-        system (buffer);
+        if (strcmp (before, buffer))
+        {
+            if (gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)))
+                sprintf (buffer, "echo '%s/%s' | sudo tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)),
+                    gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)));
+            else
+                sprintf (buffer, "echo '%s' | sudo tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
+            system (buffer);
 
-        // warn about a short delay...
-        GtkWidget *msg_dlg = (GtkWidget *) gtk_dialog_new ();
-        gtk_window_set_title (GTK_WINDOW (msg_dlg), "");
-        gtk_window_set_modal (GTK_WINDOW (msg_dlg), TRUE);
-        gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
-        gtk_window_set_destroy_with_parent (GTK_WINDOW (msg_dlg), TRUE);
-        gtk_window_set_skip_taskbar_hint (GTK_WINDOW (msg_dlg), TRUE);
-        gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
-        GtkWidget *frame = gtk_frame_new (NULL);
-        GtkWidget *label = (GtkWidget *) gtk_label_new (_("Setting timezone - please wait..."));
-        gtk_misc_set_padding (GTK_MISC (label), 20, 20);
-        gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (msg_dlg))), frame);
-        gtk_container_add (GTK_CONTAINER (frame), label);
-	    gtk_widget_show_all (msg_dlg);
+            // warn about a short delay...
+            GtkWidget *msg_dlg = (GtkWidget *) gtk_dialog_new ();
+            gtk_window_set_title (GTK_WINDOW (msg_dlg), "");
+            gtk_window_set_modal (GTK_WINDOW (msg_dlg), TRUE);
+            gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
+            gtk_window_set_destroy_with_parent (GTK_WINDOW (msg_dlg), TRUE);
+            gtk_window_set_skip_taskbar_hint (GTK_WINDOW (msg_dlg), TRUE);
+            gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
+            GtkWidget *frame = gtk_frame_new (NULL);
+            GtkWidget *label = (GtkWidget *) gtk_label_new (_("Setting timezone - please wait..."));
+            gtk_misc_set_padding (GTK_MISC (label), 20, 20);
+            gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (msg_dlg))), frame);
+            gtk_container_add (GTK_CONTAINER (frame), label);
+            gtk_widget_show_all (msg_dlg);
 
-        // launch a thread with the system call to update the timezone
-        g_thread_new (NULL, timezone_thread, msg_dlg);
+            // launch a thread with the system call to update the timezone
+            g_thread_new (NULL, timezone_thread, msg_dlg);
+        }
 	}
 	gtk_widget_destroy (dlg);
 }
