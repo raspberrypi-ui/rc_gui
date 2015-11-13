@@ -79,7 +79,7 @@ static GObject *tzarea_cb, *tzloc_cb;
 static GObject *loclang_cb, *loccount_cb, *locchar_cb;
 static GObject *language_ls, *country_ls;
 
-static GtkWidget *main_dlg;
+static GtkWidget *main_dlg, *msg_dlg;
 
 /* Initial values */
 
@@ -385,6 +385,12 @@ static void language_changed (GtkComboBox *cb, gpointer ptr)
 	g_signal_connect (loccount_cb, "changed", G_CALLBACK (country_changed), NULL);
 }
 
+static gboolean close_msg (gpointer data)
+{
+	gtk_widget_destroy (GTK_WIDGET (msg_dlg));
+	return FALSE;
+}
+
 static gpointer locale_thread (gpointer data)
 {
     char buffer[256];
@@ -392,7 +398,7 @@ static gpointer locale_thread (gpointer data)
     system ("sudo locale-gen");
     sprintf (buffer, "sudo update-locale LANG=%s", glocale);
     system (buffer);
-	gtk_widget_destroy (GTK_WIDGET (data));
+    g_idle_add (close_msg, NULL);
     return NULL;
 }
 
@@ -555,7 +561,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                 }
 
                 // warn about a short delay...
-                GtkWidget *msg_dlg = (GtkWidget *) gtk_dialog_new ();
+                msg_dlg = (GtkWidget *) gtk_dialog_new ();
                 gtk_window_set_title (GTK_WINDOW (msg_dlg), "");
                 gtk_window_set_modal (GTK_WINDOW (msg_dlg), TRUE);
                 gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
@@ -570,7 +576,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 	            gtk_widget_show_all (msg_dlg);
 
                 // launch a thread with the system call to update the generated locales
-                g_thread_new (NULL, locale_thread, msg_dlg);
+                g_thread_new (NULL, locale_thread, NULL);
 
                 // set reboot flag
                 needs_reboot = 1;
@@ -640,7 +646,7 @@ static void area_changed (GtkComboBox *cb, gpointer ptr)
 static gpointer timezone_thread (gpointer data)
 {
     system ("sudo dpkg-reconfigure --frontend noninteractive tzdata");
-	gtk_widget_destroy (GTK_WIDGET (data));
+    g_idle_add (close_msg, NULL);
     return NULL;
 }
 
@@ -715,7 +721,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
             system (buffer);
 
             // warn about a short delay...
-            GtkWidget *msg_dlg = (GtkWidget *) gtk_dialog_new ();
+            msg_dlg = (GtkWidget *) gtk_dialog_new ();
             gtk_window_set_title (GTK_WINDOW (msg_dlg), "");
             gtk_window_set_modal (GTK_WINDOW (msg_dlg), TRUE);
             gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
@@ -730,7 +736,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
             gtk_widget_show_all (msg_dlg);
 
             // launch a thread with the system call to update the timezone
-            g_thread_new (NULL, timezone_thread, msg_dlg);
+            g_thread_new (NULL, timezone_thread, NULL);
         }
 	}
 	gtk_widget_destroy (dlg);
