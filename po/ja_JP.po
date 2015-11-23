@@ -1,0 +1,416 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-20 17:14+0900\n"
+"PO-Revision-Date: 2015-11-20 18:45+0900\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"Last-Translator: Kenichiro MATOHARA <matoken@gmail.com>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: ja_JP\n"
+
+#: ../src/rc_gui.c:563
+msgid "Setting locale - please wait..."
+msgstr "ロケールを設定しています。少々お待ちください。"
+
+#: ../src/rc_gui.c:713
+msgid "Setting timezone - please wait..."
+msgstr "タイムゾーンを設定しています。少々お待ちください。"
+
+#: ../data/rc_gui.ui.h:1 ../data/rc_gui.desktop.in.h:1
+msgid "Raspberry Pi Configuration"
+msgstr "Raspberry Pi の設定"
+
+#: ../data/rc_gui.ui.h:2
+msgid "Filesystem:"
+msgstr "ファイルシステム:"
+
+#: ../data/rc_gui.ui.h:3
+msgid "Expand _Filesystem"
+msgstr "ファイルシステムの拡張"
+
+#: ../data/rc_gui.ui.h:4
+msgid "Ensure that all of the SD card storage is available to the OS"
+msgstr "SDカードの全ての領域がOSの為に利用可能であることを確認して下さい"
+
+#: ../data/rc_gui.ui.h:5
+msgid "Password:"
+msgstr "パスワード:"
+
+#: ../data/rc_gui.ui.h:6
+msgid "Change _Password..."
+msgstr "パスワードを変更..."
+
+#: ../data/rc_gui.ui.h:7
+msgid "Change password for the default user (pi)"
+msgstr "デフォルトユーザ(pi)のパスワードを変更"
+
+#: ../data/rc_gui.ui.h:8
+msgid "Hostname:"
+msgstr "ホスト名:"
+
+#: ../data/rc_gui.ui.h:9
+msgid "Set the name of your Pi on a local network"
+msgstr "あなたのネットワーク上のPiの名前を設定します"
+
+#: ../data/rc_gui.ui.h:10
+msgid "Boot:"
+msgstr "ブート:"
+
+#: ../data/rc_gui.ui.h:11
+msgid "To Desktop"
+msgstr "デスクトップ"
+
+#: ../data/rc_gui.ui.h:12
+msgid "Launch the desktop environment automatically on boot"
+msgstr "起動時に自動的にデスクトップ環境を起動します"
+
+#: ../data/rc_gui.ui.h:13
+msgid "To CLI"
+msgstr "CLI"
+
+#: ../data/rc_gui.ui.h:14
+msgid "Boot into a command line shell rather than the desktop"
+msgstr "起動時にコマンドラインシェルではなくデスクトップを起動します"
+
+#: ../data/rc_gui.ui.h:15
+msgid "Auto login:"
+msgstr "自動ログイン:"
+
+#: ../data/rc_gui.ui.h:16
+msgid "Login as user 'pi'"
+msgstr "'pi' ユーザとしてログインする"
+
+#: ../data/rc_gui.ui.h:17
+msgid "Automatically log in the default user (pi)"
+msgstr "自動的にデフォルトユーザ(pi)でログインします"
+
+#: ../data/rc_gui.ui.h:18
+msgid "Network at Boot:"
+msgstr "ネットワークブート"
+
+#: ../data/rc_gui.ui.h:19
+msgid "Wait for network"
+msgstr "ネットワークを待つ"
+
+#: ../data/rc_gui.ui.h:20
+msgid "Do not complete boot until network connection is established"
+msgstr "ネットワークが確立するまで起動しない"
+
+#: ../data/rc_gui.ui.h:21
+msgid "Overscan:"
+msgstr "オーバースキャン:"
+
+#: ../data/rc_gui.ui.h:22
+msgid "Enable"
+msgstr "有効"
+
+#: ../data/rc_gui.ui.h:23
+msgid "Enable overscan to show the edges of the screen"
+msgstr "画面の端を表示するためにオーバースキャンを有効にします"
+
+#: ../data/rc_gui.ui.h:24
+msgid "Disable"
+msgstr "無効"
+
+#: ../data/rc_gui.ui.h:25
+msgid "Disable overscan to hide black outline on screen"
+msgstr "画面に黒いアウトラインを表示するためにオーバースキャンを無効にします"
+
+#: ../data/rc_gui.ui.h:26
+msgid "Rastrack:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:27
+msgid "Add to _Rastrack..."
+msgstr "Rastrackに登録"
+
+#: ../data/rc_gui.ui.h:28
+msgid "Add this Pi to the online Raspberry Pi map"
+msgstr "オンラインラズベリーパイマップにこのPiを登録する"
+
+#: ../data/rc_gui.ui.h:29
+msgid "System"
+msgstr "システム"
+
+#: ../data/rc_gui.ui.h:30
+msgid "Camera:"
+msgstr "カメラ:"
+
+#: ../data/rc_gui.ui.h:31
+msgid "Enable the Raspberry Pi Camera Board"
+msgstr "ラズベリーパイカメラボードを有効にする"
+
+#: ../data/rc_gui.ui.h:32
+msgid "Disable the Raspberry Pi Camera Board"
+msgstr "ラズベリーパイカメラボードを無効にする"
+
+#: ../data/rc_gui.ui.h:33
+msgid "SSH:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:34
+msgid "Enable remote access to this Pi via SSH"
+msgstr "このPiへのSSHでのリモートアクセスを有効にする"
+
+#: ../data/rc_gui.ui.h:35
+msgid "Disable remote access to this Pi via SSH"
+msgstr "このPiへのSSHでのリモートアクセスを無効にする"
+
+#: ../data/rc_gui.ui.h:36
+msgid "SPI:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:37
+msgid "Enable the automatic loading of the SPI kernel module"
+msgstr "SPIカーネルモジュールの自動読み込みを有効にする"
+
+#: ../data/rc_gui.ui.h:38
+msgid "Disable the automatic loading of the SPI kernel module"
+msgstr "SPIカーネルモジュールの自動読み込みを無効にする"
+
+#: ../data/rc_gui.ui.h:39
+msgid "I2C:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:40
+msgid "Enable the automatic loading of the I2C kernel module"
+msgstr "I2Cカーネルモジュールの自動読み込みを有効にする"
+
+#: ../data/rc_gui.ui.h:41
+msgid "Disable the automatic loading of the I2C kernel module"
+msgstr "I2Cカーネルモジュールの自動読み込みを無効にする"
+
+#: ../data/rc_gui.ui.h:42
+msgid "Serial:"
+msgstr "シリアル:"
+
+#: ../data/rc_gui.ui.h:43
+msgid "Enable shell and kernel messages on the serial connection"
+msgstr "シェルとカーネルのメッセージをシリアル接続で有効にする"
+
+#: ../data/rc_gui.ui.h:44
+msgid "Disable shell and kernel messages on the serial connection"
+msgstr "シェルとカーネルのメッセージをシリアル接続で無効にする"
+
+#: ../data/rc_gui.ui.h:45
+msgid "Interfaces"
+msgstr "インターフェイス"
+
+#: ../data/rc_gui.ui.h:46
+msgid "O_verclock:"
+msgstr "オーバークロック(_O)"
+
+#: ../data/rc_gui.ui.h:47
+msgid "Set the level of overclock to control performance"
+msgstr "パフォーマンスの制御のためにオーバークロックのレベルを設定します"
+
+#: ../data/rc_gui.ui.h:48
+msgid "None (700MHz)"
+msgstr "無し (700MHz)"
+
+#: ../data/rc_gui.ui.h:49
+msgid "Modest (800MHz)"
+msgstr "控えめ (800MHz)"
+
+#: ../data/rc_gui.ui.h:50
+msgid "Medium (900MHz)"
+msgstr "中間 (900MHz)"
+
+#: ../data/rc_gui.ui.h:51
+msgid "High (950MHz)"
+msgstr "高 (950MHz)"
+
+#: ../data/rc_gui.ui.h:52
+msgid "Turbo (1000MHz)"
+msgstr "ターボ (1000MHz)"
+
+#: ../data/rc_gui.ui.h:53
+msgid "None (900MHz)"
+msgstr "無し (900MHz)"
+
+#: ../data/rc_gui.ui.h:54
+msgid "High (1000MHz)"
+msgstr "高 (1000MHz)"
+
+#: ../data/rc_gui.ui.h:55
+msgid "_GPU Memory:"
+msgstr "GPUメモリ(_G)"
+
+#: ../data/rc_gui.ui.h:56
+msgid "Enter the amount of memory available to the GPU"
+msgstr "GPUが利用できるメモリ量を入力して下さい"
+
+#: ../data/rc_gui.ui.h:57
+msgid "Performance"
+msgstr "パフォーマンス"
+
+#: ../data/rc_gui.ui.h:58
+msgid "Locale:"
+msgstr "ロケール:"
+
+#: ../data/rc_gui.ui.h:59
+msgid "Set _Locale..."
+msgstr "ロケールの設定(_L)"
+
+#: ../data/rc_gui.ui.h:60
+msgid "Set internationalisation settings for units etc."
+msgstr "単位などの国際化設定を設定。"
+
+#: ../data/rc_gui.ui.h:61
+msgid "Timezone:"
+msgstr "タイムゾーン:"
+
+#: ../data/rc_gui.ui.h:62
+msgid "Set _Timezone..."
+msgstr "タイムゾーンの設定(_T)"
+
+#: ../data/rc_gui.ui.h:63
+msgid "Set the timezone to be used by the internal clock"
+msgstr "内部クロックで利用するタイムゾーンを設定します"
+
+#: ../data/rc_gui.ui.h:64
+msgid "Keyboard:"
+msgstr "キーボード:"
+
+#: ../data/rc_gui.ui.h:65
+msgid "Set _Keyboard..."
+msgstr "キーボードの設定(_K)"
+
+#: ../data/rc_gui.ui.h:66
+msgid "Set international keyboard options"
+msgstr "国際キーボードの設定"
+
+#: ../data/rc_gui.ui.h:67
+msgid "Localisation"
+msgstr "ローカライゼーション"
+
+#: ../data/rc_gui.ui.h:68
+msgid ""
+"The Raspberry Pi Configuration application can only modify a standard "
+"configuration.\n"
+"\n"
+"Your configuration appears to have been modified by other tools, and so this "
+"application cannot be used on your system.\n"
+"\n"
+"In order to use this application, you need to have the latest firmware "
+"installed, Device Tree enabled, the default \"pi\" user set up and the "
+"lightdm application installed. "
+msgstr ""
+"ラズベリーパイ設定アプリケーションは標準の設定を変更することが出来ます。\n"
+"\n"
+"あなたの設定は他のツールで変更されているように見えるのでこのアプリケーション"
+"はあなたのシステムでは利用できません。\n"
+"\n"
+"このアプリケーションを利用するには、あなたは最新のファームウェアをインストー"
+"ルする必要があり、デバイスツリーが有効で、デフォルトの \"pi\" ユーザが設定さ"
+"れ、lightdm　アプリケーションをインストールする必要があります。"
+
+#: ../data/rc_gui.ui.h:73
+msgid "Filesystem Expanded"
+msgstr "ファイルシステムの拡張"
+
+#: ../data/rc_gui.ui.h:74
+msgid ""
+"The filesystem has been expanded.\n"
+"\n"
+"The new space will not be available until you reboot your Raspberry Pi."
+msgstr ""
+"ファイルシステムを拡張しました。\n"
+"\n"
+"新しい領域はあなたのラズベリーパイを再起動するまで利用できません。"
+
+#: ../data/rc_gui.ui.h:77
+msgid "Locale"
+msgstr "ロケール"
+
+#: ../data/rc_gui.ui.h:78
+msgid "Language:"
+msgstr "言語:"
+
+#: ../data/rc_gui.ui.h:79
+msgid "Country:"
+msgstr "国:"
+
+#: ../data/rc_gui.ui.h:80
+msgid "Character Set:"
+msgstr "文字セット:"
+
+#: ../data/rc_gui.ui.h:81
+msgid "Change Password"
+msgstr "パスワードの変更"
+
+#: ../data/rc_gui.ui.h:82
+msgid "Enter new password:"
+msgstr "新しいパスワードの入力:"
+
+#: ../data/rc_gui.ui.h:83
+msgid "Confirm new password:"
+msgstr "新しいパスワードを再入力:"
+
+#: ../data/rc_gui.ui.h:84
+msgid "Rastrack Registration"
+msgstr "Rastrackに登録"
+
+#: ../data/rc_gui.ui.h:85
+msgid ""
+"Rastrack (http://www.rastrack.co.uk) is a website which tracks the location "
+"of Raspberry Pis around the world. If you would like to be added to it, "
+"enter your name and email address below.\n"
+"\n"
+"This is entirely optional and does not form an official registration "
+"process.\n"
+msgstr ""
+"Rastrack (http://www.rastrack.co.uk)は世界中のラズベリーパイの場所を追跡する"
+"ウェブサイトです。あなたも追加したい場合は以下にあなたのお名前と、メールアド"
+"レスを入力して下さい。\n"
+"\n"
+"これは全くの任意であり公式の登録手順ではありません。\n"
+
+#: ../data/rc_gui.ui.h:89
+msgid "Username:"
+msgstr "ユーザー名:"
+
+#: ../data/rc_gui.ui.h:90
+msgid "Email Address:"
+msgstr "メールアドレス:"
+
+#: ../data/rc_gui.ui.h:91
+msgid "Reboot needed"
+msgstr "再起動が必要です"
+
+#: ../data/rc_gui.ui.h:92
+msgid ""
+"The changes you have made require the Raspberry Pi to be rebooted to take "
+"effect.\n"
+"\n"
+"Would you like to reboot now? "
+msgstr ""
+"あなたの変更した設定を有効にするにはラズベリーパイの再起動が必要です\n"
+"\n"
+"すぐに再起動しますか?"
+
+#: ../data/rc_gui.ui.h:95
+msgid "Timezone"
+msgstr "タイムゾーン"
+
+#: ../data/rc_gui.ui.h:96
+msgid "Area:"
+msgstr "地域:"
+
+#: ../data/rc_gui.ui.h:97
+msgid "Location:"
+msgstr "位置:"
+
+#: ../data/rc_gui.desktop.in.h:2
+msgid "Configure Raspberry Pi system"
+msgstr "ラズベリーパイシステムの設定"
