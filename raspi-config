@@ -709,25 +709,21 @@ do_boot_behaviour_new() {
   if [ $? -eq 0 ]; then
     case "$BOOTOPT" in
       B1*)
-        if [ -e /etc/init.d/lightdm ]; then
-          if [ $SYSTEMD -eq 1 ]; then
-            systemctl set-default multi-user.target
-            ln -fs /lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@tty1.service
-          else
-            update-rc.d lightdm disable 2
-            sed /etc/inittab -i -e "s/1:2345:respawn:\/bin\/login -f pi tty1 <\/dev\/tty1 >\/dev\/tty1 2>&1/1:2345:respawn:\/sbin\/getty --noclear 38400 tty1/"
-          fi
+        if [ $SYSTEMD -eq 1 ]; then
+          systemctl set-default multi-user.target
+          ln -fs /lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@tty1.service
+        else
+          [ -e /etc/init.d/lightdm ] && update-rc.d lightdm disable 2
+          sed /etc/inittab -i -e "s/1:2345:respawn:\/bin\/login -f pi tty1 <\/dev\/tty1 >\/dev\/tty1 2>&1/1:2345:respawn:\/sbin\/getty --noclear 38400 tty1/"
         fi
         ;;
       B2*)
-        if [ -e /etc/init.d/lightdm ]; then
-          if [ $SYSTEMD -eq 1 ]; then
-            systemctl set-default multi-user.target
-            ln -fs /etc/systemd/system/autologin@.service /etc/systemd/system/getty.target.wants/getty@tty1.service
-          else
-            update-rc.d lightdm disable 2
-            sed /etc/inittab -i -e "s/1:2345:respawn:\/sbin\/getty --noclear 38400 tty1/1:2345:respawn:\/bin\/login -f pi tty1 <\/dev\/tty1 >\/dev\/tty1 2>&1/"
-          fi
+        if [ $SYSTEMD -eq 1 ]; then
+          systemctl set-default multi-user.target
+          ln -fs /etc/systemd/system/autologin@.service /etc/systemd/system/getty.target.wants/getty@tty1.service
+        else
+          [ -e /etc/init.d/lightdm ] && update-rc.d lightdm disable 2
+          sed /etc/inittab -i -e "s/1:2345:respawn:\/sbin\/getty --noclear 38400 tty1/1:2345:respawn:\/bin\/login -f pi tty1 <\/dev\/tty1 >\/dev\/tty1 2>&1/"
         fi
         ;;
       B3*)
