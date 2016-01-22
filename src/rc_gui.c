@@ -27,7 +27,7 @@
 #define GET_LAST_PART   "sudo parted /dev/mmcblk0 -ms unit s p | tail -n 1 | cut -f 1 -d:"
 #define GET_PIUSER      "id -u pi"
 #define GET_DEVICETREE  "cat /boot/config.txt | grep -q ^device_tree=$ ; echo $?"
-#define GET_IS_PI2      "cat /proc/cpuinfo | grep -q BCM2709 ; echo $?"
+#define GET_PI_TYPE     "sudo raspi-config nonint get_pi_type"
 #define GET_HOSTNAME    "cat /etc/hostname | tr -d \" \t\n\r\""
 #define GET_TIMEZONE    "cat /etc/timezone | tr -d \" \t\n\r\""
 #define GET_MEM_ARM     "vcgencmd get_mem arm"
@@ -888,34 +888,38 @@ static int process_changes (void)
 
     if (orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
     {
-        if (!get_status (GET_IS_PI2))
-        {
-            switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-            {
-                case 0 :    sprintf (buffer, SET_OVERCLOCK, "Pi2None");
-                            break;
-                case 1 :    sprintf (buffer, SET_OVERCLOCK, "Pi2");
-                            break;
-            }
+        switch (get_status (GET_PI_TYPE))
+	    {
+            case 1:
+                switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
+                {
+                    case 0 :    sprintf (buffer, SET_OVERCLOCK, "None");
+                                break;
+                    case 1 :    sprintf (buffer, SET_OVERCLOCK, "Modest");
+                                break;
+                    case 2 :    sprintf (buffer, SET_OVERCLOCK, "Medium");
+                                break;
+                    case 3 :    sprintf (buffer, SET_OVERCLOCK, "High");
+                                break;
+                    case 4 :    sprintf (buffer, SET_OVERCLOCK, "Turbo");
+                                break;
+                }
+                system (buffer);
+	            reboot = 1;
+                break;
+
+	        case 2:
+                switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
+                {
+                    case 0 :    sprintf (buffer, SET_OVERCLOCK, "None");
+                                break;
+                    case 1 :    sprintf (buffer, SET_OVERCLOCK, "High");
+                                break;
+                }
+                system (buffer);
+	            reboot = 1;
+                break;
         }
-        else
-        {
-            switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-            {
-                case 0 :    sprintf (buffer, SET_OVERCLOCK, "None");
-                            break;
-                case 1 :    sprintf (buffer, SET_OVERCLOCK, "Modest");
-                            break;
-                case 2 :    sprintf (buffer, SET_OVERCLOCK, "Medium");
-                            break;
-                case 3 :    sprintf (buffer, SET_OVERCLOCK, "High");
-                            break;
-                case 4 :    sprintf (buffer, SET_OVERCLOCK, "Turbo");
-                            break;
-            }
-        }
-        system (buffer);
-	    reboot = 1;
 	}
 
 	return reboot;
@@ -1104,39 +1108,52 @@ int main (int argc, char *argv[])
 	if (orig_serial = get_status (GET_SERIAL)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
 	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
 	
-    if (!get_status (GET_IS_PI2))
+    switch (get_status (GET_PI_TYPE))
 	{
-	    overclock_cb = gtk_builder_get_object (builder, "comboboxtext2");
-	    switch (get_status (GET_OVERCLOCK))
-	    {
-	        case 1000 : orig_clock = 1;
-	                    break;
-	        default   : orig_clock = 0;
-	                    break;
-	    }
-	    gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
-	    gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox7")));
-	    gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox8")));
-	}
-	else
-	{
-	    overclock_cb = gtk_builder_get_object (builder, "comboboxtext1");
-	    switch (get_status (GET_OVERCLOCK))
-	    {
-	        case 800  : orig_clock = 1;
-	                    break;
-	        case 900  : orig_clock = 2;
-	                    break;
-	        case 950  : orig_clock = 3;
-	                    break;
-	        case 1000 : orig_clock = 4;
-	                    break;
-	        default   : orig_clock = 0;
-	                    break;
-        }	
-	    gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
-	    gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox8")));
-	    gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox7")));
+	    case 1:
+            overclock_cb = gtk_builder_get_object (builder, "comboboxtext1");
+            switch (get_status (GET_OVERCLOCK))
+            {
+                case 800  : orig_clock = 1;
+                            break;
+                case 900  : orig_clock = 2;
+                            break;
+                case 950  : orig_clock = 3;
+                            break;
+                case 1000 : orig_clock = 4;
+                            break;
+                default   : orig_clock = 0;
+                            break;
+            }
+            gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
+            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox8")));
+            gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox7")));
+            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox19")));
+            break;
+
+	    case 2 :
+            overclock_cb = gtk_builder_get_object (builder, "comboboxtext2");
+            switch (get_status (GET_OVERCLOCK))
+            {
+                case 1000 : orig_clock = 1;
+                            break;
+                default   : orig_clock = 0;
+                            break;
+            }
+            gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
+            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox7")));
+            gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox8")));
+            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox19")));
+            break;
+
+        default :
+            overclock_cb = gtk_builder_get_object (builder, "comboboxtext3");
+            gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 0);
+            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox7")));
+            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox8")));
+            gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox19")));
+            gtk_widget_set_sensitive (GTK_WIDGET(overclock_cb), FALSE);
+	        break;
 	}
 
 	GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 16.0, 64.0, 0);
