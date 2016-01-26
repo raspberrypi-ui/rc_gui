@@ -391,6 +391,9 @@ msgstr ""
 msgid "Location:"
 msgstr ""
 
+msgid "Not available"
+msgstr ""
+
 #: ../data/rc_gui.desktop.in.h:2
 msgid "Configure Raspberry Pi system"
 msgstr ""
