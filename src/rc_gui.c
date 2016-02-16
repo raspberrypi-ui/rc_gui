@@ -789,19 +789,14 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
     {
         // update the wpa_supplicant.conf file
         sprintf (buffer, "%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (wccountry_cb)));
-        if (*cnow == 0)
+        if (strncmp (cnow, buffer, 2))
         {
             strncpy (cnow, buffer, 2);
             cnow[2] = 0;
-            sprintf (buffer, "sudo sed -i \"1i country=%s\" /etc/wpa_supplicant/wpa_supplicant.conf", cnow);
-            system (buffer);
-            needs_reboot = 1;
-        }
-        else if (strncmp (cnow, buffer, 2))
-        {
-            strncpy (cnow, buffer, 2);
-            cnow[2] = 0;
-            sprintf (buffer, "sudo sed /etc/wpa_supplicant/wpa_supplicant.conf -i -e \"s/^country=.*/country=%s/\"", cnow);
+            if (found)
+                sprintf (buffer, "sudo sed /etc/wpa_supplicant/wpa_supplicant.conf -i -e \"s/^country=.*/country=%s/\"", cnow);
+            else
+                sprintf (buffer, "sudo sed -i \"1i country=%s\" /etc/wpa_supplicant/wpa_supplicant.conf", cnow);
             system (buffer);
             needs_reboot = 1;
         }
