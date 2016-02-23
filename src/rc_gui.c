@@ -65,6 +65,7 @@
 #define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
 #define FIND_LOCALE     "grep '%s ' /usr/share/i18n/SUPPORTED"
 #define GET_WIFI_CTRY	"grep country= /etc/wpa_supplicant/wpa_supplicant.conf | cut -d \"=\" -f 2"
+#define SET_WIFI_CTRY   "sudo raspi-config nonint do_configure_wifi_country %s"
 
 /* Controls */
 
@@ -793,10 +794,7 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
         {
             strncpy (cnow, buffer, 2);
             cnow[2] = 0;
-            if (found)
-                sprintf (buffer, "sudo sed /etc/wpa_supplicant/wpa_supplicant.conf -i -e \"s/^country=.*/country=%s/\"", cnow);
-            else
-                sprintf (buffer, "sudo sed -i \"1i country=%s\" /etc/wpa_supplicant/wpa_supplicant.conf", cnow);
+            sprintf (buffer, SET_WIFI_CTRY, cnow);
             system (buffer);
             needs_reboot = 1;
         }
