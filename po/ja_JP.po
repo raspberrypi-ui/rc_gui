@@ -7,22 +7,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-20 17:14+0900\n"
+"POT-Creation-Date: 2016-02-23 17:43+0000\n"
 "PO-Revision-Date: 2015-11-20 18:45+0900\n"
+"Last-Translator: Kenichiro MATOHARA <matoken@gmail.com>\n"
 "Language-Team: \n"
+"Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.6\n"
-"Last-Translator: Kenichiro MATOHARA <matoken@gmail.com>\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language: ja_JP\n"
 
-#: ../src/rc_gui.c:563
+#: ../src/rc_gui.c:575
 msgid "Setting locale - please wait..."
 msgstr "ロケールを設定しています。少々お待ちください。"
 
-#: ../src/rc_gui.c:713
+#: ../src/rc_gui.c:735
 msgid "Setting timezone - please wait..."
 msgstr "タイムゾーンを設定しています。少々お待ちください。"
 
@@ -243,58 +243,76 @@ msgid "High (1000MHz)"
 msgstr "高 (1000MHz)"
 
 #: ../data/rc_gui.ui.h:55
+msgid "Not available"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:56
 msgid "_GPU Memory:"
 msgstr "GPUメモリ(_G)"
 
-#: ../data/rc_gui.ui.h:56
+#: ../data/rc_gui.ui.h:57
 msgid "Enter the amount of memory available to the GPU"
 msgstr "GPUが利用できるメモリ量を入力して下さい"
 
-#: ../data/rc_gui.ui.h:57
+#: ../data/rc_gui.ui.h:58
 msgid "Performance"
 msgstr "パフォーマンス"
 
-#: ../data/rc_gui.ui.h:58
+#: ../data/rc_gui.ui.h:59
 msgid "Locale:"
 msgstr "ロケール:"
 
-#: ../data/rc_gui.ui.h:59
+#: ../data/rc_gui.ui.h:60
 msgid "Set _Locale..."
 msgstr "ロケールの設定(_L)"
 
-#: ../data/rc_gui.ui.h:60
+#: ../data/rc_gui.ui.h:61
 msgid "Set internationalisation settings for units etc."
 msgstr "単位などの国際化設定を設定。"
 
-#: ../data/rc_gui.ui.h:61
+#: ../data/rc_gui.ui.h:62
 msgid "Timezone:"
 msgstr "タイムゾーン:"
 
-#: ../data/rc_gui.ui.h:62
+#: ../data/rc_gui.ui.h:63
 msgid "Set _Timezone..."
 msgstr "タイムゾーンの設定(_T)"
 
-#: ../data/rc_gui.ui.h:63
+#: ../data/rc_gui.ui.h:64
 msgid "Set the timezone to be used by the internal clock"
 msgstr "内部クロックで利用するタイムゾーンを設定します"
 
-#: ../data/rc_gui.ui.h:64
+#: ../data/rc_gui.ui.h:65
 msgid "Keyboard:"
 msgstr "キーボード:"
 
-#: ../data/rc_gui.ui.h:65
+#: ../data/rc_gui.ui.h:66
 msgid "Set _Keyboard..."
 msgstr "キーボードの設定(_K)"
 
-#: ../data/rc_gui.ui.h:66
+#: ../data/rc_gui.ui.h:67
 msgid "Set international keyboard options"
 msgstr "国際キーボードの設定"
 
-#: ../data/rc_gui.ui.h:67
+#: ../data/rc_gui.ui.h:68
+#, fuzzy
+msgid "WiFi Country:"
+msgstr "国:"
+
+#: ../data/rc_gui.ui.h:69
+#, fuzzy
+msgid "Set _WiFi Country..."
+msgstr "タイムゾーンの設定(_T)"
+
+#: ../data/rc_gui.ui.h:70
+msgid "Set WiFi country code"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:71
 msgid "Localisation"
 msgstr "ローカライゼーション"
 
-#: ../data/rc_gui.ui.h:68
+#: ../data/rc_gui.ui.h:72
 msgid ""
 "The Raspberry Pi Configuration application can only modify a standard "
 "configuration.\n"
@@ -315,11 +333,11 @@ msgstr ""
 "ルする必要があり、デバイスツリーが有効で、デフォルトの \"pi\" ユーザが設定さ"
 "れ、lightdm　アプリケーションをインストールする必要があります。"
 
-#: ../data/rc_gui.ui.h:73
+#: ../data/rc_gui.ui.h:77
 msgid "Filesystem Expanded"
 msgstr "ファイルシステムの拡張"
 
-#: ../data/rc_gui.ui.h:74
+#: ../data/rc_gui.ui.h:78
 msgid ""
 "The filesystem has been expanded.\n"
 "\n"
@@ -329,39 +347,39 @@ msgstr ""
 "\n"
 "新しい領域はあなたのラズベリーパイを再起動するまで利用できません。"
 
-#: ../data/rc_gui.ui.h:77
+#: ../data/rc_gui.ui.h:81
 msgid "Locale"
 msgstr "ロケール"
 
-#: ../data/rc_gui.ui.h:78
+#: ../data/rc_gui.ui.h:82
 msgid "Language:"
 msgstr "言語:"
 
-#: ../data/rc_gui.ui.h:79
+#: ../data/rc_gui.ui.h:83
 msgid "Country:"
 msgstr "国:"
 
-#: ../data/rc_gui.ui.h:80
+#: ../data/rc_gui.ui.h:84
 msgid "Character Set:"
 msgstr "文字セット:"
 
-#: ../data/rc_gui.ui.h:81
+#: ../data/rc_gui.ui.h:85
 msgid "Change Password"
 msgstr "パスワードの変更"
 
-#: ../data/rc_gui.ui.h:82
+#: ../data/rc_gui.ui.h:86
 msgid "Enter new password:"
 msgstr "新しいパスワードの入力:"
 
-#: ../data/rc_gui.ui.h:83
+#: ../data/rc_gui.ui.h:87
 msgid "Confirm new password:"
 msgstr "新しいパスワードを再入力:"
 
-#: ../data/rc_gui.ui.h:84
+#: ../data/rc_gui.ui.h:88
 msgid "Rastrack Registration"
 msgstr "Rastrackに登録"
 
-#: ../data/rc_gui.ui.h:85
+#: ../data/rc_gui.ui.h:89
 msgid ""
 "Rastrack (http://www.rastrack.co.uk) is a website which tracks the location "
 "of Raspberry Pis around the world. If you would like to be added to it, "
@@ -376,19 +394,19 @@ msgstr ""
 "\n"
 "これは全くの任意であり公式の登録手順ではありません。\n"
 
-#: ../data/rc_gui.ui.h:89
+#: ../data/rc_gui.ui.h:93
 msgid "Username:"
 msgstr "ユーザー名:"
 
-#: ../data/rc_gui.ui.h:90
+#: ../data/rc_gui.ui.h:94
 msgid "Email Address:"
 msgstr "メールアドレス:"
 
-#: ../data/rc_gui.ui.h:91
+#: ../data/rc_gui.ui.h:95
 msgid "Reboot needed"
 msgstr "再起動が必要です"
 
-#: ../data/rc_gui.ui.h:92
+#: ../data/rc_gui.ui.h:96
 msgid ""
 "The changes you have made require the Raspberry Pi to be rebooted to take "
 "effect.\n"
@@ -399,17 +417,21 @@ msgstr ""
 "\n"
 "すぐに再起動しますか?"
 
-#: ../data/rc_gui.ui.h:95
+#: ../data/rc_gui.ui.h:99
 msgid "Timezone"
 msgstr "タイムゾーン"
 
-#: ../data/rc_gui.ui.h:96
+#: ../data/rc_gui.ui.h:100
 msgid "Area:"
 msgstr "地域:"
 
-#: ../data/rc_gui.ui.h:97
+#: ../data/rc_gui.ui.h:101
 msgid "Location:"
 msgstr "位置:"
+
+#: ../data/rc_gui.ui.h:102
+msgid "WiFi Country Code"
+msgstr ""
 
 #: ../data/rc_gui.desktop.in.h:2
 msgid "Configure Raspberry Pi system"

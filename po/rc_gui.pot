@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-14 17:09+0100\n"
+"POT-Creation-Date: 2016-02-23 17:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/rc_gui.c:563
+#: ../src/rc_gui.c:575
 msgid "Setting locale - please wait..."
 msgstr ""
 
-#: ../src/rc_gui.c:713
+#: ../src/rc_gui.c:735
 msgid "Setting timezone - please wait..."
 msgstr ""
 
@@ -242,58 +242,74 @@ msgid "High (1000MHz)"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:55
-msgid "_GPU Memory:"
+msgid "Not available"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:56
-msgid "Enter the amount of memory available to the GPU"
+msgid "_GPU Memory:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:57
-msgid "Performance"
+msgid "Enter the amount of memory available to the GPU"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:58
-msgid "Locale:"
+msgid "Performance"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:59
-msgid "Set _Locale..."
+msgid "Locale:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:60
-msgid "Set internationalisation settings for units etc."
+msgid "Set _Locale..."
 msgstr ""
 
 #: ../data/rc_gui.ui.h:61
-msgid "Timezone:"
+msgid "Set internationalisation settings for units etc."
 msgstr ""
 
 #: ../data/rc_gui.ui.h:62
-msgid "Set _Timezone..."
+msgid "Timezone:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:63
-msgid "Set the timezone to be used by the internal clock"
+msgid "Set _Timezone..."
 msgstr ""
 
 #: ../data/rc_gui.ui.h:64
-msgid "Keyboard:"
+msgid "Set the timezone to be used by the internal clock"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:65
-msgid "Set _Keyboard..."
+msgid "Keyboard:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:66
-msgid "Set international keyboard options"
+msgid "Set _Keyboard..."
 msgstr ""
 
 #: ../data/rc_gui.ui.h:67
-msgid "Localisation"
+msgid "Set international keyboard options"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:68
+msgid "WiFi Country:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:69
+msgid "Set _WiFi Country..."
+msgstr ""
+
+#: ../data/rc_gui.ui.h:70
+msgid "Set WiFi country code"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:71
+msgid "Localisation"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:72
 msgid ""
 "The Raspberry Pi Configuration application can only modify a standard "
 "configuration.\n"
@@ -306,50 +322,50 @@ msgid ""
 "lightdm application installed. "
 msgstr ""
 
-#: ../data/rc_gui.ui.h:73
+#: ../data/rc_gui.ui.h:77
 msgid "Filesystem Expanded"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:74
+#: ../data/rc_gui.ui.h:78
 msgid ""
 "The filesystem has been expanded.\n"
 "\n"
 "The new space will not be available until you reboot your Raspberry Pi."
 msgstr ""
 
-#: ../data/rc_gui.ui.h:77
+#: ../data/rc_gui.ui.h:81
 msgid "Locale"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:78
+#: ../data/rc_gui.ui.h:82
 msgid "Language:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:79
+#: ../data/rc_gui.ui.h:83
 msgid "Country:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:80
+#: ../data/rc_gui.ui.h:84
 msgid "Character Set:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:81
+#: ../data/rc_gui.ui.h:85
 msgid "Change Password"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:82
+#: ../data/rc_gui.ui.h:86
 msgid "Enter new password:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:83
+#: ../data/rc_gui.ui.h:87
 msgid "Confirm new password:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:84
+#: ../data/rc_gui.ui.h:88
 msgid "Rastrack Registration"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:85
+#: ../data/rc_gui.ui.h:89
 msgid ""
 "Rastrack (http://www.rastrack.co.uk) is a website which tracks the location "
 "of Raspberry Pis around the world. If you would like to be added to it, "
@@ -359,19 +375,19 @@ msgid ""
 "process.\n"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:89
+#: ../data/rc_gui.ui.h:93
 msgid "Username:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:90
+#: ../data/rc_gui.ui.h:94
 msgid "Email Address:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:91
+#: ../data/rc_gui.ui.h:95
 msgid "Reboot needed"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:92
+#: ../data/rc_gui.ui.h:96
 msgid ""
 "The changes you have made require the Raspberry Pi to be rebooted to take "
 "effect.\n"
@@ -379,19 +395,20 @@ msgid ""
 "Would you like to reboot now? "
 msgstr ""
 
-#: ../data/rc_gui.ui.h:95
+#: ../data/rc_gui.ui.h:99
 msgid "Timezone"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:96
+#: ../data/rc_gui.ui.h:100
 msgid "Area:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:97
+#: ../data/rc_gui.ui.h:101
 msgid "Location:"
 msgstr ""
 
-msgid "Not available"
+#: ../data/rc_gui.ui.h:102
+msgid "WiFi Country Code"
 msgstr ""
 
 #: ../data/rc_gui.desktop.in.h:2
