@@ -39,7 +39,7 @@
 #define GET_SSH         "service ssh status | grep -q inactive ; echo $?"
 #define GET_SPI         "cat /boot/config.txt | grep -q -E \"^(device_tree_param|dtparam)=([^,]*,)*spi(=(on|true|yes|1))?(,.*)?$\" ; echo $?"
 #define GET_I2C         "cat /boot/config.txt | grep -q -E \"^(device_tree_param|dtparam)=([^,]*,)*i2c(_arm)?(=(on|true|yes|1))?(,.*)?$\" ; echo $?"
-#define GET_SERIAL      "cat /boot/cmdline.txt | grep -q console=ttyAMA0 ; echo $?"
+#define GET_SERIAL      "cat /boot/cmdline.txt | grep -q -E \"(console=ttyAMA0|console=serial0)\" ; echo $?"
 #define GET_BOOT_GUI    "service lightdm status | grep -q inactive ; echo $?"
 #define GET_BOOT_SLOW   "test -e /etc/systemd/system/dhcpcd.service.d/wait.conf ; echo $?"
 #define GET_ALOG_SYSD   "cat /etc/systemd/system/getty.target.wants/getty@tty1.service | grep -q autologin ; echo $?"
