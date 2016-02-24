@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-23 17:43+0000\n"
-"PO-Revision-Date: 2016-01-26 21:57+0800\n"
+"PO-Revision-Date: 2016-02-24 08:03+0800\n"
 "Last-Translator: Jeff Huang <s8321414@chakraos.org>\n"
 "Language-Team: Chinese <chinese-l10n@googlegroups.com>\n"
 "Language: zh_TW\n"
@@ -294,14 +294,12 @@ msgid "Set international keyboard options"
 msgstr "設定國際鍵盤選項"
 
 #: ../data/rc_gui.ui.h:68
-#, fuzzy
 msgid "WiFi Country:"
-msgstr "國家："
+msgstr "WiFi 國家："
 
 #: ../data/rc_gui.ui.h:69
-#, fuzzy
 msgid "Set _WiFi Country..."
-msgstr "設定時區... (_T)"
+msgstr "設定 WiFi 國家... (_W)"
 
 #: ../data/rc_gui.ui.h:70
 msgid "Set WiFi country code"
@@ -432,3 +430,4 @@ msgstr ""
 #: ../data/rc_gui.desktop.in.h:2
 msgid "Configure Raspberry Pi system"
 msgstr "設定 Raspberry Pi 系統"
+
