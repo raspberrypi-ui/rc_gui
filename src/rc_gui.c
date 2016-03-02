@@ -64,7 +64,7 @@
 #define CHANGE_PASSWD   "echo pi:%s | sudo chpasswd"
 #define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
 #define FIND_LOCALE     "grep '%s ' /usr/share/i18n/SUPPORTED"
-#define GET_WIFI_CTRY	"grep country= /etc/wpa_supplicant/wpa_supplicant.conf | cut -d \"=\" -f 2"
+#define GET_WIFI_CTRY	"sudo grep country= /etc/wpa_supplicant/wpa_supplicant.conf | cut -d \"=\" -f 2"
 #define SET_WIFI_CTRY   "sudo raspi-config nonint do_configure_wifi_country %s"
 
 /* Controls */
