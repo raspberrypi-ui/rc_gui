@@ -9,6 +9,7 @@
     <property name="resizable">False</property>
     <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
     <property name="type_hint">dialog</property>
+    <property name="use_header_bar">1</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox1">
         <property name="visible">True</property>
@@ -62,6 +63,10 @@
               <object class="GtkVBox" id="vbox00">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
                 <child>
                   <object class="GtkHBox" id="hbox1">
                     <property name="visible">True</property>
@@ -536,6 +541,10 @@
               <object class="GtkVBox" id="vbox10">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
                 <child>
                   <object class="GtkHBox" id="hbox5">
                     <property name="visible">True</property>
@@ -918,6 +927,10 @@
               <object class="GtkVBox" id="vbox20">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
                 <child>
                   <object class="GtkHBox" id="hbox7">
                     <property name="visible">True</property>
@@ -1121,6 +1134,10 @@
               <object class="GtkVBox" id="vbox30">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
                 <child>
                   <object class="GtkHBox" id="hbox41">
                     <property name="visible">True</property>
@@ -1370,6 +1387,9 @@
     <property name="resizable">False</property>
     <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
     <property name="type_hint">dialog</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="urgency_hint">True</property>
+    <property name="use_header_bar">1</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox2">
         <property name="visible">True</property>
@@ -1436,6 +1456,9 @@ In order to use this application, you need to have the latest firmware installed
     <property name="resizable">False</property>
     <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
     <property name="type_hint">dialog</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="urgency_hint">True</property>
+    <property name="use_header_bar">1</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox10">
         <property name="visible">True</property>
@@ -1499,6 +1522,7 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
     <property name="title" translatable="yes">Locale</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <property name="use_header_bar">1</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox8">
         <property name="visible">True</property>
@@ -1563,6 +1587,10 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
               <object class="GtkLabel" id="loclabellang">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Language:</property>
               </object>
@@ -1571,6 +1599,10 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
               <object class="GtkLabel" id="loclabelcountry">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Country:</property>
               </object>
@@ -1583,6 +1615,10 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
               <object class="GtkLabel" id="loclabelchar">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Character Set:</property>
               </object>
@@ -1611,6 +1647,7 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
     <property name="title" translatable="yes">Change Password</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <property name="use_header_bar">1</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox3">
         <property name="visible">True</property>
@@ -1667,6 +1704,7 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
               <object class="GtkEntry" id="pwentry1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="margin_bottom">5</property>
                 <property name="invisible_char">●</property>
                 <property name="primary_icon_activatable">False</property>
                 <property name="secondary_icon_activatable">False</property>
@@ -1695,6 +1733,7 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
               <object class="GtkLabel" id="pwlabel1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_bottom">5</property>
                 <property name="xalign">0.019999999552965164</property>
                 <property name="yalign">0.55000001192092896</property>
                 <property name="ypad">14</property>
@@ -1733,6 +1772,7 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
     <property name="title" translatable="yes">Rastrack Registration</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <property name="use_header_bar">1</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox4">
         <property name="visible">True</property>
@@ -1808,6 +1848,8 @@ This is entirely optional and does not form an official registration process.
                   <object class="GtkEntry" id="rtentry1">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="margin_left">5</property>
+                    <property name="margin_bottom">5</property>
                     <property name="invisible_char">●</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>
@@ -1821,6 +1863,8 @@ This is entirely optional and does not form an official registration process.
                   <object class="GtkEntry" id="rtentry2">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="margin_left">5</property>
+                    <property name="margin_bottom">5</property>
                     <property name="invisible_char">●</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>
@@ -1878,7 +1922,9 @@ This is entirely optional and does not form an official registration process.
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Reboot needed</property>
     <property name="resizable">False</property>
+    <property name="icon_name">view-refresh</property>
     <property name="type_hint">dialog</property>
+    <property name="use_header_bar">1</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox6">
         <property name="visible">True</property>
@@ -1952,6 +1998,7 @@ Would you like to reboot now? </property>
     <property name="title" translatable="yes">Timezone</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <property name="use_header_bar">1</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox5">
         <property name="visible">True</property>
@@ -2013,6 +2060,7 @@ Would you like to reboot now? </property>
               <object class="GtkLabel" id="tzarealabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_bottom">5</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Area:</property>
               </object>
@@ -2021,6 +2069,7 @@ Would you like to reboot now? </property>
               <object class="GtkLabel" id="tzloclabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_bottom">5</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Location:</property>
               </object>
@@ -2049,6 +2098,7 @@ Would you like to reboot now? </property>
     <property name="title" translatable="yes">WiFi Country Code</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <property name="use_header_bar">1</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox9">
         <property name="visible">True</property>
@@ -2099,6 +2149,9 @@ Would you like to reboot now? </property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="n_columns">2</property>
+            <child>
+              <placeholder/>
+            </child>
             <child>
               <placeholder/>
             </child>
