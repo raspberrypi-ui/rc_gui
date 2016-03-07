@@ -372,7 +372,7 @@ static void language_changed (GtkComboBox *cb, gpointer ptr)
 
             // add country code and description to combo box
             sprintf (buffer, "%s (%s)", file_ctry, result);
-            gtk_combo_box_append_text (GTK_COMBO_BOX (loccount_cb), buffer);
+            gtk_combo_box_text_append (GTK_COMBO_BOX (loccount_cb), NULL, buffer);
 
             // check to see if it matches the initial string and set active if so
             if (!strcmp (file_ctry, init_ctry)) gtk_combo_box_set_active (GTK_COMBO_BOX (loccount_cb), country_count);
@@ -461,7 +461,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 
             // add language code and description to combo box
             sprintf (buffer, "%s (%s)", file_lang, result);
-            gtk_combo_box_append_text (GTK_COMBO_BOX (loclang_cb), buffer);
+            gtk_combo_box_text_append (GTK_COMBO_BOX (loclang_cb), NULL, buffer);
 
             // make a local copy of the language code for comparisons
             strcpy (last_lang, file_lang);
@@ -507,7 +507,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
         else cb_ctry[0] = 0;
 
         // build the relevant grep expression to search the file of supported formats
-        cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (locchar_cb));
+        cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (locchar_cb));
         if (cptr)
         {
             if (!cb_ctry[0])
@@ -606,10 +606,10 @@ static void area_changed (GtkComboBox *cb, gpointer ptr)
     struct stat st_buf;
     int entries, entry, sentries, sentry;
 
-    while (loc_count--) gtk_combo_box_remove_text (GTK_COMBO_BOX (tzloc_cb), 0);
+    while (loc_count--) gtk_combo_box_text_remove (GTK_COMBO_BOX (tzloc_cb), 0);
     loc_count = 0;
 
-    sprintf (buffer, "/usr/share/zoneinfo/%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
+    sprintf (buffer, "/usr/share/zoneinfo/%s", gtk_combo_box_text_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
     stat (buffer, &st_buf);
 
     if (S_ISDIR (st_buf.st_mode))
@@ -620,14 +620,14 @@ static void area_changed (GtkComboBox *cb, gpointer ptr)
             dp = filelist[entry];
             if (dp->d_type == DT_DIR)
             {
-                sprintf (buffer, "/usr/share/zoneinfo/%s/%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)), dp->d_name);
+                sprintf (buffer, "/usr/share/zoneinfo/%s/%s", gtk_combo_box_text_get_active_text (GTK_COMBO_BOX (tzarea_cb)), dp->d_name);
                 sentries = scandir (buffer, &sfilelist, dirfilter, alphasort);
                 for (sentry = 0; sentry < sentries; sentry++)
                 {
                     sdp = sfilelist[sentry];
                     sprintf (buffer, "%s/%s", dp->d_name, sdp->d_name);
-                    gtk_combo_box_append_text (GTK_COMBO_BOX (tzloc_cb), buffer);
-                    if (ptr && !strcmp (ptr, buffer)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), loc_count);
+                    gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (tzloc_cb), NULL, buffer);
+                    if (ptr && !strcmp (ptr, buffer)) gtk_combo_box_set_active (GTK_COMBO_BOX_TEXT (tzloc_cb), loc_count);
                     loc_count++;
                     free (sdp);
                 }
@@ -635,7 +635,7 @@ static void area_changed (GtkComboBox *cb, gpointer ptr)
             }
             else
             {
-                gtk_combo_box_append_text (GTK_COMBO_BOX (tzloc_cb), dp->d_name);
+                gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (tzloc_cb), NULL, dp->d_name);
                 if (ptr && !strcmp (ptr, dp->d_name)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), loc_count);
                 loc_count++;
             }
@@ -673,8 +673,8 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
 	GtkWidget *table = (GtkWidget *) gtk_builder_get_object (builder, "tztable");
-	tzarea_cb = (GObject *) gtk_combo_box_new_text ();
-	tzloc_cb = (GObject *) gtk_combo_box_new_text ();
+	tzarea_cb = (GObject *) gtk_combo_box_text_new ();
+	tzloc_cb = (GObject *) gtk_combo_box_text_new ();
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (tzarea_cb), 1, 2, 0, 1, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (tzloc_cb), 1, 2, 1, 2, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
 	gtk_widget_show_all (GTK_WIDGET (tzarea_cb));
@@ -693,7 +693,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
     for (entry = 0; entry < entries; entry++)
     {
         dp = filelist[entry];
-	    gtk_combo_box_append_text (GTK_COMBO_BOX (tzarea_cb), dp->d_name);
+	    gtk_combo_box_text_append (GTK_COMBO_BOX (tzarea_cb), NULL, dp->d_name);
 	    if (!strcmp (dp->d_name, buffer)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzarea_cb), count);
 	    count++;
 	    free (dp);
@@ -708,19 +708,19 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
 
 	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
 	{
-	    if (gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)))
-            sprintf (buffer, "%s/%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)),
-                gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)));
+	    if (gtk_combo_box_text_get_active_text (GTK_COMBO_BOX (tzloc_cb)))
+            sprintf (buffer, "%s/%s", gtk_combo_box_text_get_active_text (GTK_COMBO_BOX (tzarea_cb)),
+                gtk_combo_box_text_get_active_text (GTK_COMBO_BOX (tzloc_cb)));
         else
-            sprintf (buffer, "%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
+            sprintf (buffer, "%s", gtk_combo_box_text_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
 
         if (strcmp (before, buffer))
         {
-            if (gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)))
-                sprintf (buffer, "echo '%s/%s' | sudo tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)),
-                    gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)));
+            if (gtk_combo_box_text_get_active_text (GTK_COMBO_BOX (tzloc_cb)))
+                sprintf (buffer, "echo '%s/%s' | sudo tee /etc/timezone", gtk_combo_box_text_get_active_text (GTK_COMBO_BOX (tzarea_cb)),
+                    gtk_combo_box_text_get_active_text (GTK_COMBO_BOX (tzloc_cb)));
             else
-                sprintf (buffer, "echo '%s' | sudo tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
+                sprintf (buffer, "echo '%s' | sudo tee /etc/timezone", gtk_combo_box_text_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
             system (buffer);
 
             // warn about a short delay...
@@ -761,7 +761,7 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
     GtkWidget *table = (GtkWidget *) gtk_builder_get_object (builder, "wctable");
-    wccountry_cb = (GObject *) gtk_combo_box_new_text ();
+    wccountry_cb = (GObject *) gtk_combo_box_text_new ();
     gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (wccountry_cb), 1, 2, 0, 1, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
     gtk_widget_show_all (GTK_WIDGET (wccountry_cb));
 
@@ -777,7 +777,7 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
         if (buffer[0] != 0x0A && buffer[0] != '#')
         {
             buffer[strlen(buffer) - 1] = 0;
-            gtk_combo_box_append_text (GTK_COMBO_BOX (wccountry_cb), buffer);
+            gtk_combo_box_text_append (GTK_COMBO_BOX (wccountry_cb), NULL, buffer);
             if (!strncmp (cnow, buffer, 2)) found = n;
             n++;
         }
@@ -789,7 +789,7 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
         // update the wpa_supplicant.conf file
-        sprintf (buffer, "%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (wccountry_cb)));
+        sprintf (buffer, "%s", gtk_combo_box_text_get_active_text (GTK_COMBO_BOX (wccountry_cb)));
         if (strncmp (cnow, buffer, 2))
         {
             strncpy (cnow, buffer, 2);
@@ -1189,9 +1189,9 @@ int main (int argc, char *argv[])
                             break;
             }
             gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox8")));
+            gtk_widget_hide (GTK_WIDGET(gtk_builder_get_object (builder, "hbox8")));
             gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox7")));
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox19")));
+            gtk_widget_hide (GTK_WIDGET(gtk_builder_get_object (builder, "hbox19")));
             break;
 
 	    case 2 :
@@ -1204,22 +1204,22 @@ int main (int argc, char *argv[])
                             break;
             }
             gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox7")));
+            gtk_widget_hide (GTK_WIDGET(gtk_builder_get_object (builder, "hbox7")));
             gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox8")));
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox19")));
+            gtk_widget_hide (GTK_WIDGET(gtk_builder_get_object (builder, "hbox19")));
             break;
 
         default :
             overclock_cb = gtk_builder_get_object (builder, "comboboxtext3");
             gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 0);
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox7")));
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox8")));
+            gtk_widget_hide (GTK_WIDGET(gtk_builder_get_object (builder, "hbox7")));
+            gtk_widget_hide (GTK_WIDGET(gtk_builder_get_object (builder, "hbox8")));
             gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox19")));
             gtk_widget_set_sensitive (GTK_WIDGET(overclock_cb), FALSE);
 	        break;
 	}
 
-	GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 16.0, 64.0, 0);
+	GtkWidget *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 16.0, 64.0, 0);
 	memsplit_sb = gtk_builder_get_object (builder, "spinbutton1");
 	gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (memsplit_sb), GTK_ADJUSTMENT (adj));
 	orig_gpumem = get_status (GET_GPU_MEM);
