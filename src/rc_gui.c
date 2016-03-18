@@ -40,6 +40,7 @@
 #define GET_SPI         "cat /boot/config.txt | grep -q -E \"^(device_tree_param|dtparam)=([^,]*,)*spi(=(on|true|yes|1))?(,.*)?$\" ; echo $?"
 #define GET_I2C         "cat /boot/config.txt | grep -q -E \"^(device_tree_param|dtparam)=([^,]*,)*i2c(_arm)?(=(on|true|yes|1))?(,.*)?$\" ; echo $?"
 #define GET_SERIAL      "cat /boot/cmdline.txt | grep -q -E \"(console=ttyAMA0|console=serial0)\" ; echo $?"
+#define GET_1WIRE       "cat /boot/config.txt | grep -q -E \"^dtoverlay=w1-gpio\" ; echo $?"
 #define GET_BOOT_GUI    "service lightdm status | grep -q inactive ; echo $?"
 #define GET_BOOT_SLOW   "test -e /etc/systemd/system/dhcpcd.service.d/wait.conf ; echo $?"
 #define GET_ALOG_SYSD   "cat /etc/systemd/system/getty.target.wants/getty@tty1.service | grep -q autologin ; echo $?"
@@ -54,6 +55,7 @@
 #define SET_SPI         "sudo raspi-config nonint do_spi %d"
 #define SET_I2C         "sudo raspi-config nonint do_i2c %d"
 #define SET_SERIAL      "sudo raspi-config nonint do_serial %d"
+#define SET_1WIRE       "sudo raspi-config nonint do_onewire %d"
 #define SET_BOOT_CLI    "sudo raspi-config nonint do_boot_behaviour_new B1"
 #define SET_BOOT_CLIA   "sudo raspi-config nonint do_boot_behaviour_new B2"
 #define SET_BOOT_GUI    "sudo raspi-config nonint do_boot_behaviour_new B3"
@@ -72,7 +74,7 @@
 static GObject *expandfs_btn, *passwd_btn, *locale_btn, *timezone_btn, *keyboard_btn, *rastrack_btn, *wifi_btn;
 static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb;
-static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb;
+static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
 static GObject *autologin_cb, *netwait_cb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
@@ -87,7 +89,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 
 static char orig_hostname[128];
 static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial;
-static int orig_clock, orig_gpumem, orig_autolog, orig_netwait;
+static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire;
 
 /* Reboot flag set after locale change */
 
@@ -932,6 +934,13 @@ static int process_changes (void)
 	    reboot = 1;
     }
 
+    if (orig_onewire != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (onewire_off_rb)))
+    {
+	    sprintf (buffer, SET_1WIRE, (1 - orig_onewire));
+	    system (buffer);
+	    reboot = 1;
+    }
+
     if (strcmp (orig_hostname, gtk_entry_get_text (GTK_ENTRY (hostname_tb))))
     {
         sprintf (buffer, SET_HOSTNAME, gtk_entry_get_text (GTK_ENTRY (hostname_tb)));
@@ -1170,6 +1179,11 @@ int main (int argc, char *argv[])
 	serial_off_rb = gtk_builder_get_object (builder, "radiobutton16");
 	if (orig_serial = get_status (GET_SERIAL)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
 	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
+	
+	onewire_on_rb = gtk_builder_get_object (builder, "radiobutton17");
+	onewire_off_rb = gtk_builder_get_object (builder, "radiobutton18");
+	if (orig_onewire = get_status (GET_1WIRE)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (onewire_off_rb), TRUE);
+	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (onewire_on_rb), TRUE);
 	
     switch (get_status (GET_PI_TYPE))
 	{
