@@ -320,19 +320,19 @@ msgid ""
 "installed, Device Tree enabled, the default \"pi\" user set up and the "
 "lightdm application installed. "
 msgstr ""
-"The Raspberry Pi Configuration application can only modify a standard "
-"configuration.\n"
+"Het Raspberry Pi configuratie applicatie kan enkel een standaard"
+"configuratie aanpassen.\n"
 "\n"
-"Your configuration appears to have been modified by other tools, and so this "
-"application cannot be used on your system.\n"
+"Uw configuratie is aangepast door een ander programma, dus "
+"kan deze applicatie niet gebruikt worden op uw systeem.\n"
 "\n"
-"In order to use this application, you need to have the latest firmware "
-"installed, Device Tree enabled, the default \"pi\" user set up and the "
-"lightdm application installed. "
+"Om deze applicatie te gebruiken, moet u de laaste firmware versie "
+"geinstalleert zijn, Device Tree aanstaan, de standaard \"pi\" gebruiker ingesteld zijn en "
+"de lightdm applicatie geinstalleert zijn "
 
 #: ../data/rc_gui.ui.h:77
 msgid "Filesystem Expanded"
-msgstr "Filesystem Expanded"
+msgstr "Bestands systeem uitgebreid"
 
 #: ../data/rc_gui.ui.h:78
 msgid ""
@@ -340,21 +340,21 @@ msgid ""
 "\n"
 "The new space will not be available until you reboot your Raspberry Pi."
 msgstr ""
-"The filesystem has been expanded.\n"
+"Het bestands systeem is uitgebreid..\n"
 "\n"
-"The new space will not be available until you reboot your Raspberry Pi."
+"De nieuwe schijfruimte is niet beschikbaar tot uw u raspberry pi opnieuw opstart."
 
 #: ../data/rc_gui.ui.h:81
 msgid "Locale"
-msgstr "Locale"
+msgstr "Land instellingen"
 
 #: ../data/rc_gui.ui.h:82
 msgid "Language:"
-msgstr "Language:"
+msgstr "Taal:"
 
 #: ../data/rc_gui.ui.h:83
 msgid "Country:"
-msgstr "Country:"
+msgstr "Land:"
 
 #: ../data/rc_gui.ui.h:84
 msgid "Character Set:"
@@ -362,19 +362,19 @@ msgstr "Character Set:"
 
 #: ../data/rc_gui.ui.h:85
 msgid "Change Password"
-msgstr "Change Password"
+msgstr "Verander wachtwoord"
 
 #: ../data/rc_gui.ui.h:86
 msgid "Enter new password:"
-msgstr "Enter new password:"
+msgstr "New Wachtwoord invoeren:"
 
 #: ../data/rc_gui.ui.h:87
 msgid "Confirm new password:"
-msgstr "Confirm new password:"
+msgstr "Herhaal nieuw wachtwoord:"
 
 #: ../data/rc_gui.ui.h:88
 msgid "Rastrack Registration"
-msgstr "Rastrack Registration"
+msgstr "Rastrack registratie"
 
 #: ../data/rc_gui.ui.h:89
 msgid ""
@@ -385,16 +385,16 @@ msgid ""
 "This is entirely optional and does not form an official registration "
 "process.\n"
 msgstr ""
-"Rastrack (http://www.rastrack.co.uk) is a website which tracks the location "
-"of Raspberry Pis around the world. If you would like to be added to it, "
-"enter your name and email address below.\n"
+"Rastrack (http://www.rastrack.co.uk) is een website die de locatie van "
+"Raspberry Pis rond de wereld. Als u die van u wilt toevoegen, "
+"Moet uw uw naam en email adres hier onder invullen.\n"
 "\n"
-"This is entirely optional and does not form an official registration "
+"Dit is geheel niet verplicht en is geen form van officele registratie "
 "process.\n"
 
 #: ../data/rc_gui.ui.h:93
 msgid "Username:"
-msgstr "Username:"
+msgstr "Gebruikers naam:"
 
 #: ../data/rc_gui.ui.h:94
 msgid "Email Address:"
@@ -402,7 +402,7 @@ msgstr "Email Address:"
 
 #: ../data/rc_gui.ui.h:95
 msgid "Reboot needed"
-msgstr "Reboot needed"
+msgstr "Herstart nodig"
 
 #: ../data/rc_gui.ui.h:96
 msgid ""
@@ -411,27 +411,27 @@ msgid ""
 "\n"
 "Would you like to reboot now? "
 msgstr ""
-"The changes you have made require the Raspberry Pi to be rebooted to take "
-"effect.\n"
+"Door de veranderingen die gemaakt zijn moet de Raspberry Pi opnieuw opstarten voor "
+"het effect heeft.\n"
 "\n"
-"Would you like to reboot now? "
+"Wilt u nu opnieuw opstarten? "
 
 #: ../data/rc_gui.ui.h:99
 msgid "Timezone"
-msgstr "Timezone"
+msgstr "Tijdzone"
 
 #: ../data/rc_gui.ui.h:100
 msgid "Area:"
-msgstr "Area:"
+msgstr "Regio:"
 
 #: ../data/rc_gui.ui.h:101
 msgid "Location:"
-msgstr "Location:"
+msgstr "locatie:"
 
 #: ../data/rc_gui.ui.h:102
 msgid "WiFi Country Code"
-msgstr "WiFi Country Code"
+msgstr "WiFi Land code"
 
 #: ../data/rc_gui.desktop.in.h:2
 msgid "Configure Raspberry Pi system"
-msgstr "Configure Raspberry Pi system"
+msgstr "Stel het Raspberry Pi systeem in"
