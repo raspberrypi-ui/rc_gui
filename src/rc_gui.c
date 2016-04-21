@@ -34,6 +34,9 @@
 #define GET_MEM_GPU     "vcgencmd get_mem gpu"
 #define GET_OVERCLOCK   "sudo raspi-config nonint get_config_var arm_freq /boot/config.txt"
 #define GET_GPU_MEM     "sudo raspi-config nonint get_config_var gpu_mem /boot/config.txt"
+#define GET_GPU_MEM_256 "sudo raspi-config nonint get_config_var gpu_mem_256 /boot/config.txt"
+#define GET_GPU_MEM_512 "sudo raspi-config nonint get_config_var gpu_mem_512 /boot/config.txt"
+#define GET_GPU_MEM_1K  "sudo raspi-config nonint get_config_var gpu_mem_1024 /boot/config.txt"
 #define GET_OVERSCAN    "sudo raspi-config nonint get_config_var disable_overscan /boot/config.txt"
 #define GET_CAMERA      "sudo raspi-config nonint get_config_var start_x /boot/config.txt"
 #define GET_SSH         "service ssh status | grep -q inactive ; echo $?"
@@ -151,6 +154,21 @@ static int get_total_mem (void)
         sscanf (buf, "gpu=%dM", &gpu);
         
     return arm + gpu;    
+}
+
+static int get_gpu_mem (void)
+{
+	int mem, tmem = get_total_mem ();
+	if (tmem > 512)
+		mem = get_status (GET_GPU_MEM_1K);
+	else if (tmem > 256)
+		mem = get_status (GET_GPU_MEM_512);
+	else
+		mem = get_status (GET_GPU_MEM_256);
+
+	if (mem == 0) mem = get_status (GET_GPU_MEM);
+	if (mem == 0) mem = 64;
+	return mem;
 }
 
 static void get_quoted_param (char *path, char *fname, char *toseek, char *result)
@@ -1236,8 +1254,7 @@ int main (int argc, char *argv[])
 	GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 16.0, 64.0, 0);
 	memsplit_sb = gtk_builder_get_object (builder, "spinbutton1");
 	gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (memsplit_sb), GTK_ADJUSTMENT (adj));
-	orig_gpumem = get_status (GET_GPU_MEM);
-	if (orig_gpumem == 0) orig_gpumem = 64;
+	orig_gpumem = get_gpu_mem ();
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (memsplit_sb), orig_gpumem);
 
 	hostname_tb = gtk_builder_get_object (builder, "entry1");
