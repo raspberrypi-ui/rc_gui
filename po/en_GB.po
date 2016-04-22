@@ -1,5 +1,5 @@
 # Raspberry Pi Configuration utility
-# Copyright (C) 2015 Raspberry Pi
+# Copyright (C) 2016 Raspberry Pi
 # This file is distributed under the same license as the rc_gui package.
 # Simon Long <simon@raspberrypi.org>, 2016.
 #
@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rc_gui 0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-18 13:52+0000\n"
-"PO-Revision-Date: 2016-03-18 13:53+0000\n"
-"Last-Translator: Simon Long <simon@rspberrypi.org>\n"
+"POT-Creation-Date: 2016-04-22 10:14+0100\n"
+"PO-Revision-Date: 2016-04-22 10:29+0100\n"
+"Last-Translator: Simon Long  <simon@raspberrypi.org>\n"
 "Language-Team: English (British)\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/rc_gui.c:577
+#: ../src/rc_gui.c:598
 msgid "Setting locale - please wait..."
 msgstr "Setting locale - please wait..."
 
-#: ../src/rc_gui.c:737
+#: ../src/rc_gui.c:758
 msgid "Setting timezone - please wait..."
 msgstr "Setting timezone - please wait..."
 
@@ -214,114 +214,126 @@ msgid "Disable 1-wire peripheral interface"
 msgstr "Disable 1-wire peripheral interface"
 
 #: ../data/rc_gui.ui.h:48
+msgid "Remote GPIO:"
+msgstr "Remote GPIO:"
+
+#: ../data/rc_gui.ui.h:49
+msgid "Enable remote access to GPIO pins"
+msgstr "Enable remote access to GPIO pins"
+
+#: ../data/rc_gui.ui.h:50
+msgid "Disable remote access to GPIO pins"
+msgstr "Disable remote access to GPIO pins"
+
+#: ../data/rc_gui.ui.h:51
 msgid "Interfaces"
 msgstr "Interfaces"
 
-#: ../data/rc_gui.ui.h:49
+#: ../data/rc_gui.ui.h:52
 msgid "O_verclock:"
 msgstr "Overclock:"
 
-#: ../data/rc_gui.ui.h:50
+#: ../data/rc_gui.ui.h:53
 msgid "Set the level of overclock to control performance"
 msgstr "Set the level of overclock to control performance"
 
-#: ../data/rc_gui.ui.h:51
+#: ../data/rc_gui.ui.h:54
 msgid "None (700MHz)"
 msgstr "None (700MHz)"
 
-#: ../data/rc_gui.ui.h:52
+#: ../data/rc_gui.ui.h:55
 msgid "Modest (800MHz)"
 msgstr "Modest (800MHz)"
 
-#: ../data/rc_gui.ui.h:53
+#: ../data/rc_gui.ui.h:56
 msgid "Medium (900MHz)"
 msgstr "Medium (900MHz)"
 
-#: ../data/rc_gui.ui.h:54
+#: ../data/rc_gui.ui.h:57
 msgid "High (950MHz)"
 msgstr "High (950MHz)"
 
-#: ../data/rc_gui.ui.h:55
+#: ../data/rc_gui.ui.h:58
 msgid "Turbo (1000MHz)"
 msgstr "Turbo (1000MHz)"
 
-#: ../data/rc_gui.ui.h:56
+#: ../data/rc_gui.ui.h:59
 msgid "None (900MHz)"
 msgstr "None (900MHz)"
 
-#: ../data/rc_gui.ui.h:57
+#: ../data/rc_gui.ui.h:60
 msgid "High (1000MHz)"
 msgstr "High (1000MHz)"
 
-#: ../data/rc_gui.ui.h:58
+#: ../data/rc_gui.ui.h:61
 msgid "Not available"
 msgstr "Not available"
 
-#: ../data/rc_gui.ui.h:59
+#: ../data/rc_gui.ui.h:62
 msgid "_GPU Memory:"
 msgstr "GPU Memory:"
 
-#: ../data/rc_gui.ui.h:60
+#: ../data/rc_gui.ui.h:63
 msgid "Enter the amount of memory available to the GPU"
 msgstr "Enter the amount of memory available to the GPU"
 
-#: ../data/rc_gui.ui.h:61
+#: ../data/rc_gui.ui.h:64
 msgid "Performance"
 msgstr "Performance"
 
-#: ../data/rc_gui.ui.h:62
+#: ../data/rc_gui.ui.h:65
 msgid "Locale:"
 msgstr "Locale:"
 
-#: ../data/rc_gui.ui.h:63
+#: ../data/rc_gui.ui.h:66
 msgid "Set _Locale..."
 msgstr "Set _Locale..."
 
-#: ../data/rc_gui.ui.h:64
+#: ../data/rc_gui.ui.h:67
 msgid "Set internationalisation settings for units etc."
 msgstr "Set internationalisation settings for language, units etc."
 
-#: ../data/rc_gui.ui.h:65
+#: ../data/rc_gui.ui.h:68
 msgid "Timezone:"
 msgstr "Timezone:"
 
-#: ../data/rc_gui.ui.h:66
+#: ../data/rc_gui.ui.h:69
 msgid "Set _Timezone..."
 msgstr "Set _Timezone..."
 
-#: ../data/rc_gui.ui.h:67
+#: ../data/rc_gui.ui.h:70
 msgid "Set the timezone to be used by the internal clock"
 msgstr "Set the timezone to be used by the internal clock"
 
-#: ../data/rc_gui.ui.h:68
+#: ../data/rc_gui.ui.h:71
 msgid "Keyboard:"
 msgstr "Keyboard:"
 
-#: ../data/rc_gui.ui.h:69
+#: ../data/rc_gui.ui.h:72
 msgid "Set _Keyboard..."
 msgstr "Set _Keyboard..."
 
-#: ../data/rc_gui.ui.h:70
+#: ../data/rc_gui.ui.h:73
 msgid "Set international keyboard options"
 msgstr "Set international keyboard options"
 
-#: ../data/rc_gui.ui.h:71
+#: ../data/rc_gui.ui.h:74
 msgid "WiFi Country:"
 msgstr "WiFi Country:"
 
-#: ../data/rc_gui.ui.h:72
+#: ../data/rc_gui.ui.h:75
 msgid "Set _WiFi Country..."
 msgstr "Set _WiFi Country..."
 
-#: ../data/rc_gui.ui.h:73
+#: ../data/rc_gui.ui.h:76
 msgid "Set WiFi country code"
 msgstr "Set WiFi country code"
 
-#: ../data/rc_gui.ui.h:74
+#: ../data/rc_gui.ui.h:77
 msgid "Localisation"
 msgstr "Localisation"
 
-#: ../data/rc_gui.ui.h:75
+#: ../data/rc_gui.ui.h:78
 msgid ""
 "The Raspberry Pi Configuration application can only modify a standard "
 "configuration.\n"
@@ -343,11 +355,11 @@ msgstr ""
 "installed, Device Tree enabled, the default \"pi\" user set up and the "
 "lightdm application installed. "
 
-#: ../data/rc_gui.ui.h:80
+#: ../data/rc_gui.ui.h:83
 msgid "Filesystem Expanded"
 msgstr "Filesystem Expanded"
 
-#: ../data/rc_gui.ui.h:81
+#: ../data/rc_gui.ui.h:84
 msgid ""
 "The filesystem has been expanded.\n"
 "\n"
@@ -357,39 +369,39 @@ msgstr ""
 "\n"
 "The new space will not be available until you reboot your Raspberry Pi."
 
-#: ../data/rc_gui.ui.h:84
+#: ../data/rc_gui.ui.h:87
 msgid "Locale"
 msgstr "Locale"
 
-#: ../data/rc_gui.ui.h:85
+#: ../data/rc_gui.ui.h:88
 msgid "Language:"
 msgstr "Language:"
 
-#: ../data/rc_gui.ui.h:86
+#: ../data/rc_gui.ui.h:89
 msgid "Country:"
 msgstr "Country:"
 
-#: ../data/rc_gui.ui.h:87
+#: ../data/rc_gui.ui.h:90
 msgid "Character Set:"
 msgstr "Character Set:"
 
-#: ../data/rc_gui.ui.h:88
+#: ../data/rc_gui.ui.h:91
 msgid "Change Password"
 msgstr "Change Password"
 
-#: ../data/rc_gui.ui.h:89
+#: ../data/rc_gui.ui.h:92
 msgid "Enter new password:"
 msgstr "Enter new password:"
 
-#: ../data/rc_gui.ui.h:90
+#: ../data/rc_gui.ui.h:93
 msgid "Confirm new password:"
 msgstr "Confirm new password:"
 
-#: ../data/rc_gui.ui.h:91
+#: ../data/rc_gui.ui.h:94
 msgid "Rastrack Registration"
 msgstr "Rastrack Registration"
 
-#: ../data/rc_gui.ui.h:92
+#: ../data/rc_gui.ui.h:95
 msgid ""
 "Rastrack (http://www.rastrack.co.uk) is a website which tracks the location "
 "of Raspberry Pis around the world. If you would like to be added to it, "
@@ -405,19 +417,19 @@ msgstr ""
 "This is entirely optional and does not form an official registration "
 "process.\n"
 
-#: ../data/rc_gui.ui.h:96
+#: ../data/rc_gui.ui.h:99
 msgid "Username:"
 msgstr "Username:"
 
-#: ../data/rc_gui.ui.h:97
+#: ../data/rc_gui.ui.h:100
 msgid "Email Address:"
 msgstr "Email Address:"
 
-#: ../data/rc_gui.ui.h:98
+#: ../data/rc_gui.ui.h:101
 msgid "Reboot needed"
 msgstr "Reboot needed"
 
-#: ../data/rc_gui.ui.h:99
+#: ../data/rc_gui.ui.h:102
 msgid ""
 "The changes you have made require the Raspberry Pi to be rebooted to take "
 "effect.\n"
@@ -429,19 +441,19 @@ msgstr ""
 "\n"
 "Would you like to reboot now? "
 
-#: ../data/rc_gui.ui.h:102
+#: ../data/rc_gui.ui.h:105
 msgid "Timezone"
 msgstr "Timezone"
 
-#: ../data/rc_gui.ui.h:103
+#: ../data/rc_gui.ui.h:106
 msgid "Area:"
 msgstr "Area:"
 
-#: ../data/rc_gui.ui.h:104
+#: ../data/rc_gui.ui.h:107
 msgid "Location:"
 msgstr "Location:"
 
-#: ../data/rc_gui.ui.h:105
+#: ../data/rc_gui.ui.h:108
 msgid "WiFi Country Code"
 msgstr "WiFi Country Code"
 
