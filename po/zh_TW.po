@@ -1,14 +1,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Jeff Huang <s8321414@chakraos.org>, 2016.
+# Jeff Huang <s8321414@gmail.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-23 17:43+0000\n"
-"PO-Revision-Date: 2016-03-25 08:06+0800\n"
-"Last-Translator: Jeff Huang <s8321414@chakraos.org>\n"
+"POT-Creation-Date: 2016-04-22 10:14+0100\n"
+"PO-Revision-Date: 2016-04-23 11:22+0800\n"
+"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese <chinese-l10n@googlegroups.com>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 2.0\n"
 
-#: ../src/rc_gui.c:575
+#: ../src/rc_gui.c:598
 msgid "Setting locale - please wait..."
 msgstr "正在設定語系 - 請稍候..."
 
-#: ../src/rc_gui.c:735
+#: ../src/rc_gui.c:758
 msgid "Setting timezone - please wait..."
 msgstr "正在設定時區 - 請稍候..."
 
@@ -202,114 +202,138 @@ msgid "Disable shell and kernel messages on the serial connection"
 msgstr "在串列連線中停用殼層與核心訊息"
 
 #: ../data/rc_gui.ui.h:45
+msgid "1-Wire:"
+msgstr "1-Wire："
+
+#: ../data/rc_gui.ui.h:46
+msgid "Enable 1-wire peripheral interface"
+msgstr "啟用 1-wire 外部介面"
+
+#: ../data/rc_gui.ui.h:47
+msgid "Disable 1-wire peripheral interface"
+msgstr "停用 1-wire 外部介面"
+
+#: ../data/rc_gui.ui.h:48
+msgid "Remote GPIO:"
+msgstr "遠端 GPIO："
+
+#: ../data/rc_gui.ui.h:49
+msgid "Enable remote access to GPIO pins"
+msgstr "啟用遠端存取 GPIO 針腳"
+
+#: ../data/rc_gui.ui.h:50
+msgid "Disable remote access to GPIO pins"
+msgstr "停用遠端存取 GPIO 針腳"
+
+#: ../data/rc_gui.ui.h:51
 msgid "Interfaces"
 msgstr "介面"
 
-#: ../data/rc_gui.ui.h:46
+#: ../data/rc_gui.ui.h:52
 msgid "O_verclock:"
 msgstr "超頻(_V)："
 
-#: ../data/rc_gui.ui.h:47
+#: ../data/rc_gui.ui.h:53
 msgid "Set the level of overclock to control performance"
 msgstr "設定超頻等級以控制效能"
 
-#: ../data/rc_gui.ui.h:48
+#: ../data/rc_gui.ui.h:54
 msgid "None (700MHz)"
 msgstr "無 (700MHz)"
 
-#: ../data/rc_gui.ui.h:49
+#: ../data/rc_gui.ui.h:55
 msgid "Modest (800MHz)"
 msgstr "適量 (800MHz)"
 
-#: ../data/rc_gui.ui.h:50
+#: ../data/rc_gui.ui.h:56
 msgid "Medium (900MHz)"
 msgstr "中等 (900MHz)"
 
-#: ../data/rc_gui.ui.h:51
+#: ../data/rc_gui.ui.h:57
 msgid "High (950MHz)"
 msgstr "高 (950MHz)"
 
-#: ../data/rc_gui.ui.h:52
+#: ../data/rc_gui.ui.h:58
 msgid "Turbo (1000MHz)"
 msgstr "渦輪加速 (1000MHz)"
 
-#: ../data/rc_gui.ui.h:53
+#: ../data/rc_gui.ui.h:59
 msgid "None (900MHz)"
 msgstr "無 (900MHz)"
 
-#: ../data/rc_gui.ui.h:54
+#: ../data/rc_gui.ui.h:60
 msgid "High (1000MHz)"
 msgstr "高 (1000MHz)"
 
-#: ../data/rc_gui.ui.h:55
+#: ../data/rc_gui.ui.h:61
 msgid "Not available"
 msgstr "不可用"
 
-#: ../data/rc_gui.ui.h:56
+#: ../data/rc_gui.ui.h:62
 msgid "_GPU Memory:"
 msgstr "GPU 記憶體(_G)："
 
-#: ../data/rc_gui.ui.h:57
+#: ../data/rc_gui.ui.h:63
 msgid "Enter the amount of memory available to the GPU"
 msgstr "輸入要提供給 GPU 的記憶體大小"
 
-#: ../data/rc_gui.ui.h:58
+#: ../data/rc_gui.ui.h:64
 msgid "Performance"
 msgstr "效能"
 
-#: ../data/rc_gui.ui.h:59
+#: ../data/rc_gui.ui.h:65
 msgid "Locale:"
 msgstr "語系："
 
-#: ../data/rc_gui.ui.h:60
+#: ../data/rc_gui.ui.h:66
 msgid "Set _Locale..."
 msgstr "設定語系... (_L)"
 
-#: ../data/rc_gui.ui.h:61
+#: ../data/rc_gui.ui.h:67
 msgid "Set internationalisation settings for units etc."
 msgstr "為單位等事物設定國際化設定"
 
-#: ../data/rc_gui.ui.h:62
+#: ../data/rc_gui.ui.h:68
 msgid "Timezone:"
 msgstr "時區："
 
-#: ../data/rc_gui.ui.h:63
+#: ../data/rc_gui.ui.h:69
 msgid "Set _Timezone..."
 msgstr "設定時區... (_T)"
 
-#: ../data/rc_gui.ui.h:64
+#: ../data/rc_gui.ui.h:70
 msgid "Set the timezone to be used by the internal clock"
 msgstr "設定要用於內部時鐘的時區"
 
-#: ../data/rc_gui.ui.h:65
+#: ../data/rc_gui.ui.h:71
 msgid "Keyboard:"
 msgstr "鍵盤："
 
-#: ../data/rc_gui.ui.h:66
+#: ../data/rc_gui.ui.h:72
 msgid "Set _Keyboard..."
 msgstr "設定鍵盤... (_K)"
 
-#: ../data/rc_gui.ui.h:67
+#: ../data/rc_gui.ui.h:73
 msgid "Set international keyboard options"
 msgstr "設定國際鍵盤選項"
 
-#: ../data/rc_gui.ui.h:68
+#: ../data/rc_gui.ui.h:74
 msgid "WiFi Country:"
 msgstr "WiFi 國家："
 
-#: ../data/rc_gui.ui.h:69
+#: ../data/rc_gui.ui.h:75
 msgid "Set _WiFi Country..."
 msgstr "設定 WiFi 國家... (_W)"
 
-#: ../data/rc_gui.ui.h:70
+#: ../data/rc_gui.ui.h:76
 msgid "Set WiFi country code"
 msgstr "設定 WiFi 國碼"
 
-#: ../data/rc_gui.ui.h:71
+#: ../data/rc_gui.ui.h:77
 msgid "Localisation"
 msgstr "在地化"
 
-#: ../data/rc_gui.ui.h:72
+#: ../data/rc_gui.ui.h:78
 msgid ""
 "The Raspberry Pi Configuration application can only modify a standard "
 "configuration.\n"
@@ -328,11 +352,11 @@ msgstr ""
 "為了使用本應用程式，您需要安裝最新的韌體， 並啟用裝置樹，預設的「pi」使用者設"
 "定好並 安裝好 lightdm。 "
 
-#: ../data/rc_gui.ui.h:77
+#: ../data/rc_gui.ui.h:83
 msgid "Filesystem Expanded"
 msgstr "檔案系統已擴展"
 
-#: ../data/rc_gui.ui.h:78
+#: ../data/rc_gui.ui.h:84
 msgid ""
 "The filesystem has been expanded.\n"
 "\n"
@@ -342,39 +366,39 @@ msgstr ""
 "\n"
 "在您重新啟動您的 Raspberry Pi 後，新的空間才可用。"
 
-#: ../data/rc_gui.ui.h:81
+#: ../data/rc_gui.ui.h:87
 msgid "Locale"
 msgstr "語系"
 
-#: ../data/rc_gui.ui.h:82
+#: ../data/rc_gui.ui.h:88
 msgid "Language:"
 msgstr "語言："
 
-#: ../data/rc_gui.ui.h:83
+#: ../data/rc_gui.ui.h:89
 msgid "Country:"
 msgstr "國家："
 
-#: ../data/rc_gui.ui.h:84
+#: ../data/rc_gui.ui.h:90
 msgid "Character Set:"
 msgstr "字元集："
 
-#: ../data/rc_gui.ui.h:85
+#: ../data/rc_gui.ui.h:91
 msgid "Change Password"
 msgstr "變更密碼"
 
-#: ../data/rc_gui.ui.h:86
+#: ../data/rc_gui.ui.h:92
 msgid "Enter new password:"
 msgstr "輸入新的密碼："
 
-#: ../data/rc_gui.ui.h:87
+#: ../data/rc_gui.ui.h:93
 msgid "Confirm new password:"
 msgstr "確認新的密碼："
 
-#: ../data/rc_gui.ui.h:88
+#: ../data/rc_gui.ui.h:94
 msgid "Rastrack Registration"
 msgstr "Rastrack 註冊"
 
-#: ../data/rc_gui.ui.h:89
+#: ../data/rc_gui.ui.h:95
 msgid ""
 "Rastrack (http://www.rastrack.co.uk) is a website which tracks the location "
 "of Raspberry Pis around the world. If you would like to be added to it, "
@@ -388,19 +412,19 @@ msgstr ""
 "\n"
 "這完全是一個選擇性且並非官方的註冊 程序。\n"
 
-#: ../data/rc_gui.ui.h:93
+#: ../data/rc_gui.ui.h:99
 msgid "Username:"
 msgstr "使用者名稱："
 
-#: ../data/rc_gui.ui.h:94
+#: ../data/rc_gui.ui.h:100
 msgid "Email Address:"
 msgstr "電子郵件地址："
 
-#: ../data/rc_gui.ui.h:95
+#: ../data/rc_gui.ui.h:101
 msgid "Reboot needed"
 msgstr "需要重新啟動"
 
-#: ../data/rc_gui.ui.h:96
+#: ../data/rc_gui.ui.h:102
 msgid ""
 "The changes you have made require the Raspberry Pi to be rebooted to take "
 "effect.\n"
@@ -411,24 +435,23 @@ msgstr ""
 "\n"
 "您想要立刻重新啟動嗎？ "
 
-#: ../data/rc_gui.ui.h:99
+#: ../data/rc_gui.ui.h:105
 msgid "Timezone"
 msgstr "時區"
 
-#: ../data/rc_gui.ui.h:100
+#: ../data/rc_gui.ui.h:106
 msgid "Area:"
 msgstr "區域："
 
-#: ../data/rc_gui.ui.h:101
+#: ../data/rc_gui.ui.h:107
 msgid "Location:"
 msgstr "位置："
 
-#: ../data/rc_gui.ui.h:102
+#: ../data/rc_gui.ui.h:108
 msgid "WiFi Country Code"
 msgstr "WiFi 國碼"
 
 #: ../data/rc_gui.desktop.in.h:2
 msgid "Configure Raspberry Pi system"
 msgstr "設定 Raspberry Pi 系統"
-
 
