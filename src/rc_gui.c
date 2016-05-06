@@ -39,7 +39,7 @@
 #define GET_GPU_MEM_1K  "sudo raspi-config nonint get_config_var gpu_mem_1024 /boot/config.txt"
 #define GET_OVERSCAN    "sudo raspi-config nonint get_config_var disable_overscan /boot/config.txt"
 #define GET_CAMERA      "sudo raspi-config nonint get_config_var start_x /boot/config.txt"
-#define GET_SSH         "service ssh status | grep -q inactive ; echo $?"
+#define GET_SSH         "service ssh status | grep -q inactive ; echo $((1-$?))"
 #define GET_SPI         "cat /boot/config.txt | grep -q -E \"^(device_tree_param|dtparam)=([^,]*,)*spi(=(on|true|yes|1))?(,.*)?$\" ; echo $?"
 #define GET_I2C         "cat /boot/config.txt | grep -q -E \"^(device_tree_param|dtparam)=([^,]*,)*i2c(_arm)?(=(on|true|yes|1))?(,.*)?$\" ; echo $?"
 #define GET_SERIAL      "sudo raspi-config nonint get_serial"
@@ -928,10 +928,11 @@ static int process_changes (void)
 	    reboot = 1;
     }
 
-    if (orig_ssh != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ssh_on_rb)))
+    if (orig_ssh != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ssh_off_rb)))
     {
-	    sprintf (buffer, SET_SSH, orig_ssh);
+	    sprintf (buffer, SET_SSH, (1 - orig_ssh));
 	    system (buffer);
+	    reboot = 1;
     }
 
     if (orig_spi != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (spi_off_rb)))
@@ -1189,8 +1190,8 @@ int main (int argc, char *argv[])
 	
 	ssh_on_rb = gtk_builder_get_object (builder, "radiobutton7");
 	ssh_off_rb = gtk_builder_get_object (builder, "radiobutton8");
-	if (orig_ssh = get_status (GET_SSH)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_on_rb), TRUE);
-	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_off_rb), TRUE);
+	if (orig_ssh = get_status (GET_SSH)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_off_rb), TRUE);
+	else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_on_rb), TRUE);
 	
 	spi_on_rb = gtk_builder_get_object (builder, "radiobutton11");
 	spi_off_rb = gtk_builder_get_object (builder, "radiobutton12");
