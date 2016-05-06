@@ -42,7 +42,7 @@
 #define GET_SSH         "service ssh status | grep -q inactive ; echo $?"
 #define GET_SPI         "cat /boot/config.txt | grep -q -E \"^(device_tree_param|dtparam)=([^,]*,)*spi(=(on|true|yes|1))?(,.*)?$\" ; echo $?"
 #define GET_I2C         "cat /boot/config.txt | grep -q -E \"^(device_tree_param|dtparam)=([^,]*,)*i2c(_arm)?(=(on|true|yes|1))?(,.*)?$\" ; echo $?"
-#define GET_SERIAL      "cat /boot/cmdline.txt | grep -q -E \"(console=ttyAMA0|console=serial0)\" ; echo $?"
+#define GET_SERIAL      "sudo raspi-config nonint get_serial"
 #define GET_1WIRE       "cat /boot/config.txt | grep -q -E \"^dtoverlay=w1-gpio\" ; echo $?"
 #define GET_BOOT_GUI    "service lightdm status | grep -q inactive ; echo $?"
 #define GET_BOOT_SLOW   "test -e /etc/systemd/system/dhcpcd.service.d/wait.conf ; echo $?"
