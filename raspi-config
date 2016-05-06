@@ -698,7 +698,8 @@ get_serial() {
 
 do_serial() {
   DEFAULT=
-  if ! grep -q "console=ttyAMA0" /boot/cmdline.txt && ! grep -q "console=serial0" /boot/cmdline.txt ; then
+  CUR_SERIAL=$(get_serial)
+  if [ $CUR_SERIAL -eq 1 ] ; then
       DEFAULT=--defaultno
   fi
 
