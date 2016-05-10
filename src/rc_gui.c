@@ -121,8 +121,10 @@ static int get_status (char *cmd)
     if (fgets (buf, sizeof (buf) - 1, fp) != NULL)
     {
         sscanf (buf, "%d", &res);
+        pclose (fp);
         return res;
     }
+    pclose (fp);
     return 0;
 }
 
@@ -136,8 +138,8 @@ static void get_string (char *cmd, char *name)
     if (fgets (buf, sizeof (buf) - 1, fp) != NULL)
     {
         sscanf (buf, "%s", name);
-        return;
     }
+    pclose (fp);
 }
 
 static int get_total_mem (void)
@@ -150,12 +152,14 @@ static int get_total_mem (void)
     if (fp == NULL) return 0;
     while (fgets (buf, sizeof (buf) - 1, fp) != NULL)
         sscanf (buf, "arm=%dM", &arm);
-    
+    pclose (fp);
+
     fp = popen (GET_MEM_GPU, "r");
     if (fp == NULL) return 0;
     while (fgets (buf, sizeof (buf) - 1, fp) != NULL)
         sscanf (buf, "gpu=%dM", &gpu);
-        
+    pclose (fp);
+
     return arm + gpu;    
 }
 
@@ -302,7 +306,7 @@ static void country_changed (GtkComboBox *cb, gpointer ptr)
             cptr = strtok (NULL, " \n\r");
             strcpy (init_char, cptr);
         }
-        fclose (fp);
+        pclose (fp);
     }
     else init_char[0] = 0;
 
@@ -348,7 +352,7 @@ static void country_changed (GtkComboBox *cb, gpointer ptr)
         if (!strcmp (cptr, init_char)) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), char_count);
         char_count++;
     }
-    fclose (fp);
+    pclose (fp);
 
     // set the first entry active if not initialising from file
     if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), 0);
@@ -460,7 +464,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
         strtok (buffer, "=");
         cptr = strtok (NULL, "\n\r");
     }
-    fclose (fp);
+    pclose (fp);
     strcpy (init_locale, cptr);
 
     // parse the initial locale to get the initial language code
@@ -547,7 +551,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                 fgets (buffer, sizeof (buffer) - 1, fp);
                 cptr = strtok (buffer, " ");
                 strcpy (glocale, cptr);
-                fclose (fp);
+                pclose (fp);
             }
 
             if (glocale[0] && strcmp (glocale, init_locale))
@@ -559,7 +563,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                 {
                     fgets (cb_lang, sizeof (cb_lang) - 1, fp);
                     strtok (cb_lang, "\n\r");
-                    fclose (fp);
+                    pclose (fp);
                 }
 
                 // use sed to comment that line if uncommented
@@ -576,7 +580,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                 {
                     fgets (cb_lang, sizeof (cb_lang) - 1, fp);
                     strtok (cb_lang, "\n\r");
-                    fclose (fp);
+                    pclose (fp);
                 }
 
                 // use sed to uncomment that line if commented
