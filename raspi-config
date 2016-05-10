@@ -863,7 +863,7 @@ do_wait_for_network() {
         ;;
       Slow)
         mkdir -p /etc/systemd/system/dhcpcd.service.d/
-        cat > /etc/systemd/system/dhcpcd.service.d/wait.conf << EOF 
+        cat > /etc/systemd/system/dhcpcd.service.d/wait.conf << EOF
 [Service]
 ExecStart=
 ExecStart=/sbin/dhcpcd -q -w
@@ -896,11 +896,11 @@ do_gpiosec() {
   if [ $? -eq 0 ]; then
     case "$RET" in
       Private)
-        rm -f /etc/systemd/system/pigpio.service.d/public.conf
+        rm -f /etc/systemd/system/pigpiod.service.d/public.conf
         ;;
       Public)
-        mkdir -p /etc/systemd/system/pigpio.service.d/
-        cat > /etc/systemd/system/pigpio.service.d/public.conf << EOF
+        mkdir -p /etc/systemd/system/pigpiod.service.d/
+        cat > /etc/systemd/system/pigpiod.service.d/public.conf << EOF
 [Service]
 ExecStart=
 ExecStart=/usr/bin/pigpiod
@@ -912,7 +912,7 @@ EOF
         ;;
     esac
     systemctl daemon-reload
-    systemctl restart pigpio
+    systemctl restart pigpiod
     return 0
   fi
 }

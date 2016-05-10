@@ -49,7 +49,7 @@
 #define GET_ALOG_SYSD   "cat /etc/systemd/system/getty.target.wants/getty@tty1.service | grep -q autologin ; echo $?"
 #define GET_ALOG_INITD  "cat /etc/inittab | grep -q login ; echo $?"
 #define GET_ALOG_GUI    "cat /etc/lightdm/lightdm.conf | grep -q \"#autologin-user=\" ; echo $?"
-#define GET_RGPIO  		"test -e /etc/systemd/system/pigpio.service.d/public.conf ; echo $?"
+#define GET_RGPIO  		"test -e /etc/systemd/system/pigpiod.service.d/public.conf ; echo $?"
 #define SET_HOSTNAME    "sudo raspi-config nonint do_change_hostname %s"
 #define SET_OVERCLOCK   "sudo raspi-config nonint do_overclock %s"
 #define SET_GPU_MEM     "sudo raspi-config nonint do_memory_split %d"
