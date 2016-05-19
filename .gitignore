@@ -17,4 +17,4 @@ autom4te.cache/*
 Makefile
 stamp*
 po/.intltool-merge-cache
-
+po/Makefile.in

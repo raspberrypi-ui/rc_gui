@@ -943,14 +943,12 @@ static int process_changes (void)
     {
 	    sprintf (buffer, SET_SPI, (1 - orig_spi));
 	    system (buffer);
-	    reboot = 1;
     }
 
     if (orig_i2c != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (i2c_off_rb)))
     {
 	    sprintf (buffer, SET_I2C, (1 - orig_i2c));
 	    system (buffer);
-	    reboot = 1;
     }
 
     if (orig_serial != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (serial_off_rb)))
