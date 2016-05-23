@@ -39,11 +39,11 @@
 #define GET_GPU_MEM_1K  "sudo raspi-config nonint get_config_var gpu_mem_1024 /boot/config.txt"
 #define GET_OVERSCAN    "sudo raspi-config nonint get_config_var disable_overscan /boot/config.txt"
 #define GET_CAMERA      "sudo raspi-config nonint get_config_var start_x /boot/config.txt"
-#define GET_SSH         "service ssh status | grep -q inactive ; echo $((1-$?))"
-#define GET_SPI         "cat /boot/config.txt | grep -q -E \"^(device_tree_param|dtparam)=([^,]*,)*spi(=(on|true|yes|1))?(,.*)?$\" ; echo $?"
-#define GET_I2C         "cat /boot/config.txt | grep -q -E \"^(device_tree_param|dtparam)=([^,]*,)*i2c(_arm)?(=(on|true|yes|1))?(,.*)?$\" ; echo $?"
+#define GET_SSH         "sudo raspi-config nonint get_ssh"
+#define GET_SPI         "sudo raspi-config nonint get_spi"
+#define GET_I2C         "sudo raspi-config nonint get_i2c"
 #define GET_SERIAL      "sudo raspi-config nonint get_serial"
-#define GET_1WIRE       "cat /boot/config.txt | grep -q -E \"^dtoverlay=w1-gpio\" ; echo $?"
+#define GET_1WIRE       "sudo raspi-config nonint get_onewire"
 #define GET_BOOT_GUI    "service lightdm status | grep -q inactive ; echo $?"
 #define GET_BOOT_SLOW   "test -e /etc/systemd/system/dhcpcd.service.d/wait.conf ; echo $?"
 #define GET_ALOG_SYSD   "cat /etc/systemd/system/getty.target.wants/getty@tty1.service | grep -q autologin ; echo $?"
@@ -936,7 +936,6 @@ static int process_changes (void)
     {
 	    sprintf (buffer, SET_SSH, (1 - orig_ssh));
 	    system (buffer);
-	    reboot = 1;
     }
 
     if (orig_spi != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (spi_off_rb)))
