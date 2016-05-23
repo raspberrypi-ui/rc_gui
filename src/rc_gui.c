@@ -1,3 +1,5 @@
+/* NOTE raspi-config nonint functions obey sh return codes - 0 is in general success / yes / selected, 1 is failed / no / not selected */
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -44,11 +46,9 @@
 #define GET_I2C         "sudo raspi-config nonint get_i2c"
 #define GET_SERIAL      "sudo raspi-config nonint get_serial"
 #define GET_1WIRE       "sudo raspi-config nonint get_onewire"
-#define GET_BOOT_GUI    "service lightdm status | grep -q inactive ; echo $?"
-#define GET_BOOT_FAST   "sudo raspi-config nonint get_boot_fast"
-#define GET_ALOG_SYSD   "cat /etc/systemd/system/getty.target.wants/getty@tty1.service | grep -q autologin ; echo $?"
-#define GET_ALOG_INITD  "cat /etc/inittab | grep -q login ; echo $?"
-#define GET_ALOG_GUI    "cat /etc/lightdm/lightdm.conf | grep -q \"#autologin-user=\" ; echo $?"
+#define GET_BOOT_CLI    "sudo raspi-config nonint get_boot_cli"
+#define GET_BOOT_SLOW   "sudo raspi-config nonint get_boot_slow"
+#define GET_AUTOLOGIN   "sudo raspi-config nonint get_autologin"
 #define GET_RGPIO       "sudo raspi-config nonint get_rgpio"
 #define SET_HOSTNAME    "sudo raspi-config nonint do_change_hostname %s"
 #define SET_OVERCLOCK   "sudo raspi-config nonint do_overclock %s"
@@ -60,10 +60,10 @@
 #define SET_I2C         "sudo raspi-config nonint do_i2c %d"
 #define SET_SERIAL      "sudo raspi-config nonint do_serial %d"
 #define SET_1WIRE       "sudo raspi-config nonint do_onewire %d"
-#define SET_BOOT_CLI    "sudo raspi-config nonint do_boot_behaviour_new B1"
-#define SET_BOOT_CLIA   "sudo raspi-config nonint do_boot_behaviour_new B2"
-#define SET_BOOT_GUI    "sudo raspi-config nonint do_boot_behaviour_new B3"
-#define SET_BOOT_GUIA   "sudo raspi-config nonint do_boot_behaviour_new B4"
+#define SET_BOOT_CLI    "sudo raspi-config nonint do_boot_behaviour B1"
+#define SET_BOOT_CLIA   "sudo raspi-config nonint do_boot_behaviour B2"
+#define SET_BOOT_GUI    "sudo raspi-config nonint do_boot_behaviour B3"
+#define SET_BOOT_GUIA   "sudo raspi-config nonint do_boot_behaviour B4"
 #define SET_BOOT_FAST   "sudo raspi-config nonint do_wait_for_network Fast"
 #define SET_BOOT_SLOW   "sudo raspi-config nonint do_wait_for_network Slow"
 #define SET_GPIO_PUB    "sudo raspi-config nonint do_gpiosec Public"
@@ -897,7 +897,7 @@ static int process_changes (void)
     int reboot = 0;
 
     if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)) 
-        || orig_autolog != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (autologin_cb)))
+        || orig_autolog == gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (autologin_cb)))
     {
         if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (autologin_cb)))
         {
@@ -912,7 +912,7 @@ static int process_changes (void)
         reboot = 1;
     }
     
-    if (orig_netwait != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (netwait_cb)))
+    if (orig_netwait == gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (netwait_cb)))
     {
         if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (netwait_cb))) system (SET_BOOT_SLOW);
         else system (SET_BOOT_FAST);
@@ -1073,33 +1073,6 @@ static int can_expand_fs (void)
     return 1;
 }
 
-/* Auto login and boot options */
-
-static int autologin_enabled (void)
-{
-    if (get_status (GET_BOOT_GUI))
-    {
-        /* booting to desktop - check the autologin for lightdm */
-        return get_status (GET_ALOG_GUI);
-    }
-    else
-    {
-        /* booting to CLI - check the autologin in getty */
-        if (!get_status (CHECK_SYSTEMD))
-        {
-            /* systemd used - check getty */
-            if (!get_status (GET_ALOG_SYSD)) return 1;
-            else return 0;
-        }
-        else
-        {
-            /* systemd not used - check initd */
-            if (!get_status (GET_ALOG_INITD)) return 1;
-            else return 0;
-        }
-    }
-}
-
 /* The dialog... */
 
 int main (int argc, char *argv[])
@@ -1162,16 +1135,16 @@ int main (int argc, char *argv[])
 
     boot_desktop_rb = gtk_builder_get_object (builder, "radiobutton1");
     boot_cli_rb = gtk_builder_get_object (builder, "radiobutton2");
-    if (orig_boot = get_status (GET_BOOT_GUI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
+    if (orig_boot = get_status (GET_BOOT_CLI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
 
     autologin_cb = gtk_builder_get_object (builder, "checkbutton1");
-    if (orig_autolog = autologin_enabled ()) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autologin_cb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autologin_cb), FALSE);
+    if (orig_autolog = get_status (GET_AUTOLOGIN)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autologin_cb), FALSE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autologin_cb), TRUE);
 
     netwait_cb = gtk_builder_get_object (builder, "checkbutton2");
-    if (orig_netwait = get_status (GET_BOOT_FAST)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_cb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_cb), FALSE);
+    if (orig_netwait = get_status (GET_BOOT_SLOW)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_cb), FALSE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_cb), TRUE);
 
     camera_on_rb = gtk_builder_get_object (builder, "radiobutton3");
     camera_off_rb = gtk_builder_get_object (builder, "radiobutton4");
