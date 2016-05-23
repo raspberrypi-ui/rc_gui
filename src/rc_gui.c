@@ -29,10 +29,10 @@
 #define GET_LAST_PART   "sudo parted /dev/mmcblk0 -ms unit s p | tail -n 1 | cut -f 1 -d:"
 #define GET_PIUSER      "id -u pi"
 #define GET_DEVICETREE  "cat /boot/config.txt | grep -q ^device_tree=$ ; echo $?"
-#define GET_HOSTNAME    "cat /etc/hostname | tr -d \" \t\n\r\""
-#define GET_TIMEZONE    "cat /etc/timezone | tr -d \" \t\n\r\""
+#define CHANGE_PASSWD   "echo pi:%s | sudo chpasswd"
 #define GET_MEM_ARM     "vcgencmd get_mem arm"
 #define GET_MEM_GPU     "vcgencmd get_mem gpu"
+#define GET_HOSTNAME    "sudo raspi-config nonint get_hostname"
 #define GET_PI_TYPE     "sudo raspi-config nonint get_pi_type"
 #define GET_OVERCLOCK   "sudo raspi-config nonint get_config_var arm_freq /boot/config.txt"
 #define GET_GPU_MEM     "sudo raspi-config nonint get_config_var gpu_mem /boot/config.txt"
@@ -72,8 +72,6 @@
 #define SET_WIFI_CTRY   "sudo raspi-config nonint do_configure_wifi_country %s"
 #define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
 #define SET_RASTRACK    "curl --data \"name=%s&email=%s\" http://rastrack.co.uk/api.php"
-#define CHANGE_PASSWD   "echo pi:%s | sudo chpasswd"
-#define FIND_LOCALE     "grep '%s ' /usr/share/i18n/SUPPORTED"
 
 /* Controls */
 
@@ -296,7 +294,7 @@ static void country_changed (GtkComboBox *cb, gpointer ptr)
     if (ptr)
     {
         // find the line in SUPPORTED that exactly matches the supplied country string
-        sprintf (buffer, FIND_LOCALE, ptr);
+        sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", ptr);
         fp = popen (buffer, "r");
         if (fp == NULL) return;
         while (fgets (buffer, sizeof (buffer) - 1, fp))
@@ -557,7 +555,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
             if (glocale[0] && strcmp (glocale, init_locale))
             {
                 // look up the current locale setting from init_locale in /etc/locale.gen
-                sprintf (buffer, FIND_LOCALE, init_locale);
+                sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", init_locale);
                 fp = popen (buffer, "r");
                 if (fp != NULL)
                 {
@@ -574,7 +572,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                 }
 
                 // look up the new locale setting from glocale in /etc/locale.gen
-                sprintf (buffer, FIND_LOCALE, glocale);
+                sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", glocale);
                 fp = popen (buffer, "r");
                 if (fp != NULL)
                 {
@@ -708,7 +706,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
     gtk_widget_show_all (GTK_WIDGET (tzloc_cb));
 
     // select the current timezone area
-    get_string (GET_TIMEZONE, buffer);
+    get_string ("cat /etc/timezone | tr -d \" \t\n\r\"", buffer);
     strcpy (before, buffer);
     strtok (buffer, "/");
     cptr = strtok (NULL, "");
