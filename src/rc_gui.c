@@ -47,7 +47,7 @@
 #define GET_OVERSCAN    "sudo raspi-config nonint get_config_var disable_overscan /boot/config.txt"
 #define SET_OVERSCAN    "sudo raspi-config nonint do_overscan %d"
 #define SET_RASTRACK    "curl --data \"name=%s&email=%s\" http://rastrack.co.uk/api.php"
-#define GET_CAMERA      "sudo raspi-config nonint get_config_var start_x /boot/config.txt"
+#define GET_CAMERA      "sudo raspi-config nonint get_camera"
 #define SET_CAMERA      "sudo raspi-config nonint do_camera %d"
 #define GET_SSH         "sudo raspi-config nonint get_ssh"
 #define SET_SSH         "sudo raspi-config nonint do_ssh %d"
@@ -916,7 +916,7 @@ static int process_changes (void)
         else system (SET_BOOT_FAST);
     }
 
-    if (orig_camera != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (camera_on_rb)))
+    if (orig_camera != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (camera_off_rb)))
     {
         sprintf (buffer, SET_CAMERA, (1 - orig_camera));
         system (buffer);
@@ -1146,8 +1146,8 @@ int main (int argc, char *argv[])
 
     camera_on_rb = gtk_builder_get_object (builder, "radiobutton3");
     camera_off_rb = gtk_builder_get_object (builder, "radiobutton4");
-    if (orig_camera = get_status (GET_CAMERA)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_on_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_off_rb), TRUE);
+    if (orig_camera = get_status (GET_CAMERA)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_off_rb), TRUE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_on_rb), TRUE);
 
     overscan_on_rb = gtk_builder_get_object (builder, "radiobutton5");
     overscan_off_rb = gtk_builder_get_object (builder, "radiobutton6");
