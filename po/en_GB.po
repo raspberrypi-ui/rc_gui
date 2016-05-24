@@ -107,7 +107,7 @@ msgstr "Do not complete boot until network connection is established"
 
 #: ../data/rc_gui.ui.h:21
 msgid "Overscan:"
-msgstr "Overscan:"
+msgstr "Underscan:"
 
 #: ../data/rc_gui.ui.h:22
 msgid "Enable"
@@ -115,7 +115,7 @@ msgstr "Enabled"
 
 #: ../data/rc_gui.ui.h:23
 msgid "Enable overscan to show the edges of the screen"
-msgstr "Enable overscan to show the edges of the screen"
+msgstr "Enable underscan if the desktop does not all fit on screen"
 
 #: ../data/rc_gui.ui.h:24
 msgid "Disable"
@@ -123,7 +123,7 @@ msgstr "Disabled"
 
 #: ../data/rc_gui.ui.h:25
 msgid "Disable overscan to hide black outline on screen"
-msgstr "Disable overscan to hide black outline on screen"
+msgstr "Disable underscan if there is a black border around screen"
 
 #: ../data/rc_gui.ui.h:26
 msgid "Rastrack:"
