@@ -21,14 +21,7 @@
 #include <libintl.h>
 
 /* Command strings */
-#define CHECK_SYSTEMCTL "command -v systemctl > /dev/null ; echo $?"
-#define CHECK_SYSTEMD   "systemctl | grep -q '\\-\\.mount' ; echo $?"
-#define CHECK_DEVROOT   "[ -h /dev/root ]; echo $?"
-#define GET_SYSD_PART   "mount | sed -n 's|^/dev/\\(.*\\) on /.*|\\1|p'"
-#define GET_DR_PART     "readlink /dev/root"
-#define GET_LAST_PART   "sudo parted /dev/mmcblk0 -ms unit s p | tail -n 1 | cut -f 1 -d:"
-#define GET_MEM_ARM     "vcgencmd get_mem arm"
-#define GET_MEM_GPU     "vcgencmd get_mem gpu"
+#define GET_CAN_EXPAND  "sudo raspi-config nonint get_can_expand"
 #define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
 #define CHANGE_PASSWD   "echo pi:%s | sudo chpasswd"
 #define GET_HOSTNAME    "sudo raspi-config nonint get_hostname"
@@ -42,7 +35,7 @@
 #define GET_BOOT_SLOW   "sudo raspi-config nonint get_boot_slow"
 #define SET_BOOT_FAST   "sudo raspi-config nonint do_wait_for_network Fast"
 #define SET_BOOT_SLOW   "sudo raspi-config nonint do_wait_for_network Slow"
-#define GET_OVERSCAN    "sudo raspi-config nonint get_config_var disable_overscan /boot/config.txt"
+#define GET_OVERSCAN    "sudo raspi-config nonint get_overscan"
 #define SET_OVERSCAN    "sudo raspi-config nonint do_overscan %d"
 #define SET_RASTRACK    "curl --data \"name=%s&email=%s\" http://rastrack.co.uk/api.php"
 #define GET_CAMERA      "sudo raspi-config nonint get_camera"
@@ -144,13 +137,13 @@ static int get_total_mem (void)
     char buf[64];
     int arm, gpu;
     
-    fp = popen (GET_MEM_ARM, "r");
+    fp = popen ("vcgencmd get_mem arm", "r");
     if (fp == NULL) return 0;
     while (fgets (buf, sizeof (buf) - 1, fp) != NULL)
         sscanf (buf, "arm=%dM", &arm);
     pclose (fp);
 
-    fp = popen (GET_MEM_GPU, "r");
+    fp = popen ("vcgencmd get_mem gpu", "r");
     if (fp == NULL) return 0;
     while (fgets (buf, sizeof (buf) - 1, fp) != NULL)
         sscanf (buf, "gpu=%dM", &gpu);
@@ -923,7 +916,7 @@ static int process_changes (void)
 
     if (orig_overscan != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (overscan_off_rb)))
     {
-        sprintf (buffer, SET_OVERSCAN, orig_overscan);
+        sprintf (buffer, SET_OVERSCAN, (1 - orig_overscan));
         system (buffer);
         reboot = 1;
     }
@@ -1050,33 +1043,6 @@ static int can_configure (void)
     return 1;
 }
 
-static int can_expand_fs (void)
-{
-    char buffer[128];
-    int part_num, last_part_num;
-
-    // first check whether systemd is used
-    if (!get_status (CHECK_SYSTEMCTL) && !get_status (CHECK_SYSTEMD))
-    {
-        // systemd used
-        get_string (GET_SYSD_PART, buffer);
-    }
-    else
-    {
-        // systemd not used - check that /dev/root is a symlink
-        if (!get_status (CHECK_DEVROOT))
-        {
-            get_string (GET_DR_PART, buffer);
-        }
-        else return 0;
-    }
-    if (sscanf (buffer, "mmcblk0p%d", &part_num) != 1) return 0;
-    if (part_num != 2) return 0;
-    last_part_num = get_status (GET_LAST_PART);
-    if (last_part_num != part_num) return 0;
-    return 1;
-}
-
 /* The dialog... */
 
 int main (int argc, char *argv[])
@@ -1116,8 +1082,8 @@ int main (int argc, char *argv[])
 
     expandfs_btn = gtk_builder_get_object (builder, "button3");
     g_signal_connect (expandfs_btn, "clicked", G_CALLBACK (on_expand_fs), NULL);
-    if (can_expand_fs ()) gtk_widget_set_sensitive (GTK_WIDGET(expandfs_btn), TRUE);
-    else gtk_widget_set_sensitive (GTK_WIDGET(expandfs_btn), FALSE);
+    if (get_status (GET_CAN_EXPAND)) gtk_widget_set_sensitive (GTK_WIDGET(expandfs_btn), FALSE);
+    else gtk_widget_set_sensitive (GTK_WIDGET(expandfs_btn), TRUE);
 
     passwd_btn = gtk_builder_get_object (builder, "button4");
     g_signal_connect (passwd_btn, "clicked", G_CALLBACK (on_change_passwd), NULL);
