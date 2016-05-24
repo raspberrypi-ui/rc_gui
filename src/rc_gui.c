@@ -27,8 +27,6 @@
 #define GET_SYSD_PART   "mount | sed -n 's|^/dev/\\(.*\\) on /.*|\\1|p'"
 #define GET_DR_PART     "readlink /dev/root"
 #define GET_LAST_PART   "sudo parted /dev/mmcblk0 -ms unit s p | tail -n 1 | cut -f 1 -d:"
-#define GET_PIUSER      "id -u pi"
-#define GET_DEVICETREE  "cat /boot/config.txt | grep -q ^device_tree=$ ; echo $?"
 #define GET_MEM_ARM     "vcgencmd get_mem arm"
 #define GET_MEM_GPU     "vcgencmd get_mem gpu"
 #define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
@@ -1026,6 +1024,7 @@ static int process_changes (void)
 static int can_configure (void)
 {
     struct stat buf;
+    FILE *fp;
 
     // check lightdm is installed
     if (stat ("/etc/init.d/lightdm", &buf)) return 0;
@@ -1037,10 +1036,17 @@ static int can_configure (void)
     if (stat ("/boot/start_x.elf", &buf)) return 0;
 
     // check device tree is enabled
-    if (!get_status (GET_DEVICETREE)) return 0;
+    if (!get_status ("cat /boot/config.txt | grep -q ^device_tree=$ ; echo $?")) return 0;
 
     // check pi user exists
-    if (!get_status (GET_PIUSER)) return 0;
+    if (!get_status ("id -u pi")) return 0;
+
+    // check /boot is mounted
+    fp = popen ("mountpoint /boot", "r");
+    if (pclose (fp) != 0) return 0;
+
+    // create /boot/config.txt if it doesn't exist
+    system ("[ -e /boot/config.txt ] || sudo touch /boot/config.txt");
     return 1;
 }
 
