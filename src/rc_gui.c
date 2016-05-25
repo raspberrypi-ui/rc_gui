@@ -25,7 +25,7 @@
 #define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
 #define CHANGE_PASSWD   "echo pi:%s | sudo chpasswd"
 #define GET_HOSTNAME    "sudo raspi-config nonint get_hostname"
-#define SET_HOSTNAME    "sudo raspi-config nonint do_change_hostname %s"
+#define SET_HOSTNAME    "sudo raspi-config nonint do_hostname %s"
 #define GET_BOOT_CLI    "sudo raspi-config nonint get_boot_cli"
 #define GET_AUTOLOGIN   "sudo raspi-config nonint get_autologin"
 #define SET_BOOT_CLI    "sudo raspi-config nonint do_boot_behaviour B1"
@@ -60,7 +60,7 @@
 #define GET_GPU_MEM_1K  "sudo raspi-config nonint get_config_var gpu_mem_1024 /boot/config.txt"
 #define SET_GPU_MEM     "sudo raspi-config nonint do_memory_split %d"
 #define GET_WIFI_CTRY   "sudo raspi-config nonint get_wifi_country"
-#define SET_WIFI_CTRY   "sudo raspi-config nonint do_configure_wifi_country %s"
+#define SET_WIFI_CTRY   "sudo raspi-config nonint do_wifi_country %s"
 
 /* Controls */
 
