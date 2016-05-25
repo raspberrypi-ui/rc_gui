@@ -32,9 +32,8 @@
 #define SET_BOOT_CLIA   "sudo raspi-config nonint do_boot_behaviour B2"
 #define SET_BOOT_GUI    "sudo raspi-config nonint do_boot_behaviour B3"
 #define SET_BOOT_GUIA   "sudo raspi-config nonint do_boot_behaviour B4"
-#define GET_BOOT_SLOW   "sudo raspi-config nonint get_boot_slow"
-#define SET_BOOT_FAST   "sudo raspi-config nonint do_wait_for_network Fast"
-#define SET_BOOT_SLOW   "sudo raspi-config nonint do_wait_for_network Slow"
+#define GET_BOOT_WAIT   "sudo raspi-config nonint get_boot_wait"
+#define SET_BOOT_WAIT   "sudo raspi-config nonint do_boot_wait %d"
 #define GET_OVERSCAN    "sudo raspi-config nonint get_overscan"
 #define SET_OVERSCAN    "sudo raspi-config nonint do_overscan %d"
 #define SET_RASTRACK    "curl --data \"name=%s&email=%s\" http://rastrack.co.uk/api.php"
@@ -51,8 +50,7 @@
 #define GET_1WIRE       "sudo raspi-config nonint get_onewire"
 #define SET_1WIRE       "sudo raspi-config nonint do_onewire %d"
 #define GET_RGPIO       "sudo raspi-config nonint get_rgpio"
-#define SET_GPIO_PUB    "sudo raspi-config nonint do_gpiosec Public"
-#define SET_GPIO_PRIV   "sudo raspi-config nonint do_gpiosec Private"
+#define SET_RGPIO       "sudo raspi-config nonint do_rgpio %d"
 #define GET_PI_TYPE     "sudo raspi-config nonint get_pi_type"
 #define GET_OVERCLOCK   "sudo raspi-config nonint get_config_var arm_freq /boot/config.txt"
 #define SET_OVERCLOCK   "sudo raspi-config nonint do_overclock %s"
@@ -903,8 +901,8 @@ static int process_changes (void)
     
     if (orig_netwait == gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (netwait_cb)))
     {
-        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (netwait_cb))) system (SET_BOOT_SLOW);
-        else system (SET_BOOT_FAST);
+        sprintf (buffer, SET_BOOT_WAIT, (1 - orig_netwait));
+        system (buffer);
     }
 
     if (orig_camera != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (camera_off_rb)))
@@ -955,8 +953,8 @@ static int process_changes (void)
 
     if (orig_rgpio != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rgpio_off_rb)))
     {
-        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rgpio_off_rb))) system (SET_GPIO_PRIV);
-        else system (SET_GPIO_PUB);
+        sprintf (buffer, SET_RGPIO, (1 - orig_rgpio));
+        system (buffer);
     }
 
     if (strcmp (orig_hostname, gtk_entry_get_text (GTK_ENTRY (hostname_tb))))
@@ -1113,7 +1111,7 @@ int main (int argc, char *argv[])
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autologin_cb), TRUE);
 
     netwait_cb = gtk_builder_get_object (builder, "checkbutton2");
-    if (orig_netwait = get_status (GET_BOOT_SLOW)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_cb), FALSE);
+    if (orig_netwait = get_status (GET_BOOT_WAIT)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_cb), FALSE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_cb), TRUE);
 
     camera_on_rb = gtk_builder_get_object (builder, "radiobutton3");
