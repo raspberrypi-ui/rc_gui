@@ -1078,86 +1078,86 @@ int main (int argc, char *argv[])
 
     main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "dialog1");
 
-    expandfs_btn = gtk_builder_get_object (builder, "button3");
+    expandfs_btn = gtk_builder_get_object (builder, "button_fs");
     g_signal_connect (expandfs_btn, "clicked", G_CALLBACK (on_expand_fs), NULL);
     if (get_status (GET_CAN_EXPAND)) gtk_widget_set_sensitive (GTK_WIDGET(expandfs_btn), FALSE);
     else gtk_widget_set_sensitive (GTK_WIDGET(expandfs_btn), TRUE);
 
-    passwd_btn = gtk_builder_get_object (builder, "button4");
+    passwd_btn = gtk_builder_get_object (builder, "button_pw");
     g_signal_connect (passwd_btn, "clicked", G_CALLBACK (on_change_passwd), NULL);
 
-    locale_btn = gtk_builder_get_object (builder, "button5");
+    locale_btn = gtk_builder_get_object (builder, "button_loc");
     g_signal_connect (locale_btn, "clicked", G_CALLBACK (on_set_locale), NULL);
 
-    timezone_btn = gtk_builder_get_object (builder, "button6");
+    timezone_btn = gtk_builder_get_object (builder, "button_tz");
     g_signal_connect (timezone_btn, "clicked", G_CALLBACK (on_set_timezone), NULL);
 
-    keyboard_btn = gtk_builder_get_object (builder, "button7");
+    keyboard_btn = gtk_builder_get_object (builder, "button_kb");
     g_signal_connect (keyboard_btn, "clicked", G_CALLBACK (on_set_keyboard), NULL);
 
-    rastrack_btn = gtk_builder_get_object (builder, "button8");
+    rastrack_btn = gtk_builder_get_object (builder, "button_rt");
     g_signal_connect (rastrack_btn, "clicked", G_CALLBACK (on_set_rastrack), NULL);
 
-    wifi_btn = gtk_builder_get_object (builder, "button11");
+    wifi_btn = gtk_builder_get_object (builder, "button_wifi");
     g_signal_connect (wifi_btn, "clicked", G_CALLBACK (on_set_wifi), NULL);
 
-    boot_desktop_rb = gtk_builder_get_object (builder, "radiobutton1");
-    boot_cli_rb = gtk_builder_get_object (builder, "radiobutton2");
+    boot_desktop_rb = gtk_builder_get_object (builder, "rb_desktop");
+    boot_cli_rb = gtk_builder_get_object (builder, "rb_cli");
     if (orig_boot = get_status (GET_BOOT_CLI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
 
-    autologin_cb = gtk_builder_get_object (builder, "checkbutton1");
+    autologin_cb = gtk_builder_get_object (builder, "cb_login");
     if (orig_autolog = get_status (GET_AUTOLOGIN)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autologin_cb), FALSE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autologin_cb), TRUE);
 
-    netwait_cb = gtk_builder_get_object (builder, "checkbutton2");
+    netwait_cb = gtk_builder_get_object (builder, "cb_network");
     if (orig_netwait = get_status (GET_BOOT_WAIT)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_cb), FALSE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_cb), TRUE);
 
-    camera_on_rb = gtk_builder_get_object (builder, "radiobutton3");
-    camera_off_rb = gtk_builder_get_object (builder, "radiobutton4");
+    camera_on_rb = gtk_builder_get_object (builder, "rb_cam_on");
+    camera_off_rb = gtk_builder_get_object (builder, "rb_cam_off");
     if (orig_camera = get_status (GET_CAMERA)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_on_rb), TRUE);
 
-    overscan_on_rb = gtk_builder_get_object (builder, "radiobutton5");
-    overscan_off_rb = gtk_builder_get_object (builder, "radiobutton6");
+    overscan_on_rb = gtk_builder_get_object (builder, "rb_os_on");
+    overscan_off_rb = gtk_builder_get_object (builder, "rb_os_off");
     if (orig_overscan = get_status (GET_OVERSCAN)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overscan_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overscan_on_rb), TRUE);
 
-    ssh_on_rb = gtk_builder_get_object (builder, "radiobutton7");
-    ssh_off_rb = gtk_builder_get_object (builder, "radiobutton8");
+    ssh_on_rb = gtk_builder_get_object (builder, "rb_ssh_on");
+    ssh_off_rb = gtk_builder_get_object (builder, "rb_ssh_off");
     if (orig_ssh = get_status (GET_SSH)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_on_rb), TRUE);
 
-    spi_on_rb = gtk_builder_get_object (builder, "radiobutton11");
-    spi_off_rb = gtk_builder_get_object (builder, "radiobutton12");
+    spi_on_rb = gtk_builder_get_object (builder, "rb_spi_on");
+    spi_off_rb = gtk_builder_get_object (builder, "rb_spi_off");
     if (orig_spi = get_status (GET_SPI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_on_rb), TRUE);
 
-    i2c_on_rb = gtk_builder_get_object (builder, "radiobutton13");
-    i2c_off_rb = gtk_builder_get_object (builder, "radiobutton14");
+    i2c_on_rb = gtk_builder_get_object (builder, "rb_i2c_on");
+    i2c_off_rb = gtk_builder_get_object (builder, "rb_i2c_off");
     if (orig_i2c = get_status (GET_I2C)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_on_rb), TRUE);
 
-    serial_on_rb = gtk_builder_get_object (builder, "radiobutton15");
-    serial_off_rb = gtk_builder_get_object (builder, "radiobutton16");
+    serial_on_rb = gtk_builder_get_object (builder, "rb_ser_on");
+    serial_off_rb = gtk_builder_get_object (builder, "rb_ser_off");
     if (orig_serial = get_status (GET_SERIAL)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
 
-    onewire_on_rb = gtk_builder_get_object (builder, "radiobutton17");
-    onewire_off_rb = gtk_builder_get_object (builder, "radiobutton18");
+    onewire_on_rb = gtk_builder_get_object (builder, "rb_one_on");
+    onewire_off_rb = gtk_builder_get_object (builder, "rb_one_off");
     if (orig_onewire = get_status (GET_1WIRE)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (onewire_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (onewire_on_rb), TRUE);
 
-    rgpio_on_rb = gtk_builder_get_object (builder, "radiobutton19");
-    rgpio_off_rb = gtk_builder_get_object (builder, "radiobutton20");
+    rgpio_on_rb = gtk_builder_get_object (builder, "rb_rgp_on");
+    rgpio_off_rb = gtk_builder_get_object (builder, "rb_rgp_off");
     if (orig_rgpio = get_status (GET_RGPIO)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rgpio_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rgpio_on_rb), TRUE);
 
     switch (get_status (GET_PI_TYPE))
     {
         case 1:
-            overclock_cb = gtk_builder_get_object (builder, "comboboxtext1");
+            overclock_cb = gtk_builder_get_object (builder, "combo_oc_pi1");
             switch (get_status (GET_OVERCLOCK))
             {
                 case 800  : orig_clock = 1;
@@ -1172,13 +1172,13 @@ int main (int argc, char *argv[])
                             break;
             }
             gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox8")));
-            gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox7")));
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox19")));
+            gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31")));
+            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox32")));
+            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox33")));
             break;
 
         case 2 :
-            overclock_cb = gtk_builder_get_object (builder, "comboboxtext2");
+            overclock_cb = gtk_builder_get_object (builder, "combo_oc_pi2");
             switch (get_status (GET_OVERCLOCK))
             {
                 case 1000 : orig_clock = 1;
@@ -1187,28 +1187,28 @@ int main (int argc, char *argv[])
                             break;
             }
             gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox7")));
-            gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox8")));
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox19")));
+            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31")));
+            gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox32")));
+            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox33")));
             break;
 
         default :
-            overclock_cb = gtk_builder_get_object (builder, "comboboxtext3");
+            overclock_cb = gtk_builder_get_object (builder, "combo_oc_pi3");
             gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 0);
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox7")));
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox8")));
-            gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox19")));
+            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31")));
+            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox32")));
+            gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox33")));
             gtk_widget_set_sensitive (GTK_WIDGET(overclock_cb), FALSE);
             break;
     }
 
     GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 16.0, 64.0, 0);
-    memsplit_sb = gtk_builder_get_object (builder, "spinbutton1");
+    memsplit_sb = gtk_builder_get_object (builder, "spin_gpu");
     gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (memsplit_sb), GTK_ADJUSTMENT (adj));
     orig_gpumem = get_gpu_mem ();
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (memsplit_sb), orig_gpumem);
 
-    hostname_tb = gtk_builder_get_object (builder, "entry1");
+    hostname_tb = gtk_builder_get_object (builder, "entry_hn");
     get_string (GET_HOSTNAME, orig_hostname);
     gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hostname);
 

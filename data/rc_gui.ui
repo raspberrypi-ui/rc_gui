@@ -60,16 +60,16 @@
             <property name="can_focus">True</property>
             <property name="homogeneous">True</property>
             <child>
-              <object class="GtkVBox" id="vbox00">
+              <object class="GtkVBox" id="vbox10">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkHBox" id="hbox1">
+                  <object class="GtkHBox" id="hbox11">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label1">
+                      <object class="GtkLabel" id="label11">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -83,7 +83,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null1">
+                      <object class="GtkHBox" id="null11">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -94,7 +94,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="button3">
+                      <object class="GtkButton" id="button_fs">
                         <property name="label" translatable="yes">Expand _Filesystem</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -117,12 +117,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox2">
+                  <object class="GtkHBox" id="hbox12">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label2">
+                      <object class="GtkLabel" id="label12">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -135,7 +135,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null2">
+                      <object class="GtkHBox" id="null12">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -146,7 +146,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="button4">
+                      <object class="GtkButton" id="button_pw">
                         <property name="label" translatable="yes">Change _Password...</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -169,11 +169,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox11">
+                  <object class="GtkHBox" id="hbox13">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkLabel" id="label11">
+                      <object class="GtkLabel" id="label13">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -186,7 +186,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null11">
+                      <object class="GtkHBox" id="null13">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -197,7 +197,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry" id="entry1">
+                      <object class="GtkEntry" id="entry_hn">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="tooltip_text" translatable="yes">Set the name of your Pi on a local network</property>
@@ -222,12 +222,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox3">
+                  <object class="GtkHBox" id="hbox14">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label3">
+                      <object class="GtkLabel" id="label14">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -240,7 +240,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null3">
+                      <object class="GtkHBox" id="null14">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -251,7 +251,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton1">
+                      <object class="GtkRadioButton" id="rb_desktop">
                         <property name="label" translatable="yes">To Desktop</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -267,7 +267,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton2">
+                      <object class="GtkRadioButton" id="rb_cli">
                         <property name="label" translatable="yes">To CLI</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -275,7 +275,7 @@
                         <property name="tooltip_text" translatable="yes">Boot into a command line shell rather than the desktop</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
-                        <property name="group">radiobutton1</property>
+                        <property name="group">rb_desktop</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -292,12 +292,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox4">
+                  <object class="GtkHBox" id="hbox15">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label4">
+                      <object class="GtkLabel" id="label15">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -310,7 +310,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null4">
+                      <object class="GtkHBox" id="null15">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -321,7 +321,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkCheckButton" id="checkbutton1">
+                      <object class="GtkCheckButton" id="cb_login">
                         <property name="label" translatable="yes">Login as user 'pi'</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -344,12 +344,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox24">
+                  <object class="GtkHBox" id="hbox16">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label24">
+                      <object class="GtkLabel" id="label16">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -362,7 +362,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null24">
+                      <object class="GtkHBox" id="null16">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -373,7 +373,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkCheckButton" id="checkbutton2">
+                      <object class="GtkCheckButton" id="cb_network">
                         <property name="label" translatable="yes">Wait for network</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -396,12 +396,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox10">
+                  <object class="GtkHBox" id="hbox17">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label10">
+                      <object class="GtkLabel" id="label17">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -414,7 +414,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null10">
+                      <object class="GtkHBox" id="null17">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -425,7 +425,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton5">
+                      <object class="GtkRadioButton" id="rb_os_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -441,7 +441,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton6">
+                      <object class="GtkRadioButton" id="rb_os_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -449,7 +449,7 @@
                         <property name="tooltip_text" translatable="yes">Disable overscan to hide black outline on screen</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
-                        <property name="group">radiobutton5</property>
+                        <property name="group">rb_os_on</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -466,12 +466,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox6">
+                  <object class="GtkHBox" id="hbox18">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label6">
+                      <object class="GtkLabel" id="label18">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -484,7 +484,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null6">
+                      <object class="GtkHBox" id="null18">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -495,7 +495,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="button8">
+                      <object class="GtkButton" id="button_rt">
                         <property name="label" translatable="yes">Add to _Rastrack...</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -530,16 +530,16 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox10">
+              <object class="GtkVBox" id="vbox20">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkHBox" id="hbox5">
+                  <object class="GtkHBox" id="hbox21">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label5">
+                      <object class="GtkLabel" id="label21">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -552,7 +552,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null5">
+                      <object class="GtkHBox" id="null21">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -563,7 +563,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton3">
+                      <object class="GtkRadioButton" id="rb_cam_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -580,7 +580,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton4">
+                      <object class="GtkRadioButton" id="rb_cam_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -589,7 +589,7 @@
                         <property name="use_underline">True</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
-                        <property name="group">radiobutton3</property>
+                        <property name="group">rb_cam_on</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -606,12 +606,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox13">
+                  <object class="GtkHBox" id="hbox22">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label13">
+                      <object class="GtkLabel" id="label22">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -624,7 +624,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null13">
+                      <object class="GtkHBox" id="null22">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -635,7 +635,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton7">
+                      <object class="GtkRadioButton" id="rb_ssh_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -651,7 +651,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton8">
+                      <object class="GtkRadioButton" id="rb_ssh_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -659,7 +659,7 @@
                         <property name="tooltip_text" translatable="yes">Disable remote access to this Pi via SSH</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
-                        <property name="group">radiobutton7</property>
+                        <property name="group">rb_ssh_on</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -676,12 +676,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox15">
+                  <object class="GtkHBox" id="hbox23">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label15">
+                      <object class="GtkLabel" id="label23">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -694,7 +694,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null15">
+                      <object class="GtkHBox" id="null23">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -705,7 +705,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton11">
+                      <object class="GtkRadioButton" id="rb_spi_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -721,7 +721,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton12">
+                      <object class="GtkRadioButton" id="rb_spi_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -729,7 +729,7 @@
                         <property name="tooltip_text" translatable="yes">Disable the automatic loading of the SPI kernel module</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
-                        <property name="group">radiobutton11</property>
+                        <property name="group">rb_spi_on</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -746,12 +746,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox16">
+                  <object class="GtkHBox" id="hbox24">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label16">
+                      <object class="GtkLabel" id="label24">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -764,7 +764,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null16">
+                      <object class="GtkHBox" id="null24">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -775,7 +775,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton13">
+                      <object class="GtkRadioButton" id="rb_i2c_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -791,7 +791,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton14">
+                      <object class="GtkRadioButton" id="rb_i2c_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -799,7 +799,7 @@
                         <property name="tooltip_text" translatable="yes">Disable the automatic loading of the I2C kernel module</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
-                        <property name="group">radiobutton13</property>
+                        <property name="group">rb_i2c_on</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -816,12 +816,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox17">
+                  <object class="GtkHBox" id="hbox25">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label17">
+                      <object class="GtkLabel" id="label25">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -834,7 +834,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null17">
+                      <object class="GtkHBox" id="null25">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -845,7 +845,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton15">
+                      <object class="GtkRadioButton" id="rb_ser_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -861,7 +861,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton16">
+                      <object class="GtkRadioButton" id="rb_ser_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -869,7 +869,7 @@
                         <property name="tooltip_text" translatable="yes">Disable shell and kernel messages on the serial connection</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
-                        <property name="group">radiobutton15</property>
+                        <property name="group">rb_ser_on</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -886,12 +886,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox18">
+                  <object class="GtkHBox" id="hbox26">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label18">
+                      <object class="GtkLabel" id="label26">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -904,7 +904,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null18">
+                      <object class="GtkHBox" id="null26">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -915,7 +915,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton17">
+                      <object class="GtkRadioButton" id="rb_one_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -931,7 +931,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton18">
+                      <object class="GtkRadioButton" id="rb_one_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -939,7 +939,7 @@
                         <property name="tooltip_text" translatable="yes">Disable 1-wire peripheral interface</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
-                        <property name="group">radiobutton17</property>
+                        <property name="group">rb_one_on</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -956,12 +956,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox20">
+                  <object class="GtkHBox" id="hbox27">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label20">
+                      <object class="GtkLabel" id="label27">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -974,7 +974,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null20">
+                      <object class="GtkHBox" id="null27">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -985,7 +985,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton19">
+                      <object class="GtkRadioButton" id="rb_rgp_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -1001,7 +1001,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radiobutton20">
+                      <object class="GtkRadioButton" id="rb_rgp_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -1009,7 +1009,7 @@
                         <property name="tooltip_text" translatable="yes">Disable remote access to GPIO pins</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
-                        <property name="group">radiobutton19</property>
+                        <property name="group">rb_rgp_on</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1042,15 +1042,15 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox20">
+              <object class="GtkVBox" id="vbox30">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkHBox" id="hbox7">
+                  <object class="GtkHBox" id="hbox31">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkLabel" id="label7">
+                      <object class="GtkLabel" id="label31">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -1065,7 +1065,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBoxText" id="comboboxtext1">
+                      <object class="GtkComboBoxText" id="combo_oc_pi1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="tooltip_text" translatable="yes">Set the level of overclock to control performance</property>
@@ -1092,11 +1092,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox8">
+                  <object class="GtkHBox" id="hbox32">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkLabel" id="label8">
+                      <object class="GtkLabel" id="label32">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -1111,7 +1111,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBoxText" id="comboboxtext2">
+                      <object class="GtkComboBoxText" id="combo_oc_pi2">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="tooltip_text" translatable="yes">Set the level of overclock to control performance</property>
@@ -1135,11 +1135,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox19">
+                  <object class="GtkHBox" id="hbox33">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkLabel" id="label19">
+                      <object class="GtkLabel" id="label33">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -1154,7 +1154,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBoxText" id="comboboxtext3">
+                      <object class="GtkComboBoxText" id="combo_oc_pi3">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <items>
@@ -1176,11 +1176,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox12">
+                  <object class="GtkHBox" id="hbox34">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkLabel" id="label12">
+                      <object class="GtkLabel" id="label34">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -1195,7 +1195,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null12">
+                      <object class="GtkHBox" id="null34">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -1206,7 +1206,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSpinButton" id="spinbutton1">
+                      <object class="GtkSpinButton" id="spin_gpu">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="tooltip_text" translatable="yes">Enter the amount of memory available to the GPU</property>
@@ -1247,7 +1247,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox30">
+              <object class="GtkVBox" id="vbox40">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
@@ -1281,7 +1281,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="button5">
+                      <object class="GtkButton" id="button_loc">
                         <property name="label" translatable="yes">Set _Locale...</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -1334,7 +1334,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="button6">
+                      <object class="GtkButton" id="button_tz">
                         <property name="label" translatable="yes">Set _Timezone...</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -1387,7 +1387,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="button7">
+                      <object class="GtkButton" id="button_kb">
                         <property name="label" translatable="yes">Set _Keyboard...</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -1440,7 +1440,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="button11">
+                      <object class="GtkButton" id="button_wifi">
                         <property name="label" translatable="yes">Set _WiFi Country...</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
