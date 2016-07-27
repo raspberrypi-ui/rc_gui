@@ -2,7 +2,7 @@
 
 ACLOCAL_AMFLAGS= -I m4
 
-SUBDIRS = src data po
+SUBDIRS = src data po icons
 
 EXTRA_DIST = \
         autogen.sh \

@@ -189,6 +189,8 @@ AC_CONFIG_FILES([
     Makefile
     src/Makefile
     data/Makefile
+    icons/Makefile
+    icons/32x32/Makefile
     po/Makefile.in
 ])
 AC_OUTPUT
