@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-22 10:14+0100\n"
+"POT-Creation-Date: 2016-07-27 13:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/rc_gui.c:598
+#: ../src/rc_gui.c:591
 msgid "Setting locale - please wait..."
 msgstr ""
 
-#: ../src/rc_gui.c:758
+#: ../src/rc_gui.c:751
 msgid "Setting timezone - please wait..."
 msgstr ""
 
@@ -166,174 +166,186 @@ msgid "Disable remote access to this Pi via SSH"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:36
-msgid "SPI:"
+msgid "VNC:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:37
-msgid "Enable the automatic loading of the SPI kernel module"
+msgid "Enable remote access to this Pi using RealVNC"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:38
-msgid "Disable the automatic loading of the SPI kernel module"
+msgid "Disable remote access to this Pi using RealVNC"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:39
-msgid "I2C:"
+msgid "SPI:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:40
-msgid "Enable the automatic loading of the I2C kernel module"
+msgid "Enable the automatic loading of the SPI kernel module"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:41
-msgid "Disable the automatic loading of the I2C kernel module"
+msgid "Disable the automatic loading of the SPI kernel module"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:42
-msgid "Serial:"
+msgid "I2C:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:43
-msgid "Enable shell and kernel messages on the serial connection"
+msgid "Enable the automatic loading of the I2C kernel module"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:44
-msgid "Disable shell and kernel messages on the serial connection"
+msgid "Disable the automatic loading of the I2C kernel module"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:45
-msgid "1-Wire:"
+msgid "Serial:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:46
-msgid "Enable 1-wire peripheral interface"
+msgid "Enable shell and kernel messages on the serial connection"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:47
-msgid "Disable 1-wire peripheral interface"
+msgid "Disable shell and kernel messages on the serial connection"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:48
-msgid "Remote GPIO:"
+msgid "1-Wire:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:49
-msgid "Enable remote access to GPIO pins"
+msgid "Enable 1-wire peripheral interface"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:50
-msgid "Disable remote access to GPIO pins"
+msgid "Disable 1-wire peripheral interface"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:51
-msgid "Interfaces"
+msgid "Remote GPIO:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:52
-msgid "O_verclock:"
+msgid "Enable remote access to GPIO pins"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:53
-msgid "Set the level of overclock to control performance"
+msgid "Disable remote access to GPIO pins"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:54
-msgid "None (700MHz)"
+msgid "Interfaces"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:55
-msgid "Modest (800MHz)"
+msgid "O_verclock:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:56
-msgid "Medium (900MHz)"
+msgid "Set the level of overclock to control performance"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:57
-msgid "High (950MHz)"
+msgid "None (700MHz)"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:58
-msgid "Turbo (1000MHz)"
+msgid "Modest (800MHz)"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:59
-msgid "None (900MHz)"
+msgid "Medium (900MHz)"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:60
-msgid "High (1000MHz)"
+msgid "High (950MHz)"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:61
-msgid "Not available"
+msgid "Turbo (1000MHz)"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:62
-msgid "_GPU Memory:"
+msgid "None (900MHz)"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:63
-msgid "Enter the amount of memory available to the GPU"
+msgid "High (1000MHz)"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:64
-msgid "Performance"
+msgid "Not available"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:65
-msgid "Locale:"
+msgid "_GPU Memory:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:66
-msgid "Set _Locale..."
+msgid "Enter the amount of memory available to the GPU"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:67
-msgid "Set internationalisation settings for units etc."
+msgid "Performance"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:68
-msgid "Timezone:"
+msgid "Locale:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:69
-msgid "Set _Timezone..."
+msgid "Set _Locale..."
 msgstr ""
 
 #: ../data/rc_gui.ui.h:70
-msgid "Set the timezone to be used by the internal clock"
+msgid "Set internationalisation settings for units etc."
 msgstr ""
 
 #: ../data/rc_gui.ui.h:71
-msgid "Keyboard:"
+msgid "Timezone:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:72
-msgid "Set _Keyboard..."
+msgid "Set _Timezone..."
 msgstr ""
 
 #: ../data/rc_gui.ui.h:73
-msgid "Set international keyboard options"
+msgid "Set the timezone to be used by the internal clock"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:74
-msgid "WiFi Country:"
+msgid "Keyboard:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:75
-msgid "Set _WiFi Country..."
+msgid "Set _Keyboard..."
 msgstr ""
 
 #: ../data/rc_gui.ui.h:76
-msgid "Set WiFi country code"
+msgid "Set international keyboard options"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:77
-msgid "Localisation"
+msgid "WiFi Country:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:78
+msgid "Set _WiFi Country..."
+msgstr ""
+
+#: ../data/rc_gui.ui.h:79
+msgid "Set WiFi country code"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:80
+msgid "Localisation"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:81
 msgid ""
 "The Raspberry Pi Configuration application can only modify a standard "
 "configuration.\n"
@@ -346,50 +358,50 @@ msgid ""
 "lightdm application installed. "
 msgstr ""
 
-#: ../data/rc_gui.ui.h:83
+#: ../data/rc_gui.ui.h:86
 msgid "Filesystem Expanded"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:84
+#: ../data/rc_gui.ui.h:87
 msgid ""
 "The filesystem has been expanded.\n"
 "\n"
 "The new space will not be available until you reboot your Raspberry Pi."
 msgstr ""
 
-#: ../data/rc_gui.ui.h:87
+#: ../data/rc_gui.ui.h:90
 msgid "Locale"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:88
+#: ../data/rc_gui.ui.h:91
 msgid "Language:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:89
+#: ../data/rc_gui.ui.h:92
 msgid "Country:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:90
+#: ../data/rc_gui.ui.h:93
 msgid "Character Set:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:91
+#: ../data/rc_gui.ui.h:94
 msgid "Change Password"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:92
+#: ../data/rc_gui.ui.h:95
 msgid "Enter new password:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:93
+#: ../data/rc_gui.ui.h:96
 msgid "Confirm new password:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:94
+#: ../data/rc_gui.ui.h:97
 msgid "Rastrack Registration"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:95
+#: ../data/rc_gui.ui.h:98
 msgid ""
 "Rastrack (http://www.rastrack.co.uk) is a website which tracks the location "
 "of Raspberry Pis around the world. If you would like to be added to it, "
@@ -399,19 +411,19 @@ msgid ""
 "process.\n"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:99
+#: ../data/rc_gui.ui.h:102
 msgid "Username:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:100
+#: ../data/rc_gui.ui.h:103
 msgid "Email Address:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:101
+#: ../data/rc_gui.ui.h:104
 msgid "Reboot needed"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:102
+#: ../data/rc_gui.ui.h:105
 msgid ""
 "The changes you have made require the Raspberry Pi to be rebooted to take "
 "effect.\n"
@@ -419,19 +431,19 @@ msgid ""
 "Would you like to reboot now? "
 msgstr ""
 
-#: ../data/rc_gui.ui.h:105
+#: ../data/rc_gui.ui.h:108
 msgid "Timezone"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:106
+#: ../data/rc_gui.ui.h:109
 msgid "Area:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:107
+#: ../data/rc_gui.ui.h:110
 msgid "Location:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:108
+#: ../data/rc_gui.ui.h:111
 msgid "WiFi Country Code"
 msgstr ""
 

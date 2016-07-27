@@ -1,6 +1,6 @@
 AC_PREREQ(2.53)
 AC_CONFIG_MACRO_DIR([m4])
-AC_INIT(rc_gui,1.0,http://raspberrypi.org/)
+AC_INIT(rc_gui,1.1,http://raspberrypi.org/)
 AM_INIT_AUTOMAKE([-Wall foreign subdir-objects no-dist-gzip dist-xz])
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_MACRO_DIR([m4])

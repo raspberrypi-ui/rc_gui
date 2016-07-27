@@ -41,6 +41,8 @@
 #define SET_CAMERA      "sudo raspi-config nonint do_camera %d"
 #define GET_SSH         "sudo raspi-config nonint get_ssh"
 #define SET_SSH         "sudo raspi-config nonint do_ssh %d"
+#define GET_VNC         "sudo raspi-config nonint get_vnc"
+#define SET_VNC         "sudo raspi-config nonint do_vnc %d"
 #define GET_SPI         "sudo raspi-config nonint get_spi"
 #define SET_SPI         "sudo raspi-config nonint do_spi %d"
 #define GET_I2C         "sudo raspi-config nonint get_i2c"
@@ -66,7 +68,7 @@
 
 static GObject *expandfs_btn, *passwd_btn, *locale_btn, *timezone_btn, *keyboard_btn, *rastrack_btn, *wifi_btn;
 static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb;
-static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb;
+static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
 static GObject *autologin_cb, *netwait_cb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb;
@@ -82,7 +84,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 
 static char orig_hostname[128];
 static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial;
-static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio;
+static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc;
 
 /* Reboot flag set after locale change */
 
@@ -925,6 +927,12 @@ static int process_changes (void)
         system (buffer);
     }
 
+    if (orig_vnc != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (vnc_off_rb)))
+    {
+        sprintf (buffer, SET_VNC, (1 - orig_vnc));
+        system (buffer);
+    }
+
     if (orig_spi != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (spi_off_rb)))
     {
         sprintf (buffer, SET_SPI, (1 - orig_spi));
@@ -1153,6 +1161,11 @@ int main (int argc, char *argv[])
     rgpio_off_rb = gtk_builder_get_object (builder, "rb_rgp_off");
     if (orig_rgpio = get_status (GET_RGPIO)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rgpio_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rgpio_on_rb), TRUE);
+
+    vnc_on_rb = gtk_builder_get_object (builder, "rb_vnc_on");
+    vnc_off_rb = gtk_builder_get_object (builder, "rb_vnc_off");
+    if (orig_vnc = get_status (GET_VNC)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vnc_off_rb), TRUE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vnc_on_rb), TRUE);
 
     switch (get_status (GET_PI_TYPE))
     {

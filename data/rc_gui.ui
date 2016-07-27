@@ -685,7 +685,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">SPI:</property>
+                        <property name="label" translatable="yes">VNC:</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -695,6 +695,76 @@
                     </child>
                     <child>
                       <object class="GtkHBox" id="null23">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="rb_vnc_on">
+                        <property name="label" translatable="yes">Enable</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Enable remote access to this Pi using RealVNC</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="rb_vnc_off">
+                        <property name="label" translatable="yes">Disable</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Disable remote access to this Pi using RealVNC</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">rb_vnc_on</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="padding">5</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox24">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="homogeneous">True</property>
+                    <child>
+                      <object class="GtkLabel" id="label24">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">SPI:</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkHBox" id="null24">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -742,16 +812,16 @@
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="padding">5</property>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox24">
+                  <object class="GtkHBox" id="hbox25">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label24">
+                      <object class="GtkLabel" id="label25">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -764,7 +834,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null24">
+                      <object class="GtkHBox" id="null25">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -812,16 +882,16 @@
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="padding">5</property>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox25">
+                  <object class="GtkHBox" id="hbox26">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label25">
+                      <object class="GtkLabel" id="label26">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -834,7 +904,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null25">
+                      <object class="GtkHBox" id="null26">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -882,16 +952,16 @@
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="padding">5</property>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox26">
+                  <object class="GtkHBox" id="hbox27">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label26">
+                      <object class="GtkLabel" id="label27">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -904,7 +974,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null26">
+                      <object class="GtkHBox" id="null27">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -952,16 +1022,16 @@
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="padding">5</property>
-                    <property name="position">5</property>
+                    <property name="position">6</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox27">
+                  <object class="GtkHBox" id="hbox28">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label27">
+                      <object class="GtkLabel" id="label28">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -974,7 +1044,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null27">
+                      <object class="GtkHBox" id="null28">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -1022,7 +1092,7 @@
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="padding">5</property>
-                    <property name="position">6</property>
+                    <property name="position">7</property>
                   </packing>
                 </child>
               </object>
@@ -1056,7 +1126,7 @@
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">O_verclock:</property>
                         <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">comboboxtext1</property>
+                        <property name="mnemonic_widget">combo_oc_pi1</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1102,7 +1172,7 @@
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">O_verclock:</property>
                         <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">comboboxtext2</property>
+                        <property name="mnemonic_widget">combo_oc_pi2</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1145,7 +1215,7 @@
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">O_verclock:</property>
                         <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">comboboxtext1</property>
+                        <property name="mnemonic_widget">combo_oc_pi3</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1186,7 +1256,7 @@
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">_GPU Memory:</property>
                         <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">spinbutton1</property>
+                        <property name="mnemonic_widget">spin_gpu</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
