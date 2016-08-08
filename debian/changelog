@@ -1,0 +1,76 @@
+rc-gui (1.1-1) jessie; urgency=medium
+
+  * 1.1 release - adds support for RealVNC
+
+ -- Simon Long <simon@raspberrypi.org>  Wed, 27 Jul 2016 14:06:15 +0100
+
+rc-gui (1.0-1) jessie; urgency=medium
+
+  * 1.0 release
+
+ -- Serge Schneider <serge@raspberrypi.org>  Fri, 27 May 2016 10:44:24 +0100
+
+rc-gui (0.9-1) jessie; urgency=medium
+
+  * 0.9 release
+
+ -- Serge Schneider <serge@raspberrypi.org>  Tue, 10 May 2016 21:47:50 +0100
+
+rc-gui (0.8-1) jessie; urgency=medium
+
+  * 0.8 release
+
+ -- Serge Schneider <serge@raspberrypi.org>  Mon, 25 Apr 2016 11:50:36 +0100
+
+rc-gui (0.7-1) jessie; urgency=medium
+
+  * 0.7 release
+
+ -- Serge Schneider <serge@raspberrypi.org>  Tue, 29 Mar 2016 10:22:33 +0100
+
+rc-gui (0.6-1) jessie; urgency=medium
+
+  * 0.6 release
+
+ -- Serge Schneider <serge@raspberrypi.org>  Thu, 25 Feb 2016 07:43:04 +0000
+
+rc-gui (0.5-1) jessie; urgency=medium
+
+  * 0.5 release
+
+ -- Serge Schneider <serge@raspberrypi.org>  Mon, 01 Feb 2016 12:35:08 +0000
+
+rc-gui (0.4-1) jessie; urgency=medium
+
+  * 0.4 release
+  * Remove upstreamed patches
+
+ -- Serge Schneider <serge@raspberrypi.org>  Fri, 08 Jan 2016 13:16:55 +0000
+
+rc-gui (0.3-2) jessie; urgency=medium
+
+  * Non thread-safe GTK+ calls removed to main thread
+  * Result from timezone setting checked to see if a change was made
+
+ -- Serge Schneider <serge@raspberrypi.org>  Mon, 16 Nov 2015 09:55:26 +0000
+
+rc-gui (0.3-1) jessie; urgency=low
+
+  * Fix gbp.conf
+  * Imported Upstream version 0.3
+  * Remove libxml dependency
+  * Use dh-autoreconf instead of autotools-dev
+
+ -- Serge Schneider <serge@raspberrypi.org>  Tue, 10 Nov 2015 09:21:07 +0000
+
+rc-gui (0.2-1) jessie; urgency=low
+
+  * 0.2 upstream release
+
+ -- Serge Schneider <serge@raspberrypi.org>  Mon, 19 Oct 2015 14:44:26 +0100
+
+rc-gui (0.1-1) jessie; urgency=low
+
+  * Initial release
+
+ -- Serge Schneider <serge@raspberrypi.org>  Tue, 15 Sep 2015 09:01:25 +0100
