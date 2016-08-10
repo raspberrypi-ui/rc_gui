@@ -10,6 +10,7 @@ rc_gui
 config.log
 config.h
 config.status
+config.h.in.~
 .deps/
 .libs/
 libtool

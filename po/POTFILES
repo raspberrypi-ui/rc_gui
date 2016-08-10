@@ -1,3 +1,0 @@
-	../src/rc_gui.c \
-	../data/rc_gui.ui \
-	../data/rc_gui.desktop.in
