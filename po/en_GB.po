@@ -125,18 +125,6 @@ msgstr "Disabled"
 msgid "Disable overscan to hide black outline on screen"
 msgstr "Disable underscan if there is a black border around screen"
 
-#: ../data/rc_gui.ui.h:26
-msgid "Rastrack:"
-msgstr "Rastrack:"
-
-#: ../data/rc_gui.ui.h:27
-msgid "Add to _Rastrack..."
-msgstr "Add to _Rastrack..."
-
-#: ../data/rc_gui.ui.h:28
-msgid "Add this Pi to the online Raspberry Pi map"
-msgstr "Add this Pi to the online Raspberry Pi map"
-
 #: ../data/rc_gui.ui.h:29
 msgid "System"
 msgstr "System"
@@ -408,34 +396,6 @@ msgstr "Enter new password:"
 #: ../data/rc_gui.ui.h:96
 msgid "Confirm new password:"
 msgstr "Confirm new password:"
-
-#: ../data/rc_gui.ui.h:97
-msgid "Rastrack Registration"
-msgstr "Rastrack Registration"
-
-#: ../data/rc_gui.ui.h:98
-msgid ""
-"Rastrack (http://www.rastrack.co.uk) is a website which tracks the location "
-"of Raspberry Pis around the world. If you would like to be added to it, "
-"enter your name and email address below.\n"
-"\n"
-"This is entirely optional and does not form an official registration "
-"process.\n"
-msgstr ""
-"Rastrack (http://www.rastrack.co.uk) is a website which tracks the location "
-"of Raspberry Pis around the world. If you would like to be added to it, "
-"enter your name and email address below.\n"
-"\n"
-"This is entirely optional and does not form an official registration "
-"process.\n"
-
-#: ../data/rc_gui.ui.h:102
-msgid "Username:"
-msgstr "Username:"
-
-#: ../data/rc_gui.ui.h:103
-msgid "Email Address:"
-msgstr "Email Address:"
 
 #: ../data/rc_gui.ui.h:104
 msgid "Reboot needed"
