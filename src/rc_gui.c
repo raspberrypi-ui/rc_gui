@@ -36,7 +36,6 @@
 #define SET_BOOT_WAIT   "sudo raspi-config nonint do_boot_wait %d"
 #define GET_OVERSCAN    "sudo raspi-config nonint get_overscan"
 #define SET_OVERSCAN    "sudo raspi-config nonint do_overscan %d"
-#define SET_RASTRACK    "curl --data \"name=%s&email=%s\" http://rastrack.co.uk/api.php"
 #define GET_CAMERA      "sudo raspi-config nonint get_camera"
 #define SET_CAMERA      "sudo raspi-config nonint do_camera %d"
 #define GET_SSH         "sudo raspi-config nonint get_ssh"
@@ -66,7 +65,7 @@
 
 /* Controls */
 
-static GObject *expandfs_btn, *passwd_btn, *locale_btn, *timezone_btn, *keyboard_btn, *rastrack_btn, *wifi_btn;
+static GObject *expandfs_btn, *passwd_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn;
 static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
@@ -818,42 +817,6 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
     gtk_widget_destroy (dlg);
 }
 
-/* Rastrack setting */
-
-static void rt_change (GtkEntry *entry, gpointer ptr)
-{
-    if (strlen (gtk_entry_get_text (GTK_ENTRY (rtname_tb))) && strlen (gtk_entry_get_text (GTK_ENTRY (rtemail_tb))))
-        gtk_widget_set_sensitive (GTK_WIDGET (rtok_btn), TRUE);
-    else
-        gtk_widget_set_sensitive (GTK_WIDGET (rtok_btn), FALSE);
-}
-
-static void on_set_rastrack (GtkButton* btn, gpointer ptr)
-{
-    GtkBuilder *builder;
-    GtkWidget *dlg;
-    char buffer[128];
-
-    builder = gtk_builder_new ();
-    gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
-    dlg = (GtkWidget *) gtk_builder_get_object (builder, "rastrackdialog");
-    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
-    rtname_tb = gtk_builder_get_object (builder, "rtentry1");
-    rtemail_tb = gtk_builder_get_object (builder, "rtentry2");
-    g_signal_connect (rtname_tb, "changed", G_CALLBACK (rt_change), NULL);
-    g_signal_connect (rtemail_tb, "changed", G_CALLBACK (rt_change), NULL);
-    rtok_btn = gtk_builder_get_object (builder, "rastrackok");
-    gtk_widget_set_sensitive (GTK_WIDGET(rtok_btn), FALSE);
-    g_object_unref (builder);
-
-    if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
-    {
-        sprintf (buffer, SET_RASTRACK, gtk_entry_get_text (GTK_ENTRY (rtname_tb)), gtk_entry_get_text (GTK_ENTRY (rtemail_tb)));
-        system (buffer);
-    }
-    gtk_widget_destroy (dlg);
-}
-
 /* Button handlers */
 
 static void on_expand_fs (GtkButton* btn, gpointer ptr)
@@ -1102,9 +1065,6 @@ int main (int argc, char *argv[])
 
     keyboard_btn = gtk_builder_get_object (builder, "button_kb");
     g_signal_connect (keyboard_btn, "clicked", G_CALLBACK (on_set_keyboard), NULL);
-
-    rastrack_btn = gtk_builder_get_object (builder, "button_rt");
-    g_signal_connect (rastrack_btn, "clicked", G_CALLBACK (on_set_rastrack), NULL);
 
     wifi_btn = gtk_builder_get_object (builder, "button_wifi");
     g_signal_connect (wifi_btn, "clicked", G_CALLBACK (on_set_wifi), NULL);
