@@ -1127,6 +1127,13 @@ int main (int argc, char *argv[])
     if (orig_vnc = get_status (GET_VNC)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vnc_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vnc_on_rb), TRUE);
 
+    // disable the buttons if RealVNC isn't installed
+    gboolean enable = TRUE;
+    struct stat buf;
+    if (stat ("/usr/share/doc/realvnc-vnc-server", &buf)) enable = FALSE;
+    gtk_widget_set_sensitive (vnc_on_rb, enable);
+    gtk_widget_set_sensitive (vnc_off_rb, enable);
+
     switch (get_status (GET_PI_TYPE))
     {
         case 1:
