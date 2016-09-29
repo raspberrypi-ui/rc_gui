@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rc_gui 0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-27 13:39+0100\n"
+"POT-Creation-Date: 2016-09-29 15:48+0100\n"
 "PO-Revision-Date: 2016-04-22 10:29+0100\n"
 "Last-Translator: Simon Long  <simon@raspberrypi.org>\n"
 "Language-Team: English (British)\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/rc_gui.c:591
+#: ../src/rc_gui.c:592
 msgid "Setting locale - please wait..."
 msgstr "Setting locale - please wait..."
 
-#: ../src/rc_gui.c:751
+#: ../src/rc_gui.c:752
 msgid "Setting timezone - please wait..."
 msgstr "Setting timezone - please wait..."
 
@@ -106,22 +106,34 @@ msgid "Do not complete boot until network connection is established"
 msgstr "Do not complete boot until network connection is established"
 
 #: ../data/rc_gui.ui.h:21
-msgid "Overscan:"
-msgstr "Underscan:"
+msgid "Splash Screen:"
+msgstr "Splash Screen:"
 
 #: ../data/rc_gui.ui.h:22
 msgid "Enable"
 msgstr "Enabled"
 
 #: ../data/rc_gui.ui.h:23
-msgid "Enable overscan to show the edges of the screen"
-msgstr "Enable underscan if the desktop does not all fit on screen"
+msgid "Show graphical splash screen at boot"
+msgstr "Show graphical splash screen at boot"
 
 #: ../data/rc_gui.ui.h:24
 msgid "Disable"
 msgstr "Disabled"
 
 #: ../data/rc_gui.ui.h:25
+msgid "Show text messages at boot"
+msgstr "Show text messages at boot"
+
+#: ../data/rc_gui.ui.h:26
+msgid "Overscan:"
+msgstr "Underscan:"
+
+#: ../data/rc_gui.ui.h:27
+msgid "Enable overscan to show the edges of the screen"
+msgstr "Enable underscan if the desktop does not all fit on screen"
+
+#: ../data/rc_gui.ui.h:28
 msgid "Disable overscan to hide black outline on screen"
 msgstr "Disable underscan if there is a black border around screen"
 
@@ -397,11 +409,11 @@ msgstr "Enter new password:"
 msgid "Confirm new password:"
 msgstr "Confirm new password:"
 
-#: ../data/rc_gui.ui.h:104
+#: ../data/rc_gui.ui.h:97
 msgid "Reboot needed"
 msgstr "Reboot needed"
 
-#: ../data/rc_gui.ui.h:105
+#: ../data/rc_gui.ui.h:98
 msgid ""
 "The changes you have made require the Raspberry Pi to be rebooted to take "
 "effect.\n"
@@ -413,19 +425,19 @@ msgstr ""
 "\n"
 "Would you like to reboot now? "
 
-#: ../data/rc_gui.ui.h:108
+#: ../data/rc_gui.ui.h:101
 msgid "Timezone"
 msgstr "Timezone"
 
-#: ../data/rc_gui.ui.h:109
+#: ../data/rc_gui.ui.h:102
 msgid "Area:"
 msgstr "Area:"
 
-#: ../data/rc_gui.ui.h:110
+#: ../data/rc_gui.ui.h:103
 msgid "Location:"
 msgstr "Location:"
 
-#: ../data/rc_gui.ui.h:111
+#: ../data/rc_gui.ui.h:104
 msgid "WiFi Country Code"
 msgstr "WiFi Country Code"
 

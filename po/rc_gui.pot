@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-28 16:09+0100\n"
+"POT-Creation-Date: 2016-09-29 15:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/rc_gui.c:591
+#: ../src/rc_gui.c:592
 msgid "Setting locale - please wait..."
 msgstr ""
 
-#: ../src/rc_gui.c:751
+#: ../src/rc_gui.c:752
 msgid "Setting timezone - please wait..."
 msgstr ""
 
@@ -106,7 +106,7 @@ msgid "Do not complete boot until network connection is established"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:21
-msgid "Overscan:"
+msgid "Splash Screen:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:22
@@ -114,7 +114,7 @@ msgid "Enable"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:23
-msgid "Enable overscan to show the edges of the screen"
+msgid "Show graphical splash screen at boot"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:24
@@ -122,19 +122,19 @@ msgid "Disable"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:25
-msgid "Disable overscan to hide black outline on screen"
+msgid "Show text messages at boot"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:26
-msgid "Rastrack:"
+msgid "Overscan:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:27
-msgid "Add to _Rastrack..."
+msgid "Enable overscan to show the edges of the screen"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:28
-msgid "Add this Pi to the online Raspberry Pi map"
+msgid "Disable overscan to hide black outline on screen"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:29
@@ -398,32 +398,10 @@ msgid "Confirm new password:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:97
-msgid "Rastrack Registration"
-msgstr ""
-
-#: ../data/rc_gui.ui.h:98
-msgid ""
-"Rastrack (http://www.rastrack.co.uk) is a website which tracks the location "
-"of Raspberry Pis around the world. If you would like to be added to it, "
-"enter your name and email address below.\n"
-"\n"
-"This is entirely optional and does not form an official registration "
-"process.\n"
-msgstr ""
-
-#: ../data/rc_gui.ui.h:102
-msgid "Username:"
-msgstr ""
-
-#: ../data/rc_gui.ui.h:103
-msgid "Email Address:"
-msgstr ""
-
-#: ../data/rc_gui.ui.h:104
 msgid "Reboot needed"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:105
+#: ../data/rc_gui.ui.h:98
 msgid ""
 "The changes you have made require the Raspberry Pi to be rebooted to take "
 "effect.\n"
@@ -431,19 +409,19 @@ msgid ""
 "Would you like to reboot now? "
 msgstr ""
 
-#: ../data/rc_gui.ui.h:108
+#: ../data/rc_gui.ui.h:101
 msgid "Timezone"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:109
+#: ../data/rc_gui.ui.h:102
 msgid "Area:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:110
+#: ../data/rc_gui.ui.h:103
 msgid "Location:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:111
+#: ../data/rc_gui.ui.h:104
 msgid "WiFi Country Code"
 msgstr ""
 

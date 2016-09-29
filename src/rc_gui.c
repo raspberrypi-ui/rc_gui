@@ -34,6 +34,8 @@
 #define SET_BOOT_GUIA   "sudo raspi-config nonint do_boot_behaviour B4"
 #define GET_BOOT_WAIT   "sudo raspi-config nonint get_boot_wait"
 #define SET_BOOT_WAIT   "sudo raspi-config nonint do_boot_wait %d"
+#define GET_SPLASH      "sudo raspi-config nonint get_boot_splash"
+#define SET_SPLASH      "sudo raspi-config nonint do_boot_splash %d"
 #define GET_OVERSCAN    "sudo raspi-config nonint get_overscan"
 #define SET_OVERSCAN    "sudo raspi-config nonint do_overscan %d"
 #define GET_CAMERA      "sudo raspi-config nonint get_camera"
@@ -69,7 +71,7 @@ static GObject *expandfs_btn, *passwd_btn, *locale_btn, *timezone_btn, *keyboard
 static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
-static GObject *autologin_cb, *netwait_cb;
+static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
@@ -82,7 +84,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 /* Initial values */
 
 static char orig_hostname[128];
-static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial;
+static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_splash;
 static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc;
 
 /* Reboot flag set after locale change */
@@ -841,6 +843,25 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     system ("lxkeymap");
 }
 
+static void on_boot_cli (GtkButton* btn, gpointer ptr)
+{
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
+    {
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (splash_off_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_on_rb), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), FALSE);
+    }
+}
+
+static void on_boot_gui (GtkButton* btn, gpointer ptr)
+{
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
+    {
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_on_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), TRUE);
+    }
+}
+
 /* Write the changes to the system when OK is pressed */
 
 static int process_changes (void)
@@ -861,12 +882,17 @@ static int process_changes (void)
             if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) system (SET_BOOT_GUI);
             else system (SET_BOOT_CLI);
         }
-        reboot = 1;
     }
     
     if (orig_netwait == gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (netwait_cb)))
     {
         sprintf (buffer, SET_BOOT_WAIT, (1 - orig_netwait));
+        system (buffer);
+    }
+
+    if (orig_splash != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (splash_off_rb)))
+    {
+        sprintf (buffer, SET_SPLASH, (1 - orig_splash));
         system (buffer);
     }
 
@@ -1012,6 +1038,8 @@ static int can_configure (void)
     return 1;
 }
 
+
+
 /* The dialog... */
 
 int main (int argc, char *argv[])
@@ -1051,8 +1079,8 @@ int main (int argc, char *argv[])
 
     expandfs_btn = gtk_builder_get_object (builder, "button_fs");
     g_signal_connect (expandfs_btn, "clicked", G_CALLBACK (on_expand_fs), NULL);
-    if (get_status (GET_CAN_EXPAND)) gtk_widget_set_sensitive (GTK_WIDGET(expandfs_btn), FALSE);
-    else gtk_widget_set_sensitive (GTK_WIDGET(expandfs_btn), TRUE);
+    if (get_status (GET_CAN_EXPAND)) gtk_widget_set_sensitive (GTK_WIDGET (expandfs_btn), FALSE);
+    else gtk_widget_set_sensitive (GTK_WIDGET (expandfs_btn), TRUE);
 
     passwd_btn = gtk_builder_get_object (builder, "button_pw");
     g_signal_connect (passwd_btn, "clicked", G_CALLBACK (on_change_passwd), NULL);
@@ -1069,8 +1097,15 @@ int main (int argc, char *argv[])
     wifi_btn = gtk_builder_get_object (builder, "button_wifi");
     g_signal_connect (wifi_btn, "clicked", G_CALLBACK (on_set_wifi), NULL);
 
+    splash_on_rb = gtk_builder_get_object (builder, "rb_splash_on");
+    splash_off_rb = gtk_builder_get_object (builder, "rb_splash_off");
+    if (orig_splash = get_status (GET_SPLASH)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (splash_off_rb), TRUE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (splash_on_rb), TRUE);
+
     boot_desktop_rb = gtk_builder_get_object (builder, "rb_desktop");
+    g_signal_connect (boot_desktop_rb, "toggled", G_CALLBACK (on_boot_gui), NULL);
     boot_cli_rb = gtk_builder_get_object (builder, "rb_cli");
+    g_signal_connect (boot_cli_rb, "toggled", G_CALLBACK (on_boot_cli), NULL);
     if (orig_boot = get_status (GET_BOOT_CLI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
 
@@ -1131,8 +1166,8 @@ int main (int argc, char *argv[])
     gboolean enable = TRUE;
     struct stat buf;
     if (stat ("/usr/share/doc/realvnc-vnc-server", &buf)) enable = FALSE;
-    gtk_widget_set_sensitive (vnc_on_rb, enable);
-    gtk_widget_set_sensitive (vnc_off_rb, enable);
+    gtk_widget_set_sensitive (GTK_WIDGET (vnc_on_rb), enable);
+    gtk_widget_set_sensitive (GTK_WIDGET (vnc_off_rb), enable);
 
     switch (get_status (GET_PI_TYPE))
     {
@@ -1167,18 +1202,18 @@ int main (int argc, char *argv[])
                             break;
             }
             gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31")));
-            gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox32")));
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox33")));
+            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31")));
+            gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox32")));
+            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox33")));
             break;
 
         default :
             overclock_cb = gtk_builder_get_object (builder, "combo_oc_pi3");
             gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 0);
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31")));
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox32")));
-            gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox33")));
-            gtk_widget_set_sensitive (GTK_WIDGET(overclock_cb), FALSE);
+            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31")));
+            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox32")));
+            gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox33")));
+            gtk_widget_set_sensitive (GTK_WIDGET (overclock_cb), FALSE);
             break;
     }
 
