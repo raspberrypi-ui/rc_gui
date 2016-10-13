@@ -1,3 +1,9 @@
+rc-gui (1.2) jessie; urgency=medium
+
+  * 1.2 release - add splash screen control; remove Rastrack
+
+ -- Simon Long <simon@raspberrypi.org>  Thu, 13 Oct 2016 13:56:20 +0100
+
 rc-gui (1.1-1) jessie; urgency=medium
 
   * 1.1 release - adds support for RealVNC
