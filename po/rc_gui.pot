@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-13 14:03+0100\n"
+"POT-Creation-Date: 2016-10-24 13:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/rc_gui.c:592
+#: ../src/rc_gui.c:606
 msgid "Setting locale - please wait..."
 msgstr ""
 
-#: ../src/rc_gui.c:752
+#: ../src/rc_gui.c:766
 msgid "Setting timezone - please wait..."
 msgstr ""
 
@@ -390,18 +390,43 @@ msgid "Change Password"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:95
-msgid "Enter new password:"
+msgid "Current password:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:96
-msgid "Confirm new password:"
+msgid "Enter new password:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:97
-msgid "Reboot needed"
+msgid "Confirm new password:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:98
+msgid "Password Not Changed"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:99
+msgid ""
+"The password change failed.\n"
+"\n"
+"This could be because the current password was incorrect, or because the new "
+"password was not sufficiently complex or was too similar to the current "
+"password."
+msgstr ""
+
+#: ../data/rc_gui.ui.h:102
+msgid "Password Changed"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:103
+msgid "The password has been changed successfully."
+msgstr ""
+
+#: ../data/rc_gui.ui.h:104
+msgid "Reboot needed"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:105
 msgid ""
 "The changes you have made require the Raspberry Pi to be rebooted to take "
 "effect.\n"
@@ -409,19 +434,19 @@ msgid ""
 "Would you like to reboot now? "
 msgstr ""
 
-#: ../data/rc_gui.ui.h:101
+#: ../data/rc_gui.ui.h:108
 msgid "Timezone"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:102
+#: ../data/rc_gui.ui.h:109
 msgid "Area:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:103
+#: ../data/rc_gui.ui.h:110
 msgid "Location:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:104
+#: ../data/rc_gui.ui.h:111
 msgid "WiFi Country Code"
 msgstr ""
 

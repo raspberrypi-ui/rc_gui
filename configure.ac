@@ -194,18 +194,3 @@ AC_CONFIG_FILES([
     po/Makefile.in
 ])
 AC_OUTPUT
-
-echo
-echo lxpanel ......................... : Version $VERSION
-echo
-echo Prefix........................... : $prefix
-echo System config directory.......... : `eval "echo $sysconfdir"`
-echo
-
-if test x"$sysconfdir" != x'/etc'; then
-    echo
-    echo 'Warning: sysconfdir is not /etc. It might be not what you want.'
-    echo 'Please consider passing --sysconfdir=/etc to configure.'
-fi
-
-

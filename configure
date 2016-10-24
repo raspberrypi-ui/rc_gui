@@ -16771,19 +16771,3 @@ if test -n "$ac_unrecognized_opts" && test "$enable_option_checking" != no; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: unrecognized options: $ac_unrecognized_opts" >&5
 $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
-
-
-echo
-echo lxpanel ......................... : Version $VERSION
-echo
-echo Prefix........................... : $prefix
-echo System config directory.......... : `eval "echo $sysconfdir"`
-echo
-
-if test x"$sysconfdir" != x'/etc'; then
-    echo
-    echo 'Warning: sysconfdir is not /etc. It might be not what you want.'
-    echo 'Please consider passing --sysconfdir=/etc to configure.'
-fi
-
-

@@ -23,7 +23,6 @@
 /* Command strings */
 #define GET_CAN_EXPAND  "sudo raspi-config nonint get_can_expand"
 #define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
-#define CHANGE_PASSWD   "echo pi:%s | sudo chpasswd"
 #define GET_HOSTNAME    "sudo raspi-config nonint get_hostname"
 #define SET_HOSTNAME    "sudo raspi-config nonint do_hostname %s"
 #define GET_BOOT_CLI    "sudo raspi-config nonint get_boot_cli"
@@ -64,6 +63,7 @@
 #define SET_GPU_MEM     "sudo raspi-config nonint do_memory_split %d"
 #define GET_WIFI_CTRY   "sudo raspi-config nonint get_wifi_country"
 #define SET_WIFI_CTRY   "sudo raspi-config nonint do_wifi_country %s"
+#define CHANGE_PASSWD   "(echo \"%s\" ; echo \"%s\" ; echo \"%s\") | passwd"
 
 /* Controls */
 
@@ -73,7 +73,7 @@ static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpi
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
 static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb;
-static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
+static GObject *pwentry1_tb, *pwentry2_tb, *pwentry3_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
 static GObject *tzarea_cb, *tzloc_cb, *wccountry_cb;
 static GObject *loclang_cb, *loccount_cb, *locchar_cb;
@@ -239,7 +239,8 @@ static void get_country (char *instr, char *ctry)
 
 static void set_passwd (GtkEntry *entry, gpointer ptr)
 {
-    if (strcmp (gtk_entry_get_text (GTK_ENTRY (pwentry1_tb)), gtk_entry_get_text (GTK_ENTRY(pwentry2_tb))))
+    if (strlen (gtk_entry_get_text (GTK_ENTRY (pwentry2_tb))) && strcmp (gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), 
+		gtk_entry_get_text (GTK_ENTRY(pwentry3_tb))))
         gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), FALSE);
     else
         gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), TRUE);
@@ -250,6 +251,7 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
     GtkBuilder *builder;
     GtkWidget *dlg;
     char buffer[128];
+    int res;
 
     builder = gtk_builder_new ();
     gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
@@ -257,18 +259,30 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
     pwentry1_tb = gtk_builder_get_object (builder, "pwentry1");
     pwentry2_tb = gtk_builder_get_object (builder, "pwentry2");
-    g_signal_connect (pwentry1_tb, "changed", G_CALLBACK (set_passwd), NULL);
+    pwentry3_tb = gtk_builder_get_object (builder, "pwentry3");
+    gtk_entry_set_visibility (GTK_ENTRY (pwentry1_tb), FALSE);
+    gtk_entry_set_visibility (GTK_ENTRY (pwentry2_tb), FALSE);
+    gtk_entry_set_visibility (GTK_ENTRY (pwentry3_tb), FALSE);
     g_signal_connect (pwentry2_tb, "changed", G_CALLBACK (set_passwd), NULL);
+    g_signal_connect (pwentry3_tb, "changed", G_CALLBACK (set_passwd), NULL);
     pwok_btn = gtk_builder_get_object (builder, "passwdok");
     gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), FALSE);
-    g_object_unref (builder);
 
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
-        sprintf (buffer, CHANGE_PASSWD, gtk_entry_get_text (GTK_ENTRY (pwentry1_tb)));
-        system (buffer);
+        sprintf (buffer, CHANGE_PASSWD, gtk_entry_get_text (GTK_ENTRY (pwentry1_tb)), gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), gtk_entry_get_text (GTK_ENTRY (pwentry3_tb)));
+        res = system (buffer);
+        gtk_widget_destroy (dlg);
+		if (res)
+			dlg = (GtkWidget *) gtk_builder_get_object (builder, "pwbaddialog");
+		else
+			dlg = (GtkWidget *) gtk_builder_get_object (builder, "pwokdialog");
+		gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+		gtk_dialog_run (GTK_DIALOG (dlg));
+		gtk_widget_destroy (dlg);
     }
-    gtk_widget_destroy (dlg);
+    else gtk_widget_destroy (dlg);
+    g_object_unref (builder);
 }
 
 /* Locale setting */
