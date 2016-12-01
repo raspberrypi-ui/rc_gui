@@ -61,13 +61,16 @@
 #define GET_GPU_MEM_512 "sudo raspi-config nonint get_config_var gpu_mem_512 /boot/config.txt"
 #define GET_GPU_MEM_1K  "sudo raspi-config nonint get_config_var gpu_mem_1024 /boot/config.txt"
 #define SET_GPU_MEM     "sudo raspi-config nonint do_memory_split %d"
+#define GET_HDMI_GROUP  "sudo raspi-config nonint get_config_var hdmi_group /boot/config.txt"
+#define GET_HDMI_MODE   "sudo raspi-config nonint get_config_var hdmi_mode /boot/config.txt"
+#define SET_HDMI_GP_MOD "sudo raspi-config nonint do_resolution %d %d"
 #define GET_WIFI_CTRY   "sudo raspi-config nonint get_wifi_country"
 #define SET_WIFI_CTRY   "sudo raspi-config nonint do_wifi_country %s"
 #define CHANGE_PASSWD   "(echo \"%s\" ; echo \"%s\" ; echo \"%s\") | passwd"
 
 /* Controls */
 
-static GObject *expandfs_btn, *passwd_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn;
+static GObject *expandfs_btn, *passwd_btn, *res_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn;
 static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
@@ -75,7 +78,7 @@ static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwentry3_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
-static GObject *tzarea_cb, *tzloc_cb, *wccountry_cb;
+static GObject *tzarea_cb, *tzloc_cb, *wccountry_cb, *resolution_cb;
 static GObject *loclang_cb, *loccount_cb, *locchar_cb;
 static GObject *language_ls, *country_ls;
 
@@ -833,6 +836,148 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
     gtk_widget_destroy (dlg);
 }
 
+/* Resolution setting */
+
+static void on_set_res (GtkButton* btn, gpointer ptr)
+{
+    GtkBuilder *builder;
+    GtkWidget *dlg;
+    char buffer[128], *cptr, entry[128];
+    FILE *fp;
+    int n, found, hmode, hgroup, mode, x, y, freq, ax, ay, conn;
+
+    builder = gtk_builder_new ();
+    gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+    dlg = (GtkWidget *) gtk_builder_get_object (builder, "resdialog");
+    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+
+    GtkWidget *table = (GtkWidget *) gtk_builder_get_object (builder, "restable");
+    resolution_cb = (GObject *) gtk_combo_box_new_text ();
+    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (resolution_cb), 1, 2, 0, 1, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
+    gtk_widget_show_all (GTK_WIDGET (resolution_cb));
+
+    // get the current HDMI group and mode
+    hgroup = get_status (GET_HDMI_GROUP);
+    hmode = get_status (GET_HDMI_MODE);
+
+    // is there a monitor connected?
+    conn = 1;
+    fp = popen ("tvservice -d /dev/null", "r");
+    while (fgets (buffer, sizeof (buffer) - 1, fp))
+    {
+		if (!strncmp (buffer, "Nothing", 7)) conn = 0;
+    }
+    fclose (fp);
+
+    // populate the combobox
+	if (conn)
+	{
+		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "Default - preferred monitor settings");
+		found = 0;
+		n = 1;
+
+		// get valid CEA modes
+		fp = popen ("tvservice -m CEA", "r");
+		while (fgets (buffer, sizeof (buffer) - 1, fp))
+		{
+			if (buffer[0] != 0x0A && strstr (buffer, "progressive"))
+			{
+				sscanf (buffer + 11, "mode %d: %dx%d @ %dHz %d:%d,", &mode, &x, &y, &freq, &ax, &ay);
+				if (x <= 1920 && y <= 1200)
+				{
+					sprintf (entry, "CEA mode %d %dx%d %dHz %d:%d", mode, x, y, freq, ax, ay);
+					gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), entry);
+					if (hgroup == 1 && hmode == mode) found = n;
+					n++;
+				}
+			}
+		}
+		fclose (fp);
+
+		// get valid DMT modes
+		fp = popen ("tvservice -m DMT", "r");
+		while (fgets (buffer, sizeof (buffer) - 1, fp))
+		{
+			if (buffer[0] != 0x0A && strstr (buffer, "progressive"))
+			{
+				sscanf (buffer + 11, "mode %d: %dx%d @ %dHz %d:%d,", &mode, &x, &y, &freq, &ax, &ay);
+				if (x <= 1920 && y <= 1200)
+				{
+					sprintf (entry, "DMT mode %d %dx%d %dHz %d:%d", mode, x, y, freq, ax, ay);
+					gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), entry);
+					if (hgroup == 2 && hmode == mode) found = n;
+					n++;
+				}
+			}
+		}
+		fclose (fp);
+	}
+	else
+	{
+		// no connected monitor - offer default modes for VNC
+		found = 0;
+		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "Default 720x480");
+		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 4 640x480 60Hz 4:3");
+		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 9 800x600 60Hz 4:3");
+		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 16 1024x768 60Hz 4:3");
+		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 85 1280x720 60Hz 16:9");
+		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 35 1280x1024 60Hz 5:4");
+		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 51 1600x1200 60Hz 4:3");
+		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 82 1920x1080 60Hz 16:9");
+		if (hgroup == 2)
+		{
+			switch (hmode)
+			{
+				case 4 : 	found = 1;
+							break;
+				case 9 : 	found = 2;
+							break;
+				case 16 : 	found = 3;
+							break;
+				case 85 : 	found = 4;
+							break;
+				case 35 : 	found = 5;
+							break;
+				case 51 : 	found = 6;
+							break;
+				case 82 : 	found = 7;
+							break;
+			}
+		}
+	}
+
+    gtk_combo_box_set_active (GTK_COMBO_BOX (resolution_cb), found);
+
+    g_object_unref (builder);
+
+    if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
+    {
+        // set the HDMI variables
+        if (!strncmp (gtk_combo_box_get_active_text (GTK_COMBO_BOX (resolution_cb)), "Default", 7))
+        {
+			// clear setting
+			if (hmode != 0)
+			{
+				sprintf (buffer, SET_HDMI_GP_MOD, 0, 0);
+				system (buffer);
+				needs_reboot = 1;
+			}
+		}
+		else
+		{
+			// set config vars
+			sscanf (gtk_combo_box_get_active_text (GTK_COMBO_BOX (resolution_cb)), "%s mode %d", buffer, &mode);
+			if (hgroup != buffer[0] - 'B' || hmode != mode)
+			{
+				sprintf (buffer, SET_HDMI_GP_MOD, buffer[0] - 'B', mode);
+				system (buffer);
+				needs_reboot = 1;
+			}
+		}
+    }
+    gtk_widget_destroy (dlg);
+}
+
 /* Button handlers */
 
 static void on_expand_fs (GtkButton* btn, gpointer ptr)
@@ -1091,13 +1236,11 @@ int main (int argc, char *argv[])
 
     main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "dialog1");
 
-    expandfs_btn = gtk_builder_get_object (builder, "button_fs");
-    g_signal_connect (expandfs_btn, "clicked", G_CALLBACK (on_expand_fs), NULL);
-    if (get_status (GET_CAN_EXPAND)) gtk_widget_set_sensitive (GTK_WIDGET (expandfs_btn), FALSE);
-    else gtk_widget_set_sensitive (GTK_WIDGET (expandfs_btn), TRUE);
-
     passwd_btn = gtk_builder_get_object (builder, "button_pw");
     g_signal_connect (passwd_btn, "clicked", G_CALLBACK (on_change_passwd), NULL);
+
+    res_btn = gtk_builder_get_object (builder, "button_res");
+    g_signal_connect (res_btn, "clicked", G_CALLBACK (on_set_res), NULL);
 
     locale_btn = gtk_builder_get_object (builder, "button_loc");
     g_signal_connect (locale_btn, "clicked", G_CALLBACK (on_set_locale), NULL);

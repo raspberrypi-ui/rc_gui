@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-08 15:01+0000\n"
+"POT-Creation-Date: 2016-12-01 14:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/rc_gui.c:606
+#: ../src/rc_gui.c:609
 msgid "Setting locale - please wait..."
 msgstr ""
 
-#: ../src/rc_gui.c:766
+#: ../src/rc_gui.c:769
 msgid "Setting timezone - please wait..."
 msgstr ""
 
@@ -30,99 +30,99 @@ msgid "Raspberry Pi Configuration"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:2
-msgid "Filesystem:"
-msgstr ""
-
-#: ../data/rc_gui.ui.h:3
-msgid "Expand _Filesystem"
-msgstr ""
-
-#: ../data/rc_gui.ui.h:4
-msgid "Ensure that all of the SD card storage is available to the OS"
-msgstr ""
-
-#: ../data/rc_gui.ui.h:5
 msgid "Password:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:6
+#: ../data/rc_gui.ui.h:3
 msgid "Change _Password..."
 msgstr ""
 
-#: ../data/rc_gui.ui.h:7
+#: ../data/rc_gui.ui.h:4
 msgid "Change password for the default user (pi)"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:8
+#: ../data/rc_gui.ui.h:5
 msgid "Hostname:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:9
+#: ../data/rc_gui.ui.h:6
 msgid "Set the name of your Pi on a local network"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:10
+#: ../data/rc_gui.ui.h:7
 msgid "Boot:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:11
+#: ../data/rc_gui.ui.h:8
 msgid "To Desktop"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:12
+#: ../data/rc_gui.ui.h:9
 msgid "Launch the desktop environment automatically on boot"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:13
+#: ../data/rc_gui.ui.h:10
 msgid "To CLI"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:14
+#: ../data/rc_gui.ui.h:11
 msgid "Boot into a command line shell rather than the desktop"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:15
+#: ../data/rc_gui.ui.h:12
 msgid "Auto login:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:16
+#: ../data/rc_gui.ui.h:13
 msgid "Login as user 'pi'"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:17
+#: ../data/rc_gui.ui.h:14
 msgid "Automatically log in the default user (pi)"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:18
+#: ../data/rc_gui.ui.h:15
 msgid "Network at Boot:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:19
+#: ../data/rc_gui.ui.h:16
 msgid "Wait for network"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:20
+#: ../data/rc_gui.ui.h:17
 msgid "Do not complete boot until network connection is established"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:21
+#: ../data/rc_gui.ui.h:18
 msgid "Splash Screen:"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:22
+#: ../data/rc_gui.ui.h:19
 msgid "Enable"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:23
+#: ../data/rc_gui.ui.h:20
 msgid "Show graphical splash screen at boot"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:24
+#: ../data/rc_gui.ui.h:21
 msgid "Disable"
 msgstr ""
 
-#: ../data/rc_gui.ui.h:25
+#: ../data/rc_gui.ui.h:22
 msgid "Show text messages at boot"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:23
+msgid "Resolution:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:24
+msgid "Set _Resolution..."
+msgstr ""
+
+#: ../data/rc_gui.ui.h:25
+msgid "Set the resolution for HDMI and VNC"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:26
@@ -435,18 +435,22 @@ msgid ""
 msgstr ""
 
 #: ../data/rc_gui.ui.h:108
-msgid "Timezone"
+msgid "Set Resolution"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:109
-msgid "Area:"
+msgid "Timezone"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:110
-msgid "Location:"
+msgid "Area:"
 msgstr ""
 
 #: ../data/rc_gui.ui.h:111
+msgid "Location:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:112
 msgid "WiFi Country Code"
 msgstr ""
 
