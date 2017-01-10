@@ -1179,18 +1179,20 @@ static int can_configure (void)
     // check config file exists
     if (stat ("/boot/config.txt", &buf)) return 0;
 
+    // check pi user exists
+    if (!get_status ("id -u pi")) return 0;
+
+#ifdef __arm__
     // check startx.elf is present
     if (stat ("/boot/start_x.elf", &buf)) return 0;
 
     // check device tree is enabled
     if (!get_status ("cat /boot/config.txt | grep -q ^device_tree=$ ; echo $?")) return 0;
 
-    // check pi user exists
-    if (!get_status ("id -u pi")) return 0;
-
     // check /boot is mounted
     fp = popen ("mountpoint /boot", "r");
     if (pclose (fp) != 0) return 0;
+#endif
 
     // create /boot/config.txt if it doesn't exist
     system ("[ -e /boot/config.txt ] || sudo touch /boot/config.txt");
@@ -1239,9 +1241,6 @@ int main (int argc, char *argv[])
     passwd_btn = gtk_builder_get_object (builder, "button_pw");
     g_signal_connect (passwd_btn, "clicked", G_CALLBACK (on_change_passwd), NULL);
 
-    res_btn = gtk_builder_get_object (builder, "button_res");
-    g_signal_connect (res_btn, "clicked", G_CALLBACK (on_set_res), NULL);
-
     locale_btn = gtk_builder_get_object (builder, "button_loc");
     g_signal_connect (locale_btn, "clicked", G_CALLBACK (on_set_locale), NULL);
 
@@ -1274,6 +1273,19 @@ int main (int argc, char *argv[])
     if (orig_netwait = get_status (GET_BOOT_WAIT)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_cb), FALSE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_cb), TRUE);
 
+    ssh_on_rb = gtk_builder_get_object (builder, "rb_ssh_on");
+    ssh_off_rb = gtk_builder_get_object (builder, "rb_ssh_off");
+    if (orig_ssh = get_status (GET_SSH)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_off_rb), TRUE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_on_rb), TRUE);
+
+    hostname_tb = gtk_builder_get_object (builder, "entry_hn");
+    get_string (GET_HOSTNAME, orig_hostname);
+    gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hostname);
+
+#ifdef __arm__
+    res_btn = gtk_builder_get_object (builder, "button_res");
+    g_signal_connect (res_btn, "clicked", G_CALLBACK (on_set_res), NULL);
+
     camera_on_rb = gtk_builder_get_object (builder, "rb_cam_on");
     camera_off_rb = gtk_builder_get_object (builder, "rb_cam_off");
     if (orig_camera = get_status (GET_CAMERA)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_off_rb), TRUE);
@@ -1283,11 +1295,6 @@ int main (int argc, char *argv[])
     overscan_off_rb = gtk_builder_get_object (builder, "rb_os_off");
     if (orig_overscan = get_status (GET_OVERSCAN)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overscan_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overscan_on_rb), TRUE);
-
-    ssh_on_rb = gtk_builder_get_object (builder, "rb_ssh_on");
-    ssh_off_rb = gtk_builder_get_object (builder, "rb_ssh_off");
-    if (orig_ssh = get_status (GET_SSH)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_on_rb), TRUE);
 
     spi_on_rb = gtk_builder_get_object (builder, "rb_spi_on");
     spi_off_rb = gtk_builder_get_object (builder, "rb_spi_off");
@@ -1379,10 +1386,33 @@ int main (int argc, char *argv[])
     gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (memsplit_sb), GTK_ADJUSTMENT (adj));
     orig_gpumem = get_gpu_mem ();
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (memsplit_sb), orig_gpumem);
-
-    hostname_tb = gtk_builder_get_object (builder, "entry_hn");
-    get_string (GET_HOSTNAME, orig_hostname);
-    gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hostname);
+#else
+    if (!get_status ("grep -q boot=live /proc/cmdline ; echo $?"))
+    {
+        item = gtk_builder_get_object (builder, "hbox17");
+        gtk_widget_hide (GTK_WIDGET (item));
+    }
+    item = gtk_builder_get_object (builder, "hbox18");
+    gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox19");
+    gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox21");
+    gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox23");
+    gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox24");
+    gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox25");
+    gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox26");
+    gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox27");
+    gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox28");
+    gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "vbox30");
+    gtk_widget_hide (GTK_WIDGET (item));
+#endif
 
     GdkPixbuf *win_icon = gtk_window_get_icon (GTK_WINDOW (main_dlg));
     GList *list;
