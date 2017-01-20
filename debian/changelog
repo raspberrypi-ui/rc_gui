@@ -1,3 +1,9 @@
+rc-gui (1.6) jessie; urgency=medium
+
+  * Modified to support x86 platforms
+
+ -- Simon Long <simon@raspberrypi.org>  Fri, 20 Jan 2017 14:04:18 +0000
+
 rc-gui (1.5) jessie; urgency=medium
 
   * Expand file system removed; resolution setting added
