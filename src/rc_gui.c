@@ -48,6 +48,7 @@
 #define GET_I2C         "sudo raspi-config nonint get_i2c"
 #define SET_I2C         "sudo raspi-config nonint do_i2c %d"
 #define GET_SERIAL      "sudo raspi-config nonint get_serial"
+#define GET_SERIALHW    "sudo raspi-config nonint get_serial_hw"
 #define SET_SERIAL      "sudo raspi-config nonint do_serial %d"
 #define GET_1WIRE       "sudo raspi-config nonint get_onewire"
 #define SET_1WIRE       "sudo raspi-config nonint do_onewire %d"
@@ -1308,7 +1309,7 @@ int main (int argc, char *argv[])
 
     serial_on_rb = gtk_builder_get_object (builder, "rb_ser_on");
     serial_off_rb = gtk_builder_get_object (builder, "rb_ser_off");
-    if (orig_serial = get_status (GET_SERIAL)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
+    if (orig_serial = (get_status (GET_SERIAL) | get_status (GET_SERIALHW))) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
 
     onewire_on_rb = gtk_builder_get_object (builder, "rb_one_on");
