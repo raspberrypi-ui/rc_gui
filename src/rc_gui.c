@@ -683,6 +683,7 @@ static void area_changed (GtkComboBox *cb, gpointer ptr)
 
 static gpointer timezone_thread (gpointer data)
 {
+    system ("sudo rm /etc/localtime");
     system ("sudo dpkg-reconfigure --frontend noninteractive tzdata");
     g_idle_add (close_msg, NULL);
     return NULL;
