@@ -1178,9 +1178,6 @@ static int can_configure (void)
     // check lightdm is installed
     if (stat ("/etc/init.d/lightdm", &buf)) return 0;
 
-    // check config file exists
-    if (stat ("/boot/config.txt", &buf)) return 0;
-
     // check pi user exists
     if (!get_status ("id -u pi")) return 0;
 
@@ -1194,10 +1191,11 @@ static int can_configure (void)
     // check /boot is mounted
     fp = popen ("mountpoint /boot", "r");
     if (pclose (fp) != 0) return 0;
-#endif
 
     // create /boot/config.txt if it doesn't exist
     system ("[ -e /boot/config.txt ] || sudo touch /boot/config.txt");
+#endif
+
     return 1;
 }
 

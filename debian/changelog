@@ -1,3 +1,15 @@
+rc-gui (1.9) jessie; urgency=medium
+
+  * Remove unnecessary check for config.txt on x86
+
+ -- Simon Long <simon@raspberrypi.org>  Wed, 03 May 2017 12:30:50 +0100
+
+rc-gui (1.8) jessie; urgency=medium
+
+  * Pre-emptive bug fix for timezone setting not changing in stretch
+
+ -- Simon Long <simon@raspberrypi.org>  Thu, 20 Apr 2017 15:01:01 +0100
+
 rc-gui (1.7) jessie; urgency=medium
 
   * Fix serial hardware and terminal detection logic
