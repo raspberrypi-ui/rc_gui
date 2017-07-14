@@ -21,52 +21,52 @@
 #include <libintl.h>
 
 /* Command strings */
-#define GET_CAN_EXPAND  "sudo raspi-config nonint get_can_expand"
-#define EXPAND_FS       "sudo raspi-config nonint do_expand_rootfs"
-#define GET_HOSTNAME    "sudo raspi-config nonint get_hostname"
-#define SET_HOSTNAME    "sudo raspi-config nonint do_hostname %s"
-#define GET_BOOT_CLI    "sudo raspi-config nonint get_boot_cli"
-#define GET_AUTOLOGIN   "sudo raspi-config nonint get_autologin"
-#define SET_BOOT_CLI    "sudo raspi-config nonint do_boot_behaviour B1"
-#define SET_BOOT_CLIA   "sudo raspi-config nonint do_boot_behaviour B2"
-#define SET_BOOT_GUI    "sudo raspi-config nonint do_boot_behaviour B3"
-#define SET_BOOT_GUIA   "sudo raspi-config nonint do_boot_behaviour B4"
-#define GET_BOOT_WAIT   "sudo raspi-config nonint get_boot_wait"
-#define SET_BOOT_WAIT   "sudo raspi-config nonint do_boot_wait %d"
-#define GET_SPLASH      "sudo raspi-config nonint get_boot_splash"
-#define SET_SPLASH      "sudo raspi-config nonint do_boot_splash %d"
-#define GET_OVERSCAN    "sudo raspi-config nonint get_overscan"
-#define SET_OVERSCAN    "sudo raspi-config nonint do_overscan %d"
-#define GET_CAMERA      "sudo raspi-config nonint get_camera"
-#define SET_CAMERA      "sudo raspi-config nonint do_camera %d"
-#define GET_SSH         "sudo raspi-config nonint get_ssh"
-#define SET_SSH         "sudo raspi-config nonint do_ssh %d"
-#define GET_VNC         "sudo raspi-config nonint get_vnc"
-#define SET_VNC         "sudo raspi-config nonint do_vnc %d"
-#define GET_SPI         "sudo raspi-config nonint get_spi"
-#define SET_SPI         "sudo raspi-config nonint do_spi %d"
-#define GET_I2C         "sudo raspi-config nonint get_i2c"
-#define SET_I2C         "sudo raspi-config nonint do_i2c %d"
-#define GET_SERIAL      "sudo raspi-config nonint get_serial"
-#define GET_SERIALHW    "sudo raspi-config nonint get_serial_hw"
-#define SET_SERIAL      "sudo raspi-config nonint do_serial %d"
-#define GET_1WIRE       "sudo raspi-config nonint get_onewire"
-#define SET_1WIRE       "sudo raspi-config nonint do_onewire %d"
-#define GET_RGPIO       "sudo raspi-config nonint get_rgpio"
-#define SET_RGPIO       "sudo raspi-config nonint do_rgpio %d"
-#define GET_PI_TYPE     "sudo raspi-config nonint get_pi_type"
-#define GET_OVERCLOCK   "sudo raspi-config nonint get_config_var arm_freq /boot/config.txt"
-#define SET_OVERCLOCK   "sudo raspi-config nonint do_overclock %s"
-#define GET_GPU_MEM     "sudo raspi-config nonint get_config_var gpu_mem /boot/config.txt"
-#define GET_GPU_MEM_256 "sudo raspi-config nonint get_config_var gpu_mem_256 /boot/config.txt"
-#define GET_GPU_MEM_512 "sudo raspi-config nonint get_config_var gpu_mem_512 /boot/config.txt"
-#define GET_GPU_MEM_1K  "sudo raspi-config nonint get_config_var gpu_mem_1024 /boot/config.txt"
-#define SET_GPU_MEM     "sudo raspi-config nonint do_memory_split %d"
-#define GET_HDMI_GROUP  "sudo raspi-config nonint get_config_var hdmi_group /boot/config.txt"
-#define GET_HDMI_MODE   "sudo raspi-config nonint get_config_var hdmi_mode /boot/config.txt"
-#define SET_HDMI_GP_MOD "sudo raspi-config nonint do_resolution %d %d"
-#define GET_WIFI_CTRY   "sudo raspi-config nonint get_wifi_country"
-#define SET_WIFI_CTRY   "sudo raspi-config nonint do_wifi_country %s"
+#define GET_CAN_EXPAND  "raspi-config nonint get_can_expand"
+#define EXPAND_FS       "raspi-config nonint do_expand_rootfs"
+#define GET_HOSTNAME    "raspi-config nonint get_hostname"
+#define SET_HOSTNAME    "raspi-config nonint do_hostname %s"
+#define GET_BOOT_CLI    "raspi-config nonint get_boot_cli"
+#define GET_AUTOLOGIN   "raspi-config nonint get_autologin"
+#define SET_BOOT_CLI    "raspi-config nonint do_boot_behaviour B1"
+#define SET_BOOT_CLIA   "raspi-config nonint do_boot_behaviour B2"
+#define SET_BOOT_GUI    "raspi-config nonint do_boot_behaviour B3"
+#define SET_BOOT_GUIA   "raspi-config nonint do_boot_behaviour B4"
+#define GET_BOOT_WAIT   "raspi-config nonint get_boot_wait"
+#define SET_BOOT_WAIT   "raspi-config nonint do_boot_wait %d"
+#define GET_SPLASH      "raspi-config nonint get_boot_splash"
+#define SET_SPLASH      "raspi-config nonint do_boot_splash %d"
+#define GET_OVERSCAN    "raspi-config nonint get_overscan"
+#define SET_OVERSCAN    "raspi-config nonint do_overscan %d"
+#define GET_CAMERA      "raspi-config nonint get_camera"
+#define SET_CAMERA      "raspi-config nonint do_camera %d"
+#define GET_SSH         "raspi-config nonint get_ssh"
+#define SET_SSH         "raspi-config nonint do_ssh %d"
+#define GET_VNC         "raspi-config nonint get_vnc"
+#define SET_VNC         "raspi-config nonint do_vnc %d"
+#define GET_SPI         "raspi-config nonint get_spi"
+#define SET_SPI         "raspi-config nonint do_spi %d"
+#define GET_I2C         "raspi-config nonint get_i2c"
+#define SET_I2C         "raspi-config nonint do_i2c %d"
+#define GET_SERIAL      "raspi-config nonint get_serial"
+#define GET_SERIALHW    "raspi-config nonint get_serial_hw"
+#define SET_SERIAL      "raspi-config nonint do_serial %d"
+#define GET_1WIRE       "raspi-config nonint get_onewire"
+#define SET_1WIRE       "raspi-config nonint do_onewire %d"
+#define GET_RGPIO       "raspi-config nonint get_rgpio"
+#define SET_RGPIO       "raspi-config nonint do_rgpio %d"
+#define GET_PI_TYPE     "raspi-config nonint get_pi_type"
+#define GET_OVERCLOCK   "raspi-config nonint get_config_var arm_freq /boot/config.txt"
+#define SET_OVERCLOCK   "raspi-config nonint do_overclock %s"
+#define GET_GPU_MEM     "raspi-config nonint get_config_var gpu_mem /boot/config.txt"
+#define GET_GPU_MEM_256 "raspi-config nonint get_config_var gpu_mem_256 /boot/config.txt"
+#define GET_GPU_MEM_512 "raspi-config nonint get_config_var gpu_mem_512 /boot/config.txt"
+#define GET_GPU_MEM_1K  "raspi-config nonint get_config_var gpu_mem_1024 /boot/config.txt"
+#define SET_GPU_MEM     "raspi-config nonint do_memory_split %d"
+#define GET_HDMI_GROUP  "raspi-config nonint get_config_var hdmi_group /boot/config.txt"
+#define GET_HDMI_MODE   "raspi-config nonint get_config_var hdmi_mode /boot/config.txt"
+#define SET_HDMI_GP_MOD "raspi-config nonint do_resolution %d %d"
+#define GET_WIFI_CTRY   "raspi-config nonint get_wifi_country"
+#define SET_WIFI_CTRY   "raspi-config nonint do_wifi_country %s"
 #define CHANGE_PASSWD   "(echo \"%s\" ; echo \"%s\" ; echo \"%s\") | passwd"
 
 /* Controls */
@@ -433,8 +433,8 @@ static gpointer locale_thread (gpointer data)
 {
     char buffer[256];
 
-    system ("sudo locale-gen");
-    sprintf (buffer, "sudo update-locale LANG=%s", glocale);
+    system ("locale-gen");
+    sprintf (buffer, "update-locale LANG=%s", glocale);
     system (buffer);
     g_idle_add (close_msg, NULL);
     return NULL;
@@ -577,7 +577,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                 // use sed to comment that line if uncommented
                 if (cb_lang[0])
                 {
-                    sprintf (buffer, "sudo sed -i 's/^%s/# %s/g' /etc/locale.gen", cb_lang, cb_lang);
+                    sprintf (buffer, "sed -i 's/^%s/# %s/g' /etc/locale.gen", cb_lang, cb_lang);
                     system (buffer);
                 }
 
@@ -594,7 +594,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                 // use sed to uncomment that line if commented
                 if (cb_lang[0])
                 {
-                    sprintf (buffer, "sudo sed -i 's/^# %s/%s/g' /etc/locale.gen", cb_lang, cb_lang);
+                    sprintf (buffer, "sed -i 's/^# %s/%s/g' /etc/locale.gen", cb_lang, cb_lang);
                     system (buffer);
                 }
 
@@ -683,8 +683,8 @@ static void area_changed (GtkComboBox *cb, gpointer ptr)
 
 static gpointer timezone_thread (gpointer data)
 {
-    system ("sudo rm /etc/localtime");
-    system ("sudo dpkg-reconfigure --frontend noninteractive tzdata");
+    system ("rm /etc/localtime");
+    system ("dpkg-reconfigure --frontend noninteractive tzdata");
     g_idle_add (close_msg, NULL);
     return NULL;
 }
@@ -753,10 +753,10 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
         if (strcmp (before, buffer))
         {
             if (gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)))
-                sprintf (buffer, "echo '%s/%s' | sudo tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)),
+                sprintf (buffer, "echo '%s/%s' | tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)),
                     gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)));
             else
-                sprintf (buffer, "echo '%s' | sudo tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
+                sprintf (buffer, "echo '%s' | tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
             system (buffer);
 
             // warn about a short delay...
@@ -1178,9 +1178,6 @@ static int can_configure (void)
     // check lightdm is installed
     if (stat ("/etc/init.d/lightdm", &buf)) return 0;
 
-    // check pi user exists
-    if (!get_status ("id -u pi")) return 0;
-
 #ifdef __arm__
     // check startx.elf is present
     if (stat ("/boot/start_x.elf", &buf)) return 0;
@@ -1193,7 +1190,7 @@ static int can_configure (void)
     if (pclose (fp) != 0) return 0;
 
     // create /boot/config.txt if it doesn't exist
-    system ("[ -e /boot/config.txt ] || sudo touch /boot/config.txt");
+    system ("[ -e /boot/config.txt ] || touch /boot/config.txt");
 #endif
 
     return 1;
@@ -1430,7 +1427,7 @@ int main (int argc, char *argv[])
         gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
         if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_YES)
         {
-            system ("sudo reboot");
+            system ("reboot");
         }
         gtk_widget_destroy (dlg);
     }

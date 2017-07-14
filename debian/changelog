@@ -1,3 +1,9 @@
+rc-gui (1.10) stretch; urgency=medium
+
+  * Run entire application under sudo
+
+ -- Simon Long <simon@raspberrypi.org>  Fri, 14 Jul 2017 13:04:30 +0100
+
 rc-gui (1.9) jessie; urgency=medium
 
   * Remove unnecessary check for config.txt on x86

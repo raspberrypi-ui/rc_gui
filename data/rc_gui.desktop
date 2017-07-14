@@ -28,7 +28,7 @@ Comment[ja]=ラズベリーパイシステムの設定
 Comment[nl]=Stel het Raspberry Pi systeem in
 Comment[zh_TW]=設定 Raspberry Pi 系統
 Icon=rpi
-Exec=rc_gui
+Exec=env SUDO_ASKPASS=/usr/bin/pwdrcg.sh sudo -A rc_gui
 NotShowIn=GNOME;XFCE;
 StartupNotify=true
 Categories=Settings;DesktopSettings;GTK;X-LXDE-Settings;

@@ -3,3 +3,4 @@ src/rc_gui.c
 [type: gettext/glade] data/rc_gui.ui
 # files added by intltool-prepare
 data/rc_gui.desktop.in
+data/pwdrcg.sh

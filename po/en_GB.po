@@ -1,14 +1,14 @@
 # Raspberry Pi Configuration utility
-# Copyright (C) 2016 Raspberry Pi
+# Copyright (C) 2017 Raspberry Pi
 # This file is distributed under the same license as the rc_gui package.
-# Simon Long <simon@raspberrypi.org>, 2016.
+# Simon Long <simon@raspberrypi.org>, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: rc_gui 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-01 14:57+0000\n"
-"PO-Revision-Date: 2016-12-01 15:00+0000\n"
+"POT-Creation-Date: 2017-07-14 13:06+0100\n"
+"PO-Revision-Date: 2017-07-14 13:07+0100\n"
 "Last-Translator: Simon Long <simon@raspberrypi.org>\n"
 "Language-Team: English (British)\n"
 "Language: en_GB\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/rc_gui.c:609
+#: ../src/rc_gui.c:610
 msgid "Setting locale - please wait..."
 msgstr "Setting locale - please wait..."
 
-#: ../src/rc_gui.c:769
+#: ../src/rc_gui.c:771
 msgid "Setting timezone - please wait..."
 msgstr "Setting timezone - please wait..."
 
@@ -39,7 +39,7 @@ msgstr "Change _Password..."
 
 #: ../data/rc_gui.ui.h:4
 msgid "Change password for the default user (pi)"
-msgstr "Change password for the default user (pi)"
+msgstr "Change password for the current user"
 
 #: ../data/rc_gui.ui.h:5
 msgid "Hostname:"
@@ -75,11 +75,11 @@ msgstr "Auto Login:"
 
 #: ../data/rc_gui.ui.h:13
 msgid "Login as user 'pi'"
-msgstr "Login as user 'pi'"
+msgstr "As current user"
 
 #: ../data/rc_gui.ui.h:14
 msgid "Automatically log in the default user (pi)"
-msgstr "Automatically log in the default user (pi)"
+msgstr "Automatically log in the current user"
 
 #: ../data/rc_gui.ui.h:15
 msgid "Network at Boot:"
@@ -364,8 +364,7 @@ msgstr ""
 "application cannot be used on your system.\n"
 "\n"
 "In order to use this application, you need to have the latest firmware "
-"installed, Device Tree enabled, the default \"pi\" user set up and the "
-"lightdm application installed. "
+"installed, device tree enabled, and the lightdm application installed. "
 
 #: ../data/rc_gui.ui.h:86
 msgid "Filesystem Expanded"
@@ -478,3 +477,7 @@ msgstr "WiFi Country Code"
 #: ../data/rc_gui.desktop.in.h:2
 msgid "Configure Raspberry Pi system"
 msgstr "Configure Raspberry Pi system"
+
+#: ../data/pwdrcg.sh:6
+msgid "Password Required"
+msgstr "Password Required"
