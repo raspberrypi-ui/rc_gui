@@ -1,3 +1,9 @@
+rc-gui (1.11) stretch; urgency=medium
+
+  * Fix password change behaviour when whole app run with sudo
+
+ -- Simon Long <simon@raspberrypi.org>  Tue, 15 Aug 2017 11:32:07 +0100
+
 rc-gui (1.10) stretch; urgency=medium
 
   * Run entire application under sudo

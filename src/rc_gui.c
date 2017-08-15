@@ -67,7 +67,7 @@
 #define SET_HDMI_GP_MOD "raspi-config nonint do_resolution %d %d"
 #define GET_WIFI_CTRY   "raspi-config nonint get_wifi_country"
 #define SET_WIFI_CTRY   "raspi-config nonint do_wifi_country %s"
-#define CHANGE_PASSWD   "(echo \"%s\" ; echo \"%s\" ; echo \"%s\") | passwd"
+#define CHANGE_PASSWD   "(echo \"%s\" ; echo \"%s\") | passwd $SUDO_USER"
 
 /* Controls */
 
@@ -261,10 +261,8 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
     gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "passwddialog");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
-    pwentry1_tb = gtk_builder_get_object (builder, "pwentry1");
     pwentry2_tb = gtk_builder_get_object (builder, "pwentry2");
     pwentry3_tb = gtk_builder_get_object (builder, "pwentry3");
-    gtk_entry_set_visibility (GTK_ENTRY (pwentry1_tb), FALSE);
     gtk_entry_set_visibility (GTK_ENTRY (pwentry2_tb), FALSE);
     gtk_entry_set_visibility (GTK_ENTRY (pwentry3_tb), FALSE);
     g_signal_connect (pwentry2_tb, "changed", G_CALLBACK (set_passwd), NULL);
@@ -274,7 +272,7 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
 
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
-        sprintf (buffer, CHANGE_PASSWD, gtk_entry_get_text (GTK_ENTRY (pwentry1_tb)), gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), gtk_entry_get_text (GTK_ENTRY (pwentry3_tb)));
+        sprintf (buffer, CHANGE_PASSWD, gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), gtk_entry_get_text (GTK_ENTRY (pwentry3_tb)));
         res = system (buffer);
         gtk_widget_destroy (dlg);
 		if (res)
