@@ -1,3 +1,9 @@
+rc-gui (1.12) stretch; urgency=medium
+
+  * Launch lxkeymap without sudo
+
+ -- Simon Long <simon@raspberrypi.org>  Fri, 18 Aug 2017 10:59:19 +0100
+
 rc-gui (1.11) stretch; urgency=medium
 
   * Fix password change behaviour when whole app run with sudo

@@ -68,6 +68,7 @@
 #define GET_WIFI_CTRY   "raspi-config nonint get_wifi_country"
 #define SET_WIFI_CTRY   "raspi-config nonint do_wifi_country %s"
 #define CHANGE_PASSWD   "(echo \"%s\" ; echo \"%s\") | passwd $SUDO_USER"
+#define LXKEYMAP        "sudo -u $SUDO_USER lxkeymap"
 
 /* Controls */
 
@@ -999,7 +1000,7 @@ static void on_expand_fs (GtkButton* btn, gpointer ptr)
 
 static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 {
-    system ("lxkeymap");
+    system (LXKEYMAP);
 }
 
 static void on_boot_cli (GtkButton* btn, gpointer ptr)
