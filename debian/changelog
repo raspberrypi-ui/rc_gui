@@ -1,3 +1,9 @@
+rc-gui (1.13) stretch; urgency=medium
+
+  * Include updated Japanese translation
+
+ -- Simon Long <simon@raspberrypi.org>  Mon, 04 Sep 2017 07:46:45 +0100
+
 rc-gui (1.12) stretch; urgency=medium
 
   * Launch lxkeymap without sudo
