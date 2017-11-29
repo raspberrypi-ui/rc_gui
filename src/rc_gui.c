@@ -37,6 +37,8 @@
 #define SET_SPLASH      "raspi-config nonint do_boot_splash %d"
 #define GET_OVERSCAN    "raspi-config nonint get_overscan"
 #define SET_OVERSCAN    "raspi-config nonint do_overscan %d"
+#define GET_PIXDUB      "raspi-config nonint get_pixdub"
+#define SET_PIXDUB      "raspi-config nonint do_pixdub %d"
 #define GET_CAMERA      "raspi-config nonint get_camera"
 #define SET_CAMERA      "raspi-config nonint do_camera %d"
 #define GET_SSH         "raspi-config nonint get_ssh"
@@ -73,7 +75,7 @@
 /* Controls */
 
 static GObject *expandfs_btn, *passwd_btn, *res_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn;
-static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb;
+static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb, *pixdub_on_rb, *pixdub_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
 static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb;
@@ -90,7 +92,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 
 static char orig_hostname[128];
 static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_splash;
-static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc;
+static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub;
 
 /* Reboot flag set after locale change */
 
@@ -1070,6 +1072,13 @@ static int process_changes (void)
         reboot = 1;
     }
 
+    if (orig_pixdub != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pixdub_off_rb)))
+    {
+        sprintf (buffer, SET_PIXDUB, (1 - orig_pixdub));
+        system (buffer);
+        reboot = 1;
+    }
+
     if (orig_ssh != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ssh_off_rb)))
     {
         sprintf (buffer, SET_SSH, (1 - orig_ssh));
@@ -1277,6 +1286,11 @@ int main (int argc, char *argv[])
     hostname_tb = gtk_builder_get_object (builder, "entry_hn");
     get_string (GET_HOSTNAME, orig_hostname);
     gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hostname);
+
+    pixdub_on_rb = gtk_builder_get_object (builder, "rb_pd_on");
+    pixdub_off_rb = gtk_builder_get_object (builder, "rb_pd_off");
+    if (orig_pixdub = get_status (GET_PIXDUB)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pixdub_off_rb), TRUE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pixdub_on_rb), TRUE);
 
 #ifdef __arm__
     res_btn = gtk_builder_get_object (builder, "button_res");
