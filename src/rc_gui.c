@@ -1361,9 +1361,9 @@ int main (int argc, char *argv[])
                             break;
             }
             gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
-            gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31")));
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox32")));
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox33")));
+            gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31a")));
+            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31b")));
+            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31c")));
             break;
 
         case 2 :
@@ -1376,17 +1376,17 @@ int main (int argc, char *argv[])
                             break;
             }
             gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
-            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31")));
-            gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox32")));
-            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox33")));
+            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31a")));
+            gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31b")));
+            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31c")));
             break;
 
         default :
             overclock_cb = gtk_builder_get_object (builder, "combo_oc_pi3");
             gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 0);
-            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31")));
-            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox32")));
-            gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox33")));
+            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31a")));
+            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31b")));
+            gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31c")));
             gtk_widget_set_sensitive (GTK_WIDGET (overclock_cb), FALSE);
             break;
     }
@@ -1399,12 +1399,12 @@ int main (int argc, char *argv[])
 #else
     if (!get_status ("grep -q boot=live /proc/cmdline ; echo $?"))
     {
-        item = gtk_builder_get_object (builder, "hbox17");
-        gtk_widget_hide (GTK_WIDGET (item));
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_on_rb), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), FALSE);
     }
-    item = gtk_builder_get_object (builder, "hbox18");
+    item = gtk_builder_get_object (builder, "hbox17");
     gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox19");
+    item = gtk_builder_get_object (builder, "hbox18");
     gtk_widget_hide (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "hbox21");
     gtk_widget_hide (GTK_WIDGET (item));
@@ -1420,7 +1420,21 @@ int main (int argc, char *argv[])
     gtk_widget_hide (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "hbox28");
     gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox2a");
+    gtk_widget_show (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox2b");
+    gtk_widget_show (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox2c");
+    gtk_widget_show (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox2d");
+    gtk_widget_show (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox2e");
+    gtk_widget_show (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "vbox30");
+    gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox48");
+    gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox49");
     gtk_widget_hide (GTK_WIDGET (item));
 #endif
 

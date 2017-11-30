@@ -63,13 +63,14 @@
               <object class="GtkVBox" id="vbox10">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkHBox" id="hbox12">
+                  <object class="GtkHBox" id="hbox11">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label12">
+                      <object class="GtkLabel" id="label11">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -82,7 +83,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null12">
+                      <object class="GtkHBox" id="null11">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -111,16 +112,15 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">2</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox13">
+                  <object class="GtkHBox" id="hbox12">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkLabel" id="label13">
+                      <object class="GtkLabel" id="label12">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -133,7 +133,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null13">
+                      <object class="GtkHBox" id="null12">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -163,17 +163,16 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">2</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox14">
+                  <object class="GtkHBox" id="hbox13">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label14">
+                      <object class="GtkLabel" id="label13">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -186,7 +185,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null14">
+                      <object class="GtkHBox" id="null13">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -233,17 +232,16 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox15">
+                  <object class="GtkHBox" id="hbox14">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label15">
+                      <object class="GtkLabel" id="label14">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -256,7 +254,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null15">
+                      <object class="GtkHBox" id="null14">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -285,17 +283,16 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">3</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox16">
+                  <object class="GtkHBox" id="hbox15">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label16">
+                      <object class="GtkLabel" id="label15">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -308,7 +305,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null16">
+                      <object class="GtkHBox" id="null15">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -337,17 +334,16 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">4</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox17">
+                  <object class="GtkHBox" id="hbox16">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label17">
+                      <object class="GtkLabel" id="label16">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -360,7 +356,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null17">
+                      <object class="GtkHBox" id="null16">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -407,17 +403,16 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">5</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox18">
+                  <object class="GtkHBox" id="hbox17">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label18">
+                      <object class="GtkLabel" id="label17">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -431,7 +426,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null18">
+                      <object class="GtkHBox" id="null17">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -460,17 +455,16 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">2</property>
                     <property name="position">6</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox19">
+                  <object class="GtkHBox" id="hbox18">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label19">
+                      <object class="GtkLabel" id="label18">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -483,7 +477,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null19">
+                      <object class="GtkHBox" id="null18">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -530,17 +524,16 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">7</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox1a">
+                  <object class="GtkHBox" id="hbox19">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label1a">
+                      <object class="GtkLabel" id="label19">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -553,7 +546,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null1a">
+                      <object class="GtkHBox" id="null19">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -600,7 +593,6 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">8</property>
                   </packing>
                 </child>
@@ -620,6 +612,7 @@
               <object class="GtkVBox" id="vbox20">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="homogeneous">True</property>
                 <child>
                   <object class="GtkHBox" id="hbox21">
                     <property name="visible">True</property>
@@ -688,7 +681,6 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -758,7 +750,6 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -828,7 +819,6 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">2</property>
                   </packing>
                 </child>
@@ -898,7 +888,6 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">3</property>
                   </packing>
                 </child>
@@ -968,7 +957,6 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">4</property>
                   </packing>
                 </child>
@@ -1038,7 +1026,6 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">5</property>
                   </packing>
                 </child>
@@ -1108,7 +1095,6 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">6</property>
                   </packing>
                 </child>
@@ -1178,8 +1164,73 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">7</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox29">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">8</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox2a">
+                    <property name="visible">False</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">9</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox2b">
+                    <property name="visible">False</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">9</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox2c">
+                    <property name="visible">False</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">9</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox2d">
+                    <property name="visible">False</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">9</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox2e">
+                    <property name="visible">False</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">9</property>
                   </packing>
                 </child>
               </object>
@@ -1202,12 +1253,13 @@
               <object class="GtkVBox" id="vbox30">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkHBox" id="hbox31">
+                  <object class="GtkHBox" id="hbox31a">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkLabel" id="label31">
+                      <object class="GtkLabel" id="label31a">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -1244,16 +1296,15 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">2</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox32">
+                  <object class="GtkHBox" id="hbox31b">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkLabel" id="label32">
+                      <object class="GtkLabel" id="label31b">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -1287,16 +1338,15 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">2</property>
-                    <property name="position">1</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox33">
+                  <object class="GtkHBox" id="hbox31c">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkLabel" id="label33">
+                      <object class="GtkLabel" id="label31c">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -1328,16 +1378,15 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">2</property>
-                    <property name="position">2</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox34">
+                  <object class="GtkHBox" id="hbox32">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkLabel" id="label34">
+                      <object class="GtkLabel" id="label32">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -1352,7 +1401,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null34">
+                      <object class="GtkHBox" id="null32">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -1382,8 +1431,84 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">2</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox33">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox34">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
                     <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox35">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox36">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">5</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox37">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">6</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox38">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">7</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox39">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">8</property>
                   </packing>
                 </child>
               </object>
@@ -1406,6 +1531,7 @@
               <object class="GtkVBox" id="vbox40">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="homogeneous">True</property>
                 <child>
                   <object class="GtkHBox" id="hbox41">
                     <property name="visible">True</property>
@@ -1455,7 +1581,6 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">2</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -1508,7 +1633,6 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">2</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -1561,7 +1685,6 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">2</property>
                     <property name="position">2</property>
                   </packing>
                 </child>
@@ -1614,8 +1737,62 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">2</property>
                     <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox45">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox46">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">5</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox47">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">6</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox48">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">7</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox49">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">8</property>
                   </packing>
                 </child>
               </object>
