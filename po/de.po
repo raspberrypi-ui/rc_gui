@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rc_gui 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-04 13:38+0100\n"
+"POT-Creation-Date: 2018-01-09 15:25+0100\n"
 "PO-Revision-Date: 2016-12-04 13:53+0100\n"
 "Last-Translator: Lothar Serra Mari <rootfather@scummvm.org>\n"
 "Language-Team: \n"
@@ -20,11 +20,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.11\n"
 
-#: ../src/rc_gui.c:609
+#: ../src/rc_gui.c:611
 msgid "Setting locale - please wait..."
 msgstr "Sprachumgebung wird festgelegt - bitte warten..."
 
-#: ../src/rc_gui.c:769
+#: ../src/rc_gui.c:772
 msgid "Setting timezone - please wait..."
 msgstr "Zeitzone wird festgelegt - bitte warten..."
 
@@ -95,7 +95,7 @@ msgstr "Auf Netzwerk warten"
 #: ../data/rc_gui.ui.h:17
 msgid "Do not complete boot until network connection is established"
 msgstr ""
-"Bootvorgang nicht abschließen, bis eine Netzwerkverbindung hergestellt ist"
+"Bootvorgang erst nach erfolgreicher Netzwerkverbindung abschließen"
 
 #: ../data/rc_gui.ui.h:18
 msgid "Splash Screen:"
@@ -144,215 +144,227 @@ msgstr ""
 "auszublenden"
 
 #: ../data/rc_gui.ui.h:29
+msgid "Pixel Doubling:"
+msgstr "Pixelverdopplung"
+
+#: ../data/rc_gui.ui.h:30
+msgid "Enable pixel doubling to improve usability on high-res screens"
+msgstr "Aktivieren Sie die Pixelverdopplung für hochauflösende Bildschirme"
+
+#: ../data/rc_gui.ui.h:31
+msgid "Disable pixel doubling for standard resolution screens"
+msgstr "Deaktivieren Sie die Pixelverdopplung für Standard-Bildschirme"
+
+#: ../data/rc_gui.ui.h:32
 msgid "System"
 msgstr "System"
 
-#: ../data/rc_gui.ui.h:30
+#: ../data/rc_gui.ui.h:33
 msgid "Camera:"
 msgstr "Kamera:"
 
-#: ../data/rc_gui.ui.h:31
+#: ../data/rc_gui.ui.h:34
 msgid "Enable the Raspberry Pi Camera Board"
 msgstr "Raspberry-Pi-Kameraplatine aktivieren"
 
-#: ../data/rc_gui.ui.h:32
+#: ../data/rc_gui.ui.h:35
 msgid "Disable the Raspberry Pi Camera Board"
 msgstr "Raspberry-Pi-Kameraplatine deaktivieren"
 
-#: ../data/rc_gui.ui.h:33
+#: ../data/rc_gui.ui.h:36
 msgid "SSH:"
 msgstr "SSH:"
 
-#: ../data/rc_gui.ui.h:34
+#: ../data/rc_gui.ui.h:37
 msgid "Enable remote access to this Pi via SSH"
 msgstr "Fernzugriff zu diesem Pi über SSH aktivieren"
 
-#: ../data/rc_gui.ui.h:35
+#: ../data/rc_gui.ui.h:38
 msgid "Disable remote access to this Pi via SSH"
 msgstr "Fernzugriff zu diesem Pi über SSH deaktivieren"
 
-#: ../data/rc_gui.ui.h:36
+#: ../data/rc_gui.ui.h:39
 msgid "VNC:"
 msgstr "VNC:"
 
-#: ../data/rc_gui.ui.h:37
+#: ../data/rc_gui.ui.h:40
 msgid "Enable remote access to this Pi using RealVNC"
 msgstr "Fernzugriff zu diesem Pi über RealVNC aktivieren"
 
-#: ../data/rc_gui.ui.h:38
+#: ../data/rc_gui.ui.h:41
 msgid "Disable remote access to this Pi using RealVNC"
 msgstr "Fernzugriff zu diesem Pi über RealVNC deaktivieren"
 
-#: ../data/rc_gui.ui.h:39
+#: ../data/rc_gui.ui.h:42
 msgid "SPI:"
 msgstr "SPI:"
 
-#: ../data/rc_gui.ui.h:40
+#: ../data/rc_gui.ui.h:43
 msgid "Enable the automatic loading of the SPI kernel module"
 msgstr "Automatisches Laden des SPI-Kernel-Moduls aktivieren"
 
-#: ../data/rc_gui.ui.h:41
+#: ../data/rc_gui.ui.h:44
 msgid "Disable the automatic loading of the SPI kernel module"
 msgstr "Automatisches Laden des SPI-Kernel-Moduls deaktivieren"
 
-#: ../data/rc_gui.ui.h:42
+#: ../data/rc_gui.ui.h:45
 msgid "I2C:"
 msgstr "I2C:"
 
-#: ../data/rc_gui.ui.h:43
+#: ../data/rc_gui.ui.h:46
 msgid "Enable the automatic loading of the I2C kernel module"
 msgstr "Automatisches Laden des I2C-Kernel-Moduls aktivieren"
 
-#: ../data/rc_gui.ui.h:44
+#: ../data/rc_gui.ui.h:47
 msgid "Disable the automatic loading of the I2C kernel module"
 msgstr "Automatisches Laden des I2C-Kernel-Moduls deaktivieren"
 
-#: ../data/rc_gui.ui.h:45
+#: ../data/rc_gui.ui.h:48
 msgid "Serial:"
 msgstr "Seriell:"
 
-#: ../data/rc_gui.ui.h:46
+#: ../data/rc_gui.ui.h:49
 msgid "Enable shell and kernel messages on the serial connection"
 msgstr "Shell- und Kernel-Meldungen über die serielle Verbindung aktivieren"
 
-#: ../data/rc_gui.ui.h:47
+#: ../data/rc_gui.ui.h:50
 msgid "Disable shell and kernel messages on the serial connection"
 msgstr "Shell- und Kernel-Meldungen über die serielle Verbindung deaktivieren"
 
-#: ../data/rc_gui.ui.h:48
+#: ../data/rc_gui.ui.h:51
 msgid "1-Wire:"
 msgstr "Eindraht-Bus:"
 
-#: ../data/rc_gui.ui.h:49
+#: ../data/rc_gui.ui.h:52
 msgid "Enable 1-wire peripheral interface"
 msgstr "Eindraht-Bus-Peripherieschnittstelle aktivieren"
 
-#: ../data/rc_gui.ui.h:50
+#: ../data/rc_gui.ui.h:53
 msgid "Disable 1-wire peripheral interface"
 msgstr "Eindraht-Bus-Peripherieschnittstelle deaktivieren"
 
-#: ../data/rc_gui.ui.h:51
+#: ../data/rc_gui.ui.h:54
 msgid "Remote GPIO:"
 msgstr "GPIO-Fernzugriff:"
 
-#: ../data/rc_gui.ui.h:52
+#: ../data/rc_gui.ui.h:55
 msgid "Enable remote access to GPIO pins"
 msgstr "Fernzugriff auf GPIO-Kontakte aktivieren"
 
-#: ../data/rc_gui.ui.h:53
+#: ../data/rc_gui.ui.h:56
 msgid "Disable remote access to GPIO pins"
 msgstr "Fernzugriff auf GPIO-Kontakte deaktivieren"
 
-#: ../data/rc_gui.ui.h:54
+#: ../data/rc_gui.ui.h:57
 msgid "Interfaces"
 msgstr "Schnittstellen"
 
-#: ../data/rc_gui.ui.h:55
+#: ../data/rc_gui.ui.h:58
 msgid "O_verclock:"
 msgstr "_Übertakten:"
 
-#: ../data/rc_gui.ui.h:56
+#: ../data/rc_gui.ui.h:59
 msgid "Set the level of overclock to control performance"
 msgstr "Legen Sie zur Leistungssteuerung die Stufe der Übertaktung fest"
 
-#: ../data/rc_gui.ui.h:57
+#: ../data/rc_gui.ui.h:60
 msgid "None (700MHz)"
 msgstr "Keine (700MHz)"
 
-#: ../data/rc_gui.ui.h:58
+#: ../data/rc_gui.ui.h:61
 msgid "Modest (800MHz)"
 msgstr "Gering (800MHz)"
 
-#: ../data/rc_gui.ui.h:59
+#: ../data/rc_gui.ui.h:62
 msgid "Medium (900MHz)"
 msgstr "Mittel (900MHz)"
 
-#: ../data/rc_gui.ui.h:60
+#: ../data/rc_gui.ui.h:63
 msgid "High (950MHz)"
 msgstr "Hoch (950MHz)"
 
-#: ../data/rc_gui.ui.h:61
+#: ../data/rc_gui.ui.h:64
 msgid "Turbo (1000MHz)"
 msgstr "Turbo (1000MHz)"
 
-#: ../data/rc_gui.ui.h:62
+#: ../data/rc_gui.ui.h:65
 msgid "None (900MHz)"
 msgstr "Keine (900MHz)"
 
-#: ../data/rc_gui.ui.h:63
+#: ../data/rc_gui.ui.h:66
 msgid "High (1000MHz)"
 msgstr "Hoch (1000MHz)"
 
-#: ../data/rc_gui.ui.h:64
+#: ../data/rc_gui.ui.h:67
 msgid "Not available"
 msgstr "Nicht verfügbar"
 
-#: ../data/rc_gui.ui.h:65
+#: ../data/rc_gui.ui.h:68
 msgid "_GPU Memory:"
 msgstr "_GPU-Speicher:"
 
-#: ../data/rc_gui.ui.h:66
+#: ../data/rc_gui.ui.h:69
 msgid "Enter the amount of memory available to the GPU"
 msgstr "Geben Sie die Größe des für die GPU verfügbaren Speichers ein"
 
-#: ../data/rc_gui.ui.h:67
+#: ../data/rc_gui.ui.h:70
 msgid "Performance"
 msgstr "Leistung"
 
-#: ../data/rc_gui.ui.h:68
+#: ../data/rc_gui.ui.h:71
 msgid "Locale:"
 msgstr "Sprachumgebung:"
 
-#: ../data/rc_gui.ui.h:69
+#: ../data/rc_gui.ui.h:72
 msgid "Set _Locale..."
 msgstr "Sprachumgebung fest_legen..."
 
-#: ../data/rc_gui.ui.h:70
+#: ../data/rc_gui.ui.h:73
 msgid "Set internationalisation settings for units etc."
 msgstr ""
 "Internationalisierungseinstellungen für Sprache, Einheiten, usw. festlegen"
 
-#: ../data/rc_gui.ui.h:71
+#: ../data/rc_gui.ui.h:74
 msgid "Timezone:"
 msgstr "Zeitzone:"
 
-#: ../data/rc_gui.ui.h:72
+#: ../data/rc_gui.ui.h:75
 msgid "Set _Timezone..."
 msgstr "Zei_tzone festlegen..."
 
-#: ../data/rc_gui.ui.h:73
+#: ../data/rc_gui.ui.h:76
 msgid "Set the timezone to be used by the internal clock"
 msgstr "Legen Sie die von der internen Uhr zu verwendende Zeitzone fest"
 
-#: ../data/rc_gui.ui.h:74
+#: ../data/rc_gui.ui.h:77
 msgid "Keyboard:"
 msgstr "Tastatur:"
 
-#: ../data/rc_gui.ui.h:75
+#: ../data/rc_gui.ui.h:78
 msgid "Set _Keyboard..."
 msgstr "_Tastatur festlegen..."
 
-#: ../data/rc_gui.ui.h:76
+#: ../data/rc_gui.ui.h:79
 msgid "Set international keyboard options"
 msgstr "Internationale Tastaturoptionen festlegen"
 
-#: ../data/rc_gui.ui.h:77
+#: ../data/rc_gui.ui.h:80
 msgid "WiFi Country:"
 msgstr "WiFi-Land:"
 
-#: ../data/rc_gui.ui.h:78
+#: ../data/rc_gui.ui.h:81
 msgid "Set _WiFi Country..."
 msgstr "_WiFi-Land festlegen..."
 
-#: ../data/rc_gui.ui.h:79
+#: ../data/rc_gui.ui.h:82
 msgid "Set WiFi country code"
 msgstr "WiFi-Länderkürzel festlegen"
 
-#: ../data/rc_gui.ui.h:80
+#: ../data/rc_gui.ui.h:83
 msgid "Localisation"
 msgstr "Lokalisierung"
 
-#: ../data/rc_gui.ui.h:81
+#: ../data/rc_gui.ui.h:84
 msgid ""
 "The Raspberry Pi Configuration application can only modify a standard "
 "configuration.\n"
@@ -374,11 +386,11 @@ msgstr ""
 "installiert, den Gerätebaum aktiviert, den Standardbenutzer \"pi\" "
 "eingerichtet und die lightdm-Anwendung installiert haben. "
 
-#: ../data/rc_gui.ui.h:86
+#: ../data/rc_gui.ui.h:89
 msgid "Filesystem Expanded"
 msgstr "Dateisystem Erweitert"
 
-#: ../data/rc_gui.ui.h:87
+#: ../data/rc_gui.ui.h:90
 msgid ""
 "The filesystem has been expanded.\n"
 "\n"
@@ -389,43 +401,39 @@ msgstr ""
 "Der neue Speicherplatz wird nicht verfügbar sein, bis Sie Ihren Raspberry Pi "
 "neu starten."
 
-#: ../data/rc_gui.ui.h:90
+#: ../data/rc_gui.ui.h:93
 msgid "Locale"
 msgstr "Sprachumgebung"
 
-#: ../data/rc_gui.ui.h:91
+#: ../data/rc_gui.ui.h:94
 msgid "Language:"
 msgstr "Sprache:"
 
-#: ../data/rc_gui.ui.h:92
+#: ../data/rc_gui.ui.h:95
 msgid "Country:"
 msgstr "Land:"
 
-#: ../data/rc_gui.ui.h:93
+#: ../data/rc_gui.ui.h:96
 msgid "Character Set:"
 msgstr "Zeichenvorrat:"
 
-#: ../data/rc_gui.ui.h:94
+#: ../data/rc_gui.ui.h:97
 msgid "Change Password"
 msgstr "Passwort ändern"
 
-#: ../data/rc_gui.ui.h:95
-msgid "Current password:"
-msgstr "Aktuelles Passwort:"
-
-#: ../data/rc_gui.ui.h:96
+#: ../data/rc_gui.ui.h:98
 msgid "Enter new password:"
 msgstr "Neues Passwort eingeben:"
 
-#: ../data/rc_gui.ui.h:97
+#: ../data/rc_gui.ui.h:99
 msgid "Confirm new password:"
 msgstr "Neues Passwort bestätigen:"
 
-#: ../data/rc_gui.ui.h:98
+#: ../data/rc_gui.ui.h:100
 msgid "Password Not Changed"
 msgstr "Passwort nicht geändert"
 
-#: ../data/rc_gui.ui.h:99
+#: ../data/rc_gui.ui.h:101
 msgid ""
 "The password change failed.\n"
 "\n"
@@ -438,19 +446,19 @@ msgstr ""
 "Möglicherweise war das aktuelle Passwort nicht korrekt, das neue Passwort "
 "nicht ausreichend komplex oder dem bisherigen Passwort zu ähnlich."
 
-#: ../data/rc_gui.ui.h:102
+#: ../data/rc_gui.ui.h:104
 msgid "Password Changed"
 msgstr "Passwort geändert"
 
-#: ../data/rc_gui.ui.h:103
+#: ../data/rc_gui.ui.h:105
 msgid "The password has been changed successfully."
 msgstr "Das Passwort wurde erfolgreich geändert."
 
-#: ../data/rc_gui.ui.h:104
+#: ../data/rc_gui.ui.h:106
 msgid "Reboot needed"
 msgstr "Neustart erforderlich"
 
-#: ../data/rc_gui.ui.h:105
+#: ../data/rc_gui.ui.h:107
 msgid ""
 "The changes you have made require the Raspberry Pi to be rebooted to take "
 "effect.\n"
@@ -462,29 +470,36 @@ msgstr ""
 "\n"
 "Möchten Sie jetzt neu starten? "
 
-#: ../data/rc_gui.ui.h:108
+#: ../data/rc_gui.ui.h:110
 msgid "Set Resolution"
 msgstr "Auflösung festlegen"
 
-#: ../data/rc_gui.ui.h:109
+#: ../data/rc_gui.ui.h:111
 msgid "Timezone"
 msgstr "Zeitzone"
 
-#: ../data/rc_gui.ui.h:110
+#: ../data/rc_gui.ui.h:112
 msgid "Area:"
 msgstr "Gebiet:"
 
-#: ../data/rc_gui.ui.h:111
+#: ../data/rc_gui.ui.h:113
 msgid "Location:"
 msgstr "Standort:"
 
-#: ../data/rc_gui.ui.h:112
+#: ../data/rc_gui.ui.h:114
 msgid "WiFi Country Code"
 msgstr "WiFi-Länderkürzel"
 
 #: ../data/rc_gui.desktop.in.h:2
 msgid "Configure Raspberry Pi system"
 msgstr "Raspberry-Pi-System konfigurieren"
+
+#: ../data/pwdrcg.sh:6
+msgid "Password Required"
+msgstr "Passwort erforderlich"
+
+#~ msgid "Current password:"
+#~ msgstr "Aktuelles Passwort:"
 
 #~ msgid "Filesystem:"
 #~ msgstr "Dateisystem:"
