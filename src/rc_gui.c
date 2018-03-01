@@ -833,7 +833,6 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
             cnow[2] = 0;
             sprintf (buffer, SET_WIFI_CTRY, cnow);
             system (buffer);
-            needs_reboot = 1;
         }
     }
     gtk_widget_destroy (dlg);
