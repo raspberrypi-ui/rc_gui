@@ -175,13 +175,14 @@ static int get_gpu_mem (void)
     return mem;
 }
 
-static void get_quoted_param (char *path, char *fname, char *toseek, char *result)
+static int get_quoted_param (char *path, char *fname, char *toseek, char *result)
 {
     char buffer[256], *linebuf = NULL, *cptr, *dptr;
     int len = 0;
 
     sprintf (buffer, "%s/%s", path, fname);
     FILE *fp = fopen (buffer, "rb");
+    if (!fp) return 0;
 
     while (getline (&linebuf, &len, fp) > 0)
     {
@@ -203,7 +204,7 @@ static void get_quoted_param (char *path, char *fname, char *toseek, char *resul
             // done
             free (linebuf);
             fclose (fp);
-            return;
+            return 1;
         }
     }
 
@@ -211,6 +212,7 @@ static void get_quoted_param (char *path, char *fname, char *toseek, char *resul
     result[0] = 0;
     free (linebuf);
     fclose (fp);
+    return 0;
 }
 
 static void get_language (char *instr, char *lang)
@@ -492,8 +494,12 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
         // if it differs from the last one read, create a new entry
         if (file_lang[0] && strcmp (file_lang, last_lang))
         {
-            // read the language description from the file
-            get_quoted_param ("/usr/share/i18n/locales", dp->d_name, "language", result);
+            // check to see if there is a file whose name has the format aa_AA; if not just use the first file we find
+            sprintf (buffer, "%s_%c%c%c", file_lang, toupper (file_lang[0]), toupper (file_lang[1]), toupper (file_lang[2]));
+
+            // ...and read the language description from the file
+            if (!get_quoted_param ("/usr/share/i18n/locales", buffer, "language", result))
+                get_quoted_param ("/usr/share/i18n/locales", dp->d_name, "language", result);
 
             // add language code and description to combo box
             sprintf (buffer, "%s (%s)", file_lang, result);
