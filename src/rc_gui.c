@@ -300,7 +300,7 @@ static void country_changed (GtkComboBox *cb, gpointer ptr)
     FILE *fp;
 
     // clear the combo box
-    while (char_count--) gtk_combo_box_text_remove (GTK_COMBO_BOX_TEXT (locchar_cb), 0);
+    while (char_count--) gtk_combo_box_remove_text (GTK_COMBO_BOX (locchar_cb), 0);
     char_count = 0;
 
     // if an initial setting is supplied at ptr...
@@ -322,22 +322,24 @@ static void country_changed (GtkComboBox *cb, gpointer ptr)
     else init_char[0] = 0;
 
     // read the language from the combo box and split off the code into lang
-    cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (loclang_cb));
+    cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (loclang_cb));
     if (cptr)
     {
         strcpy (cb_lang, cptr);
         strtok (cb_lang, " ");
+        g_free (cptr);
     }
     else cb_lang[0] = 0;
 
     // read the country from the combo box and split off code and extension
-    cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (loccount_cb));
+    cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (loccount_cb));
     if (cptr)
     {
         strcpy (cb_ctry, cptr);
         strtok (cb_ctry, "@ ");
         cb_ext = strtok (NULL, "@ ");
         if (cb_ext[0] == '(') cb_ext[0] = 0;
+        g_free (cptr);
     }
     else cb_ctry[0] = 0;
 
@@ -357,7 +359,7 @@ static void country_changed (GtkComboBox *cb, gpointer ptr)
         // find the second part of the returned line (separated by a space) and add to combo box
         strtok (buffer, " ");
         cptr = strtok (NULL, " \n\r");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (locchar_cb), cptr);
+        gtk_combo_box_append_text (GTK_COMBO_BOX (locchar_cb), cptr);
 
         // check to see if it matches the initial string and set active if so
         if (!strcmp (cptr, init_char)) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), char_count);
@@ -376,7 +378,7 @@ static void language_changed (GtkComboBox *cb, gpointer ptr)
     int entries, entry;
 
     // clear the combo box
-    while (country_count--) gtk_combo_box_text_remove (GTK_COMBO_BOX_TEXT (loccount_cb), 0);
+    while (country_count--) gtk_combo_box_remove_text (GTK_COMBO_BOX (loccount_cb), 0);
     country_count = 0;
 
     // if an initial setting is supplied at ptr, extract the country code from the supplied string
@@ -384,11 +386,12 @@ static void language_changed (GtkComboBox *cb, gpointer ptr)
     else init_ctry[0] = 0;
 
     // read the language from the combo box and split off the code into lang
-    cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (loclang_cb));
+    cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (loclang_cb));
     if (cptr)
     {
         strcpy (cb_lang, cptr);
         strtok (cb_lang, " ");
+        g_free (cptr);
     }
     else cb_lang[0] = 0;
 
@@ -457,9 +460,9 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
     GtkWidget *table = (GtkWidget *) gtk_builder_get_object (builder, "loctable");
-    loclang_cb = (GObject *) gtk_combo_box_text_new ();
-    loccount_cb = (GObject *) gtk_combo_box_text_new ();
-    locchar_cb = (GObject *) gtk_combo_box_text_new ();
+    loclang_cb = (GObject *) gtk_combo_box_new_text ();
+    loccount_cb = (GObject *) gtk_combo_box_new_text ();
+    locchar_cb = (GObject *) gtk_combo_box_new_text ();
     gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (loclang_cb), 1, 2, 0, 1, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
     gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (loccount_cb), 1, 2, 1, 2, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
     gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (locchar_cb), 1, 2, 2, 3, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
@@ -529,22 +532,24 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     {
         char cb_lang[64], cb_ctry[64], *cb_ext;
         // read the language from the combo box and split off the code into lang
-        cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (loclang_cb));
+        cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (loclang_cb));
         if (cptr)
         {
             strcpy (cb_lang, cptr);
             strtok (cb_lang, " ");
+            g_free (cptr);
         }
         else cb_lang[0] = 0;
 
         // read the country from the combo box and split off code and extension
-        cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (loccount_cb));
+        cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (loccount_cb));
         if (cptr)
         {
             strcpy (cb_ctry, cptr);
             strtok (cb_ctry, "@ ");
             cb_ext = strtok (NULL, "@ ");
             if (cb_ext[0] == '(') cb_ext[0] = 0;
+            g_free (cptr);
         }
         else cb_ctry[0] = 0;
 
