@@ -558,6 +558,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                 sprintf (buffer, "grep %s_%s.*%s$ /usr/share/i18n/SUPPORTED | grep -v @", cb_lang, cb_ctry, cptr);
             else
                 sprintf (buffer, "grep -E '%s_%s.*%s.*%s$' /usr/share/i18n/SUPPORTED", cb_lang, cb_ctry, cb_ext, cptr);
+            g_free (cptr);
 
             // run the grep and parse the returned line
             fp = popen (buffer, "r");
@@ -642,7 +643,7 @@ int dirfilter (const struct dirent *entry)
 
 static void area_changed (GtkComboBox *cb, gpointer ptr)
 {
-    char buffer[128];
+    char buffer[128], *cptr;
     //DIR *dirp, *sdirp;
     struct dirent **filelist, *dp, **sfilelist, *sdp;
     struct stat st_buf;
@@ -651,7 +652,8 @@ static void area_changed (GtkComboBox *cb, gpointer ptr)
     while (loc_count--) gtk_combo_box_remove_text (GTK_COMBO_BOX (tzloc_cb), 0);
     loc_count = 0;
 
-    sprintf (buffer, "/usr/share/zoneinfo/%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
+    cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb));
+    sprintf (buffer, "/usr/share/zoneinfo/%s", cptr);
     stat (buffer, &st_buf);
 
     if (S_ISDIR (st_buf.st_mode))
@@ -662,7 +664,7 @@ static void area_changed (GtkComboBox *cb, gpointer ptr)
             dp = filelist[entry];
             if (dp->d_type == DT_DIR)
             {
-                sprintf (buffer, "/usr/share/zoneinfo/%s/%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)), dp->d_name);
+                sprintf (buffer, "/usr/share/zoneinfo/%s/%s", cptr, dp->d_name);
                 sentries = scandir (buffer, &sfilelist, dirfilter, alphasort);
                 for (sentry = 0; sentry < sentries; sentry++)
                 {
@@ -686,6 +688,7 @@ static void area_changed (GtkComboBox *cb, gpointer ptr)
         free (filelist);
         if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), 0);
     }
+    g_free (cptr);
 }
 
 static gpointer timezone_thread (gpointer data)
@@ -706,7 +709,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
 {
     GtkBuilder *builder;
     GtkWidget *dlg;
-    char buffer[128], before[128], *cptr;
+    char buffer[128], before[128], *cptr, *b1ptr, *b2ptr;
     struct dirent **filelist, *dp;
     int entries, entry;
 
@@ -751,19 +754,19 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
 
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
-        if (gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)))
-            sprintf (buffer, "%s/%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)),
-                gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)));
+        b1ptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb));
+        b2ptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb));
+        if (b2ptr)
+            sprintf (buffer, "%s/%s", b1ptr, b2ptr);
         else
-            sprintf (buffer, "%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
+            sprintf (buffer, "%s", b1ptr);
 
         if (strcmp (before, buffer))
         {
-            if (gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)))
-                sprintf (buffer, "echo '%s/%s' | tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)),
-                    gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb)));
+            if (b2ptr)
+                sprintf (buffer, "echo '%s/%s' | tee /etc/timezone", b1ptr, b2ptr);
             else
-                sprintf (buffer, "echo '%s' | tee /etc/timezone", gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb)));
+                sprintf (buffer, "echo '%s' | tee /etc/timezone", b1ptr);
             system (buffer);
 
             // warn about a short delay...
@@ -784,6 +787,8 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
             // launch a thread with the system call to update the timezone
             g_thread_new (NULL, timezone_thread, NULL);
         }
+        g_free (b1ptr);
+        if (b2ptr) g_free (b2ptr);
     }
     gtk_widget_destroy (dlg);
 }
@@ -969,7 +974,8 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
         // set the HDMI variables
-        if (!strncmp (gtk_combo_box_get_active_text (GTK_COMBO_BOX (resolution_cb)), "Default", 7))
+        cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (resolution_cb));
+        if (!strncmp (cptr, "Default", 7))
         {
 			// clear setting
 			if (hmode != 0)
@@ -982,7 +988,7 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
 		else
 		{
 			// set config vars
-			sscanf (gtk_combo_box_get_active_text (GTK_COMBO_BOX (resolution_cb)), "%s mode %d", buffer, &mode);
+			sscanf (cptr, "%s mode %d", buffer, &mode);
 			if (hgroup != buffer[0] - 'B' || hmode != mode)
 			{
 				sprintf (buffer, SET_HDMI_GP_MOD, buffer[0] - 'B', mode);
@@ -990,6 +996,7 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
 				needs_reboot = 1;
 			}
 		}
+        g_free (cptr);
     }
     gtk_widget_destroy (dlg);
 }
