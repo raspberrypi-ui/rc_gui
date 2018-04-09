@@ -810,11 +810,13 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
 
     // get the current country setting
     get_string (GET_WIFI_CTRY, cnow);
+    if (cnow[0] == 0) sprintf (cnow, "00");
 
     // populate the combobox
     fp = fopen ("/usr/share/zoneinfo/iso3166.tab", "rb");
-    n = 0;
     found = 0;
+    gtk_combo_box_append_text (GTK_COMBO_BOX (wccountry_cb), _("<not set>"));
+    n = 1;
     while (fgets (buffer, sizeof (buffer) - 1, fp))
     {
         if (buffer[0] != 0x0A && buffer[0] != '#')
@@ -832,14 +834,20 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
         // update the wpa_supplicant.conf file
-        sprintf (buffer, "%s", gtk_combo_box_get_active_text (GTK_COMBO_BOX (wccountry_cb)));
-        if (strncmp (cnow, buffer, 2))
+        cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (wccountry_cb));
+        if (!strcmp (cptr, _("<not set>")))
         {
-            strncpy (cnow, buffer, 2);
+            sprintf (buffer, SET_WIFI_CTRY, "00");
+            system (buffer);
+        }
+        else if (strncmp (cnow, cptr, 2))
+        {
+            strncpy (cnow, cptr, 2);
             cnow[2] = 0;
             sprintf (buffer, SET_WIFI_CTRY, cnow);
             system (buffer);
         }
+        if (cptr) g_free (cptr);
     }
     gtk_widget_destroy (dlg);
 }
