@@ -483,7 +483,7 @@ msgstr "Location:"
 
 #: ../data/rc_gui.ui.h:114
 msgid "WiFi Country Code"
-msgstr "WiFi Country Code"
+msgstr "WiFi Country"
 
 #: ../data/rc_gui.desktop.in.h:2
 msgid "Configure Raspberry Pi system"
