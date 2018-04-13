@@ -19,11 +19,11 @@ msgstr ""
 
 #: ../src/rc_gui.c:575
 msgid "Setting locale - please wait..."
-msgstr "Configuration de la Localisation - Merci de patienter..."
+msgstr "Configuration de la localisation - Merci de patienter..."
 
 #: ../src/rc_gui.c:735
 msgid "Setting timezone - please wait..."
-msgstr "Configuration du fuseau horaire - Merci de Patienter..."
+msgstr "Configuration du fuseau horaire - Merci de patienter..."
 
 #: ../data/rc_gui.ui.h:1 ../data/rc_gui.desktop.in.h:1
 msgid "Raspberry Pi Configuration"
@@ -39,7 +39,7 @@ msgstr "Étendre le système de fichier"
 
 #: ../data/rc_gui.ui.h:4
 msgid "Ensure that all of the SD card storage is available to the OS"
-msgstr "Assurez-vous que tous le stockage de la carte SD est alloué à l'OS"
+msgstr "Assurez-vous que tout le stockage de la carte SD est disponible à l'OS"
 
 #: ../data/rc_gui.ui.h:5
 msgid "Password:"
@@ -59,7 +59,7 @@ msgstr "Hostname:"
 
 #: ../data/rc_gui.ui.h:9
 msgid "Set the name of your Pi on a local network"
-msgstr "Régler le nom du votre Pi sur votre réseau local"
+msgstr "Définir le nom du votre Pi sur votre réseau local"
 
 #: ../data/rc_gui.ui.h:10
 msgid "Boot:"
@@ -67,15 +67,15 @@ msgstr "Boot:"
 
 #: ../data/rc_gui.ui.h:11
 msgid "To Desktop"
-msgstr "vers le Bureau"
+msgstr "Vers le Bureau"
 
 #: ../data/rc_gui.ui.h:12
 msgid "Launch the desktop environment automatically on boot"
-msgstr "Lancer automatiquement le bureau au démarrage"
+msgstr "Lancer automatiquement l'environnement de bureau au démarrage"
 
 #: ../data/rc_gui.ui.h:13
 msgid "To CLI"
-msgstr "vers la Console"
+msgstr "Vers la Console"
 
 #: ../data/rc_gui.ui.h:14
 msgid "Boot into a command line shell rather than the desktop"
@@ -103,7 +103,7 @@ msgstr "Attendre la connexion internet"
 
 #: ../data/rc_gui.ui.h:20
 msgid "Do not complete boot until network connection is established"
-msgstr "Ne pas continuer le démarrage jusqu'au moment où la connexion est établie"
+msgstr "Ne pas compléter le démarrage tant que la connexion réseau n'est pas établie"
 
 #: ../data/rc_gui.ui.h:21
 msgid "Overscan:"
@@ -115,7 +115,7 @@ msgstr "Activé"
 
 #: ../data/rc_gui.ui.h:23
 msgid "Enable overscan to show the edges of the screen"
-msgstr "Enable overscan to show the edges of the screen"
+msgstr "Activer l'overscan pour afficher les bords de l'écran"
 
 #: ../data/rc_gui.ui.h:24
 msgid "Disable"
@@ -123,7 +123,7 @@ msgstr "Désactivé"
 
 #: ../data/rc_gui.ui.h:25
 msgid "Disable overscan to hide black outline on screen"
-msgstr "Disable overscan to hide black outline on screen"
+msgstr "Désactiver l'overscan pour masquer les contours noirs de l'écran"
 
 #: ../data/rc_gui.ui.h:26
 msgid "Rastrack:"
@@ -135,7 +135,7 @@ msgstr "Ajouter à _Rastrack..."
 
 #: ../data/rc_gui.ui.h:28
 msgid "Add this Pi to the online Raspberry Pi map"
-msgstr "Ajouter ce PI à la carte en ligne Raspberry Pi"
+msgstr "Ajouter ce Pi à la carte en ligne Raspberry Pi"
 
 #: ../data/rc_gui.ui.h:29
 msgid "System"
@@ -147,11 +147,11 @@ msgstr "Caméra:"
 
 #: ../data/rc_gui.ui.h:31
 msgid "Enable the Raspberry Pi Camera Board"
-msgstr "Activer la Caméra Raspberry PI"
+msgstr "Activer la Caméra Raspberry Pi"
 
 #: ../data/rc_gui.ui.h:32
 msgid "Disable the Raspberry Pi Camera Board"
-msgstr "Désactiver la Caméra Raspberry PI"
+msgstr "Désactiver la Caméra Raspberry Pi"
 
 #: ../data/rc_gui.ui.h:33
 msgid "SSH:"
@@ -159,11 +159,11 @@ msgstr "SSH:"
 
 #: ../data/rc_gui.ui.h:34
 msgid "Enable remote access to this Pi via SSH"
-msgstr "Activer le point d’accès à ditstance vers le PI par le biais de SSH"
+msgstr "Activer le point d’accès à distance vers le Pi par le biais de SSH"
 
 #: ../data/rc_gui.ui.h:35
 msgid "Disable remote access to this Pi via SSH"
-msgstr "Désactiver le point d’accès à distance vers le PI par le biais de SSH"
+msgstr "Désactiver le point d’accès à distance vers le Pi par le biais de SSH"
 
 #: ../data/rc_gui.ui.h:36
 msgid "SPI:"
@@ -196,11 +196,11 @@ msgstr "Série:"
 # kernel can be translated by "noyau". But french developers call them "kernel"
 #: ../data/rc_gui.ui.h:43
 msgid "Enable shell and kernel messages on the serial connection"
-msgstr "Activer le les messages du shell et du kernel sur les connections séries "
+msgstr "Activer les messages du shell et du kernel sur les connexions séries"
 
 #: ../data/rc_gui.ui.h:44
 msgid "Disable shell and kernel messages on the serial connection"
-msgstr "Désactiver le les messages du shell et du kernel sur les connections séries "
+msgstr "Désactiver les messages du shell et du kernel sur les connexions séries"
 
 #: ../data/rc_gui.ui.h:45
 msgid "Interfaces"
@@ -212,7 +212,7 @@ msgstr "Overclock:"
 
 #: ../data/rc_gui.ui.h:47
 msgid "Set the level of overclock to control performance"
-msgstr "Set the level of overclock to control performance"
+msgstr "Définir le niveau d'overclock pour contrôler les performances"
 
 #: ../data/rc_gui.ui.h:48
 msgid "None (700MHz)"
@@ -228,7 +228,7 @@ msgstr "Moyen (900MHz)"
 
 #: ../data/rc_gui.ui.h:51
 msgid "High (950MHz)"
-msgstr "Haut (950MHz)"
+msgstr "Élevé (950MHz)"
 
 #: ../data/rc_gui.ui.h:52
 msgid "Turbo (1000MHz)"
@@ -240,7 +240,7 @@ msgstr "Aucun (900MHz)"
 
 #: ../data/rc_gui.ui.h:54
 msgid "High (1000MHz)"
-msgstr "Haut (1000MHz)"
+msgstr "Élevé (1000MHz)"
 
 #: ../data/rc_gui.ui.h:55
 msgid "Not available"
@@ -248,11 +248,11 @@ msgstr "Indisponible"
 
 #: ../data/rc_gui.ui.h:56
 msgid "_GPU Memory:"
-msgstr "mémoire du GPU:"
+msgstr "Mémoire du GPU (Mo):"
 
 #: ../data/rc_gui.ui.h:57
 msgid "Enter the amount of memory available to the GPU"
-msgstr "Entrez la valeur de la mémoire alloué par le GPU"
+msgstr "Entrez la valeur de la mémoire allouée par le GPU"
 
 #: ../data/rc_gui.ui.h:58
 msgid "Performance"
@@ -264,11 +264,11 @@ msgstr "Localisation:"
 
 #: ../data/rc_gui.ui.h:60
 msgid "Set _Locale..."
-msgstr "Régler la _Localisation..."
+msgstr "Définir la _localisation..."
 
 #: ../data/rc_gui.ui.h:61
 msgid "Set internationalisation settings for units etc."
-msgstr "Régler les paramètre internationaux pour les unités, etc..."
+msgstr "Définir les paramètres internationaux pour les unités, etc."
 
 #: ../data/rc_gui.ui.h:62
 msgid "Timezone:"
@@ -276,11 +276,11 @@ msgstr "Fuseau Horaire:"
 
 #: ../data/rc_gui.ui.h:63
 msgid "Set _Timezone..."
-msgstr "Régler _Le fuseau horaire..."
+msgstr "Définir le _fuseau horaire..."
 
 #: ../data/rc_gui.ui.h:64
 msgid "Set the timezone to be used by the internal clock"
-msgstr "Set the timezone to be used by the internal clock"
+msgstr "Définir le fuseau horaire à utiliser par l'horloge interne"
 
 #: ../data/rc_gui.ui.h:65
 msgid "Keyboard:"
@@ -288,11 +288,11 @@ msgstr "Clavier:"
 
 #: ../data/rc_gui.ui.h:66
 msgid "Set _Keyboard..."
-msgstr "Régler _Le clavier..."
+msgstr "Définir le _clavier..."
 
 #: ../data/rc_gui.ui.h:67
 msgid "Set international keyboard options"
-msgstr "Régler les paramètres les paramètres du clavier"
+msgstr "Définir les paramètres du clavier"
 
 #: ../data/rc_gui.ui.h:68
 msgid "WiFi Country:"
@@ -300,11 +300,11 @@ msgstr "Région du WiFi:"
 
 #: ../data/rc_gui.ui.h:69
 msgid "Set _WiFi Country..."
-msgstr "Régler la région du _WiFi..."
+msgstr "Définir le pays du _WiFi..."
 
 #: ../data/rc_gui.ui.h:70
 msgid "Set WiFi country code"
-msgstr "Régler le code de région WiFi"
+msgstr "Définir le code de pays WiFi"
 
 #: ../data/rc_gui.ui.h:71
 msgid "Localisation"
@@ -322,15 +322,15 @@ msgid ""
 "installed, Device Tree enabled, the default \"pi\" user set up and the lightdm "
 "application installed. "
 msgstr ""
-"The Raspberry Pi Configuration application can only modify a standard "
-"configuration.\n"
+"L'application de Configuration du Raspberry Pi ne peut modifier qu'une "
+"configuration standard.\n"
 "\n"
-"Your configuration appears to have been modified by other tools, and so this "
-"application cannot be used on your system.\n"
+"Votre configuration semble avoir été modifiée par d'autres outils, et cette "
+"application ne peut donc pas être utilisée sur votre système.\n"
 "\n"
-"In order to use this application, you need to have the latest firmware "
-"installed, Device Tree enabled, the default \"pi\" user set up and the lightdm "
-"application installed. "
+"Pour utiliser cette application, vous devez installer le dernier firmware, "
+"activer Device Tree, configurer par défaut l'utilisateur \"pi\" et installer "
+"l'application lightdm."
 
 #: ../data/rc_gui.ui.h:77
 msgid "Filesystem Expanded"
@@ -360,7 +360,7 @@ msgstr "Pays:"
 
 #: ../data/rc_gui.ui.h:84
 msgid "Character Set:"
-msgstr "Character Set:"
+msgstr "Jeu de caractères:"
 
 #: ../data/rc_gui.ui.h:85
 msgid "Change Password"
@@ -396,7 +396,7 @@ msgstr ""
 
 #: ../data/rc_gui.ui.h:93
 msgid "Username:"
-msgstr "Pseudo:"
+msgstr "Nom d'utilisateur:"
 
 #: ../data/rc_gui.ui.h:94
 msgid "Email Address:"
@@ -413,8 +413,8 @@ msgid ""
 "\n"
 "Would you like to reboot now? "
 msgstr ""
-"Les changements que vous avez fait sur votre Raspberry Pi requière un "
-"redémarrage pour être opérationnelle.\n"
+"Les changements que vous avez faits sur votre Raspberry Pi requièrent un "
+"redémarrage pour être opérationnels.\n"
 "\n"
 "Voulez-vous redémarrer maintenant ?"
 
@@ -424,11 +424,11 @@ msgstr "Fuseau horaire"
 
 #: ../data/rc_gui.ui.h:100
 msgid "Area:"
-msgstr "Area:"
+msgstr "Région:"
 
 #: ../data/rc_gui.ui.h:101
 msgid "Location:"
-msgstr "Location:"
+msgstr "Emplacement:"
 
 #: ../data/rc_gui.ui.h:102
 msgid "WiFi Country Code"
