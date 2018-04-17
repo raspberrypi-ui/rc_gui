@@ -11,6 +11,6 @@ Vcs-Browser: https://github.com/raspberrypi-ui/rc_gui
 
 Package: rc-gui
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, raspi-config, lxkeymap
+Depends: ${shlibs:Depends}, ${misc:Depends}, raspi-config
 Description: raspi-config GUI
  Application which allows the configuration of Raspberry Pi system settings

@@ -1,3 +1,9 @@
+rc-gui (1.18) stretch; urgency=medium
+
+  * Use internal dialog to change keyboard instead of lxkeymap
+
+ -- Simon Long <simon@raspberrypi.org>  Tue, 17 Apr 2018 12:56:18 +0100
+
 rc-gui (1.17) stretch; urgency=medium
 
   * Add unset option for wifi country; fix various memory leaks

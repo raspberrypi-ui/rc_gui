@@ -2012,6 +2012,7 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
             <property name="can_focus">False</property>
             <property name="n_rows">3</property>
             <property name="n_columns">2</property>
+            <property name="column_spacing">5</property>
             <child>
               <placeholder/>
             </child>
@@ -2468,6 +2469,7 @@ Would you like to reboot now? </property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="n_columns">2</property>
+            <property name="column_spacing">5</property>
             <child>
               <placeholder/>
             </child>
@@ -2556,6 +2558,7 @@ Would you like to reboot now? </property>
             <property name="can_focus">False</property>
             <property name="n_rows">2</property>
             <property name="n_columns">2</property>
+            <property name="column_spacing">5</property>
             <child>
               <placeholder/>
             </child>
@@ -2652,6 +2655,7 @@ Would you like to reboot now? </property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="n_columns">2</property>
+            <property name="column_spacing">5</property>
             <child>
               <placeholder/>
             </child>
@@ -2681,6 +2685,119 @@ Would you like to reboot now? </property>
     <action-widgets>
       <action-widget response="-6">wccancel</action-widget>
       <action-widget response="-5">wcok</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkDialog" id="keyboarddlg">
+    <property name="can_focus">False</property>
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Keyboard</property>
+    <property name="resizable">False</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="keyboarddlg_vbox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="keyboarddlg_action_area">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="keycancel">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="keyok">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkTable" id="keytable">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="n_rows">3</property>
+            <property name="n_columns">2</property>
+            <property name="column_spacing">5</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkLabel" id="keylabelmodel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Model:</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="keylabellayout">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Layout:</property>
+              </object>
+              <packing>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="keylabelvar">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Variant:</property>
+              </object>
+              <packing>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">keycancel</action-widget>
+      <action-widget response="-5">keyok</action-widget>
     </action-widgets>
   </object>
 </interface>

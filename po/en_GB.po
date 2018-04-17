@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rc_gui 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-09 21:29+0100\n"
-"PO-Revision-Date: 2018-04-09 21:29+0100\n"
+"POT-Creation-Date: 2018-04-17 12:41+0100\n"
+"PO-Revision-Date: 2018-04-17 12:41+0100\n"
 "Last-Translator: Simon Long <simon@raspberrypi.org>\n"
 "Language-Team: English (British)\n"
 "Language: en_GB\n"
@@ -17,17 +17,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/rc_gui.c:623
+#: ../src/rc_gui.c:627
 msgid "Setting locale - please wait..."
 msgstr "Setting locale - please wait..."
 
-#: ../src/rc_gui.c:786
+#: ../src/rc_gui.c:790
 msgid "Setting timezone - please wait..."
 msgstr "Setting timezone - please wait..."
 
-#: ../src/rc_gui.c:828 ../src/rc_gui.c:848
+#: ../src/rc_gui.c:832 ../src/rc_gui.c:852
 msgid "<not set>"
 msgstr "<not set>"
+
+#: ../src/rc_gui.c:1257
+msgid "Setting keyboard - please wait..."
+msgstr "Setting keyboard - please wait..."
 
 #: ../data/rc_gui.ui.h:1 ../data/rc_gui.desktop.in.h:1
 msgid "Raspberry Pi Configuration"
@@ -484,6 +488,22 @@ msgstr "Location:"
 #: ../data/rc_gui.ui.h:114
 msgid "WiFi Country Code"
 msgstr "WiFi Country"
+
+#: ../data/rc_gui.ui.h:115
+msgid "Keyboard"
+msgstr "Keyboard"
+
+#: ../data/rc_gui.ui.h:116
+msgid "Model:"
+msgstr "Model:"
+
+#: ../data/rc_gui.ui.h:117
+msgid "Layout:"
+msgstr "Layout:"
+
+#: ../data/rc_gui.ui.h:118
+msgid "Variant:"
+msgstr "Variant:"
 
 #: ../data/rc_gui.desktop.in.h:2
 msgid "Configure Raspberry Pi system"
