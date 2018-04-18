@@ -101,14 +101,14 @@ static int needs_reboot;
 
 static int loc_count, country_count, char_count;
 
-/* Global locale accessed from multiple threads */
+/* Globals accessed from multiple threads */
 
-static char glocale[64];
+static char gbuffer[512];
+GThread *pthread;
 
 /* Lists for keyboard setting */
 
 GtkListStore *model_list, *layout_list, *variant_list;
-char cmd_buf[512];
 
 /* Helpers */
 
@@ -461,7 +461,7 @@ static gpointer locale_thread (gpointer data)
     char buffer[256];
 
     system ("locale-gen");
-    sprintf (buffer, "update-locale LANG=%s", glocale);
+    sprintf (buffer, "update-locale LANG=%s", gbuffer);
     system (buffer);
     g_idle_add (close_msg, NULL);
     return NULL;
@@ -592,11 +592,11 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
             {
                 fgets (buffer, sizeof (buffer) - 1, fp);
                 cptr = strtok (buffer, " ");
-                strcpy (glocale, cptr);
+                strcpy (gbuffer, cptr);
                 pclose (fp);
             }
 
-            if (glocale[0] && strcmp (glocale, init_locale))
+            if (gbuffer[0] && strcmp (gbuffer, init_locale))
             {
                 // look up the current locale setting from init_locale in /etc/locale.gen
                 sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", init_locale);
@@ -615,8 +615,8 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                     system (buffer);
                 }
 
-                // look up the new locale setting from glocale in /etc/locale.gen
-                sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", glocale);
+                // look up the new locale setting from gbuffer in /etc/locale.gen
+                sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", gbuffer);
                 fp = popen (buffer, "r");
                 if (fp != NULL)
                 {
@@ -1013,19 +1013,20 @@ static void layout_changed (GtkComboBox *cb, char *init_variant)
     int siz, n, varn, count, in_list;
     FILE *fp;
 
-    // reset the list of variants and add a default
-    gtk_list_store_clear (variant_list);
-    gtk_list_store_append (variant_list, &iter);
-    gtk_list_store_set (variant_list, &iter, 0, "Standard", 1, "", -1);
-    count = 1;
-
     // get the currently-set layout from the combo box
     path = gtk_tree_path_new_from_indices (gtk_combo_box_get_active (GTK_COMBO_BOX (keylayout_cb)), -1);
     gtk_tree_model_get_iter (GTK_TREE_MODEL (layout_list), &iter, path);
-    gtk_tree_model_get (GTK_TREE_MODEL (layout_list), &iter, 1, &cptr, -1);
-    sprintf (buffer, "    '%s'", cptr);
     gtk_tree_path_free (path);
-    g_free (cptr);
+    gtk_tree_model_get (GTK_TREE_MODEL (layout_list), &iter, 0, &t1, 1, &t2, -1);
+
+    // reset the list of variants and add the layout name as a default
+    gtk_list_store_clear (variant_list);
+    gtk_list_store_append (variant_list, &iter);
+    gtk_list_store_set (variant_list, &iter, 0, t1, 1, "", -1);
+    sprintf (buffer, "    '%s'", t2);
+    g_free (t1);
+    g_free (t2);
+    count = 1;
 
     // parse the database file to find variants for this layout
     cptr = NULL;
@@ -1066,11 +1067,12 @@ static void layout_changed (GtkComboBox *cb, char *init_variant)
 
 static gpointer keyboard_thread (gpointer ptr)
 {
+    //system ("dpkg-reconfigure -f noninteractive keyboard-configuration");
     system ("invoke-rc.d keyboard-setup start");
     system ("setsid sh -c 'exec setupcon -k --force <> /dev/tty1 >&0 2>&1'");
     system ("udevadm trigger --subsystem-match=input --action=change");
     system ("udevadm settle");
-    system (cmd_buf);
+    system (gbuffer);
     g_idle_add (close_msg, NULL);
     return NULL;
 }
@@ -1208,40 +1210,56 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     // run the dialog
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
+        n = 0;
         path = gtk_tree_path_new_from_indices (gtk_combo_box_get_active (GTK_COMBO_BOX (keymodel_cb)), -1);
         gtk_tree_model_get_iter (GTK_TREE_MODEL (model_list), &iter, path);
         gtk_tree_model_get (GTK_TREE_MODEL (model_list), &iter, 1, &new_mod, -1);
-        sprintf (cmd_buf, "grep -q XKBMODEL /etc/default/keyboard && sed -i 's/XKBMODEL=.*/XKBMODEL=%s/g' /etc/default/keyboard || echo 'XKBMODEL=%s' >> /etc/default/keyboard", new_mod, new_mod);
-        system (cmd_buf);
+        if (g_strcmp0 (new_mod, init_model))
+        {
+            sprintf (gbuffer, "grep -q XKBMODEL /etc/default/keyboard && sed -i 's/XKBMODEL=.*/XKBMODEL=%s/g' /etc/default/keyboard || echo 'XKBMODEL=%s' >> /etc/default/keyboard", new_mod, new_mod);
+            system (gbuffer);
+            n = 1;
+        }
         gtk_tree_path_free (path);
 
         path = gtk_tree_path_new_from_indices (gtk_combo_box_get_active (GTK_COMBO_BOX (keylayout_cb)), -1);
         gtk_tree_model_get_iter (GTK_TREE_MODEL (layout_list), &iter, path);
         gtk_tree_model_get (GTK_TREE_MODEL (layout_list), &iter, 1, &new_lay, -1);
-        sprintf (cmd_buf, "grep -q XKBLAYOUT /etc/default/keyboard && sed -i 's/XKBLAYOUT=.*/XKBLAYOUT=%s/g' /etc/default/keyboard || echo 'XKBLAYOUT=%s' >> /etc/default/keyboard", new_lay, new_lay);
-        system (cmd_buf);
+        if (g_strcmp0 (new_lay, init_layout))
+        {
+            sprintf (gbuffer, "grep -q XKBLAYOUT /etc/default/keyboard && sed -i 's/XKBLAYOUT=.*/XKBLAYOUT=%s/g' /etc/default/keyboard || echo 'XKBLAYOUT=%s' >> /etc/default/keyboard", new_lay, new_lay);
+            system (gbuffer);
+            n = 1;
+        }
         gtk_tree_path_free (path);
 
         path = gtk_tree_path_new_from_indices (gtk_combo_box_get_active (GTK_COMBO_BOX (keyvar_cb)), -1);
         gtk_tree_model_get_iter (GTK_TREE_MODEL (variant_list), &iter, path);
         gtk_tree_model_get (GTK_TREE_MODEL (variant_list), &iter, 1, &new_var, -1);
-        sprintf (cmd_buf, "grep -q XKBVARIANT /etc/default/keyboard && sed -i 's/XKBVARIANT=.*/XKBVARIANT=%s/g' /etc/default/keyboard || echo 'XKBVARIANT=%s' >> /etc/default/keyboard", new_var, new_var);
-        system (cmd_buf);
+        if (g_strcmp0 (new_var, init_variant))
+        {
+            sprintf (gbuffer, "grep -q XKBVARIANT /etc/default/keyboard && sed -i 's/XKBVARIANT=.*/XKBVARIANT=%s/g' /etc/default/keyboard || echo 'XKBVARIANT=%s' >> /etc/default/keyboard", new_var, new_var);
+            system (gbuffer);
+            n = 1;
+        }
         gtk_tree_path_free (path);
 
         // this updates the current session when invoked after the udev update
-        sprintf (cmd_buf, "setxkbmap %s%s%s%s%s", new_lay, new_mod[0] ? " -model " : "", new_mod, new_var[0] ? " -variant " : "", new_var);
+        sprintf (gbuffer, "setxkbmap %s%s%s%s%s", new_lay, new_mod[0] ? " -model " : "", new_mod, new_var[0] ? " -variant " : "", new_var);
         g_free (new_mod);
         g_free (new_lay);
         g_free (new_var);
 
-        // warn about a short delay...
-        delay_warning (_("Setting keyboard - please wait..."));
+        if (n)
+        {
+            // warn about a short delay...
+            delay_warning (_("Setting keyboard - please wait..."));
 
-        // launch a thread with the system call to update the keyboard
-        g_thread_new (NULL, keyboard_thread, NULL);
+            // launch a thread with the system call to update the keyboard
+            pthread = g_thread_new (NULL, keyboard_thread, NULL);
+            if (ptr != NULL) gtk_dialog_run (GTK_DIALOG (msg_dlg));
+        }
     }
-
     gtk_widget_destroy (dlg);
 }
 
@@ -1486,6 +1504,25 @@ int main (int argc, char *argv[])
     gtk_init (&argc, &argv);
     gtk_icon_theme_prepend_search_path (gtk_icon_theme_get_default(), PACKAGE_DATA_DIR);
 
+    if (argc == 2 && !strcmp (argv[1], "-w"))
+    {
+        on_set_wifi (NULL, NULL);
+        return 0;
+    }
+
+    if (argc == 2 && !strcmp (argv[1], "-k"))
+    {
+        // set up list stores for keyboard layouts
+        model_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+        layout_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+        variant_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+
+        pthread = 0;
+        on_set_keyboard (NULL, (gpointer) 1);
+        if (pthread) g_thread_join (pthread);
+        return 0;
+    }
+
     // build the UI
     builder = gtk_builder_new ();
     gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
@@ -1493,7 +1530,6 @@ int main (int argc, char *argv[])
     if (!can_configure ())
     {
         dlg = (GtkWidget *) gtk_builder_get_object (builder, "errordialog");
-        gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
         g_object_unref (builder);
         gtk_dialog_run (GTK_DIALOG (dlg));
         gtk_widget_destroy (dlg);
