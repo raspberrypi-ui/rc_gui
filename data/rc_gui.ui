@@ -970,7 +970,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Serial:</property>
+                        <property name="label" translatable="yes">Serial Port:</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -995,7 +995,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Enable shell and kernel messages on the serial connection</property>
+                        <property name="tooltip_text" translatable="yes">Enable the serial port over the GPIO pins</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                       </object>
@@ -1011,7 +1011,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Disable shell and kernel messages on the serial connection</property>
+                        <property name="tooltip_text" translatable="yes">Disable the serial port over the GPIO pins</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">rb_ser_on</property>
@@ -1039,7 +1039,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">1-Wire:</property>
+                        <property name="label" translatable="yes">Serial Console:</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1049,6 +1049,75 @@
                     </child>
                     <child>
                       <object class="GtkHBox" id="null27">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="rb_serc_on">
+                        <property name="label" translatable="yes">Enable</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Enable shell and kernel messages on the serial connection</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="rb_serc_off">
+                        <property name="label" translatable="yes">Disable</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Disable shell and kernel messages on the serial connection</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">rb_serc_on</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">6</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox28">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="homogeneous">True</property>
+                    <child>
+                      <object class="GtkLabel" id="label28">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">1-Wire:</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkHBox" id="null28">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -1095,16 +1164,16 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">6</property>
+                    <property name="position">7</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox28">
+                  <object class="GtkHBox" id="hbox29">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="label28">
+                      <object class="GtkLabel" id="label29">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -1117,7 +1186,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="null28">
+                      <object class="GtkHBox" id="null29">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -1160,17 +1229,6 @@
                         <property name="position">3</property>
                       </packing>
                     </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">7</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkHBox" id="hbox29">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1231,6 +1289,17 @@
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">9</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox2f">
+                    <property name="visible">False</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">10</property>
                   </packing>
                 </child>
               </object>
@@ -2830,7 +2899,7 @@ Would you like to reboot now? </property>
                         <property name="can_focus">False</property>
                         <property name="xpad">20</property>
                         <property name="ypad">20</property>
-                        <property name="label" translatable="yes">label</property>
+                        <property name="label" translatable="yes"></property>
                       </object>
                       <packing>
                         <property name="expand">True</property>

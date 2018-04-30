@@ -77,7 +77,7 @@ static GObject *expandfs_btn, *passwd_btn, *res_btn, *locale_btn, *timezone_btn,
 static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb, *pixdub_on_rb, *pixdub_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
-static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb;
+static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwentry3_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
@@ -90,7 +90,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 /* Initial values */
 
 static char orig_hostname[128];
-static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_splash;
+static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
 static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub;
 
 /* Reboot flag set after locale change */
@@ -1301,6 +1301,25 @@ static void on_boot_gui (GtkButton* btn, gpointer ptr)
     }
 }
 
+static void on_serial_on (GtkButton* btn, gpointer ptr)
+{
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
+    {
+        gtk_widget_set_sensitive (GTK_WIDGET (scons_on_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (scons_off_rb), TRUE);
+    }
+}
+
+static void on_serial_off (GtkButton* btn, gpointer ptr)
+{
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
+    {
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scons_off_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (scons_on_rb), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (scons_off_rb), FALSE);
+    }
+}
+
 /* Write the changes to the system when OK is pressed */
 
 static int process_changes (void)
@@ -1370,9 +1389,18 @@ static int process_changes (void)
         vsystem (SET_I2C, (1 - orig_i2c));
     }
 
-    if (orig_serial != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (serial_off_rb)))
+    if (orig_serial != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (serial_off_rb)) ||
+        orig_scons != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scons_off_rb)))
     {
-        vsystem (SET_SERIAL, (1 - orig_serial));
+        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (serial_off_rb)))
+            vsystem (SET_SERIAL, 1);
+        else
+        {
+            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scons_off_rb)))
+                vsystem (SET_SERIAL, 2);
+            else
+                vsystem (SET_SERIAL, 0);
+        }
         reboot = 1;
     }
 
@@ -1595,9 +1623,15 @@ int main (int argc, char *argv[])
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_on_rb), TRUE);
 
     serial_on_rb = gtk_builder_get_object (builder, "rb_ser_on");
+    g_signal_connect (serial_on_rb, "toggled", G_CALLBACK (on_serial_on), NULL);
     serial_off_rb = gtk_builder_get_object (builder, "rb_ser_off");
-    if (orig_serial = (get_status (GET_SERIAL) | get_status (GET_SERIALHW))) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
+    g_signal_connect (serial_off_rb, "toggled", G_CALLBACK (on_serial_off), NULL);
+    scons_on_rb = gtk_builder_get_object (builder, "rb_serc_on");
+    scons_off_rb = gtk_builder_get_object (builder, "rb_serc_off");
+    if (orig_serial = get_status (GET_SERIALHW)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
+    if (orig_scons = get_status (GET_SERIAL)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scons_off_rb), TRUE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scons_on_rb), TRUE);
 
     onewire_on_rb = gtk_builder_get_object (builder, "rb_one_on");
     onewire_off_rb = gtk_builder_get_object (builder, "rb_one_off");
@@ -1698,6 +1732,8 @@ int main (int argc, char *argv[])
     gtk_widget_hide (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "hbox28");
     gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox29");
+    gtk_widget_hide (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "hbox2a");
     gtk_widget_show (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "hbox2b");
@@ -1707,6 +1743,8 @@ int main (int argc, char *argv[])
     item = gtk_builder_get_object (builder, "hbox2d");
     gtk_widget_show (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "hbox2e");
+    gtk_widget_show (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox2f");
     gtk_widget_show (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "vbox30");
     gtk_widget_hide (GTK_WIDGET (item));
