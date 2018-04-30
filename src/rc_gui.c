@@ -268,6 +268,29 @@ static void get_country (char *instr, char *ctry)
     }
 }
 
+static void message (char *msg)
+{
+    GdkColor col;
+    GtkWidget *wid;
+    GtkBuilder *builder = gtk_builder_new ();
+    gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+
+    msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "msg");
+    gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "msg_eb");
+    gdk_color_parse ("#FFFFFF", &col);
+    gtk_widget_modify_bg (wid, GTK_STATE_NORMAL, &col);
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "msg_lbl");
+    gtk_label_set_text (GTK_LABEL (wid), msg);
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "msg_bb");
+
+    gtk_widget_show_all (msg_dlg);
+    g_object_unref (builder);
+}
+
 /* Password setting */
 
 static void set_passwd (GtkEntry *entry, gpointer ptr)
@@ -315,23 +338,6 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
 }
 
 /* Locale setting */
-
-static void delay_warning (char *msg)
-{
-    msg_dlg = (GtkWidget *) gtk_dialog_new ();
-    gtk_window_set_title (GTK_WINDOW (msg_dlg), "");
-    gtk_window_set_modal (GTK_WINDOW (msg_dlg), TRUE);
-    gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
-    gtk_window_set_destroy_with_parent (GTK_WINDOW (msg_dlg), TRUE);
-    gtk_window_set_skip_taskbar_hint (GTK_WINDOW (msg_dlg), TRUE);
-    gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
-    GtkWidget *frame = gtk_frame_new (NULL);
-    GtkWidget *label = (GtkWidget *) gtk_label_new (msg);
-    gtk_misc_set_padding (GTK_MISC (label), 20, 20);
-    gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (msg_dlg))), frame);
-    gtk_container_add (GTK_CONTAINER (frame), label);
-    gtk_widget_show_all (msg_dlg);
-}
 
 static void country_changed (GtkComboBox *cb, char *ptr)
 {
@@ -637,7 +643,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
                     vsystem ("sed -i 's/^# %s/%s/g' /etc/locale.gen", cb_lang, cb_lang);
 
                 // warn about a short delay...
-                delay_warning (_("Setting locale - please wait..."));
+                message (_("Setting locale - please wait..."));
 
                 // launch a thread with the system call to update the generated locales
                 g_thread_new (NULL, locale_thread, NULL);
@@ -787,7 +793,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
                 vsystem ("echo '%s' | tee /etc/timezone", b1ptr);
 
             // warn about a short delay...
-            delay_warning (_("Setting timezone - please wait..."));
+            message (_("Setting timezone - please wait..."));
 
             // launch a thread with the system call to update the timezone
             g_thread_new (NULL, timezone_thread, NULL);
@@ -1247,7 +1253,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
         if (n)
         {
             // warn about a short delay...
-            delay_warning (_("Setting keyboard - please wait..."));
+            message (_("Setting keyboard - please wait..."));
 
             // launch a thread with the system call to update the keyboard
             pthread = g_thread_new (NULL, keyboard_thread, NULL);
