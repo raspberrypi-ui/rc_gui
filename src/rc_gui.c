@@ -112,6 +112,26 @@ GtkListStore *model_list, *layout_list, *variant_list;
 
 /* Helpers */
 
+static int vsystem (const char *fmt, ...)
+{
+    char buffer[1024];
+    va_list arg;
+    va_start (arg, fmt);
+    vsprintf (buffer, fmt, arg);
+    va_end (arg);
+    return system (buffer);
+}
+
+static FILE *vpopen (const char *fmt, ...)
+{
+    char buffer[1024];
+    va_list arg;
+    va_start (arg, fmt);
+    vsprintf (buffer, fmt, arg);
+    va_end (arg);
+    return popen (buffer, "r");
+}
+
 static int get_status (char *cmd)
 {
     FILE *fp = popen (cmd, "r");
@@ -263,7 +283,6 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
 {
     GtkBuilder *builder;
     GtkWidget *dlg;
-    char buffer[128];
     int res;
 
     builder = gtk_builder_new ();
@@ -281,8 +300,7 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
 
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
-        sprintf (buffer, CHANGE_PASSWD, gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), gtk_entry_get_text (GTK_ENTRY (pwentry3_tb)));
-        res = system (buffer);
+        res = vsystem (CHANGE_PASSWD, gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), gtk_entry_get_text (GTK_ENTRY (pwentry3_tb)));
         gtk_widget_destroy (dlg);
 		if (res)
 			dlg = (GtkWidget *) gtk_builder_get_object (builder, "pwbaddialog");
@@ -328,8 +346,7 @@ static void country_changed (GtkComboBox *cb, char *ptr)
     if (ptr)
     {
         // find the line in SUPPORTED that exactly matches the supplied country string
-        sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", ptr);
-        fp = popen (buffer, "r");
+        fp = vpopen ("grep '%s ' /usr/share/i18n/SUPPORTED", ptr);
         if (fp == NULL) return;
         while (fgets (buffer, sizeof (buffer) - 1, fp))
         {
@@ -366,14 +383,13 @@ static void country_changed (GtkComboBox *cb, char *ptr)
 
     // build the grep expression to search the file of supported formats
     if (!cb_ctry[0])
-        sprintf (buffer, "grep %s /usr/share/i18n/SUPPORTED", cb_lang);
+        fp = vpopen ("grep %s /usr/share/i18n/SUPPORTED", cb_lang);
     else if (!cb_ext[0])
-        sprintf (buffer, "grep %s_%s /usr/share/i18n/SUPPORTED | grep -v @", cb_lang, cb_ctry);
+        fp = vpopen ("grep %s_%s /usr/share/i18n/SUPPORTED | grep -v @", cb_lang, cb_ctry);
     else
-        sprintf (buffer, "grep -E '%s_%s.*%s' /usr/share/i18n/SUPPORTED", cb_lang, cb_ctry, cb_ext);
+        fp = vpopen ("grep -E '%s_%s.*%s' /usr/share/i18n/SUPPORTED", cb_lang, cb_ctry, cb_ext);
 
     // run the grep and parse the returned lines
-    fp = popen (buffer, "r");
     if (fp == NULL) return;
     while (fgets (buffer, sizeof (buffer) - 1, fp))
     {
@@ -458,11 +474,8 @@ static gboolean close_msg (gpointer data)
 
 static gpointer locale_thread (gpointer data)
 {
-    char buffer[256];
-
-    system ("locale-gen");
-    sprintf (buffer, "update-locale LANG=%s", gbuffer);
-    system (buffer);
+    vsystem ("locale-gen");
+    vsystem ("LC_ALL=%s LANG=%s LANGUAGE=%s update-locale LANG=%s LC_ALL=%s LANGUAGE=%s", gbuffer, gbuffer, gbuffer, gbuffer, gbuffer, gbuffer);
     g_idle_add (close_msg, NULL);
     return NULL;
 }
@@ -579,15 +592,14 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
         if (cptr)
         {
             if (!cb_ctry[0])
-                sprintf (buffer, "grep %s.*%s$ /usr/share/i18n/SUPPORTED", cb_lang, cptr);
+                fp = vpopen ("grep %s.*%s$ /usr/share/i18n/SUPPORTED", cb_lang, cptr);
             else if (!cb_ext[0])
-                sprintf (buffer, "grep %s_%s.*%s$ /usr/share/i18n/SUPPORTED | grep -v @", cb_lang, cb_ctry, cptr);
+                fp = vpopen ("grep %s_%s.*%s$ /usr/share/i18n/SUPPORTED | grep -v @", cb_lang, cb_ctry, cptr);
             else
-                sprintf (buffer, "grep -E '%s_%s.*%s.*%s$' /usr/share/i18n/SUPPORTED", cb_lang, cb_ctry, cb_ext, cptr);
+                fp = vpopen ("grep -E '%s_%s.*%s.*%s$' /usr/share/i18n/SUPPORTED", cb_lang, cb_ctry, cb_ext, cptr);
             g_free (cptr);
 
             // run the grep and parse the returned line
-            fp = popen (buffer, "r");
             if (fp != NULL)
             {
                 fgets (buffer, sizeof (buffer) - 1, fp);
@@ -599,8 +611,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
             if (gbuffer[0] && strcmp (gbuffer, init_locale))
             {
                 // look up the current locale setting from init_locale in /etc/locale.gen
-                sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", init_locale);
-                fp = popen (buffer, "r");
+                fp = vpopen ("grep '%s ' /usr/share/i18n/SUPPORTED", init_locale);
                 if (fp != NULL)
                 {
                     fgets (cb_lang, sizeof (cb_lang) - 1, fp);
@@ -610,14 +621,10 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 
                 // use sed to comment that line if uncommented
                 if (cb_lang[0])
-                {
-                    sprintf (buffer, "sed -i 's/^%s/# %s/g' /etc/locale.gen", cb_lang, cb_lang);
-                    system (buffer);
-                }
+                    vsystem ("sed -i 's/^%s/# %s/g' /etc/locale.gen", cb_lang, cb_lang);
 
                 // look up the new locale setting from gbuffer in /etc/locale.gen
-                sprintf (buffer, "grep '%s ' /usr/share/i18n/SUPPORTED", gbuffer);
-                fp = popen (buffer, "r");
+                fp = vpopen ("grep '%s ' /usr/share/i18n/SUPPORTED", gbuffer);
                 if (fp != NULL)
                 {
                     fgets (cb_lang, sizeof (cb_lang) - 1, fp);
@@ -627,10 +634,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 
                 // use sed to uncomment that line if commented
                 if (cb_lang[0])
-                {
-                    sprintf (buffer, "sed -i 's/^# %s/%s/g' /etc/locale.gen", cb_lang, cb_lang);
-                    system (buffer);
-                }
+                    vsystem ("sed -i 's/^# %s/%s/g' /etc/locale.gen", cb_lang, cb_lang);
 
                 // warn about a short delay...
                 delay_warning (_("Setting locale - please wait..."));
@@ -778,10 +782,9 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
         if (strcmp (before, buffer))
         {
             if (b2ptr)
-                sprintf (buffer, "echo '%s/%s' | tee /etc/timezone", b1ptr, b2ptr);
+                vsystem ("echo '%s/%s' | tee /etc/timezone", b1ptr, b2ptr);
             else
-                sprintf (buffer, "echo '%s' | tee /etc/timezone", b1ptr);
-            system (buffer);
+                vsystem ("echo '%s' | tee /etc/timezone", b1ptr);
 
             // warn about a short delay...
             delay_warning (_("Setting timezone - please wait..."));
@@ -843,16 +846,12 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
         // update the wpa_supplicant.conf file
         cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (wccountry_cb));
         if (!strcmp (cptr, _("<not set>")))
-        {
-            sprintf (buffer, SET_WIFI_CTRY, "00");
-            system (buffer);
-        }
+            vsystem (SET_WIFI_CTRY, "00");
         else if (strncmp (cnow, cptr, 2))
         {
             strncpy (cnow, cptr, 2);
             cnow[2] = 0;
-            sprintf (buffer, SET_WIFI_CTRY, cnow);
-            system (buffer);
+            vsystem (SET_WIFI_CTRY, cnow);
         }
         if (cptr) g_free (cptr);
     }
@@ -982,8 +981,7 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
 			// clear setting
 			if (hmode != 0)
 			{
-				sprintf (buffer, SET_HDMI_GP_MOD, 0, 0);
-				system (buffer);
+				vsystem (SET_HDMI_GP_MOD, 0, 0);
 				needs_reboot = 1;
 			}
 		}
@@ -993,8 +991,7 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
 			sscanf (cptr, "%s mode %d", buffer, &mode);
 			if (hgroup != buffer[0] - 'B' || hmode != mode)
 			{
-				sprintf (buffer, SET_HDMI_GP_MOD, buffer[0] - 'B', mode);
-				system (buffer);
+				vsystem (SET_HDMI_GP_MOD, buffer[0] - 'B', mode);
 				needs_reboot = 1;
 			}
 		}
@@ -1216,8 +1213,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
         gtk_tree_model_get (GTK_TREE_MODEL (model_list), &iter, 1, &new_mod, -1);
         if (g_strcmp0 (new_mod, init_model))
         {
-            sprintf (gbuffer, "grep -q XKBMODEL /etc/default/keyboard && sed -i 's/XKBMODEL=.*/XKBMODEL=%s/g' /etc/default/keyboard || echo 'XKBMODEL=%s' >> /etc/default/keyboard", new_mod, new_mod);
-            system (gbuffer);
+            vsystem ("grep -q XKBMODEL /etc/default/keyboard && sed -i 's/XKBMODEL=.*/XKBMODEL=%s/g' /etc/default/keyboard || echo 'XKBMODEL=%s' >> /etc/default/keyboard", new_mod, new_mod);
             n = 1;
         }
         gtk_tree_path_free (path);
@@ -1227,8 +1223,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
         gtk_tree_model_get (GTK_TREE_MODEL (layout_list), &iter, 1, &new_lay, -1);
         if (g_strcmp0 (new_lay, init_layout))
         {
-            sprintf (gbuffer, "grep -q XKBLAYOUT /etc/default/keyboard && sed -i 's/XKBLAYOUT=.*/XKBLAYOUT=%s/g' /etc/default/keyboard || echo 'XKBLAYOUT=%s' >> /etc/default/keyboard", new_lay, new_lay);
-            system (gbuffer);
+            vsystem ("grep -q XKBLAYOUT /etc/default/keyboard && sed -i 's/XKBLAYOUT=.*/XKBLAYOUT=%s/g' /etc/default/keyboard || echo 'XKBLAYOUT=%s' >> /etc/default/keyboard", new_lay, new_lay);
             n = 1;
         }
         gtk_tree_path_free (path);
@@ -1238,8 +1233,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
         gtk_tree_model_get (GTK_TREE_MODEL (variant_list), &iter, 1, &new_var, -1);
         if (g_strcmp0 (new_var, init_variant))
         {
-            sprintf (gbuffer, "grep -q XKBVARIANT /etc/default/keyboard && sed -i 's/XKBVARIANT=.*/XKBVARIANT=%s/g' /etc/default/keyboard || echo 'XKBVARIANT=%s' >> /etc/default/keyboard", new_var, new_var);
-            system (gbuffer);
+            vsystem ("grep -q XKBVARIANT /etc/default/keyboard && sed -i 's/XKBVARIANT=.*/XKBVARIANT=%s/g' /etc/default/keyboard || echo 'XKBVARIANT=%s' >> /etc/default/keyboard", new_var, new_var);
             n = 1;
         }
         gtk_tree_path_free (path);
@@ -1305,7 +1299,6 @@ static void on_boot_gui (GtkButton* btn, gpointer ptr)
 
 static int process_changes (void)
 {
-    char buffer[128];
     int reboot = 0;
 
     if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)) 
@@ -1325,92 +1318,78 @@ static int process_changes (void)
     
     if (orig_netwait == gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (netwait_cb)))
     {
-        sprintf (buffer, SET_BOOT_WAIT, (1 - orig_netwait));
-        system (buffer);
+        vsystem (SET_BOOT_WAIT, (1 - orig_netwait));
     }
 
     if (orig_splash != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (splash_off_rb)))
     {
-        sprintf (buffer, SET_SPLASH, (1 - orig_splash));
-        system (buffer);
+        vsystem (SET_SPLASH, (1 - orig_splash));
     }
 
     if (orig_camera != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (camera_off_rb)))
     {
-        sprintf (buffer, SET_CAMERA, (1 - orig_camera));
-        system (buffer);
+        vsystem (SET_CAMERA, (1 - orig_camera));
         reboot = 1;
     }
 
     if (orig_overscan != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (overscan_off_rb)))
     {
-        sprintf (buffer, SET_OVERSCAN, (1 - orig_overscan));
-        system (buffer);
+        vsystem (SET_OVERSCAN, (1 - orig_overscan));
         reboot = 1;
     }
 
     if (orig_pixdub != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pixdub_off_rb)))
     {
-        sprintf (buffer, SET_PIXDUB, (1 - orig_pixdub));
-        system (buffer);
+        vsystem (SET_PIXDUB, (1 - orig_pixdub));
         reboot = 1;
     }
 
     if (orig_ssh != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ssh_off_rb)))
     {
-        sprintf (buffer, SET_SSH, (1 - orig_ssh));
-        system (buffer);
+        vsystem (SET_SSH, (1 - orig_ssh));
     }
 
     if (orig_vnc != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (vnc_off_rb)))
     {
-        sprintf (buffer, SET_VNC, (1 - orig_vnc));
-        system (buffer);
+        vsystem (SET_VNC, (1 - orig_vnc));
     }
 
     if (orig_spi != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (spi_off_rb)))
     {
-        sprintf (buffer, SET_SPI, (1 - orig_spi));
-        system (buffer);
+        vsystem (SET_SPI, (1 - orig_spi));
     }
 
     if (orig_i2c != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (i2c_off_rb)))
     {
-        sprintf (buffer, SET_I2C, (1 - orig_i2c));
-        system (buffer);
+        vsystem (SET_I2C, (1 - orig_i2c));
     }
 
     if (orig_serial != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (serial_off_rb)))
     {
-        sprintf (buffer, SET_SERIAL, (1 - orig_serial));
-        system (buffer);
+        vsystem (SET_SERIAL, (1 - orig_serial));
         reboot = 1;
     }
 
     if (orig_onewire != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (onewire_off_rb)))
     {
-        sprintf (buffer, SET_1WIRE, (1 - orig_onewire));
-        system (buffer);
+        vsystem (SET_1WIRE, (1 - orig_onewire));
         reboot = 1;
     }
 
     if (orig_rgpio != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rgpio_off_rb)))
     {
-        sprintf (buffer, SET_RGPIO, (1 - orig_rgpio));
-        system (buffer);
+        vsystem (SET_RGPIO, (1 - orig_rgpio));
     }
 
     if (strcmp (orig_hostname, gtk_entry_get_text (GTK_ENTRY (hostname_tb))))
     {
-        sprintf (buffer, SET_HOSTNAME, gtk_entry_get_text (GTK_ENTRY (hostname_tb)));
-        system (buffer);
+        vsystem (SET_HOSTNAME, gtk_entry_get_text (GTK_ENTRY (hostname_tb)));
         reboot = 1;
     }
 
     if (orig_gpumem != gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)))
     {
-        sprintf (buffer, SET_GPU_MEM, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)));
-        system (buffer);
+        vsystem (SET_GPU_MEM, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)));
         reboot = 1;
     }
 
@@ -1421,30 +1400,28 @@ static int process_changes (void)
             case 1:
                 switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
                 {
-                    case 0 :    sprintf (buffer, SET_OVERCLOCK, "None");
+                    case 0 :    vsystem (SET_OVERCLOCK, "None");
                                 break;
-                    case 1 :    sprintf (buffer, SET_OVERCLOCK, "Modest");
+                    case 1 :    vsystem (SET_OVERCLOCK, "Modest");
                                 break;
-                    case 2 :    sprintf (buffer, SET_OVERCLOCK, "Medium");
+                    case 2 :    vsystem (SET_OVERCLOCK, "Medium");
                                 break;
-                    case 3 :    sprintf (buffer, SET_OVERCLOCK, "High");
+                    case 3 :    vsystem (SET_OVERCLOCK, "High");
                                 break;
-                    case 4 :    sprintf (buffer, SET_OVERCLOCK, "Turbo");
+                    case 4 :    vsystem (SET_OVERCLOCK, "Turbo");
                                 break;
                 }
-                system (buffer);
                 reboot = 1;
                 break;
 
             case 2:
                 switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
                 {
-                    case 0 :    sprintf (buffer, SET_OVERCLOCK, "None");
+                    case 0 :    vsystem (SET_OVERCLOCK, "None");
                                 break;
-                    case 1 :    sprintf (buffer, SET_OVERCLOCK, "High");
+                    case 1 :    vsystem (SET_OVERCLOCK, "High");
                                 break;
                 }
-                system (buffer);
                 reboot = 1;
                 break;
         }
