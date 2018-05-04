@@ -83,13 +83,13 @@ static GObject *pwentry1_tb, *pwentry2_tb, *pwentry3_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
 static GObject *tzarea_cb, *tzloc_cb, *wccountry_cb, *resolution_cb;
 static GObject *loclang_cb, *loccount_cb, *locchar_cb, *keymodel_cb, *keylayout_cb, *keyvar_cb;
-static GObject *language_ls, *country_ls;
+static GObject *language_ls, *country_ls, *loc_table;
 
 static GtkWidget *main_dlg, *msg_dlg;
 
 /* Initial values */
 
-static char orig_hostname[128];
+static char *orig_hostname;
 static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
 static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub;
 
@@ -99,7 +99,7 @@ static int needs_reboot;
 
 /* Number of items in comboboxes */
 
-static int loc_count, country_count, char_count;
+static int loc_count;
 
 /* Globals accessed from multiple threads */
 
@@ -114,32 +114,40 @@ GtkListStore *model_list, *layout_list, *variant_list;
 
 static int vsystem (const char *fmt, ...)
 {
-    char buffer[1024];
+    char *cmdline;
+    int res;
+
     va_list arg;
     va_start (arg, fmt);
-    vsprintf (buffer, fmt, arg);
+    g_vasprintf (&cmdline, fmt, arg);
     va_end (arg);
-    return system (buffer);
+    res = system (cmdline);
+    g_free (cmdline);
+    return res;
 }
 
 static FILE *vpopen (const char *fmt, ...)
 {
-    char buffer[1024];
+    char *cmdline;
+    FILE *res;
+
     va_list arg;
     va_start (arg, fmt);
-    vsprintf (buffer, fmt, arg);
+    g_vasprintf (&cmdline, fmt, arg);
     va_end (arg);
-    return popen (buffer, "r");
+    res = popen (cmdline, "r");
+    g_free (cmdline);
+    return res;
 }
 
 static int get_status (char *cmd)
 {
     FILE *fp = popen (cmd, "r");
-    char buf[64];
-    int res;
+    char *buf = NULL;
+    int res = 0;
 
     if (fp == NULL) return 0;
-    if (fgets (buf, sizeof (buf) - 1, fp) != NULL)
+    if (getline (&buf, &res, fp) > 0)
     {
         sscanf (buf, "%d", &res);
         pclose (fp);
@@ -149,37 +157,47 @@ static int get_status (char *cmd)
     return 0;
 }
 
-static void get_string (char *cmd, char *name)
+static char *get_string (char *cmd)
 {
+    char *line = NULL, *res = NULL;
+    int len = 0;
     FILE *fp = popen (cmd, "r");
-    char buf[64];
 
-    name[0] = 0;
-    if (fp == NULL) return;
-    if (fgets (buf, sizeof (buf) - 1, fp) != NULL)
+    if (fp == NULL) return NULL;
+    if (getline (&line, &len, fp) > 0)
     {
-        sscanf (buf, "%s", name);
+        res = line;
+        while (*res++) if (g_ascii_isspace (*res)) *res = 0;
+        res = g_strdup (line);
     }
     pclose (fp);
+    g_free (line);
+    return res;
 }
 
 static int get_total_mem (void)
 {
     FILE *fp;
-    char buf[64];
-    int arm, gpu;
-    
+    char *buf;
+    int arm, gpu, len;
+
     fp = popen ("vcgencmd get_mem arm", "r");
     if (fp == NULL) return 0;
-    while (fgets (buf, sizeof (buf) - 1, fp) != NULL)
+    buf = NULL;
+    len = 0;
+    while (getline (&buf, &len, fp) > 0)
         sscanf (buf, "arm=%dM", &arm);
     pclose (fp);
+    g_free (buf);
 
     fp = popen ("vcgencmd get_mem gpu", "r");
     if (fp == NULL) return 0;
-    while (fgets (buf, sizeof (buf) - 1, fp) != NULL)
+    buf = NULL;
+    len = 0;
+    while (getline (&buf, &len, fp) > 0)
         sscanf (buf, "gpu=%dM", &gpu);
     pclose (fp);
+    g_free (buf);
 
     return arm + gpu;    
 }
@@ -199,15 +217,18 @@ static int get_gpu_mem (void)
     return mem;
 }
 
-static int get_quoted_param (char *path, char *fname, char *toseek, char *result)
+static char *get_quoted_param (char *path, char *fname, char *toseek)
 {
-    char buffer[256], *linebuf = NULL, *cptr, *dptr;
-    int len = 0;
+    char *pathname, *linebuf, *cptr, *dptr, *res;
+    int len;
 
-    sprintf (buffer, "%s/%s", path, fname);
-    FILE *fp = fopen (buffer, "rb");
-    if (!fp) return 0;
+    pathname = g_strdup_printf ("%s/%s", path, fname);
+    FILE *fp = fopen (pathname, "rb");
+    g_free (pathname);
+    if (!fp) return NULL;
 
+    linebuf = NULL;
+    len = 0;
     while (getline (&linebuf, &len, fp) > 0)
     {
         // skip whitespace at line start
@@ -222,50 +243,20 @@ static int get_quoted_param (char *path, char *fname, char *toseek, char *result
             dptr = strtok (NULL, "\"\n\r");
 
             // copy to dest
-            if (dptr) strcpy (result, dptr);
-            else result[0] = 0;
+            if (dptr) res = g_strdup (dptr);
+            else res = NULL;
 
             // done
-            free (linebuf);
+            g_free (linebuf);
             fclose (fp);
-            return 1;
+            return res;
         }
     }
 
     // end of file with no match
-    result[0] = 0;
-    free (linebuf);
+    g_free (linebuf);
     fclose (fp);
-    return 0;
-}
-
-static void get_language (char *instr, char *lang)
-{
-    char *cptr = lang;
-    int count;
-
-    while (count < 4 && instr[count] >= 'a' && instr[count] <= 'z')
-    {
-        *cptr++ = instr[count++];
-    }
-    if (count < 2 || count > 3 || (instr[count] != '_' && instr[count] != 0  && instr[count] != '.')) *lang = 0;
-    else *cptr = 0;
-}
-
-static void get_country (char *instr, char *ctry)
-{
-    char *cptr = ctry;
-    int count;
-
-    while (instr[count] != '_' && instr[count] != 0 && count < 5) count++;
-
-    if (count == 5 || instr[count] == 0) *ctry = 0;
-    else
-    {
-        count++;
-        while (instr[count] && instr[count] != '.') *cptr++ = instr[count++];
-        *cptr = 0;
-    }
+    return NULL;
 }
 
 static void message (char *msg)
@@ -295,8 +286,8 @@ static void message (char *msg)
 
 static void set_passwd (GtkEntry *entry, gpointer ptr)
 {
-    if (strlen (gtk_entry_get_text (GTK_ENTRY (pwentry2_tb))) && strcmp (gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), 
-		gtk_entry_get_text (GTK_ENTRY(pwentry3_tb))))
+    if (strlen (gtk_entry_get_text (GTK_ENTRY (pwentry2_tb))) && g_strcmp0 (gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), 
+        gtk_entry_get_text (GTK_ENTRY(pwentry3_tb))))
         gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), FALSE);
     else
         gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), TRUE);
@@ -325,13 +316,13 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
     {
         res = vsystem (CHANGE_PASSWD, gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), gtk_entry_get_text (GTK_ENTRY (pwentry3_tb)));
         gtk_widget_destroy (dlg);
-		if (res)
-			dlg = (GtkWidget *) gtk_builder_get_object (builder, "pwbaddialog");
-		else
-			dlg = (GtkWidget *) gtk_builder_get_object (builder, "pwokdialog");
-		gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
-		gtk_dialog_run (GTK_DIALOG (dlg));
-		gtk_widget_destroy (dlg);
+        if (res)
+            dlg = (GtkWidget *) gtk_builder_get_object (builder, "pwbaddialog");
+        else
+            dlg = (GtkWidget *) gtk_builder_get_object (builder, "pwokdialog");
+        gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+        gtk_dialog_run (GTK_DIALOG (dlg));
+        gtk_widget_destroy (dlg);
     }
     else gtk_widget_destroy (dlg);
     g_object_unref (builder);
@@ -341,11 +332,15 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
 
 static void country_changed (GtkComboBox *cb, char *ptr)
 {
-    char buffer[1024], cb_lang[64], cb_ctry[64], *cb_ext, init_char[32], *cptr;
+    char *buffer, *cb_lang = NULL, *cb_ctry = NULL, *cb_ext, *init_char = NULL, *cptr;
+    int len, char_count;
     FILE *fp;
 
     // clear the combo box
-    while (char_count--) gtk_combo_box_remove_text (GTK_COMBO_BOX (locchar_cb), 0);
+    gtk_widget_destroy (GTK_WIDGET (locchar_cb));
+    locchar_cb = (GObject *) gtk_combo_box_new_text ();
+    gtk_table_attach (GTK_TABLE (loc_table), GTK_WIDGET (locchar_cb), 1, 2, 2, 3, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
+    gtk_widget_show_all (GTK_WIDGET (locchar_cb));
     char_count = 0;
 
     // if an initial setting is supplied at ptr...
@@ -354,50 +349,52 @@ static void country_changed (GtkComboBox *cb, char *ptr)
         // find the line in SUPPORTED that exactly matches the supplied country string
         fp = vpopen ("grep '%s ' /usr/share/i18n/SUPPORTED", ptr);
         if (fp == NULL) return;
-        while (fgets (buffer, sizeof (buffer) - 1, fp))
+        buffer = NULL;
+        len = 0;
+        while (getline (&buffer, &len, fp) > 0)
         {
             // copy the current character code into cur_char
             strtok (buffer, " ");
             cptr = strtok (NULL, " \n\r");
-            strcpy (init_char, cptr);
+            init_char = g_strdup (cptr);
         }
         pclose (fp);
+        g_free (buffer);
     }
-    else init_char[0] = 0;
 
     // read the language from the combo box and split off the code into lang
     cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (loclang_cb));
     if (cptr)
     {
-        strcpy (cb_lang, cptr);
+        cb_lang = g_strdup (cptr);
         strtok (cb_lang, " ");
         g_free (cptr);
     }
-    else cb_lang[0] = 0;
 
     // read the country from the combo box and split off code and extension
     cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (loccount_cb));
     if (cptr)
     {
-        strcpy (cb_ctry, cptr);
+        cb_ctry = g_strdup (cptr);
         strtok (cb_ctry, "@ ");
         cb_ext = strtok (NULL, "@ ");
-        if (cb_ext[0] == '(') cb_ext[0] = 0;
+        if (*cb_ext == '(') cb_ext = NULL;
         g_free (cptr);
     }
-    else cb_ctry[0] = 0;
 
     // build the grep expression to search the file of supported formats
-    if (!cb_ctry[0])
+    if (cb_ctry == NULL)
         fp = vpopen ("grep %s /usr/share/i18n/SUPPORTED", cb_lang);
-    else if (!cb_ext[0])
+    else if (cb_ext == NULL)
         fp = vpopen ("grep %s_%s /usr/share/i18n/SUPPORTED | grep -v @", cb_lang, cb_ctry);
     else
         fp = vpopen ("grep -E '%s_%s.*%s' /usr/share/i18n/SUPPORTED", cb_lang, cb_ctry, cb_ext);
 
     // run the grep and parse the returned lines
     if (fp == NULL) return;
-    while (fgets (buffer, sizeof (buffer) - 1, fp))
+    buffer = NULL;
+    len = 0;
+    while (getline (&buffer, &len, fp) > 0)
     {
         // find the second part of the returned line (separated by a space) and add to combo box
         strtok (buffer, " ");
@@ -405,38 +402,52 @@ static void country_changed (GtkComboBox *cb, char *ptr)
         gtk_combo_box_append_text (GTK_COMBO_BOX (locchar_cb), cptr);
 
         // check to see if it matches the initial string and set active if so
-        if (!strcmp (cptr, init_char)) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), char_count);
+        if (!g_strcmp0 (cptr, init_char)) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), char_count);
         char_count++;
     }
     pclose (fp);
+    g_free (buffer);
+
+    g_free (cb_lang);
+    g_free (cb_ctry);
+    g_free (init_char);
 
     // set the first entry active if not initialising from file
     if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), 0);
+
+    g_signal_connect (loccount_cb, "changed", G_CALLBACK (country_changed), NULL);
 }
 
 static void language_changed (GtkComboBox *cb, char *ptr)
 {
     struct dirent **filelist, *dp;
-    char buffer[1024], result[128], cb_lang[64], init_ctry[32], file_lang[8], file_ctry[64], *cptr;
-    int entries, entry;
+    char *buffer, *result, *cptr, *cb_lang = NULL, *init_ctry = NULL, *init = NULL, *file = NULL, *file_lang = NULL, *file_ctry = NULL;
+    int entries, entry, len, country_count;
+    FILE *fp;
 
     // clear the combo box
-    while (country_count--) gtk_combo_box_remove_text (GTK_COMBO_BOX (loccount_cb), 0);
+    gtk_widget_destroy (GTK_WIDGET (loccount_cb));
+    loccount_cb = (GObject *) gtk_combo_box_new_text ();
+    gtk_table_attach (GTK_TABLE (loc_table), GTK_WIDGET (loccount_cb), 1, 2, 1, 2, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
+    gtk_widget_show_all (GTK_WIDGET (loccount_cb));
     country_count = 0;
 
     // if an initial setting is supplied at ptr, extract the country code from the supplied string
-    if (ptr) get_country (ptr, init_ctry);
-    else init_ctry[0] = 0;
+    if (ptr)
+    {
+        init = g_strdup (ptr);
+        strtok (init, "_");
+        init_ctry = strtok (NULL, ". \n\t\r");
+    }
 
     // read the language from the combo box and split off the code into lang
     cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (loclang_cb));
     if (cptr)
     {
-        strcpy (cb_lang, cptr);
+        cb_lang = g_strdup (cptr);
         strtok (cb_lang, " ");
         g_free (cptr);
     }
-    else cb_lang[0] = 0;
 
     // loop through locale files
     entries = scandir ("/usr/share/i18n/locales", &filelist, 0, alphasort);
@@ -444,32 +455,47 @@ static void language_changed (GtkComboBox *cb, char *ptr)
     {
         dp = filelist[entry];
         // get the language and country codes from the locale file name
-        get_language (dp->d_name, file_lang);
-        get_country (dp->d_name, file_ctry);
+        file = g_strdup (dp->d_name);
+        file_lang = strtok (file, "_");
+        file_ctry = strtok (NULL, ". \n\t\r");
 
         // if the country code from the filename is valid,
         // and the language code from the filename matches the one in the combo box...
-        if (*file_ctry && !strcmp (cb_lang, file_lang))
+        if (file_ctry && !g_strcmp0 (cb_lang, file_lang))
         {
+            // check that the file is in the SUPPORTED list
+            fp = vpopen ("grep %s /usr/share/i18n/SUPPORTED", dp->d_name);
+            if (fp == NULL) continue;
+            buffer = NULL;
+            len = 0;
+            if (getline (&buffer, &len, fp) <= 0) continue;
+
             // read the territory description from the file
-            get_quoted_param ("/usr/share/i18n/locales", dp->d_name, "territory", result);
+            result = get_quoted_param ("/usr/share/i18n/locales", dp->d_name, "territory");
 
             // add country code and description to combo box
-            sprintf (buffer, "%s (%s)", file_ctry, result);
+            buffer = g_strdup_printf ("%s (%s)", file_ctry, result);
             gtk_combo_box_append_text (GTK_COMBO_BOX (loccount_cb), buffer);
+            g_free (result);
+            g_free (buffer);
 
             // check to see if it matches the initial string and set active if so
-            if (!strcmp (file_ctry, init_ctry)) gtk_combo_box_set_active (GTK_COMBO_BOX (loccount_cb), country_count);
+            if (!g_strcmp0 (file_ctry, init_ctry)) gtk_combo_box_set_active (GTK_COMBO_BOX (loccount_cb), country_count);
             country_count++;
         }
-        free (dp);
+        g_free (dp);
+        g_free (file);
     }
-    free (filelist);
+    g_free (filelist);
+
+    g_free (cb_lang);
+    g_free (init);
 
     // set the first entry active if not initialising from file
     if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (loccount_cb), 0);
 
     g_signal_connect (loccount_cb, "changed", G_CALLBACK (country_changed), NULL);
+    country_changed (GTK_COMBO_BOX (loccount_cb), ptr);
 }
 
 static gboolean close_msg (gpointer data)
@@ -491,21 +517,21 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     GtkBuilder *builder;
     GtkWidget *dlg;
     struct dirent **filelist, *dp;
-    char buffer[1024], result[128], init_locale[64], file_lang[8], last_lang[8], init_lang[8], *cptr;
-    int count, entries, entry;
+    char *buffer, *result, *cptr, *init_locale = NULL, *file_lang = NULL, *last_lang = NULL, *init_lang = NULL;
+    int count, entries, entry, len;
 
     builder = gtk_builder_new ();
     gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "localedlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
-    GtkWidget *table = (GtkWidget *) gtk_builder_get_object (builder, "loctable");
+    loc_table = (GObject *) gtk_builder_get_object (builder, "loctable");
     loclang_cb = (GObject *) gtk_combo_box_new_text ();
     loccount_cb = (GObject *) gtk_combo_box_new_text ();
     locchar_cb = (GObject *) gtk_combo_box_new_text ();
-    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (loclang_cb), 1, 2, 0, 1, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
-    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (loccount_cb), 1, 2, 1, 2, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
-    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (locchar_cb), 1, 2, 2, 3, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
+    gtk_table_attach (GTK_TABLE (loc_table), GTK_WIDGET (loclang_cb), 1, 2, 0, 1, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
+    gtk_table_attach (GTK_TABLE (loc_table), GTK_WIDGET (loccount_cb), 1, 2, 1, 2, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
+    gtk_table_attach (GTK_TABLE (loc_table), GTK_WIDGET (locchar_cb), 1, 2, 2, 3, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
     gtk_widget_show_all (GTK_WIDGET (loclang_cb));
     gtk_widget_show_all (GTK_WIDGET (loccount_cb));
     gtk_widget_show_all (GTK_WIDGET (locchar_cb));
@@ -513,58 +539,68 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     // get the current locale setting and save as init_locale
     FILE *fp = popen ("grep LANG /etc/default/locale", "r");
     if (fp == NULL) return;
-    while (fgets (buffer, sizeof (buffer) - 1, fp))
+    buffer = NULL;
+    len = 0;
+    while (getline (&buffer, &len, fp) > 0)
     {
         strtok (buffer, "=");
         cptr = strtok (NULL, "\n\r");
     }
     pclose (fp);
-    strcpy (init_locale, cptr);
+    init_locale = g_strdup (cptr);
+    g_free (buffer);
 
     // parse the initial locale to get the initial language code
-    get_language (init_locale, init_lang);
+    init_lang = g_strdup (init_locale);
+    strtok (init_lang, "_");
 
     // loop through locale files
-    last_lang[0] = 0;
     count = 0;
     entries = scandir ("/usr/share/i18n/locales", &filelist, 0, alphasort);
     for (entry = 0; entry < entries; entry++)
     {
         dp = filelist[entry];
         // get the language code from the locale file name
-        get_language (dp->d_name, file_lang);
+        file_lang = g_strdup (dp->d_name);
+        strtok (file_lang, "_.");
 
         // if it differs from the last one read, create a new entry
-        if (file_lang[0] && strcmp (file_lang, last_lang))
+        if (file_lang && g_strcmp0 (file_lang, last_lang))
         {
             // check to see if there is a file whose name has the format aa_AA; if not just use the first file we find
-            sprintf (buffer, "%s_%c%c%c", file_lang, toupper (file_lang[0]), toupper (file_lang[1]), toupper (file_lang[2]));
+            buffer = g_strdup_printf ("%s_%c%c%c", file_lang, toupper (file_lang[0]), toupper (file_lang[1]), toupper (file_lang[2]));
 
             // ...and read the language description from the file
-            if (!get_quoted_param ("/usr/share/i18n/locales", buffer, "language", result))
-                get_quoted_param ("/usr/share/i18n/locales", dp->d_name, "language", result);
+            result = get_quoted_param ("/usr/share/i18n/locales", buffer, "language");
+            if (!result) result = get_quoted_param ("/usr/share/i18n/locales", dp->d_name, "language");
+            g_free (buffer);
 
             // add language code and description to combo box
-            sprintf (buffer, "%s (%s)", file_lang, result);
+            buffer = g_strdup_printf ("%s (%s)", file_lang, result);
             gtk_combo_box_append_text (GTK_COMBO_BOX (loclang_cb), buffer);
+            g_free (result);
+            g_free (buffer);
 
             // make a local copy of the language code for comparisons
-            strcpy (last_lang, file_lang);
+            g_free (last_lang);
+            last_lang = g_strdup (file_lang);
 
             // highlight the current language setting...
-            if (!strcmp (file_lang, init_lang)) gtk_combo_box_set_active (GTK_COMBO_BOX (loclang_cb), count);
+            if (!g_strcmp0 (file_lang, init_lang)) gtk_combo_box_set_active (GTK_COMBO_BOX (loclang_cb), count);
             count++;
         }
-        free (dp);
+        g_free (dp);
+
+        g_free (file_lang);
     }
-    free (filelist);
+    g_free (filelist);
+    g_free (last_lang);
 
     // populate the country and character lists and set the current values
-    country_count = char_count = 0;
     language_changed (GTK_COMBO_BOX (loclang_cb), init_locale);
-    country_changed (GTK_COMBO_BOX (loclang_cb), init_locale);
 
     g_signal_connect (loclang_cb, "changed", G_CALLBACK (language_changed), NULL);
+    g_signal_connect (loccount_cb, "changed", G_CALLBACK (country_changed), NULL);
 
     g_object_unref (builder);
 
@@ -608,39 +644,48 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
             // run the grep and parse the returned line
             if (fp != NULL)
             {
-                fgets (buffer, sizeof (buffer) - 1, fp);
+                buffer = NULL;
+                len = 0;
+                getline (&buffer, &len, fp);
                 cptr = strtok (buffer, " ");
                 strcpy (gbuffer, cptr);
                 pclose (fp);
+                g_free (buffer);
             }
 
-            if (gbuffer[0] && strcmp (gbuffer, init_locale))
+            if (gbuffer[0] && g_strcmp0 (gbuffer, init_locale))
             {
                 // look up the current locale setting from init_locale in /etc/locale.gen
                 fp = vpopen ("grep '%s ' /usr/share/i18n/SUPPORTED", init_locale);
                 if (fp != NULL)
                 {
-                    fgets (cb_lang, sizeof (cb_lang) - 1, fp);
-                    strtok (cb_lang, "\n\r");
+                    buffer = NULL;
+                    len = 0;
+                    getline (&buffer, &len, fp);
+                    strtok (buffer, "\n\r");
                     pclose (fp);
                 }
 
                 // use sed to comment that line if uncommented
-                if (cb_lang[0])
-                    vsystem ("sed -i 's/^%s/# %s/g' /etc/locale.gen", cb_lang, cb_lang);
+                if (buffer[0])
+                    vsystem ("sed -i 's/^%s/# %s/g' /etc/locale.gen", buffer, buffer);
+                g_free (buffer);
 
                 // look up the new locale setting from gbuffer in /etc/locale.gen
                 fp = vpopen ("grep '%s ' /usr/share/i18n/SUPPORTED", gbuffer);
                 if (fp != NULL)
                 {
-                    fgets (cb_lang, sizeof (cb_lang) - 1, fp);
-                    strtok (cb_lang, "\n\r");
+                    buffer = NULL;
+                    len = 0;
+                    getline (&buffer, &len, fp);
+                    strtok (buffer, "\n\r");
                     pclose (fp);
                 }
 
                 // use sed to uncomment that line if commented
-                if (cb_lang[0])
-                    vsystem ("sed -i 's/^# %s/%s/g' /etc/locale.gen", cb_lang, cb_lang);
+                if (buffer[0])
+                    vsystem ("sed -i 's/^# %s/%s/g' /etc/locale.gen", buffer, buffer);
+                g_free (buffer);
 
                 // warn about a short delay...
                 message (_("Setting locale - please wait..."));
@@ -653,6 +698,9 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
             }
         }
     }
+
+    g_free (init_locale);
+    g_free (init_lang);
 
     gtk_widget_destroy (dlg);
 }
@@ -667,8 +715,7 @@ int dirfilter (const struct dirent *entry)
 
 static void area_changed (GtkComboBox *cb, gpointer ptr)
 {
-    char buffer[128], *cptr;
-    //DIR *dirp, *sdirp;
+    char *buffer, *cptr;
     struct dirent **filelist, *dp, **sfilelist, *sdp;
     struct stat st_buf;
     int entries, entry, sentries, sentry;
@@ -677,39 +724,42 @@ static void area_changed (GtkComboBox *cb, gpointer ptr)
     loc_count = 0;
 
     cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb));
-    sprintf (buffer, "/usr/share/zoneinfo/%s", cptr);
+    buffer = g_strdup_printf ("/usr/share/zoneinfo/%s", cptr);
     stat (buffer, &st_buf);
 
     if (S_ISDIR (st_buf.st_mode))
     {
         entries = scandir (buffer, &filelist, dirfilter, alphasort);
+        g_free (buffer);
         for (entry = 0; entry < entries; entry++)
         {
             dp = filelist[entry];
             if (dp->d_type == DT_DIR)
             {
-                sprintf (buffer, "/usr/share/zoneinfo/%s/%s", cptr, dp->d_name);
+                buffer = g_strdup_printf ("/usr/share/zoneinfo/%s/%s", cptr, dp->d_name);
                 sentries = scandir (buffer, &sfilelist, dirfilter, alphasort);
+                g_free (buffer);
                 for (sentry = 0; sentry < sentries; sentry++)
                 {
                     sdp = sfilelist[sentry];
-                    sprintf (buffer, "%s/%s", dp->d_name, sdp->d_name);
+                    buffer = g_strdup_printf ("%s/%s", dp->d_name, sdp->d_name);
                     gtk_combo_box_append_text (GTK_COMBO_BOX (tzloc_cb), buffer);
-                    if (ptr && !strcmp (ptr, buffer)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), loc_count);
+                    if (ptr && !g_strcmp0 (ptr, buffer)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), loc_count);
                     loc_count++;
-                    free (sdp);
+                    g_free (buffer);
+                    g_free (sdp);
                 }
-                free (sfilelist);
+                g_free (sfilelist);
             }
             else
             {
                 gtk_combo_box_append_text (GTK_COMBO_BOX (tzloc_cb), dp->d_name);
-                if (ptr && !strcmp (ptr, dp->d_name)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), loc_count);
+                if (ptr && !g_strcmp0 (ptr, dp->d_name)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), loc_count);
                 loc_count++;
             }
-            free (dp);
+            g_free (dp);
         }
-        free (filelist);
+        g_free (filelist);
         if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), 0);
     }
     g_free (cptr);
@@ -733,7 +783,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
 {
     GtkBuilder *builder;
     GtkWidget *dlg;
-    char buffer[128], before[128], *cptr, *b1ptr, *b2ptr;
+    char *buffer, *before, *cptr, *b1ptr, *b2ptr;
     struct dirent **filelist, *dp;
     int entries, entry;
 
@@ -751,8 +801,8 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
     gtk_widget_show_all (GTK_WIDGET (tzloc_cb));
 
     // select the current timezone area
-    get_string ("cat /etc/timezone | tr -d \" \t\n\r\"", buffer);
-    strcpy (before, buffer);
+    buffer = get_string ("cat /etc/timezone | tr -d \" \t\n\r\"");
+    before = g_strdup (buffer);
     strtok (buffer, "/");
     cptr = strtok (NULL, "");
 
@@ -764,28 +814,29 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
     {
         dp = filelist[entry];
         gtk_combo_box_append_text (GTK_COMBO_BOX (tzarea_cb), dp->d_name);
-        if (!strcmp (dp->d_name, buffer)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzarea_cb), count);
+        if (!g_strcmp0 (dp->d_name, buffer)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzarea_cb), count);
         count++;
-        free (dp);
+        g_free (dp);
     }
-    free (filelist);
+    g_free (filelist);
     g_signal_connect (tzarea_cb, "changed", G_CALLBACK (area_changed), NULL);
 
     // populate the location list and set the current location
     area_changed (GTK_COMBO_BOX (tzarea_cb), cptr);
 
     g_object_unref (builder);
+    g_free (buffer);
 
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
         b1ptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb));
         b2ptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb));
         if (b2ptr)
-            sprintf (buffer, "%s/%s", b1ptr, b2ptr);
+            buffer = g_strdup_printf ("%s/%s", b1ptr, b2ptr);
         else
-            sprintf (buffer, "%s", b1ptr);
+            buffer = g_strdup_printf ("%s", b1ptr);
 
-        if (strcmp (before, buffer))
+        if (g_strcmp0 (before, buffer))
         {
             if (b2ptr)
                 vsystem ("echo '%s/%s' | tee /etc/timezone", b1ptr, b2ptr);
@@ -800,7 +851,9 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
         }
         g_free (b1ptr);
         if (b2ptr) g_free (b2ptr);
+        g_free (buffer);
     }
+    g_free (before);
     gtk_widget_destroy (dlg);
 }
 
@@ -810,9 +863,9 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
 {
     GtkBuilder *builder;
     GtkWidget *dlg;
-    char buffer[128], cnow[16], *cptr;
+    char *buffer, *cnow, *cptr;
     FILE *fp;
-    int n, found;
+    int n, found, len;
 
     builder = gtk_builder_new ();
     gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
@@ -825,15 +878,17 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
     gtk_widget_show_all (GTK_WIDGET (wccountry_cb));
 
     // get the current country setting
-    get_string (GET_WIFI_CTRY, cnow);
-    if (cnow[0] == 0) sprintf (cnow, "00");
+    cnow = get_string (GET_WIFI_CTRY);
+    if (!cnow) cnow = g_strdup_printf ("00");
 
     // populate the combobox
     fp = fopen ("/usr/share/zoneinfo/iso3166.tab", "rb");
     found = 0;
     gtk_combo_box_append_text (GTK_COMBO_BOX (wccountry_cb), _("<not set>"));
     n = 1;
-    while (fgets (buffer, sizeof (buffer) - 1, fp))
+    buffer = NULL;
+    len = 0;
+    while (getline (&buffer, &len, fp) > 0)
     {
         if (buffer[0] != 0x0A && buffer[0] != '#')
         {
@@ -844,6 +899,7 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
         }
     }
     gtk_combo_box_set_active (GTK_COMBO_BOX (wccountry_cb), found);
+    g_free (buffer);
 
     g_object_unref (builder);
 
@@ -851,7 +907,7 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
     {
         // update the wpa_supplicant.conf file
         cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (wccountry_cb));
-        if (!strcmp (cptr, _("<not set>")))
+        if (!g_strcmp0 (cptr, _("<not set>")))
             vsystem (SET_WIFI_CTRY, "00");
         else if (strncmp (cnow, cptr, 2))
         {
@@ -861,6 +917,7 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
         }
         if (cptr) g_free (cptr);
     }
+    g_free (cnow);
     gtk_widget_destroy (dlg);
 }
 
@@ -870,9 +927,9 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
 {
     GtkBuilder *builder;
     GtkWidget *dlg;
-    char buffer[128], *cptr, entry[128];
+    char *buffer, *cptr, *entry, group;
     FILE *fp;
-    int n, found, hmode, hgroup, mode, x, y, freq, ax, ay, conn;
+    int n, found, hmode, hgroup, mode, x, y, freq, ax, ay, conn, len;
 
     builder = gtk_builder_new ();
     gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
@@ -891,88 +948,99 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
     // is there a monitor connected?
     conn = 1;
     fp = popen ("tvservice -d /dev/null", "r");
-    while (fgets (buffer, sizeof (buffer) - 1, fp))
+    buffer = NULL;
+    len = 0;
+    while (getline (&buffer, &len, fp) > 0)
     {
-		if (!strncmp (buffer, "Nothing", 7)) conn = 0;
+        if (!strncmp (buffer, "Nothing", 7)) conn = 0;
     }
     fclose (fp);
+    g_free (buffer);
 
     // populate the combobox
-	if (conn)
-	{
-		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "Default - preferred monitor settings");
-		found = 0;
-		n = 1;
+    if (conn)
+    {
+        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "Default - preferred monitor settings");
+        found = 0;
+        n = 1;
 
-		// get valid CEA modes
-		fp = popen ("tvservice -m CEA", "r");
-		while (fgets (buffer, sizeof (buffer) - 1, fp))
-		{
-			if (buffer[0] != 0x0A && strstr (buffer, "progressive"))
-			{
-				sscanf (buffer + 11, "mode %d: %dx%d @ %dHz %d:%d,", &mode, &x, &y, &freq, &ax, &ay);
-				if (x <= 1920 && y <= 1200)
-				{
-					sprintf (entry, "CEA mode %d %dx%d %dHz %d:%d", mode, x, y, freq, ax, ay);
-					gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), entry);
-					if (hgroup == 1 && hmode == mode) found = n;
-					n++;
-				}
-			}
-		}
-		fclose (fp);
+        // get valid CEA modes
+        fp = popen ("tvservice -m CEA", "r");
+        buffer = NULL;
+        len = 0;
+        while (getline (&buffer, &len, fp) > 0)
+        {
+            if (buffer[0] != 0x0A && strstr (buffer, "progressive"))
+            {
+                sscanf (buffer + 11, "mode %d: %dx%d @ %dHz %d:%d,", &mode, &x, &y, &freq, &ax, &ay);
+                if (x <= 1920 && y <= 1200)
+                {
+                    entry = g_strdup_printf ("CEA mode %d %dx%d %dHz %d:%d", mode, x, y, freq, ax, ay);
+                    gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), entry);
+                    g_free (entry);
+                    if (hgroup == 1 && hmode == mode) found = n;
+                    n++;
+                }
+            }
+        }
+        fclose (fp);
+        g_free (buffer);
 
-		// get valid DMT modes
-		fp = popen ("tvservice -m DMT", "r");
-		while (fgets (buffer, sizeof (buffer) - 1, fp))
-		{
-			if (buffer[0] != 0x0A && strstr (buffer, "progressive"))
-			{
-				sscanf (buffer + 11, "mode %d: %dx%d @ %dHz %d:%d,", &mode, &x, &y, &freq, &ax, &ay);
-				if (x <= 1920 && y <= 1200)
-				{
-					sprintf (entry, "DMT mode %d %dx%d %dHz %d:%d", mode, x, y, freq, ax, ay);
-					gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), entry);
-					if (hgroup == 2 && hmode == mode) found = n;
-					n++;
-				}
-			}
-		}
-		fclose (fp);
-	}
-	else
-	{
-		// no connected monitor - offer default modes for VNC
-		found = 0;
-		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "Default 720x480");
-		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 4 640x480 60Hz 4:3");
-		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 9 800x600 60Hz 4:3");
-		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 16 1024x768 60Hz 4:3");
-		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 85 1280x720 60Hz 16:9");
-		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 35 1280x1024 60Hz 5:4");
-		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 51 1600x1200 60Hz 4:3");
-		gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 82 1920x1080 60Hz 16:9");
-		if (hgroup == 2)
-		{
-			switch (hmode)
-			{
-				case 4 : 	found = 1;
-							break;
-				case 9 : 	found = 2;
-							break;
-				case 16 : 	found = 3;
-							break;
-				case 85 : 	found = 4;
-							break;
-				case 35 : 	found = 5;
-							break;
-				case 51 : 	found = 6;
-							break;
-				case 82 : 	found = 7;
-							break;
-			}
-		}
-	}
+        // get valid DMT modes
+        fp = popen ("tvservice -m DMT", "r");
+        buffer = NULL;
+        len = 0;
+        while (getline (&buffer, &len, fp) > 0)
+        {
+            if (buffer[0] != 0x0A && strstr (buffer, "progressive"))
+            {
+                sscanf (buffer + 11, "mode %d: %dx%d @ %dHz %d:%d,", &mode, &x, &y, &freq, &ax, &ay);
+                if (x <= 1920 && y <= 1200)
+                {
+                    entry = g_strdup_printf ("DMT mode %d %dx%d %dHz %d:%d", mode, x, y, freq, ax, ay);
+                    gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), entry);
+                    g_free (entry);
+                    if (hgroup == 2 && hmode == mode) found = n;
+                    n++;
+                }
+            }
+        }
+        fclose (fp);
+        g_free (buffer);
+    }
+    else
+    {
+        // no connected monitor - offer default modes for VNC
+        found = 0;
+        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "Default 720x480");
+        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 4 640x480 60Hz 4:3");
+        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 9 800x600 60Hz 4:3");
+        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 16 1024x768 60Hz 4:3");
+        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 85 1280x720 60Hz 16:9");
+        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 35 1280x1024 60Hz 5:4");
+        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 51 1600x1200 60Hz 4:3");
+        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 82 1920x1080 60Hz 16:9");
+        if (hgroup == 2)
+        {
+            switch (hmode)
+            {
+                case 4 :    found = 1;
+                            break;
+                case 9 :    found = 2;
+                            break;
+                case 16 :   found = 3;
+                            break;
+                case 85 :   found = 4;
+                            break;
+                case 35 :   found = 5;
+                            break;
+                case 51 :   found = 6;
+                            break;
+                case 82 :   found = 7;
+                            break;
+            }
+        }
+    }
 
     gtk_combo_box_set_active (GTK_COMBO_BOX (resolution_cb), found);
 
@@ -984,23 +1052,23 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
         cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (resolution_cb));
         if (!strncmp (cptr, "Default", 7))
         {
-			// clear setting
-			if (hmode != 0)
-			{
-				vsystem (SET_HDMI_GP_MOD, 0, 0);
-				needs_reboot = 1;
-			}
-		}
-		else
-		{
-			// set config vars
-			sscanf (cptr, "%s mode %d", buffer, &mode);
-			if (hgroup != buffer[0] - 'B' || hmode != mode)
-			{
-				vsystem (SET_HDMI_GP_MOD, buffer[0] - 'B', mode);
-				needs_reboot = 1;
-			}
-		}
+            // clear setting
+            if (hmode != 0)
+            {
+                vsystem (SET_HDMI_GP_MOD, 0, 0);
+                needs_reboot = 1;
+            }
+        }
+        else
+        {
+            // set config vars
+            sscanf (cptr, "%c%*s mode %d", &group, &mode);
+            if (hgroup != group - 'B' || hmode != mode)
+            {
+                vsystem (SET_HDMI_GP_MOD, group - 'B', mode);
+                needs_reboot = 1;
+            }
+        }
         g_free (cptr);
     }
     gtk_widget_destroy (dlg);
@@ -1012,7 +1080,7 @@ static void layout_changed (GtkComboBox *cb, char *init_variant)
 {
     GtkTreePath *path;
     GtkTreeIter iter;
-    char buffer[32], *cptr, *t1, *t2;
+    char *buffer, *cptr, *t1, *t2;
     int siz, n, varn, count, in_list;
     FILE *fp;
 
@@ -1026,7 +1094,7 @@ static void layout_changed (GtkComboBox *cb, char *init_variant)
     gtk_list_store_clear (variant_list);
     gtk_list_store_append (variant_list, &iter);
     gtk_list_store_set (variant_list, &iter, 0, t1, 1, "", -1);
-    sprintf (buffer, "    '%s'", t2);
+    buffer = g_strdup_printf ("    '%s'", t2);
     g_free (t1);
     g_free (t2);
     count = 1;
@@ -1054,7 +1122,7 @@ static void layout_changed (GtkComboBox *cb, char *init_variant)
                     {
                         gtk_list_store_append (variant_list, &iter);
                         gtk_list_store_set (variant_list, &iter, 0, t1, 1, t2, -1);
-                        if (init_variant && !strcmp (t2, init_variant)) varn = count;
+                        if (init_variant && !g_strcmp0 (t2, init_variant)) varn = count;
                     }
                     count++;
                 }
@@ -1064,6 +1132,7 @@ static void layout_changed (GtkComboBox *cb, char *init_variant)
     }
     fclose (fp);
     g_free (cptr);
+    g_free (buffer);
 
     gtk_combo_box_set_active (GTK_COMBO_BOX (keyvar_cb), varn);
 }
@@ -1087,33 +1156,36 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     GtkCellRenderer *col;
     GtkTreePath *path;
     GtkTreeIter iter;
-    char init_model[32], init_layout[32], init_variant[32], *cptr, *t1, *t2, *new_mod, *new_lay, *new_var;
+    char *init_model, *init_layout, *init_variant, *cptr, *t1, *t2, *new_mod, *new_lay, *new_var;
     FILE *fp;
     int siz, n, modeln, layoutn, in_list, count;
 
     // get the current keyboard settings
-    *init_model = 0;
+    init_model = NULL;
+    siz = 0;
     if (fp = popen ("grep XKBMODEL /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev", "r"))
     {
-        fgets (init_model, sizeof (init_model) - 1, fp);
+        getline (&init_model, &siz, fp);
         pclose (fp);
     }
     init_model[strcspn (init_model, "\r\n")] = 0;
-    if (!strlen (init_model)) sprintf (init_model, "pc105");
+    if (!strlen (init_model)) init_model = g_strdup_printf ("pc105");
 
-    *init_layout = 0;
+    init_layout = NULL;
+    siz = 0;
     if (fp = popen ("grep XKBLAYOUT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev", "r"))
     {
-        fgets (init_layout, sizeof (init_layout) - 1, fp);
+        getline (&init_layout, &siz, fp);
         pclose (fp);
     }
     init_layout[strcspn (init_layout, "\r\n")] = 0;
     if (!strlen (init_layout)) sprintf (init_layout, "us");
 
-    *init_variant = 0;
+    init_variant = NULL;
+    siz = 0;
     if (fp = popen ("grep XKBVARIANT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev", "r"))
     {
-        fgets (init_variant, sizeof (init_variant) - 1, fp);
+        getline (&init_variant, &siz, fp);
         pclose (fp);
     }
     init_variant[strcspn (init_variant, "\r\n")] = 0;
@@ -1158,13 +1230,13 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
                     {
                         gtk_list_store_append (model_list, &iter);
                         gtk_list_store_set (model_list, &iter, 0, t1, 1, t2, -1);
-                        if (!strcmp (t2, init_model)) modeln = count;
+                        if (!g_strcmp0 (t2, init_model)) modeln = count;
                     }
                     if (in_list == 2)
                     {
                         gtk_list_store_append (layout_list, &iter);
                         gtk_list_store_set (layout_list, &iter, 0, t1, 1, t2, -1);
-                        if (!strcmp (t2, init_layout)) layoutn = count;
+                        if (!g_strcmp0 (t2, init_layout)) layoutn = count;
                     }
                     count++;
                 }
@@ -1415,7 +1487,7 @@ static int process_changes (void)
         vsystem (SET_RGPIO, (1 - orig_rgpio));
     }
 
-    if (strcmp (orig_hostname, gtk_entry_get_text (GTK_ENTRY (hostname_tb))))
+    if (g_strcmp0 (orig_hostname, gtk_entry_get_text (GTK_ENTRY (hostname_tb))))
     {
         vsystem (SET_HOSTNAME, gtk_entry_get_text (GTK_ENTRY (hostname_tb)));
         reboot = 1;
@@ -1515,13 +1587,13 @@ int main (int argc, char *argv[])
     gtk_init (&argc, &argv);
     gtk_icon_theme_prepend_search_path (gtk_icon_theme_get_default(), PACKAGE_DATA_DIR);
 
-    if (argc == 2 && !strcmp (argv[1], "-w"))
+    if (argc == 2 && !g_strcmp0 (argv[1], "-w"))
     {
         on_set_wifi (NULL, NULL);
         return 0;
     }
 
-    if (argc == 2 && !strcmp (argv[1], "-k"))
+    if (argc == 2 && !g_strcmp0 (argv[1], "-k"))
     {
         // set up list stores for keyboard layouts
         model_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
@@ -1590,7 +1662,7 @@ int main (int argc, char *argv[])
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_on_rb), TRUE);
 
     hostname_tb = gtk_builder_get_object (builder, "entry_hn");
-    get_string (GET_HOSTNAME, orig_hostname);
+    orig_hostname = get_string (GET_HOSTNAME);
     gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hostname);
 
     pixdub_on_rb = gtk_builder_get_object (builder, "rb_pd_on");
