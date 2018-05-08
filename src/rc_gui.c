@@ -83,7 +83,6 @@ static GObject *pwentry1_tb, *pwentry2_tb, *pwentry3_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
 static GObject *tzarea_cb, *tzloc_cb, *wccountry_cb, *resolution_cb;
 static GObject *loclang_cb, *loccount_cb, *locchar_cb, *keymodel_cb, *keylayout_cb, *keyvar_cb;
-static GObject *language_ls, *country_ls, *loc_table;
 
 static GtkWidget *main_dlg, *msg_dlg;
 
@@ -109,6 +108,10 @@ GThread *pthread;
 /* Lists for keyboard setting */
 
 GtkListStore *model_list, *layout_list, *variant_list;
+
+/* List for locale setting */
+
+GtkListStore *locale_list;
 
 /* Helpers */
 
@@ -330,171 +333,205 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
 
 /* Locale setting */
 
-static void country_changed (GtkComboBox *cb, char *ptr)
+static gboolean unique_rows (GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
 {
-    char *buffer, *cb_lang = NULL, *cb_ctry = NULL, *cb_ext, *init_char = NULL, *cptr;
-    int len, char_count;
-    FILE *fp;
+    GtkTreeIter next = *iter;
+    char *str1, *str2;
+    gboolean res;
 
-    // clear the combo box
-    gtk_widget_destroy (GTK_WIDGET (locchar_cb));
-    locchar_cb = (GObject *) gtk_combo_box_new_text ();
-    gtk_table_attach (GTK_TABLE (loc_table), GTK_WIDGET (locchar_cb), 1, 2, 2, 3, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
-    gtk_widget_show_all (GTK_WIDGET (locchar_cb));
-    char_count = 0;
+    if (!gtk_tree_model_iter_next (model, &next)) return TRUE;
+    gtk_tree_model_get (model, iter, (int) data, &str1, -1);
+    gtk_tree_model_get (model, &next, (int) data, &str2, -1);
+    if (!g_strcmp0 (str1, str2)) res = FALSE;
+    else res = TRUE;
+    g_free (str1);
+    g_free (str2);
+    return res;
+}
 
-    // if an initial setting is supplied at ptr...
-    if (ptr)
-    {
-        // find the line in SUPPORTED that exactly matches the supplied country string
-        fp = vpopen ("grep '%s ' /usr/share/i18n/SUPPORTED", ptr);
-        if (fp == NULL) return;
-        buffer = NULL;
-        len = 0;
-        while (getline (&buffer, &len, fp) > 0)
-        {
-            // copy the current character code into cur_char
-            strtok (buffer, " ");
-            cptr = strtok (NULL, " \n\r");
-            init_char = g_strdup (cptr);
-        }
-        pclose (fp);
-        g_free (buffer);
-    }
+static gboolean match_lang (GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
+{
+    char *str;
+    gboolean res;
 
-    // read the language from the combo box and split off the code into lang
-    cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (loclang_cb));
-    if (cptr)
-    {
-        cb_lang = g_strdup (cptr);
-        strtok (cb_lang, " ");
-        g_free (cptr);
-    }
+    gtk_tree_model_get (model, iter, 0, &str, -1);
+    if (!g_strcmp0 (str, (char *) data)) res = TRUE;
+    else res = FALSE;
+    g_free (str);
+    return res;
+}
 
-    // read the country from the combo box and split off code and extension
-    cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (loccount_cb));
-    if (cptr)
-    {
-        cb_ctry = g_strdup (cptr);
-        strtok (cb_ctry, "@ ");
-        cb_ext = strtok (NULL, "@ ");
-        if (*cb_ext == '(') cb_ext = NULL;
-        g_free (cptr);
-    }
+static gboolean match_country (GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
+{
+    char *str;
+    gboolean res;
 
-    // build the grep expression to search the file of supported formats
-    if (cb_ctry == NULL)
-        fp = vpopen ("grep %s /usr/share/i18n/SUPPORTED", cb_lang);
-    else if (cb_ext == NULL)
-        fp = vpopen ("grep %s_%s /usr/share/i18n/SUPPORTED | grep -v @", cb_lang, cb_ctry);
+    gtk_tree_model_get (model, iter, 1, &str, -1);
+    if (!g_strcmp0 (str, (char *) data)) res = TRUE;
+    else res = FALSE;
+    g_free (str);
+    return res;
+}
+
+static void set_init (GtkTreeModel *model, GObject *cb, int pos, char *init)
+{
+    GtkTreeIter iter;
+    char *val;
+
+    gtk_tree_model_get_iter_first (model, &iter);
+    if (!init) gtk_combo_box_set_active_iter (GTK_COMBO_BOX (cb), &iter);
     else
-        fp = vpopen ("grep -E '%s_%s.*%s' /usr/share/i18n/SUPPORTED", cb_lang, cb_ctry, cb_ext);
+    {
+        while (1)
+        {
+            gtk_tree_model_get (model, &iter, pos, &val, -1);
+            if (!g_strcmp0 (init, val))
+            {
+                gtk_combo_box_set_active_iter (GTK_COMBO_BOX (cb), &iter);
+                g_free (val);
+                return;
+            }
+            g_free (val);
+            if (!gtk_tree_model_iter_next (model, &iter)) break;
+        }
+    }
+}
 
-    // run the grep and parse the returned lines
-    if (fp == NULL) return;
+static void read_locales (void)
+{
+    char *cname, *lname, *buffer, *lang, *country, *charset, *loccode, *flname, *fcname;
+    GtkTreeIter iter;
+    FILE *fp;
+    int len;
+
+    // populate the locale database
     buffer = NULL;
     len = 0;
+    fp = fopen ("/usr/share/i18n/SUPPORTED", "rb");
     while (getline (&buffer, &len, fp) > 0)
     {
-        // find the second part of the returned line (separated by a space) and add to combo box
-        strtok (buffer, " ");
-        cptr = strtok (NULL, " \n\r");
-        gtk_combo_box_append_text (GTK_COMBO_BOX (locchar_cb), cptr);
+        // split into l/c pair and charset
+        loccode = strtok (buffer, " ");
+        charset = strtok (NULL, " \t\n\r");
 
-        // check to see if it matches the initial string and set active if so
-        if (!g_strcmp0 (cptr, init_char)) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), char_count);
-        char_count++;
+        if (loccode && charset)
+        {
+            // strip any extension
+            lang = g_strdup (loccode);
+            strtok (lang, ".");
+
+            // lang now holds locale file name - read names from locale file
+            cname = get_quoted_param ("/usr/share/i18n/locales", lang, "territory");
+            lname = get_quoted_param ("/usr/share/i18n/locales", lang, "language");
+
+            // deal with the likes of "malta"...
+            if (cname) cname[0] = g_ascii_toupper (cname[0]);
+            if (lname) lname[0] = g_ascii_toupper (lname[0]);
+
+            // now split to language and country codes
+            strtok (lang, "_");
+            country = strtok (NULL, " \t\n\r");
+
+            flname = g_strdup_printf ("%s (%s)", lang, lname);
+            // purely to deal with esperanto - a language without a country, which is a clue as to just how pointless it is...
+            if (country)
+                fcname = g_strdup_printf ("%s (%s)", country, cname);
+            else
+                fcname = NULL;
+            gtk_list_store_append (locale_list, &iter);
+            gtk_list_store_set (locale_list, &iter, 0, lang, 1, country, 2, charset, 3, loccode, 4, fcname, 5, flname, -1);
+            g_free (cname);
+            g_free (lname);
+            g_free (lang);
+            g_free (flname);
+        }
     }
-    pclose (fp);
+    fclose (fp);
     g_free (buffer);
+}
 
-    g_free (cb_lang);
-    g_free (cb_ctry);
-    g_free (init_char);
+static void country_changed (GtkComboBox *cb, char *ptr)
+{
+    GtkTreeModel *model;
+    GtkTreeModelFilter *f1, *f2;
+    GtkTreeModelSort *schar;
+    GtkTreeIter iter;
+    char *lstr = NULL, *cstr = NULL;
 
-    // set the first entry active if not initialising from file
+    // get the current language code from the combo box
+    model = gtk_combo_box_get_model (GTK_COMBO_BOX (loclang_cb));
+    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (loclang_cb), &iter))
+        gtk_tree_model_get (model, &iter, 0, &lstr, -1);
+
+    // get the current country code from the combo box
+    model = gtk_combo_box_get_model (GTK_COMBO_BOX (loccount_cb));
+    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (loccount_cb), &iter))
+        gtk_tree_model_get (model, &iter, 1, &cstr, -1);
+
+    // filter and sort the master database for entries matching this code
+    f1 = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (locale_list), NULL));
+    gtk_tree_model_filter_set_visible_func (f1, (GtkTreeModelFilterVisibleFunc) match_lang, lstr, NULL);
+
+    f2 = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (f1), NULL));
+    gtk_tree_model_filter_set_visible_func (f2, (GtkTreeModelFilterVisibleFunc) match_country, cstr, NULL);
+
+    schar = GTK_TREE_MODEL_SORT (gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (f2)));
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (schar), 2, GTK_SORT_ASCENDING);
+
+    // set up the combo box from the sorted and filtered list
+    gtk_combo_box_set_model (GTK_COMBO_BOX (locchar_cb), GTK_TREE_MODEL (schar));
+
     if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), 0);
+    else set_init (GTK_TREE_MODEL (schar), locchar_cb, 3, ptr);
 
-    g_signal_connect (loccount_cb, "changed", G_CALLBACK (country_changed), NULL);
+    g_object_unref (f1);
+    g_object_unref (f2);
+    g_object_unref (schar);
+    g_free (lstr);
+    g_free (cstr);
 }
 
 static void language_changed (GtkComboBox *cb, char *ptr)
 {
-    struct dirent **filelist, *dp;
-    char *buffer, *result, *cptr, *cb_lang = NULL, *init_ctry = NULL, *init = NULL, *file = NULL, *file_lang = NULL, *file_ctry = NULL;
-    int entries, entry, len, country_count;
-    FILE *fp;
+    GtkTreeModel *model;
+    GtkTreeModelFilter *f1, *f2;
+    GtkTreeModelSort *scount;
+    GtkTreeIter iter;
+    char *lstr = NULL, *init, *init_count;
 
-    // clear the combo box
-    gtk_widget_destroy (GTK_WIDGET (loccount_cb));
-    loccount_cb = (GObject *) gtk_combo_box_new_text ();
-    gtk_table_attach (GTK_TABLE (loc_table), GTK_WIDGET (loccount_cb), 1, 2, 1, 2, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
-    gtk_widget_show_all (GTK_WIDGET (loccount_cb));
-    country_count = 0;
+    // get the current language code from the combo box
+    model = gtk_combo_box_get_model (GTK_COMBO_BOX (loclang_cb));
+    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (loclang_cb), &iter))
+        gtk_tree_model_get (model, &iter, 0, &lstr, -1);
 
-    // if an initial setting is supplied at ptr, extract the country code from the supplied string
-    if (ptr)
+    // filter and sort the master database for entries matching this code
+    f1 = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (locale_list), NULL));
+    gtk_tree_model_filter_set_visible_func (f1, (GtkTreeModelFilterVisibleFunc) match_lang, lstr, NULL);
+
+    f2 = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (f1), NULL));
+    gtk_tree_model_filter_set_visible_func (f2, (GtkTreeModelFilterVisibleFunc) unique_rows, (void *) 1, NULL);
+
+    scount = GTK_TREE_MODEL_SORT (gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (f2)));
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (scount), 1, GTK_SORT_ASCENDING);
+
+    // set up the combo box from the sorted and filtered list
+    gtk_combo_box_set_model (GTK_COMBO_BOX (loccount_cb), GTK_TREE_MODEL (scount));
+
+    if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (loccount_cb), 0);
+    else
     {
+        // parse the initial locale for a country code
         init = g_strdup (ptr);
         strtok (init, "_");
-        init_ctry = strtok (NULL, ". \n\t\r");
+        init_count = strtok (NULL, " .");
+        set_init (GTK_TREE_MODEL (scount), loccount_cb, 1, init_count);
+        g_free (init);
     }
 
-    // read the language from the combo box and split off the code into lang
-    cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (loclang_cb));
-    if (cptr)
-    {
-        cb_lang = g_strdup (cptr);
-        strtok (cb_lang, " ");
-        g_free (cptr);
-    }
-
-    // loop through locale files
-    entries = scandir ("/usr/share/i18n/locales", &filelist, 0, alphasort);
-    for (entry = 0; entry < entries; entry++)
-    {
-        dp = filelist[entry];
-        // get the language and country codes from the locale file name
-        file = g_strdup (dp->d_name);
-        file_lang = strtok (file, "_");
-        file_ctry = strtok (NULL, ". \n\t\r");
-
-        // if the country code from the filename is valid,
-        // and the language code from the filename matches the one in the combo box...
-        if (file_ctry && !g_strcmp0 (cb_lang, file_lang))
-        {
-            // check that the file is in the SUPPORTED list
-            fp = vpopen ("grep %s /usr/share/i18n/SUPPORTED", dp->d_name);
-            if (fp == NULL) continue;
-            buffer = NULL;
-            len = 0;
-            if (getline (&buffer, &len, fp) <= 0) continue;
-
-            // read the territory description from the file
-            result = get_quoted_param ("/usr/share/i18n/locales", dp->d_name, "territory");
-
-            // add country code and description to combo box
-            buffer = g_strdup_printf ("%s (%s)", file_ctry, result);
-            gtk_combo_box_append_text (GTK_COMBO_BOX (loccount_cb), buffer);
-            g_free (result);
-            g_free (buffer);
-
-            // check to see if it matches the initial string and set active if so
-            if (!g_strcmp0 (file_ctry, init_ctry)) gtk_combo_box_set_active (GTK_COMBO_BOX (loccount_cb), country_count);
-            country_count++;
-        }
-        g_free (dp);
-        g_free (file);
-    }
-    g_free (filelist);
-
-    g_free (cb_lang);
-    g_free (init);
-
-    // set the first entry active if not initialising from file
-    if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (loccount_cb), 0);
-
-    g_signal_connect (loccount_cb, "changed", G_CALLBACK (country_changed), NULL);
+    g_object_unref (f1);
+    g_object_unref (f2);
+    g_object_unref (scount);
+    g_free (lstr);
     country_changed (GTK_COMBO_BOX (loccount_cb), ptr);
 }
 
@@ -515,192 +552,121 @@ static gpointer locale_thread (gpointer data)
 static void on_set_locale (GtkButton* btn, gpointer ptr)
 {
     GtkBuilder *builder;
-    GtkWidget *dlg;
-    struct dirent **filelist, *dp;
-    char *buffer, *result, *cptr, *init_locale = NULL, *file_lang = NULL, *last_lang = NULL, *init_lang = NULL;
-    int count, entries, entry, len;
+    GtkWidget *dlg, *tab;
+    GtkCellRenderer *col;
+    GtkTreeModel *model;
+    GtkTreeModelSort *slang;
+    GtkTreeModelFilter *flang;
+    GtkTreeIter iter;
+    char *str, *buffer, *init_locale = NULL;
+    int len;
 
+    // create and populate the locale database
+    locale_list = gtk_list_store_new (6, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+    read_locales ();
+
+    // create the dialog
     builder = gtk_builder_new ();
     gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "localedlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    tab = (GtkWidget *) gtk_builder_get_object (builder, "loctable");
 
-    loc_table = (GObject *) gtk_builder_get_object (builder, "loctable");
-    loclang_cb = (GObject *) gtk_combo_box_new_text ();
-    loccount_cb = (GObject *) gtk_combo_box_new_text ();
-    locchar_cb = (GObject *) gtk_combo_box_new_text ();
-    gtk_table_attach (GTK_TABLE (loc_table), GTK_WIDGET (loclang_cb), 1, 2, 0, 1, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
-    gtk_table_attach (GTK_TABLE (loc_table), GTK_WIDGET (loccount_cb), 1, 2, 1, 2, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
-    gtk_table_attach (GTK_TABLE (loc_table), GTK_WIDGET (locchar_cb), 1, 2, 2, 3, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
+    // create the combo boxes
+    loclang_cb = (GObject *) gtk_combo_box_new ();
+    loccount_cb = (GObject *) gtk_combo_box_new ();
+    locchar_cb = (GObject *) gtk_combo_box_new ();
+    gtk_table_attach (GTK_TABLE (tab), GTK_WIDGET (loclang_cb), 1, 2, 0, 1, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
+    gtk_table_attach (GTK_TABLE (tab), GTK_WIDGET (loccount_cb), 1, 2, 1, 2, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
+    gtk_table_attach (GTK_TABLE (tab), GTK_WIDGET (locchar_cb), 1, 2, 2, 3, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
     gtk_widget_show_all (GTK_WIDGET (loclang_cb));
     gtk_widget_show_all (GTK_WIDGET (loccount_cb));
     gtk_widget_show_all (GTK_WIDGET (locchar_cb));
 
+    col = gtk_cell_renderer_text_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (loclang_cb), col, FALSE);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (loclang_cb), col, "text", 5);
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (loccount_cb), col, FALSE);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (loccount_cb), col, "text", 4);
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (locchar_cb), col, FALSE);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (locchar_cb), col, "text", 2);
+
     // get the current locale setting and save as init_locale
-    FILE *fp = popen ("grep LANG /etc/default/locale", "r");
-    if (fp == NULL) return;
-    buffer = NULL;
-    len = 0;
-    while (getline (&buffer, &len, fp) > 0)
+    FILE *fp = popen ("grep LANG= /etc/default/locale", "r");
+    if (fp)
     {
-        strtok (buffer, "=");
-        cptr = strtok (NULL, "\n\r");
-    }
-    pclose (fp);
-    init_locale = g_strdup (cptr);
-    g_free (buffer);
-
-    // parse the initial locale to get the initial language code
-    init_lang = g_strdup (init_locale);
-    strtok (init_lang, "_");
-
-    // loop through locale files
-    count = 0;
-    entries = scandir ("/usr/share/i18n/locales", &filelist, 0, alphasort);
-    for (entry = 0; entry < entries; entry++)
-    {
-        dp = filelist[entry];
-        // get the language code from the locale file name
-        file_lang = g_strdup (dp->d_name);
-        strtok (file_lang, "_.");
-
-        // if it differs from the last one read, create a new entry
-        if (file_lang && g_strcmp0 (file_lang, last_lang))
+        buffer = NULL;
+        len = 0;
+        if (getline (&buffer, &len, fp) > 0)
         {
-            // check to see if there is a file whose name has the format aa_AA; if not just use the first file we find
-            buffer = g_strdup_printf ("%s_%c%c%c", file_lang, toupper (file_lang[0]), toupper (file_lang[1]), toupper (file_lang[2]));
-
-            // ...and read the language description from the file
-            result = get_quoted_param ("/usr/share/i18n/locales", buffer, "language");
-            if (!result) result = get_quoted_param ("/usr/share/i18n/locales", dp->d_name, "language");
-            g_free (buffer);
-
-            // add language code and description to combo box
-            buffer = g_strdup_printf ("%s (%s)", file_lang, result);
-            gtk_combo_box_append_text (GTK_COMBO_BOX (loclang_cb), buffer);
-            g_free (result);
-            g_free (buffer);
-
-            // make a local copy of the language code for comparisons
-            g_free (last_lang);
-            last_lang = g_strdup (file_lang);
-
-            // highlight the current language setting...
-            if (!g_strcmp0 (file_lang, init_lang)) gtk_combo_box_set_active (GTK_COMBO_BOX (loclang_cb), count);
-            count++;
+            strtok (buffer, "=");
+            str = strtok (NULL, "\n\r");
         }
-        g_free (dp);
-
-        g_free (file_lang);
+        pclose (fp);
+        if (str) init_locale = g_strdup (str);
+        g_free (buffer);
     }
-    g_free (filelist);
-    g_free (last_lang);
 
-    // populate the country and character lists and set the current values
+    // filter and sort the master database
+    slang = GTK_TREE_MODEL_SORT (gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (locale_list)));
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (slang), 0, GTK_SORT_ASCENDING);
+
+    flang = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (slang), NULL));
+    gtk_tree_model_filter_set_visible_func (flang, (GtkTreeModelFilterVisibleFunc) unique_rows, (void *) 0, NULL);
+
+    // set up the language combo box from the sorted and filtered language list
+    gtk_combo_box_set_model (GTK_COMBO_BOX (loclang_cb), GTK_TREE_MODEL (flang));
+
+    if (!init_locale) gtk_combo_box_set_active (GTK_COMBO_BOX (loclang_cb), 0);
+    else
+    {
+        str = g_strdup (init_locale);
+        strtok (str, "_");
+        set_init (GTK_TREE_MODEL (flang), loclang_cb, 0, str);
+        g_free (str);
+    }
+
+    // set the other combo boxes accordingly
     language_changed (GTK_COMBO_BOX (loclang_cb), init_locale);
 
-    g_signal_connect (loclang_cb, "changed", G_CALLBACK (language_changed), NULL);
     g_signal_connect (loccount_cb, "changed", G_CALLBACK (country_changed), NULL);
-
+    g_signal_connect (loclang_cb, "changed", G_CALLBACK (language_changed), NULL);
     g_object_unref (builder);
 
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
-        char cb_lang[64], cb_ctry[64], *cb_ext;
-        // read the language from the combo box and split off the code into lang
-        cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (loclang_cb));
-        if (cptr)
+        // get the current charset code from the combo box
+        model = gtk_combo_box_get_model (GTK_COMBO_BOX (locchar_cb));
+        gtk_combo_box_get_active_iter (GTK_COMBO_BOX (locchar_cb), &iter);
+        gtk_tree_model_get (model, &iter, 3, &str, -1);
+        strcpy (gbuffer, str);
+        g_free (str);
+
+        if (gbuffer[0] && g_strcmp0 (gbuffer, init_locale))
         {
-            strcpy (cb_lang, cptr);
-            strtok (cb_lang, " ");
-            g_free (cptr);
-        }
-        else cb_lang[0] = 0;
+            // use sed to comment current setting if uncommented
+            if (init_locale)
+                vsystem ("sed -i 's/^%s/# %s/g' /etc/locale.gen", init_locale, init_locale);
 
-        // read the country from the combo box and split off code and extension
-        cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (loccount_cb));
-        if (cptr)
-        {
-            strcpy (cb_ctry, cptr);
-            strtok (cb_ctry, "@ ");
-            cb_ext = strtok (NULL, "@ ");
-            if (cb_ext[0] == '(') cb_ext[0] = 0;
-            g_free (cptr);
-        }
-        else cb_ctry[0] = 0;
+            // use sed to uncomment new setting if commented
+            if (gbuffer)
+                vsystem ("sed -i 's/^# %s/%s/g' /etc/locale.gen", gbuffer, gbuffer);
 
-        // build the relevant grep expression to search the file of supported formats
-        cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (locchar_cb));
-        if (cptr)
-        {
-            if (!cb_ctry[0])
-                fp = vpopen ("grep %s.*%s$ /usr/share/i18n/SUPPORTED", cb_lang, cptr);
-            else if (!cb_ext[0])
-                fp = vpopen ("grep %s_%s.*%s$ /usr/share/i18n/SUPPORTED | grep -v @", cb_lang, cb_ctry, cptr);
-            else
-                fp = vpopen ("grep -E '%s_%s.*%s.*%s$' /usr/share/i18n/SUPPORTED", cb_lang, cb_ctry, cb_ext, cptr);
-            g_free (cptr);
+            // warn about a short delay...
+            message (_("Setting locale - please wait..."));
 
-            // run the grep and parse the returned line
-            if (fp != NULL)
-            {
-                buffer = NULL;
-                len = 0;
-                getline (&buffer, &len, fp);
-                cptr = strtok (buffer, " ");
-                strcpy (gbuffer, cptr);
-                pclose (fp);
-                g_free (buffer);
-            }
+            // launch a thread with the system call to update the generated locales
+            g_thread_new (NULL, locale_thread, NULL);
 
-            if (gbuffer[0] && g_strcmp0 (gbuffer, init_locale))
-            {
-                // look up the current locale setting from init_locale in /etc/locale.gen
-                fp = vpopen ("grep '%s ' /usr/share/i18n/SUPPORTED", init_locale);
-                if (fp != NULL)
-                {
-                    buffer = NULL;
-                    len = 0;
-                    getline (&buffer, &len, fp);
-                    strtok (buffer, "\n\r");
-                    pclose (fp);
-                }
-
-                // use sed to comment that line if uncommented
-                if (buffer[0])
-                    vsystem ("sed -i 's/^%s/# %s/g' /etc/locale.gen", buffer, buffer);
-                g_free (buffer);
-
-                // look up the new locale setting from gbuffer in /etc/locale.gen
-                fp = vpopen ("grep '%s ' /usr/share/i18n/SUPPORTED", gbuffer);
-                if (fp != NULL)
-                {
-                    buffer = NULL;
-                    len = 0;
-                    getline (&buffer, &len, fp);
-                    strtok (buffer, "\n\r");
-                    pclose (fp);
-                }
-
-                // use sed to uncomment that line if commented
-                if (buffer[0])
-                    vsystem ("sed -i 's/^# %s/%s/g' /etc/locale.gen", buffer, buffer);
-                g_free (buffer);
-
-                // warn about a short delay...
-                message (_("Setting locale - please wait..."));
-
-                // launch a thread with the system call to update the generated locales
-                g_thread_new (NULL, locale_thread, NULL);
-
-                // set reboot flag
-                needs_reboot = 1;
-            }
+            // set reboot flag
+            needs_reboot = 1;
         }
     }
 
     g_free (init_locale);
-    g_free (init_lang);
+    g_object_unref (locale_list);
+    g_object_unref (flang);
+    g_object_unref (slang);
 
     gtk_widget_destroy (dlg);
 }
