@@ -111,7 +111,7 @@ GtkListStore *model_list, *layout_list, *variant_list;
 
 /* List for locale setting */
 
-GtkListStore *locale_list;
+GtkListStore *locale_list, *timezone_list;
 
 /* Helpers */
 
@@ -528,6 +528,9 @@ static void language_changed (GtkComboBox *cb, char *ptr)
         g_free (init);
     }
 
+    // disable the combo box if it has no entries
+    gtk_widget_set_sensitive (GTK_WIDGET (loccount_cb), gtk_tree_model_iter_n_children (GTK_TREE_MODEL (scount), NULL) > 1);
+
     g_object_unref (f1);
     g_object_unref (f2);
     g_object_unref (scount);
@@ -628,9 +631,9 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 
     // set the other combo boxes accordingly
     language_changed (GTK_COMBO_BOX (loclang_cb), init_locale);
-
     g_signal_connect (loccount_cb, "changed", G_CALLBACK (country_changed), NULL);
     g_signal_connect (loclang_cb, "changed", G_CALLBACK (language_changed), NULL);
+
     g_object_unref (builder);
 
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
@@ -673,62 +676,57 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 
 /* Timezone setting */
 
-int dirfilter (const struct dirent *entry)
+int tzfilter (const struct dirent *entry)
 {
-    if (entry->d_name[0] != '.') return 1;
+    if (entry->d_name[0] >= 'A' && entry->d_name[0] <= 'Z') return 1;
     return 0;
+}
+
+static gboolean match_area (GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
+{
+    char *str;
+    gboolean res;
+
+    gtk_tree_model_get (model, iter, 1, &str, -1);
+    if (!g_strcmp0 (str, (char *) data)) res = TRUE;
+    else res = FALSE;
+    g_free (str);
+    return res;
 }
 
 static void area_changed (GtkComboBox *cb, gpointer ptr)
 {
-    char *buffer, *cptr;
-    struct dirent **filelist, *dp, **sfilelist, *sdp;
-    struct stat st_buf;
-    int entries, entry, sentries, sentry;
+    GtkTreeModel *model;
+    GtkTreeModelFilter *far;
+    GtkTreeModelSort *sar;
+    GtkTreeIter iter;
+    char *str = NULL;
 
-    while (loc_count--) gtk_combo_box_remove_text (GTK_COMBO_BOX (tzloc_cb), 0);
-    loc_count = 0;
+    // get the current area from the combo box
+    model = gtk_combo_box_get_model (GTK_COMBO_BOX (tzarea_cb));
+    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (tzarea_cb), &iter))
+        gtk_tree_model_get (model, &iter, 1, &str, -1);
 
-    cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb));
-    buffer = g_strdup_printf ("/usr/share/zoneinfo/%s", cptr);
-    stat (buffer, &st_buf);
+    // filter and sort the master database for entries matching this code
+    far = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (timezone_list), NULL));
+    gtk_tree_model_filter_set_visible_func (far, (GtkTreeModelFilterVisibleFunc) match_area, str, NULL);
 
-    if (S_ISDIR (st_buf.st_mode))
-    {
-        entries = scandir (buffer, &filelist, dirfilter, alphasort);
-        g_free (buffer);
-        for (entry = 0; entry < entries; entry++)
-        {
-            dp = filelist[entry];
-            if (dp->d_type == DT_DIR)
-            {
-                buffer = g_strdup_printf ("/usr/share/zoneinfo/%s/%s", cptr, dp->d_name);
-                sentries = scandir (buffer, &sfilelist, dirfilter, alphasort);
-                g_free (buffer);
-                for (sentry = 0; sentry < sentries; sentry++)
-                {
-                    sdp = sfilelist[sentry];
-                    buffer = g_strdup_printf ("%s/%s", dp->d_name, sdp->d_name);
-                    gtk_combo_box_append_text (GTK_COMBO_BOX (tzloc_cb), buffer);
-                    if (ptr && !g_strcmp0 (ptr, buffer)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), loc_count);
-                    loc_count++;
-                    g_free (buffer);
-                    g_free (sdp);
-                }
-                g_free (sfilelist);
-            }
-            else
-            {
-                gtk_combo_box_append_text (GTK_COMBO_BOX (tzloc_cb), dp->d_name);
-                if (ptr && !g_strcmp0 (ptr, dp->d_name)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), loc_count);
-                loc_count++;
-            }
-            g_free (dp);
-        }
-        g_free (filelist);
-        if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), 0);
-    }
-    g_free (cptr);
+    sar = GTK_TREE_MODEL_SORT (gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (far)));
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (sar), 1, GTK_SORT_ASCENDING);
+
+    // set up the combo box from the sorted and filtered list
+    gtk_combo_box_set_model (GTK_COMBO_BOX (tzloc_cb), GTK_TREE_MODEL (sar));
+
+    if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (tzloc_cb), 0);
+    else set_init (GTK_TREE_MODEL (sar), tzloc_cb, 0, ptr);
+
+    // disable the combo box if it has no entries
+    gtk_widget_set_sensitive (GTK_WIDGET (tzloc_cb), gtk_tree_model_iter_n_children (GTK_TREE_MODEL (sar), NULL) > 1);
+
+    g_object_unref (far);
+    g_object_unref (sar);
+    g_free (str);
+
 }
 
 static gpointer timezone_thread (gpointer data)
@@ -739,19 +737,84 @@ static gpointer timezone_thread (gpointer data)
     return NULL;
 }
 
-int tzfilter (const struct dirent *entry)
+static void read_timezones (void)
 {
-    if (entry->d_name[0] >= 'A' && entry->d_name[0] <= 'Z') return 1;
-    return 0;
+    char *buffer, *path, *area, *zone, *cptr;
+    GtkTreeIter iter;
+    FILE *fp;
+    struct dirent **filelist, *dp, **sfilelist, *sdp, **ssfilelist, *ssdp;
+    struct stat st_buf;
+    int len, entries, entry, sentries, sentry, ssentries, ssentry;
+
+    entries = scandir ("/usr/share/zoneinfo", &filelist, tzfilter, alphasort);
+    for (entry = 0; entry < entries; entry++)
+    {
+        dp = filelist[entry];
+        if (dp->d_type == DT_DIR)
+        {
+            buffer = g_strdup_printf ("/usr/share/zoneinfo/%s", dp->d_name);
+            sentries = scandir (buffer, &sfilelist, tzfilter, alphasort);
+            g_free (buffer);
+            for (sentry = 0; sentry < sentries; sentry++)
+            {
+                sdp = sfilelist[sentry];
+                if (sdp->d_type == DT_DIR)
+                {
+                    buffer = g_strdup_printf ("/usr/share/zoneinfo/%s/%s", dp->d_name, sdp->d_name);
+                    ssentries = scandir (buffer, &ssfilelist, tzfilter, alphasort);
+                    g_free (buffer);
+                    for (ssentry = 0; ssentry < ssentries; ssentry++)
+                    {
+                        ssdp = ssfilelist[ssentry];
+                        path = g_strdup_printf ("%s/%s/%s", dp->d_name, sdp->d_name, ssdp->d_name);
+                        area = g_strdup_printf ("%s/%s", dp->d_name, sdp->d_name);
+                        zone = g_strdup_printf ("%s", ssdp->d_name);
+                        cptr = zone;
+                        while (*cptr++) if (*cptr == '_') *cptr = ' ';
+                        cptr = area;
+                        while (*cptr++) if (*cptr == '_') *cptr = ' ';
+                        gtk_list_store_append (timezone_list, &iter);
+                        gtk_list_store_set (timezone_list, &iter, 0, path, 1, area, 2, zone, -1);
+                        g_free (path);
+                        g_free (area);
+                        g_free (zone);
+                    }
+                }
+                else
+                {
+                    path = g_strdup_printf ("%s/%s", dp->d_name, sdp->d_name);
+                    zone = g_strdup_printf ("%s", sdp->d_name);
+                    cptr = zone;
+                    while (*cptr++) if (*cptr == '_') *cptr = ' ';
+                    gtk_list_store_append (timezone_list, &iter);
+                    gtk_list_store_set (timezone_list, &iter, 0, path, 1, dp->d_name, 2, zone, -1);
+                    g_free (path);
+                    g_free (zone);
+                }
+            }
+        }
+        else
+        {
+            gtk_list_store_append (timezone_list, &iter);
+            gtk_list_store_set (timezone_list, &iter, 0, dp->d_name, 1, dp->d_name, 2, NULL, -1);
+        }
+    }
 }
 
 static void on_set_timezone (GtkButton* btn, gpointer ptr)
 {
     GtkBuilder *builder;
     GtkWidget *dlg;
-    char *buffer, *before, *cptr, *b1ptr, *b2ptr;
-    struct dirent **filelist, *dp;
-    int entries, entry;
+    GtkCellRenderer *col;
+    GtkTreeModel *model;
+    GtkTreeModelSort *stz;
+    GtkTreeModelFilter *ftz;
+    GtkTreeIter iter;
+    char *init_tz = NULL, *buffer, *cptr;
+
+    // create and populate the timezone database
+    timezone_list = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+    read_timezones ();
 
     builder = gtk_builder_new ();
     gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
@@ -759,55 +822,75 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
     GtkWidget *table = (GtkWidget *) gtk_builder_get_object (builder, "tztable");
-    tzarea_cb = (GObject *) gtk_combo_box_new_text ();
-    tzloc_cb = (GObject *) gtk_combo_box_new_text ();
+    tzarea_cb = (GObject *) gtk_combo_box_new ();
+    tzloc_cb = (GObject *) gtk_combo_box_new ();
     gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (tzarea_cb), 1, 2, 0, 1, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
     gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (tzloc_cb), 1, 2, 1, 2, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
     gtk_widget_show_all (GTK_WIDGET (tzarea_cb));
     gtk_widget_show_all (GTK_WIDGET (tzloc_cb));
 
-    // select the current timezone area
-    buffer = get_string ("cat /etc/timezone | tr -d \" \t\n\r\"");
-    before = g_strdup (buffer);
-    strtok (buffer, "/");
-    cptr = strtok (NULL, "");
+    col = gtk_cell_renderer_text_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (tzarea_cb), col, FALSE);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (tzarea_cb), col, "text", 1);
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (tzloc_cb), col, FALSE);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (tzloc_cb), col, "text", 2);
 
-    // populate the area combo box from the timezone database
-    loc_count = 0;
-    int count = 0;
-    entries = scandir ("/usr/share/zoneinfo", &filelist, tzfilter, alphasort);
-    for (entry = 0; entry < entries; entry++)
+    // read the current timezone area
+    init_tz = get_string ("cat /etc/timezone | tr -d \" \t\n\r\"");
+
+    // filter and sort the master database
+    stz = GTK_TREE_MODEL_SORT (gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (timezone_list)));
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (stz), 1, GTK_SORT_ASCENDING);
+
+    ftz = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (stz), NULL));
+    gtk_tree_model_filter_set_visible_func (ftz, (GtkTreeModelFilterVisibleFunc) unique_rows, (void *) 1, NULL);
+
+    // set up the area combo box from the sorted and filtered timezone list
+    gtk_combo_box_set_model (GTK_COMBO_BOX (tzarea_cb), GTK_TREE_MODEL (ftz));
+
+    if (!init_tz) gtk_combo_box_set_active (GTK_COMBO_BOX (tzarea_cb), 0);
+    else
     {
-        dp = filelist[entry];
-        gtk_combo_box_append_text (GTK_COMBO_BOX (tzarea_cb), dp->d_name);
-        if (!g_strcmp0 (dp->d_name, buffer)) gtk_combo_box_set_active (GTK_COMBO_BOX (tzarea_cb), count);
-        count++;
-        g_free (dp);
+        buffer = g_strdup (init_tz);
+        char *cptr = buffer;
+        while (*cptr++);
+        while (cptr-- > buffer)
+        {
+            if (*cptr == '/')
+            {
+                *cptr = 0;
+                break;
+            }
+        }
+        cptr = buffer;
+        while (*cptr++) if (*cptr == '_') *cptr = ' ';
+        set_init (GTK_TREE_MODEL (ftz), tzarea_cb, 1, buffer);
+        g_free (buffer);
     }
-    g_free (filelist);
-    g_signal_connect (tzarea_cb, "changed", G_CALLBACK (area_changed), NULL);
 
     // populate the location list and set the current location
-    area_changed (GTK_COMBO_BOX (tzarea_cb), cptr);
+    area_changed (GTK_COMBO_BOX (tzarea_cb), init_tz);
+    g_signal_connect (tzarea_cb, "changed", G_CALLBACK (area_changed), NULL);
 
     g_object_unref (builder);
-    g_free (buffer);
 
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
-        b1ptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzarea_cb));
-        b2ptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (tzloc_cb));
-        if (b2ptr)
-            buffer = g_strdup_printf ("%s/%s", b1ptr, b2ptr);
-        else
-            buffer = g_strdup_printf ("%s", b1ptr);
-
-        if (g_strcmp0 (before, buffer))
+        model = gtk_combo_box_get_model (GTK_COMBO_BOX (tzloc_cb));
+        if (gtk_tree_model_iter_n_children (model, NULL) > 1)
         {
-            if (b2ptr)
-                vsystem ("echo '%s/%s' | tee /etc/timezone", b1ptr, b2ptr);
-            else
-                vsystem ("echo '%s' | tee /etc/timezone", b1ptr);
+            gtk_combo_box_get_active_iter (GTK_COMBO_BOX (tzloc_cb), &iter);
+        }
+        else
+        {
+            model = gtk_combo_box_get_model (GTK_COMBO_BOX (tzarea_cb));
+            gtk_combo_box_get_active_iter (GTK_COMBO_BOX (tzarea_cb), &iter);
+        }
+        gtk_tree_model_get (model, &iter, 0, &buffer, -1);
+
+        if (g_strcmp0 (init_tz, buffer))
+        {
+            vsystem ("echo '%s' | tee /etc/timezone", buffer);
 
             // warn about a short delay...
             message (_("Setting timezone - please wait..."));
@@ -815,11 +898,14 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
             // launch a thread with the system call to update the timezone
             g_thread_new (NULL, timezone_thread, NULL);
         }
-        g_free (b1ptr);
-        if (b2ptr) g_free (b2ptr);
         g_free (buffer);
     }
-    g_free (before);
+
+    g_free (init_tz);
+    g_object_unref (timezone_list);
+    g_object_unref (ftz);
+    g_object_unref (stz);
+
     gtk_widget_destroy (dlg);
 }
 
