@@ -147,17 +147,19 @@ static int get_status (char *cmd)
 {
     FILE *fp = popen (cmd, "r");
     char *buf = NULL;
-    int res = 0;
+    int res = 0, val = 0;
 
     if (fp == NULL) return 0;
     if (getline (&buf, &res, fp) > 0)
     {
-        sscanf (buf, "%d", &res);
-        pclose (fp);
-        return res;
+        if (sscanf (buf, "%d", &res) == 1)
+        {
+            val = res;
+        }
     }
     pclose (fp);
-    return 0;
+    g_free (buf);
+    return val;
 }
 
 static char *get_string (char *cmd)
@@ -170,7 +172,11 @@ static char *get_string (char *cmd)
     if (getline (&line, &len, fp) > 0)
     {
         res = line;
-        while (*res++) if (g_ascii_isspace (*res)) *res = 0;
+        while (*res)
+        {
+            if (g_ascii_isspace (*res)) *res = 0;
+            res++;
+        }
         res = g_strdup (line);
     }
     pclose (fp);
@@ -395,6 +401,10 @@ static void set_init (GtkTreeModel *model, GObject *cb, int pos, char *init)
             if (!gtk_tree_model_iter_next (model, &iter)) break;
         }
     }
+
+    // couldn't match - just choose the first option - should never happen, but...
+    gtk_tree_model_get_iter_first (model, &iter);
+    gtk_combo_box_set_active_iter (GTK_COMBO_BOX (cb), &iter);
 }
 
 static void read_locales (void)
@@ -481,7 +491,7 @@ static void country_changed (GtkComboBox *cb, char *ptr)
     // set up the combo box from the sorted and filtered list
     gtk_combo_box_set_model (GTK_COMBO_BOX (locchar_cb), GTK_TREE_MODEL (schar));
 
-    if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), 0);
+    if (ptr == NULL) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), 0);
     else set_init (GTK_TREE_MODEL (schar), locchar_cb, 3, ptr);
 
     g_object_unref (f1);
@@ -517,7 +527,7 @@ static void language_changed (GtkComboBox *cb, char *ptr)
     // set up the combo box from the sorted and filtered list
     gtk_combo_box_set_model (GTK_COMBO_BOX (loccount_cb), GTK_TREE_MODEL (scount));
 
-    if (!ptr) gtk_combo_box_set_active (GTK_COMBO_BOX (loccount_cb), 0);
+    if (ptr == NULL) gtk_combo_box_set_active (GTK_COMBO_BOX (loccount_cb), 0);
     else
     {
         // parse the initial locale for a country code
@@ -596,20 +606,8 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (locchar_cb), col, "text", 2);
 
     // get the current locale setting and save as init_locale
-    fp = popen ("grep LANG= /etc/default/locale", "r");
-    if (fp)
-    {
-        buffer = NULL;
-        len = 0;
-        if (getline (&buffer, &len, fp) > 0)
-        {
-            strtok (buffer, "=");
-            str = strtok (NULL, "\n\r");
-        }
-        pclose (fp);
-        if (str) init_locale = g_strdup (str);
-        g_free (buffer);
-    }
+    init_locale = get_string ("grep LANG= /etc/default/locale | cut -d = -f 2");
+    if (init_locale == NULL) init_locale = g_strdup ("en_GB.UTF-8");
 
     // filter and sort the master database
     slang = GTK_TREE_MODEL_SORT (gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (locale_list)));
@@ -621,7 +619,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     // set up the language combo box from the sorted and filtered language list
     gtk_combo_box_set_model (GTK_COMBO_BOX (loclang_cb), GTK_TREE_MODEL (flang));
 
-    if (!init_locale) gtk_combo_box_set_active (GTK_COMBO_BOX (loclang_cb), 0);
+    if (init_locale == NULL) gtk_combo_box_set_active (GTK_COMBO_BOX (loclang_cb), 0);
     else
     {
         str = g_strdup (init_locale);
@@ -650,11 +648,11 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
         {
             // use sed to comment current setting if uncommented
             if (init_locale)
-                vsystem ("sed -i 's/^%s/# %s/g' /etc/locale.gen", init_locale, init_locale);
+                vsystem ("sed -i 's/^\\(%s\\s\\)/# \\1/g' /etc/locale.gen", init_locale);
 
             // use sed to uncomment new setting if commented
             if (gbuffer)
-                vsystem ("sed -i 's/^# %s/%s/g' /etc/locale.gen", gbuffer, gbuffer);
+                vsystem ("sed -i 's/^# \\(%s\\s\\)/\\1/g' /etc/locale.gen", gbuffer);
 
             // warn about a short delay...
             message (_("Setting locale - please wait..."));
@@ -836,8 +834,9 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (tzloc_cb), col, FALSE);
     gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (tzloc_cb), col, "text", 2);
 
-    // read the current timezone area
-    init_tz = get_string ("cat /etc/timezone | tr -d \" \t\n\r\"");
+    // read the current time zone
+    init_tz = get_string ("cat /etc/timezone");
+    if (init_tz == NULL) init_tz = g_strdup ("Europe/London");
 
     // filter and sort the master database
     stz = GTK_TREE_MODEL_SORT (gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (timezone_list)));
@@ -1007,7 +1006,7 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
     {
         if (!strncmp (buffer, "Nothing", 7)) conn = 0;
     }
-    fclose (fp);
+    pclose (fp);
     g_free (buffer);
 
     // populate the combobox
@@ -1036,7 +1035,7 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
                 }
             }
         }
-        fclose (fp);
+        pclose (fp);
         g_free (buffer);
 
         // get valid DMT modes
@@ -1058,7 +1057,7 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
                 }
             }
         }
-        fclose (fp);
+        pclose (fp);
         g_free (buffer);
     }
     else
@@ -1134,7 +1133,7 @@ static void layout_changed (GtkComboBox *cb, char *init_variant)
     FILE *fp;
     GtkTreeIter iter;
     char *buffer, *cptr, *t1, *t2;
-    int siz, n, in_list;
+    int siz, in_list;
 
     // get the currently-set layout from the combo box
     gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keylayout_cb), &iter);
@@ -1152,29 +1151,26 @@ static void layout_changed (GtkComboBox *cb, char *init_variant)
     cptr = NULL;
     in_list = 0;
     fp = fopen ("/usr/share/console-setup/KeyboardNames.pl", "rb");
-    while ((n = getline (&cptr, &siz, fp)) != -1)
+    while (getline (&cptr, &siz, fp) > 0)
     {
-        if (n)
+        if (in_list)
         {
-            if (in_list)
+            if (cptr[4] == '}') break;
+            else
             {
-                if (cptr[4] == '}') break;
-                else
+                strtok (cptr, "'");
+                t1 = strtok (NULL, "'");
+                strtok (NULL, "'");
+                t2 = strtok (NULL, "'");
+                strtok (NULL, "'");
+                if (in_list == 1)
                 {
-                    strtok (cptr, "'");
-                    t1 = strtok (NULL, "'");
-                    strtok (NULL, "'");
-                    t2 = strtok (NULL, "'");
-                    strtok (NULL, "'");
-                    if (in_list == 1)
-                    {
-                        gtk_list_store_append (variant_list, &iter);
-                        gtk_list_store_set (variant_list, &iter, 0, t1, 1, t2, -1);
-                    }
+                    gtk_list_store_append (variant_list, &iter);
+                    gtk_list_store_set (variant_list, &iter, 0, t1, 1, t2, -1);
                 }
             }
-            if (!strncmp (buffer, cptr, strlen (buffer))) in_list = 1;
         }
+        if (!strncmp (buffer, cptr, strlen (buffer))) in_list = 1;
     }
     fclose (fp);
     g_free (cptr);
@@ -1199,49 +1195,46 @@ static void read_keyboards (void)
 {
     FILE *fp;
     char *cptr, *t1, *t2;
-    int siz, n, in_list;
+    int siz, in_list;
     GtkTreeIter iter;
 
     // loop through lines in KeyboardNames file
     cptr = NULL;
     in_list = 0;
     fp = fopen ("/usr/share/console-setup/KeyboardNames.pl", "rb");
-    while ((n = getline (&cptr, &siz, fp)) != -1)
+    while (getline (&cptr, &siz, fp) > 0)
     {
-        if (n)
+        if (in_list)
         {
-            if (in_list)
+            if (cptr[0] == ')') in_list = 0;
+            else
             {
-                if (cptr[0] == ')') in_list = 0;
-                else
+                strtok (cptr, "'");
+                t1 = strtok (NULL, "'");
+                strtok (NULL, "'");
+                t2 = strtok (NULL, "'");
+                strtok (NULL, "'");
+                if (strlen (t1) > 50)
                 {
-                    strtok (cptr, "'");
-                    t1 = strtok (NULL, "'");
-                    strtok (NULL, "'");
-                    t2 = strtok (NULL, "'");
-                    strtok (NULL, "'");
-                    if (strlen (t1) > 50)
-                    {
-                        t1[47] = '.';
-                        t1[48] = '.';
-                        t1[49] = '.';
-                        t1[50] = 0;
-                    }
-                    if (in_list == 1)
-                    {
-                        gtk_list_store_append (model_list, &iter);
-                        gtk_list_store_set (model_list, &iter, 0, t1, 1, t2, -1);
-                    }
-                    if (in_list == 2)
-                    {
-                        gtk_list_store_append (layout_list, &iter);
-                        gtk_list_store_set (layout_list, &iter, 0, t1, 1, t2, -1);
-                    }
+                    t1[47] = '.';
+                    t1[48] = '.';
+                    t1[49] = '.';
+                    t1[50] = 0;
+                }
+                if (in_list == 1)
+                {
+                    gtk_list_store_append (model_list, &iter);
+                    gtk_list_store_set (model_list, &iter, 0, t1, 1, t2, -1);
+                }
+                if (in_list == 2)
+                {
+                    gtk_list_store_append (layout_list, &iter);
+                    gtk_list_store_set (layout_list, &iter, 0, t1, 1, t2, -1);
                 }
             }
-            if (!strncmp ("%models", cptr, 7)) in_list = 1;
-            if (!strncmp ("%layouts", cptr, 8)) in_list = 2;
         }
+        if (!strncmp ("%models", cptr, 7)) in_list = 1;
+        if (!strncmp ("%layouts", cptr, 8)) in_list = 2;
     }
     fclose (fp);
     g_free (cptr);
@@ -1254,7 +1247,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     GtkWidget *dlg;
     GtkCellRenderer *col;
     GtkTreeIter iter;
-    char *init_model, *init_layout, *init_variant, *new_mod, *new_lay, *new_var;
+    char *buffer, *init_model = NULL, *init_layout = NULL, *init_variant = NULL, *new_mod, *new_lay, *new_var;
     int n;
 
     // set up list stores for keyboard layouts
@@ -1290,34 +1283,13 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     gtk_widget_show_all (GTK_WIDGET (keyvar_cb));
 
     // get the current keyboard settings
-    init_model = NULL;
-    n = 0;
-    if (fp = popen ("grep XKBMODEL /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev", "r"))
-    {
-        getline (&init_model, &n, fp);
-        pclose (fp);
-    }
-    init_model[strcspn (init_model, "\r\n")] = 0;
-    if (!strlen (init_model)) init_model = g_strdup_printf ("pc105");
+    init_model = get_string ("grep XKBMODEL /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev");
+    if (init_model == NULL) init_model = g_strdup ("pc105");
 
-    init_layout = NULL;
-    n = 0;
-    if (fp = popen ("grep XKBLAYOUT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev", "r"))
-    {
-        getline (&init_layout, &n, fp);
-        pclose (fp);
-    }
-    init_layout[strcspn (init_layout, "\r\n")] = 0;
-    if (!strlen (init_layout)) sprintf (init_layout, "us");
+    init_layout = get_string ("grep XKBLAYOUT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev");
+    if (init_layout == NULL) init_layout = g_strdup ("gb");
 
-    init_variant = NULL;
-    n = 0;
-    if (fp = popen ("grep XKBVARIANT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev", "r"))
-    {
-        getline (&init_variant, &n, fp);
-        pclose (fp);
-    }
-    init_variant[strcspn (init_variant, "\r\n")] = 0;
+    init_variant = get_string ("grep XKBVARIANT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev");
 
     set_init (GTK_TREE_MODEL (model_list), keymodel_cb, 1, init_model);
     set_init (GTK_TREE_MODEL (layout_list), keylayout_cb, 1, init_layout);
