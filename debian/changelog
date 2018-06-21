@@ -1,3 +1,9 @@
+rc-gui (1.20) stretch; urgency=medium
+
+  * Move password prompt into /usr/lib/
+
+ -- Simon Long <simon@raspberrypi.org>  Thu, 21 Jun 2018 15:23:58 +0100
+
 rc-gui (1.19) stretch; urgency=medium
 
   * Use list stores for locale and timezone settings
