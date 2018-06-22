@@ -5,8 +5,7 @@ ACLOCAL_AMFLAGS= -I m4
 SUBDIRS = src data po icons
 
 EXTRA_DIST = \
-        autogen.sh \
-        rc_gui.pc.in
+        autogen.sh
 
 install-data-local:
 	@$(NORMAL_INSTALL)

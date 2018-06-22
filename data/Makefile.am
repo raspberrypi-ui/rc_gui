@@ -1,4 +1,4 @@
-uidir = $(datadir)/rc_gui
+uidir = $(datadir)/rc-gui
 
 ui_in_files = rc_gui.ui
 	

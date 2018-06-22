@@ -109,11 +109,6 @@ if test ! -z "$LDFLAGS"; then
     LDFLAGS=`echo "$LDFLAGS" | sed -e 's/-Wl,-z,defs//'`
 fi
 
-LXPANEL_MODULE="-avoid-version \
--rpath \$(libdir)/lxpanel/plugins \
--no-undefined "'-export-symbols-regex "^[[^_]].*"'
-AC_SUBST(LXPANEL_MODULE)
-
 # Checks for header files.
 AC_PATH_X
 AC_HEADER_STDC
