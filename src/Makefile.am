@@ -3,8 +3,8 @@ bin_PROGRAMS = rc_gui
 rc_gui_CFLAGS = \
 	-I$(top_srcdir) \
 	-DPACKAGE_LIB_DIR=\""$(libdir)"\" \
-	-DPACKAGE_DATA_DIR=\""$(datadir)/rc_gui"\" \
-	-DPACKAGE_UI_DIR=\""$(datadir)/rc_gui/ui"\" \
+	-DPACKAGE_DATA_DIR=\""$(datadir)/rc-gui"\" \
+	-DPACKAGE_UI_DIR=\""$(datadir)/rc-gui/ui"\" \
 	-DPACKAGE_BIN_DIR=\""$(bindir)"\" \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	$(PACKAGE_CFLAGS) \
@@ -12,7 +12,7 @@ rc_gui_CFLAGS = \
 
 rc_gui_SOURCES = rc_gui.c
 
-rc_gui_includedir = $(includedir)/rc_gui
+rc_gui_includedir = $(includedir)/rc-gui
 
 rc_gui_include_HEADERS =
 
