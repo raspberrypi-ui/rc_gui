@@ -1,3 +1,9 @@
+rc-gui (1.21) stretch; urgency=medium
+
+  * Move password prompt into lib subdir
+
+ -- Simon Long <simon@raspberrypi.org>  Fri, 06 Jul 2018 09:22:17 +0100
+
 rc-gui (1.20) stretch; urgency=medium
 
   * Move password prompt into /usr/lib/
