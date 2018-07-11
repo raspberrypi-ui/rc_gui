@@ -335,7 +335,7 @@ static void escape_passwd (const char *in, char **out)
     char *op;
 
     ip = in;
-    *out = malloc (2 * strlen (in));    // allocate for worst case...
+    *out = malloc (2 * strlen (in) + 1);    // allocate for worst case...
     op = *out;
     while (*ip)
     {
