@@ -329,11 +329,30 @@ static void set_passwd (GtkEntry *entry, gpointer ptr)
         gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), TRUE);
 }
 
+static void escape_passwd (const char *in, char **out)
+{
+    const char *ip;
+    char *op;
+
+    ip = in;
+    *out = malloc (2 * strlen (in));    // allocate for worst case...
+    op = *out;
+    while (*ip)
+    {
+        if (*ip == '$' || *ip == '"' || *ip == '\\' || *ip == '`')
+            *op++ = '\\';
+        *op++ = *ip++;
+    }
+    *op = 0;
+}
+
 static void on_change_passwd (GtkButton* btn, gpointer ptr)
 {
     GtkBuilder *builder;
     GtkWidget *dlg;
     int res;
+    const char *entry;
+    char *pw1, *pw2;
 
     builder = gtk_builder_new ();
     gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
@@ -350,7 +369,11 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
 
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
-        res = vsystem (CHANGE_PASSWD, gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), gtk_entry_get_text (GTK_ENTRY (pwentry3_tb)));
+        escape_passwd (gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), &pw1);
+        escape_passwd (gtk_entry_get_text (GTK_ENTRY (pwentry3_tb)), &pw2);
+        res = vsystem (CHANGE_PASSWD, pw1, pw2);
+        g_free (pw1);
+        g_free (pw2);
         gtk_widget_destroy (dlg);
         if (res)
             dlg = (GtkWidget *) gtk_builder_get_object (builder, "pwbaddialog");
