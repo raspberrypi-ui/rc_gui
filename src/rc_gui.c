@@ -96,6 +96,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_HDMI_GP_MOD "raspi-config nonint do_resolution %d %d"
 #define GET_WIFI_CTRY   "raspi-config nonint get_wifi_country"
 #define SET_WIFI_CTRY   "raspi-config nonint do_wifi_country %s"
+#define WLAN_INTERFACES "raspi-config nonint list_wlan_interfaces"
 #define CHANGE_PASSWD   "(echo \"%s\" ; echo \"%s\") | passwd $SUDO_USER"
 
 /* Controls */
@@ -1632,6 +1633,16 @@ static int can_configure (void)
     return 1;
 }
 
+static int has_wifi (void)
+{
+    char *res;
+    int ret = 0;
+
+    res = get_string (WLAN_INTERFACES);
+    if (res && strlen (res) > 0) ret = 1;
+    g_free (res);
+    return ret;
+}
 
 
 /* The dialog... */
@@ -1703,6 +1714,8 @@ int main (int argc, char *argv[])
 
     wifi_btn = gtk_builder_get_object (builder, "button_wifi");
     g_signal_connect (wifi_btn, "clicked", G_CALLBACK (on_set_wifi), NULL);
+    if (has_wifi ()) gtk_widget_set_sensitive (GTK_WIDGET (wifi_btn), TRUE);
+    else gtk_widget_set_sensitive (GTK_WIDGET (wifi_btn), FALSE);
 
     splash_on_rb = gtk_builder_get_object (builder, "rb_splash_on");
     splash_off_rb = gtk_builder_get_object (builder, "rb_splash_off");
