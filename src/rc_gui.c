@@ -97,7 +97,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_WIFI_CTRY   "raspi-config nonint get_wifi_country"
 #define SET_WIFI_CTRY   "raspi-config nonint do_wifi_country %s"
 #define WLAN_INTERFACES "raspi-config nonint list_wlan_interfaces"
-#define CHANGE_PASSWD   "(echo \"%s\" ; echo \"%s\") | passwd $SUDO_USER"
+#define CHANGE_PASSWD   "echo \"$SUDO_USER:%s\" | chpasswd"
 
 /* Controls */
 
@@ -372,7 +372,7 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
     {
         escape_passwd (gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), &pw1);
         escape_passwd (gtk_entry_get_text (GTK_ENTRY (pwentry3_tb)), &pw2);
-        res = vsystem (CHANGE_PASSWD, pw1, pw2);
+        res = vsystem (CHANGE_PASSWD, pw1);
         g_free (pw1);
         g_free (pw2);
         gtk_widget_destroy (dlg);
