@@ -1859,16 +1859,24 @@ int main (int argc, char *argv[])
 
     if (vsystem (GET_FKMS))
     {
+        item = gtk_builder_get_object (builder, "hbox18");
+        gtk_widget_show (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox19");
         gtk_widget_show (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox1a");
         gtk_widget_hide (GTK_WIDGET (item));
+        item = gtk_builder_get_object (builder, "hbox1b");
+        gtk_widget_hide (GTK_WIDGET (item));
     }
     else
     {
+        item = gtk_builder_get_object (builder, "hbox18");
+        gtk_widget_hide (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox19");
         gtk_widget_hide (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox1a");
+        gtk_widget_show (GTK_WIDGET (item));
+        item = gtk_builder_get_object (builder, "hbox1b");
         gtk_widget_show (GTK_WIDGET (item));
     }
 
