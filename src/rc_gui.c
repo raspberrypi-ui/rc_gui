@@ -84,6 +84,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_RGPIO       "raspi-config nonint get_rgpio"
 #define SET_RGPIO       "raspi-config nonint do_rgpio %d"
 #define GET_PI_TYPE     "raspi-config nonint get_pi_type"
+#define GET_FKMS        "raspi-config nonint is_fkms"
 #define GET_OVERCLOCK   "raspi-config nonint get_config_var arm_freq /boot/config.txt"
 #define SET_OVERCLOCK   "raspi-config nonint do_overclock %s"
 #define GET_GPU_MEM     "raspi-config nonint get_config_var gpu_mem /boot/config.txt"
@@ -1854,6 +1855,21 @@ int main (int argc, char *argv[])
             gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31c")));
             gtk_widget_set_sensitive (GTK_WIDGET (overclock_cb), FALSE);
             break;
+    }
+
+    if (vsystem (GET_FKMS))
+    {
+        item = gtk_builder_get_object (builder, "hbox19");
+        gtk_widget_show (GTK_WIDGET (item));
+        item = gtk_builder_get_object (builder, "hbox1a");
+        gtk_widget_hide (GTK_WIDGET (item));
+    }
+    else
+    {
+        item = gtk_builder_get_object (builder, "hbox19");
+        gtk_widget_hide (GTK_WIDGET (item));
+        item = gtk_builder_get_object (builder, "hbox1a");
+        gtk_widget_show (GTK_WIDGET (item));
     }
 
     GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 16.0, 64.0, 0);

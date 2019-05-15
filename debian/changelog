@@ -1,3 +1,9 @@
+rc-gui (1.24) unstable; urgency=medium
+
+  * Disable pixel doubling if using GL driver
+
+ -- Simon Long <simon@raspberrypi.org>  Tue, 14 May 2019 15:07:46 +0100
+
 rc-gui (1.23) stretch; urgency=medium
 
   * Disable wifi country button if no wifi hardware found
