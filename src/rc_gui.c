@@ -782,8 +782,8 @@ static void area_changed (GtkComboBox *cb, gpointer ptr)
 
 static gpointer timezone_thread (gpointer data)
 {
-    system ("rm /etc/localtime");
-    system ("dpkg-reconfigure --frontend noninteractive tzdata");
+    vsystem ("rm /etc/localtime");
+    vsystem ("dpkg-reconfigure --frontend noninteractive tzdata");
     g_idle_add (close_msg, NULL);
     return NULL;
 }
@@ -1234,11 +1234,11 @@ static void layout_changed (GtkComboBox *cb, char *init_variant)
 static gpointer keyboard_thread (gpointer ptr)
 {
     //system ("dpkg-reconfigure -f noninteractive keyboard-configuration");
-    system ("invoke-rc.d keyboard-setup start");
-    system ("setsid sh -c 'exec setupcon -k --force <> /dev/tty1 >&0 2>&1'");
-    system ("udevadm trigger --subsystem-match=input --action=change");
-    system ("udevadm settle");
-    system (gbuffer);
+    vsystem ("invoke-rc.d keyboard-setup start");
+    vsystem ("setsid sh -c 'exec setupcon -k --force <> /dev/tty1 >&0 2>&1'");
+    vsystem ("udevadm trigger --subsystem-match=input --action=change");
+    vsystem ("udevadm settle");
+    vsystem (gbuffer);
     g_idle_add (close_msg, NULL);
     return NULL;
 }
@@ -1409,7 +1409,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 
 static void on_expand_fs (GtkButton* btn, gpointer ptr)
 {
-    system (EXPAND_FS);
+    vsystem (EXPAND_FS);
     needs_reboot = 1;
 
     GtkBuilder *builder;
@@ -1473,13 +1473,13 @@ static int process_changes (void)
     {
         if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (autologin_cb)))
         {
-            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) system (SET_BOOT_GUIA);
-            else system (SET_BOOT_CLIA);
+            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUIA);
+            else vsystem (SET_BOOT_CLIA);
         }
         else
         {
-            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) system (SET_BOOT_GUI);
-            else system (SET_BOOT_CLI);
+            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUI);
+            else vsystem (SET_BOOT_CLI);
         }
     }
     
@@ -1628,7 +1628,7 @@ static int can_configure (void)
     if (pclose (fp) != 0) return 0;
 
     // create /boot/config.txt if it doesn't exist
-    system ("[ -e /boot/config.txt ] || touch /boot/config.txt");
+    vsystem ("[ -e /boot/config.txt ] || touch /boot/config.txt");
 #endif
 
     return 1;
@@ -1859,6 +1859,8 @@ int main (int argc, char *argv[])
 
     if (vsystem (GET_FKMS))
     {
+        item = gtk_builder_get_object (builder, "hbox17");
+        gtk_widget_show (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox18");
         gtk_widget_show (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox19");
@@ -1866,10 +1868,14 @@ int main (int argc, char *argv[])
         item = gtk_builder_get_object (builder, "hbox1a");
         gtk_widget_hide (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox1b");
+        gtk_widget_hide (GTK_WIDGET (item));
+        item = gtk_builder_get_object (builder, "hbox1c");
         gtk_widget_hide (GTK_WIDGET (item));
     }
     else
     {
+        item = gtk_builder_get_object (builder, "hbox17");
+        gtk_widget_hide (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox18");
         gtk_widget_hide (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox19");
@@ -1877,6 +1883,8 @@ int main (int argc, char *argv[])
         item = gtk_builder_get_object (builder, "hbox1a");
         gtk_widget_show (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox1b");
+        gtk_widget_show (GTK_WIDGET (item));
+        item = gtk_builder_get_object (builder, "hbox1c");
         gtk_widget_show (GTK_WIDGET (item));
     }
 
@@ -1947,7 +1955,7 @@ int main (int argc, char *argv[])
         gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
         if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_YES)
         {
-            system ("reboot");
+            vsystem ("reboot");
         }
         gtk_widget_destroy (dlg);
     }
