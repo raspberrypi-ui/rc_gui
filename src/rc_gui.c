@@ -84,6 +84,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_RGPIO       "raspi-config nonint get_rgpio"
 #define SET_RGPIO       "raspi-config nonint do_rgpio %d"
 #define GET_PI_TYPE     "raspi-config nonint get_pi_type"
+#define IS_PI4          "raspi-config nonint is_pifour"
 #define GET_FKMS        "raspi-config nonint is_fkms"
 #define GET_OVERCLOCK   "raspi-config nonint get_config_var arm_freq /boot/config.txt"
 #define SET_OVERCLOCK   "raspi-config nonint do_overclock %s"
@@ -97,6 +98,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_HDMI_GP_MOD "raspi-config nonint do_resolution %d %d"
 #define GET_WIFI_CTRY   "raspi-config nonint get_wifi_country"
 #define SET_WIFI_CTRY   "raspi-config nonint do_wifi_country %s"
+#define SET_PI4_4KH     "raspi-config nonint do_pi4video V1"
+#define SET_PI4_ATV     "raspi-config nonint do_pi4video V2"
+#define SET_PI4_NONE    "raspi-config nonint do_pi4video V3"
+#define GET_PI4_VID     "raspi-config nonint get_pi4video"
 #define WLAN_INTERFACES "raspi-config nonint list_wlan_interfaces"
 #define CHANGE_PASSWD   "echo \"$SUDO_USER:%s\" | chpasswd"
 
@@ -106,7 +111,7 @@ static GObject *expandfs_btn, *passwd_btn, *res_btn, *locale_btn, *timezone_btn,
 static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb, *pixdub_on_rb, *pixdub_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
-static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb;
+static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb, *pi4_4k_rb, *pi4_atv_rb, *pi4_dis_rb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwentry3_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
@@ -119,7 +124,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 
 static char *orig_hostname;
 static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
-static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub;
+static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub, orig_pi4v;
 
 /* Reboot flag set after locale change */
 
@@ -1493,6 +1498,24 @@ static int process_changes (void)
         vsystem (SET_SPLASH, (1 - orig_splash));
     }
 
+    if (orig_pixdub != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pixdub_off_rb)))
+    {
+        vsystem (SET_PIXDUB, (1 - orig_pixdub));
+        reboot = 1;
+    }
+
+    if (orig_ssh != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ssh_off_rb)))
+    {
+        vsystem (SET_SSH, (1 - orig_ssh));
+    }
+
+    if (g_strcmp0 (orig_hostname, gtk_entry_get_text (GTK_ENTRY (hostname_tb))))
+    {
+        vsystem (SET_HOSTNAME, gtk_entry_get_text (GTK_ENTRY (hostname_tb)));
+        reboot = 1;
+    }
+
+#ifdef __arm__
     if (orig_camera != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (camera_off_rb)))
     {
         vsystem (SET_CAMERA, (1 - orig_camera));
@@ -1503,17 +1526,6 @@ static int process_changes (void)
     {
         vsystem (SET_OVERSCAN, (1 - orig_overscan));
         reboot = 1;
-    }
-
-    if (orig_pixdub != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pixdub_off_rb)))
-    {
-        vsystem (SET_PIXDUB, (1 - orig_pixdub));
-        reboot = 1;
-    }
-
-    if (orig_ssh != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ssh_off_rb)))
-    {
-        vsystem (SET_SSH, (1 - orig_ssh));
     }
 
     if (orig_vnc != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (vnc_off_rb)))
@@ -1557,12 +1569,6 @@ static int process_changes (void)
         vsystem (SET_RGPIO, (1 - orig_rgpio));
     }
 
-    if (g_strcmp0 (orig_hostname, gtk_entry_get_text (GTK_ENTRY (hostname_tb))))
-    {
-        vsystem (SET_HOSTNAME, gtk_entry_get_text (GTK_ENTRY (hostname_tb)));
-        reboot = 1;
-    }
-
     if (orig_gpumem != gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)))
     {
         vsystem (SET_GPU_MEM, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)));
@@ -1602,6 +1608,32 @@ static int process_changes (void)
                 break;
         }
     }
+
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pi4_4k_rb)))
+    {
+        if (orig_pi4v != 1)
+        {
+            vsystem (SET_PI4_4KH);
+            reboot = 1;
+        }
+    }
+    else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pi4_atv_rb)))
+    {
+        if (orig_pi4v != 2)
+        {
+            vsystem (SET_PI4_ATV);
+            reboot = 1;
+        }
+    }
+    else
+    {
+        if (orig_pi4v != 0)
+        {
+            vsystem (SET_PI4_NONE);
+            reboot = 1;
+        }
+    }
+#endif
 
     return reboot;
 }
@@ -1809,6 +1841,20 @@ int main (int argc, char *argv[])
     gtk_widget_set_sensitive (GTK_WIDGET (vnc_on_rb), enable);
     gtk_widget_set_sensitive (GTK_WIDGET (vnc_off_rb), enable);
 
+    pi4_4k_rb = gtk_builder_get_object (builder, "rb_pi4_4k");
+    pi4_atv_rb = gtk_builder_get_object (builder, "rb_pi4_atv");
+    pi4_dis_rb = gtk_builder_get_object (builder, "rb_pi4_dis");
+    orig_pi4v = get_status (GET_PI4_VID);
+    switch (orig_pi4v)
+    {
+        case 1 :    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pi4_4k_rb), TRUE);
+                    break;
+        case 2 :    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pi4_atv_rb), TRUE);
+                    break;
+        default :   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pi4_dis_rb), TRUE);
+                    break;
+    }
+
     switch (get_status (GET_PI_TYPE))
     {
         case 1:
@@ -1866,10 +1912,13 @@ int main (int argc, char *argv[])
         item = gtk_builder_get_object (builder, "hbox19");
         gtk_widget_show (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox1a");
-        gtk_widget_hide (GTK_WIDGET (item));
+        if (vsystem (IS_PI4)) gtk_widget_hide (GTK_WIDGET (item));
+        else gtk_widget_show (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox1b");
         gtk_widget_hide (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox1c");
+        gtk_widget_hide (GTK_WIDGET (item));
+        item = gtk_builder_get_object (builder, "hbox1d");
         gtk_widget_hide (GTK_WIDGET (item));
     }
     else
@@ -1880,12 +1929,24 @@ int main (int argc, char *argv[])
         gtk_widget_hide (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox19");
         gtk_widget_hide (GTK_WIDGET (item));
-        item = gtk_builder_get_object (builder, "hbox1a");
-        gtk_widget_show (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox1b");
         gtk_widget_show (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox1c");
         gtk_widget_show (GTK_WIDGET (item));
+        if (vsystem (IS_PI4))
+        {
+            item = gtk_builder_get_object (builder, "hbox1a");
+            gtk_widget_hide (GTK_WIDGET (item));
+            item = gtk_builder_get_object (builder, "hbox1d");
+            gtk_widget_show (GTK_WIDGET (item));
+        }
+        else
+        {
+            item = gtk_builder_get_object (builder, "hbox1a");
+            gtk_widget_show (GTK_WIDGET (item));
+            item = gtk_builder_get_object (builder, "hbox1d");
+            gtk_widget_hide (GTK_WIDGET (item));
+        }
     }
 
     GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 16.0, 64.0, 0);
@@ -1902,6 +1963,8 @@ int main (int argc, char *argv[])
     item = gtk_builder_get_object (builder, "hbox17");
     gtk_widget_hide (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "hbox18");
+    gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox1a");
     gtk_widget_hide (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "hbox21");
     gtk_widget_hide (GTK_WIDGET (item));

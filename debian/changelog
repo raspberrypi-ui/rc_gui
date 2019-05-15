@@ -1,3 +1,9 @@
+rc-gui (1.25) unstable; urgency=medium
+
+  * Add Pi 4 video output control; disable underscan and HDMI resolution if using GL driver
+
+ -- Simon Long <simon@raspberrypi.org>  Wed, 15 May 2019 15:35:13 +0100
+
 rc-gui (1.24) unstable; urgency=medium
 
   * Disable pixel doubling if using GL driver
