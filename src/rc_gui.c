@@ -111,7 +111,7 @@ static GObject *expandfs_btn, *passwd_btn, *res_btn, *locale_btn, *timezone_btn,
 static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb, *pixdub_on_rb, *pixdub_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
-static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb, *pi4_4k_rb, *pi4_atv_rb, *pi4_dis_rb;
+static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb, *h4k_on_rb, *h4k_off_rb, *analog_on_rb, *analog_off_rb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwentry3_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
@@ -1467,6 +1467,37 @@ static void on_serial_off (GtkButton* btn, gpointer ptr)
     }
 }
 
+static void on_pi4video (GtkButton* btn, gpointer ptr)
+{
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (h4k_on_rb)))
+    {
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_off_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (analog_on_rb), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (analog_off_rb), FALSE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (analog_on_rb), _("Composite video is not available when 4Kp60 HDMI is enabled"));
+        gtk_widget_set_tooltip_text (GTK_WIDGET (analog_off_rb), _("Composite video is not available when 4Kp60 HDMI is enabled"));
+    }
+    else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (analog_on_rb)))
+    {
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (h4k_off_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (h4k_on_rb), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (h4k_off_rb), FALSE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (h4k_on_rb), _("4Kp60 HDMI is not available when analogue video is enabled"));
+        gtk_widget_set_tooltip_text (GTK_WIDGET (h4k_off_rb), _("4Kp60 HDMI is not available when analogue video is enabled"));
+    }
+    else
+    {
+        gtk_widget_set_sensitive (GTK_WIDGET (analog_on_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (analog_off_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (h4k_on_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (h4k_off_rb), TRUE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (analog_on_rb), _("Enable analogue composite video on the 3.5mm socket"));
+        gtk_widget_set_tooltip_text (GTK_WIDGET (analog_off_rb), _("Disable analogue composite video"));
+        gtk_widget_set_tooltip_text (GTK_WIDGET (h4k_on_rb), _("Enable 4Kp60 output on HDMI0 (the port closest to the power socket)"));
+        gtk_widget_set_tooltip_text (GTK_WIDGET (h4k_off_rb), _("Disable 4Kp60 output"));
+    }
+}
+
 /* Write the changes to the system when OK is pressed */
 
 static int process_changes (void)
@@ -1609,7 +1640,7 @@ static int process_changes (void)
         }
     }
 
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pi4_4k_rb)))
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (h4k_on_rb)))
     {
         if (orig_pi4v != 1)
         {
@@ -1617,7 +1648,7 @@ static int process_changes (void)
             reboot = 1;
         }
     }
-    else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pi4_atv_rb)))
+    else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (analog_on_rb)))
     {
         if (orig_pi4v != 2)
         {
@@ -1841,17 +1872,31 @@ int main (int argc, char *argv[])
     gtk_widget_set_sensitive (GTK_WIDGET (vnc_on_rb), enable);
     gtk_widget_set_sensitive (GTK_WIDGET (vnc_off_rb), enable);
 
-    pi4_4k_rb = gtk_builder_get_object (builder, "rb_pi4_4k");
-    pi4_atv_rb = gtk_builder_get_object (builder, "rb_pi4_atv");
-    pi4_dis_rb = gtk_builder_get_object (builder, "rb_pi4_dis");
+    h4k_on_rb = gtk_builder_get_object (builder, "rb_4k_on");
+    h4k_off_rb = gtk_builder_get_object (builder, "rb_4k_off");
+    analog_on_rb = gtk_builder_get_object (builder, "rb_analog_on");
+    analog_off_rb = gtk_builder_get_object (builder, "rb_analog_off");
+    gtk_widget_set_sensitive (GTK_WIDGET (analog_on_rb), TRUE);
+    gtk_widget_set_sensitive (GTK_WIDGET (analog_off_rb), TRUE);
+    gtk_widget_set_sensitive (GTK_WIDGET (h4k_on_rb), TRUE);
+    gtk_widget_set_sensitive (GTK_WIDGET (h4k_off_rb), TRUE);
+    g_signal_connect (h4k_on_rb, "toggled", G_CALLBACK (on_pi4video), NULL);
+    g_signal_connect (analog_on_rb, "toggled", G_CALLBACK (on_pi4video), NULL);
     orig_pi4v = get_status (GET_PI4_VID);
     switch (orig_pi4v)
     {
-        case 1 :    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pi4_4k_rb), TRUE);
+        case 1 :    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (h4k_on_rb), TRUE);
+                    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_off_rb), TRUE);
+                    //gtk_widget_set_sensitive (GTK_WIDGET (analog_on_rb), FALSE);
+                    //gtk_widget_set_sensitive (GTK_WIDGET (analog_off_rb), FALSE);
                     break;
-        case 2 :    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pi4_atv_rb), TRUE);
+        case 2 :    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_on_rb), TRUE);
+                    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (h4k_off_rb), TRUE);
+                    //gtk_widget_set_sensitive (GTK_WIDGET (h4k_on_rb), FALSE);
+                    //gtk_widget_set_sensitive (GTK_WIDGET (h4k_off_rb), FALSE);
                     break;
-        default :   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pi4_dis_rb), TRUE);
+        default :   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (h4k_off_rb), TRUE);
+                    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_off_rb), TRUE);
                     break;
     }
 
@@ -1911,14 +1956,25 @@ int main (int argc, char *argv[])
         gtk_widget_show (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox19");
         gtk_widget_show (GTK_WIDGET (item));
-        item = gtk_builder_get_object (builder, "hbox1a");
-        if (vsystem (IS_PI4)) gtk_widget_hide (GTK_WIDGET (item));
-        else gtk_widget_show (GTK_WIDGET (item));
-        item = gtk_builder_get_object (builder, "hbox1b");
-        gtk_widget_hide (GTK_WIDGET (item));
+        if (vsystem (IS_PI4))
+        {
+            item = gtk_builder_get_object (builder, "hbox1a");
+            gtk_widget_hide (GTK_WIDGET (item));
+            item = gtk_builder_get_object (builder, "hbox1b");
+            gtk_widget_hide (GTK_WIDGET (item));
+        }
+        else
+        {
+            item = gtk_builder_get_object (builder, "hbox1a");
+            gtk_widget_show (GTK_WIDGET (item));
+            item = gtk_builder_get_object (builder, "hbox1b");
+            gtk_widget_show (GTK_WIDGET (item));
+        }
         item = gtk_builder_get_object (builder, "hbox1c");
         gtk_widget_hide (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox1d");
+        gtk_widget_hide (GTK_WIDGET (item));
+        item = gtk_builder_get_object (builder, "hbox1e");
         gtk_widget_hide (GTK_WIDGET (item));
     }
     else
@@ -1929,14 +1985,14 @@ int main (int argc, char *argv[])
         gtk_widget_hide (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox19");
         gtk_widget_hide (GTK_WIDGET (item));
-        item = gtk_builder_get_object (builder, "hbox1b");
-        gtk_widget_show (GTK_WIDGET (item));
-        item = gtk_builder_get_object (builder, "hbox1c");
-        gtk_widget_show (GTK_WIDGET (item));
         if (vsystem (IS_PI4))
         {
             item = gtk_builder_get_object (builder, "hbox1a");
             gtk_widget_hide (GTK_WIDGET (item));
+            item = gtk_builder_get_object (builder, "hbox1b");
+            gtk_widget_hide (GTK_WIDGET (item));
+            item = gtk_builder_get_object (builder, "hbox1c");
+            gtk_widget_show (GTK_WIDGET (item));
             item = gtk_builder_get_object (builder, "hbox1d");
             gtk_widget_show (GTK_WIDGET (item));
         }
@@ -1944,9 +2000,15 @@ int main (int argc, char *argv[])
         {
             item = gtk_builder_get_object (builder, "hbox1a");
             gtk_widget_show (GTK_WIDGET (item));
+            item = gtk_builder_get_object (builder, "hbox1b");
+            gtk_widget_show (GTK_WIDGET (item));
+            item = gtk_builder_get_object (builder, "hbox1c");
+            gtk_widget_hide (GTK_WIDGET (item));
             item = gtk_builder_get_object (builder, "hbox1d");
             gtk_widget_hide (GTK_WIDGET (item));
         }
+        item = gtk_builder_get_object (builder, "hbox1e");
+        gtk_widget_show (GTK_WIDGET (item));
     }
 
     GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 16.0, 64.0, 0);

@@ -1,3 +1,9 @@
+rc-gui (1.27) unstable; urgency=medium
+
+  * Use separate switches for 4K and analogue
+
+ -- Simon Long <simon@raspberrypi.org>  Wed, 19 Jun 2019 15:07:24 +0100
+
 rc-gui (1.26) unstable; urgency=medium
 
   * Update translations

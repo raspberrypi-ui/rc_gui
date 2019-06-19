@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rc_gui 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-17 14:06+0100\n"
+"POT-Creation-Date: 2019-06-19 15:03+0100\n"
 "PO-Revision-Date: 2018-04-17 12:41+0100\n"
 "Last-Translator: Simon Long <simon@raspberrypi.org>\n"
 "Language-Team: English (British)\n"
@@ -35,6 +35,30 @@ msgstr "<not set>"
 #: ../src/rc_gui.c:1395
 msgid "Setting keyboard - please wait..."
 msgstr "Setting keyboard - please wait..."
+
+#: ../src/rc_gui.c:1477 ../src/rc_gui.c:1478
+msgid "Composite video is not available when 4Kp60 HDMI is enabled"
+msgstr "Composite video is not available when 4Kp60 HDMI is enabled"
+
+#: ../src/rc_gui.c:1485 ../src/rc_gui.c:1486
+msgid "4Kp60 HDMI is not available when analogue video is enabled"
+msgstr "4Kp60 HDMI is not available when analogue video is enabled"
+
+#: ../src/rc_gui.c:1494 ../data/rc_gui.ui.h:36
+msgid "Enable analogue composite video on the 3.5mm socket"
+msgstr "Enable analogue composite video on the 3.5mm socket"
+
+#: ../src/rc_gui.c:1495 ../data/rc_gui.ui.h:37
+msgid "Disable analogue composite video"
+msgstr "Disable analogue composite video"
+
+#: ../src/rc_gui.c:1496 ../data/rc_gui.ui.h:33
+msgid "Enable 4Kp60 output on HDMI0 (the port closest to the power socket)"
+msgstr "Enable 4Kp60 output on HDMI0 (the port closest to the power socket)"
+
+#: ../src/rc_gui.c:1497 ../data/rc_gui.ui.h:34
+msgid "Disable 4Kp60 output"
+msgstr "Disable 4Kp60 output"
 
 #: ../data/rc_gui.ui.h:1 ../data/rc_gui.desktop.in.h:1
 msgid "Raspberry Pi Configuration"
@@ -161,254 +185,234 @@ msgid "Disable pixel doubling for standard resolution screens"
 msgstr "Disable pixel doubling for standard resolution screens"
 
 #: ../data/rc_gui.ui.h:32
-msgid "Pi 4 Video:"
-msgstr "Pi 4 Video"
-
-#: ../data/rc_gui.ui.h:33
-msgid "4K HDMI"
-msgstr "4K HDMI"
-
-#: ../data/rc_gui.ui.h:34
-msgid "Enable 4K HDMI out"
-msgstr "Enable 4K HDMI out"
+msgid "4Kp60 HDMI:"
+msgstr "4Kp60 HDMI:"
 
 #: ../data/rc_gui.ui.h:35
-msgid "Analog"
-msgstr "Analog"
-
-#: ../data/rc_gui.ui.h:36
-msgid "Enable analog video out"
-msgstr "Enable analog video out"
-
-#: ../data/rc_gui.ui.h:37
-msgid "Neither"
-msgstr "Neither"
+msgid "Composite Video:"
+msgstr "Composite Video:"
 
 #: ../data/rc_gui.ui.h:38
-msgid "Disable 4K and analog"
-msgstr "Disable 4K and analog"
-
-#: ../data/rc_gui.ui.h:39
 msgid "System"
 msgstr "System"
 
-#: ../data/rc_gui.ui.h:40
+#: ../data/rc_gui.ui.h:39
 msgid "Camera:"
 msgstr "Camera:"
 
-#: ../data/rc_gui.ui.h:41
+#: ../data/rc_gui.ui.h:40
 msgid "Enable the Raspberry Pi Camera Board"
 msgstr "Enable the Raspberry Pi Camera Board"
 
-#: ../data/rc_gui.ui.h:42
+#: ../data/rc_gui.ui.h:41
 msgid "Disable the Raspberry Pi Camera Board"
 msgstr "Disable the Raspberry Pi Camera Board"
 
-#: ../data/rc_gui.ui.h:43
+#: ../data/rc_gui.ui.h:42
 msgid "SSH:"
 msgstr "SSH:"
 
-#: ../data/rc_gui.ui.h:44
+#: ../data/rc_gui.ui.h:43
 msgid "Enable remote access to this Pi via SSH"
 msgstr "Enable remote access to this Pi via SSH"
 
-#: ../data/rc_gui.ui.h:45
+#: ../data/rc_gui.ui.h:44
 msgid "Disable remote access to this Pi via SSH"
 msgstr "Disable remote access to this Pi via SSH"
 
-#: ../data/rc_gui.ui.h:46
+#: ../data/rc_gui.ui.h:45
 msgid "VNC:"
 msgstr "VNC:"
 
-#: ../data/rc_gui.ui.h:47
+#: ../data/rc_gui.ui.h:46
 msgid "Enable remote access to this Pi using RealVNC"
 msgstr "Enable remote access to this Pi using RealVNC"
 
-#: ../data/rc_gui.ui.h:48
+#: ../data/rc_gui.ui.h:47
 msgid "Disable remote access to this Pi using RealVNC"
 msgstr "Disable remote access to this Pi using RealVNC"
 
-#: ../data/rc_gui.ui.h:49
+#: ../data/rc_gui.ui.h:48
 msgid "SPI:"
 msgstr "SPI:"
 
-#: ../data/rc_gui.ui.h:50
+#: ../data/rc_gui.ui.h:49
 msgid "Enable the automatic loading of the SPI kernel module"
 msgstr "Enable the automatic loading of the SPI kernel module"
 
-#: ../data/rc_gui.ui.h:51
+#: ../data/rc_gui.ui.h:50
 msgid "Disable the automatic loading of the SPI kernel module"
 msgstr "Disable the automatic loading of the SPI kernel module"
 
-#: ../data/rc_gui.ui.h:52
+#: ../data/rc_gui.ui.h:51
 msgid "I2C:"
 msgstr "I2C:"
 
-#: ../data/rc_gui.ui.h:53
+#: ../data/rc_gui.ui.h:52
 msgid "Enable the automatic loading of the I2C kernel module"
 msgstr "Enable the automatic loading of the I2C kernel module"
 
-#: ../data/rc_gui.ui.h:54
+#: ../data/rc_gui.ui.h:53
 msgid "Disable the automatic loading of the I2C kernel module"
 msgstr "Disable the automatic loading of the I2C kernel module"
 
-#: ../data/rc_gui.ui.h:55
+#: ../data/rc_gui.ui.h:54
 msgid "Serial Port:"
 msgstr "Serial Port:"
 
-#: ../data/rc_gui.ui.h:56
+#: ../data/rc_gui.ui.h:55
 msgid "Enable the serial port over the GPIO pins"
 msgstr "Enable the serial port over the GPIO pins"
 
-#: ../data/rc_gui.ui.h:57
+#: ../data/rc_gui.ui.h:56
 msgid "Disable the serial port over the GPIO pins"
 msgstr "Disable the serial port over the GPIO pins"
 
-#: ../data/rc_gui.ui.h:58
+#: ../data/rc_gui.ui.h:57
 msgid "Serial Console:"
 msgstr "Serial Console:"
 
-#: ../data/rc_gui.ui.h:59
+#: ../data/rc_gui.ui.h:58
 msgid "Enable shell and kernel messages on the serial connection"
 msgstr "Enable shell and kernel messages on the serial connection"
 
-#: ../data/rc_gui.ui.h:60
+#: ../data/rc_gui.ui.h:59
 msgid "Disable shell and kernel messages on the serial connection"
 msgstr "Disable shell and kernel messages on the serial connection"
 
-#: ../data/rc_gui.ui.h:61
+#: ../data/rc_gui.ui.h:60
 msgid "1-Wire:"
 msgstr "1-Wire:"
 
-#: ../data/rc_gui.ui.h:62
+#: ../data/rc_gui.ui.h:61
 msgid "Enable 1-wire peripheral interface"
 msgstr "Enable 1-wire peripheral interface"
 
-#: ../data/rc_gui.ui.h:63
+#: ../data/rc_gui.ui.h:62
 msgid "Disable 1-wire peripheral interface"
 msgstr "Disable 1-wire peripheral interface"
 
-#: ../data/rc_gui.ui.h:64
+#: ../data/rc_gui.ui.h:63
 msgid "Remote GPIO:"
 msgstr "Remote GPIO:"
 
-#: ../data/rc_gui.ui.h:65
+#: ../data/rc_gui.ui.h:64
 msgid "Enable remote access to GPIO pins"
 msgstr "Enable remote access to GPIO pins"
 
-#: ../data/rc_gui.ui.h:66
+#: ../data/rc_gui.ui.h:65
 msgid "Disable remote access to GPIO pins"
 msgstr "Disable remote access to GPIO pins"
 
-#: ../data/rc_gui.ui.h:67
+#: ../data/rc_gui.ui.h:66
 msgid "Interfaces"
 msgstr "Interfaces"
 
-#: ../data/rc_gui.ui.h:68
+#: ../data/rc_gui.ui.h:67
 msgid "O_verclock:"
 msgstr "Overclock:"
 
-#: ../data/rc_gui.ui.h:69
+#: ../data/rc_gui.ui.h:68
 msgid "Set the level of overclock to control performance"
 msgstr "Set the level of overclock to control performance"
 
-#: ../data/rc_gui.ui.h:70
+#: ../data/rc_gui.ui.h:69
 msgid "None (700MHz)"
 msgstr "None (700MHz)"
 
-#: ../data/rc_gui.ui.h:71
+#: ../data/rc_gui.ui.h:70
 msgid "Modest (800MHz)"
 msgstr "Modest (800MHz)"
 
-#: ../data/rc_gui.ui.h:72
+#: ../data/rc_gui.ui.h:71
 msgid "Medium (900MHz)"
 msgstr "Medium (900MHz)"
 
-#: ../data/rc_gui.ui.h:73
+#: ../data/rc_gui.ui.h:72
 msgid "High (950MHz)"
 msgstr "High (950MHz)"
 
-#: ../data/rc_gui.ui.h:74
+#: ../data/rc_gui.ui.h:73
 msgid "Turbo (1000MHz)"
 msgstr "Turbo (1000MHz)"
 
-#: ../data/rc_gui.ui.h:75
+#: ../data/rc_gui.ui.h:74
 msgid "None (900MHz)"
 msgstr "None (900MHz)"
 
-#: ../data/rc_gui.ui.h:76
+#: ../data/rc_gui.ui.h:75
 msgid "High (1000MHz)"
 msgstr "High (1000MHz)"
 
-#: ../data/rc_gui.ui.h:77
+#: ../data/rc_gui.ui.h:76
 msgid "Not available"
 msgstr "Not available"
 
-#: ../data/rc_gui.ui.h:78
+#: ../data/rc_gui.ui.h:77
 msgid "_GPU Memory:"
 msgstr "GPU Memory:"
 
-#: ../data/rc_gui.ui.h:79
+#: ../data/rc_gui.ui.h:78
 msgid "Enter the amount of memory available to the GPU"
 msgstr "Enter the amount of memory available to the GPU"
 
-#: ../data/rc_gui.ui.h:80
+#: ../data/rc_gui.ui.h:79
 msgid "Performance"
 msgstr "Performance"
 
-#: ../data/rc_gui.ui.h:81
+#: ../data/rc_gui.ui.h:80
 msgid "Locale:"
 msgstr "Locale:"
 
-#: ../data/rc_gui.ui.h:82
+#: ../data/rc_gui.ui.h:81
 msgid "Set _Locale..."
 msgstr "Set _Locale..."
 
-#: ../data/rc_gui.ui.h:83
+#: ../data/rc_gui.ui.h:82
 msgid "Set internationalisation settings for units etc."
 msgstr "Set internationalisation settings for language, units etc."
 
-#: ../data/rc_gui.ui.h:84
+#: ../data/rc_gui.ui.h:83
 msgid "Timezone:"
 msgstr "Timezone:"
 
-#: ../data/rc_gui.ui.h:85
+#: ../data/rc_gui.ui.h:84
 msgid "Set _Timezone..."
 msgstr "Set _Timezone..."
 
-#: ../data/rc_gui.ui.h:86
+#: ../data/rc_gui.ui.h:85
 msgid "Set the timezone to be used by the internal clock"
 msgstr "Set the timezone to be used by the internal clock"
 
-#: ../data/rc_gui.ui.h:87
+#: ../data/rc_gui.ui.h:86
 msgid "Keyboard:"
 msgstr "Keyboard:"
 
-#: ../data/rc_gui.ui.h:88
+#: ../data/rc_gui.ui.h:87
 msgid "Set _Keyboard..."
 msgstr "Set _Keyboard..."
 
-#: ../data/rc_gui.ui.h:89
+#: ../data/rc_gui.ui.h:88
 msgid "Set international keyboard options"
 msgstr "Set international keyboard options"
 
-#: ../data/rc_gui.ui.h:90
+#: ../data/rc_gui.ui.h:89
 msgid "WiFi Country:"
 msgstr "WiFi Country:"
 
-#: ../data/rc_gui.ui.h:91
+#: ../data/rc_gui.ui.h:90
 msgid "Set _WiFi Country..."
 msgstr "Set _WiFi Country..."
 
-#: ../data/rc_gui.ui.h:92
+#: ../data/rc_gui.ui.h:91
 msgid "Set WiFi country code"
 msgstr "Set WiFi country code"
 
-#: ../data/rc_gui.ui.h:93
+#: ../data/rc_gui.ui.h:92
 msgid "Localisation"
 msgstr "Localisation"
 
-#: ../data/rc_gui.ui.h:94
+#: ../data/rc_gui.ui.h:93
 msgid ""
 "The Raspberry Pi Configuration application can only modify a standard "
 "configuration.\n"
@@ -429,11 +433,11 @@ msgstr ""
 "In order to use this application, you need to have the latest firmware "
 "installed, device tree enabled, and the lightdm application installed. "
 
-#: ../data/rc_gui.ui.h:99
+#: ../data/rc_gui.ui.h:98
 msgid "Filesystem Expanded"
 msgstr "Filesystem Expanded"
 
-#: ../data/rc_gui.ui.h:100
+#: ../data/rc_gui.ui.h:99
 msgid ""
 "The filesystem has been expanded.\n"
 "\n"
@@ -443,39 +447,39 @@ msgstr ""
 "\n"
 "The new space will not be available until you reboot your Raspberry Pi."
 
-#: ../data/rc_gui.ui.h:103
+#: ../data/rc_gui.ui.h:102
 msgid "Locale"
 msgstr "Locale"
 
-#: ../data/rc_gui.ui.h:104
+#: ../data/rc_gui.ui.h:103
 msgid "Language:"
 msgstr "Language:"
 
-#: ../data/rc_gui.ui.h:105
+#: ../data/rc_gui.ui.h:104
 msgid "Country:"
 msgstr "Country:"
 
-#: ../data/rc_gui.ui.h:106
+#: ../data/rc_gui.ui.h:105
 msgid "Character Set:"
 msgstr "Character Set:"
 
-#: ../data/rc_gui.ui.h:107
+#: ../data/rc_gui.ui.h:106
 msgid "Change Password"
 msgstr "Change Password"
 
-#: ../data/rc_gui.ui.h:108
+#: ../data/rc_gui.ui.h:107
 msgid "Enter new password:"
 msgstr "Enter new password:"
 
-#: ../data/rc_gui.ui.h:109
+#: ../data/rc_gui.ui.h:108
 msgid "Confirm new password:"
 msgstr "Confirm new password:"
 
-#: ../data/rc_gui.ui.h:110
+#: ../data/rc_gui.ui.h:109
 msgid "Password Not Changed"
 msgstr "Password Not Changed"
 
-#: ../data/rc_gui.ui.h:111
+#: ../data/rc_gui.ui.h:110
 msgid ""
 "The password change failed.\n"
 "\n"
@@ -488,19 +492,19 @@ msgstr ""
 "This could be because the new password was not sufficiently complex or was "
 "too similar to the current password."
 
-#: ../data/rc_gui.ui.h:114
+#: ../data/rc_gui.ui.h:113
 msgid "Password Changed"
 msgstr "Password Changed"
 
-#: ../data/rc_gui.ui.h:115
+#: ../data/rc_gui.ui.h:114
 msgid "The password has been changed successfully."
 msgstr "The password has been changed successfully."
 
-#: ../data/rc_gui.ui.h:116
+#: ../data/rc_gui.ui.h:115
 msgid "Reboot needed"
 msgstr "Reboot needed"
 
-#: ../data/rc_gui.ui.h:117
+#: ../data/rc_gui.ui.h:116
 msgid ""
 "The changes you have made require the Raspberry Pi to be rebooted to take "
 "effect.\n"
@@ -512,39 +516,39 @@ msgstr ""
 "\n"
 "Would you like to reboot now? "
 
-#: ../data/rc_gui.ui.h:120
+#: ../data/rc_gui.ui.h:119
 msgid "Set Resolution"
 msgstr "Set Resolution"
 
-#: ../data/rc_gui.ui.h:121
+#: ../data/rc_gui.ui.h:120
 msgid "Timezone"
 msgstr "Timezone"
 
-#: ../data/rc_gui.ui.h:122
+#: ../data/rc_gui.ui.h:121
 msgid "Area:"
 msgstr "Area:"
 
-#: ../data/rc_gui.ui.h:123
+#: ../data/rc_gui.ui.h:122
 msgid "Location:"
 msgstr "Location:"
 
-#: ../data/rc_gui.ui.h:124
+#: ../data/rc_gui.ui.h:123
 msgid "WiFi Country Code"
 msgstr "WiFi Country"
 
-#: ../data/rc_gui.ui.h:125
+#: ../data/rc_gui.ui.h:124
 msgid "Keyboard"
 msgstr "Keyboard"
 
-#: ../data/rc_gui.ui.h:126
+#: ../data/rc_gui.ui.h:125
 msgid "Model:"
 msgstr "Model:"
 
-#: ../data/rc_gui.ui.h:127
+#: ../data/rc_gui.ui.h:126
 msgid "Layout:"
 msgstr "Layout:"
 
-#: ../data/rc_gui.ui.h:128
+#: ../data/rc_gui.ui.h:127
 msgid "Variant:"
 msgstr "Variant:"
 
