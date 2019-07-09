@@ -1,3 +1,9 @@
+rc-gui (1.28) buster; urgency=medium
+
+  * Remove 4kp60 switch
+
+ -- Simon Long <simon@raspberrypi.org>  Tue, 09 Jul 2019 13:32:48 +0100
+
 rc-gui (1.27) unstable; urgency=medium
 
   * Use separate switches for 4K and analogue

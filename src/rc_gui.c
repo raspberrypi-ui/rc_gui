@@ -1948,6 +1948,8 @@ int main (int argc, char *argv[])
             break;
     }
 
+    item = gtk_builder_get_object (builder, "hbox1a");
+    gtk_widget_hide (GTK_WIDGET (item));
     if (vsystem (GET_FKMS))
     {
         item = gtk_builder_get_object (builder, "hbox17");
@@ -1958,15 +1960,11 @@ int main (int argc, char *argv[])
         gtk_widget_show (GTK_WIDGET (item));
         if (vsystem (IS_PI4))
         {
-            item = gtk_builder_get_object (builder, "hbox1a");
-            gtk_widget_hide (GTK_WIDGET (item));
             item = gtk_builder_get_object (builder, "hbox1b");
             gtk_widget_hide (GTK_WIDGET (item));
         }
         else
         {
-            item = gtk_builder_get_object (builder, "hbox1a");
-            gtk_widget_show (GTK_WIDGET (item));
             item = gtk_builder_get_object (builder, "hbox1b");
             gtk_widget_show (GTK_WIDGET (item));
         }
@@ -1987,26 +1985,20 @@ int main (int argc, char *argv[])
         gtk_widget_hide (GTK_WIDGET (item));
         if (vsystem (IS_PI4))
         {
-            item = gtk_builder_get_object (builder, "hbox1a");
-            gtk_widget_hide (GTK_WIDGET (item));
             item = gtk_builder_get_object (builder, "hbox1b");
             gtk_widget_hide (GTK_WIDGET (item));
             item = gtk_builder_get_object (builder, "hbox1c");
-            gtk_widget_show (GTK_WIDGET (item));
-            item = gtk_builder_get_object (builder, "hbox1d");
             gtk_widget_show (GTK_WIDGET (item));
         }
         else
         {
-            item = gtk_builder_get_object (builder, "hbox1a");
-            gtk_widget_show (GTK_WIDGET (item));
             item = gtk_builder_get_object (builder, "hbox1b");
             gtk_widget_show (GTK_WIDGET (item));
             item = gtk_builder_get_object (builder, "hbox1c");
             gtk_widget_hide (GTK_WIDGET (item));
-            item = gtk_builder_get_object (builder, "hbox1d");
-            gtk_widget_hide (GTK_WIDGET (item));
         }
+        item = gtk_builder_get_object (builder, "hbox1d");
+        gtk_widget_show (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox1e");
         gtk_widget_show (GTK_WIDGET (item));
     }
