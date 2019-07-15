@@ -103,6 +103,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_PI4_NONE    "raspi-config nonint do_pi4video V3"
 #define GET_PI4_VID     "raspi-config nonint get_pi4video"
 #define WLAN_INTERFACES "raspi-config nonint list_wlan_interfaces"
+#define DEFAULT_GPU_MEM "vcgencmd get_mem gpu | cut -d = -f 2 | cut -d M -f 1"
 #define CHANGE_PASSWD   "echo \"$SUDO_USER:%s\" | chpasswd"
 
 /* Controls */
@@ -256,6 +257,7 @@ static int get_gpu_mem (void)
         mem = get_status (GET_GPU_MEM_256);
 
     if (mem == 0) mem = get_status (GET_GPU_MEM);
+    if (mem == 0) mem = get_status (DEFAULT_GPU_MEM);
     if (mem == 0) mem = 64;
     return mem;
 }
@@ -2003,7 +2005,7 @@ int main (int argc, char *argv[])
         gtk_widget_show (GTK_WIDGET (item));
     }
 
-    GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 16.0, 64.0, 0);
+    GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);
     memsplit_sb = gtk_builder_get_object (builder, "spin_gpu");
     gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (memsplit_sb), GTK_ADJUSTMENT (adj));
     orig_gpumem = get_gpu_mem ();
