@@ -1982,7 +1982,7 @@ int main (int argc, char *argv[])
         item = gtk_builder_get_object (builder, "hbox17");
         gtk_widget_hide (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox18");
-        gtk_widget_hide (GTK_WIDGET (item));
+        gtk_widget_show (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox19");
         gtk_widget_hide (GTK_WIDGET (item));
         if (vsystem (IS_PI4))
@@ -2002,7 +2002,7 @@ int main (int argc, char *argv[])
         item = gtk_builder_get_object (builder, "hbox1d");
         gtk_widget_show (GTK_WIDGET (item));
         item = gtk_builder_get_object (builder, "hbox1e");
-        gtk_widget_show (GTK_WIDGET (item));
+        gtk_widget_hide (GTK_WIDGET (item));
     }
 
     GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);

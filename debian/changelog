@@ -1,3 +1,9 @@
+rc-gui (1.29) buster; urgency=medium
+
+  * Restore overscan switch for FKMS
+
+ -- Simon Long <simon@raspberrypi.org>  Tue, 17 Sep 2019 15:36:10 +0100
+
 rc-gui (1.28) buster; urgency=medium
 
   * Remove 4kp60 switch
