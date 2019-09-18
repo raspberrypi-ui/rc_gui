@@ -1,8 +1,14 @@
-rc-gui (1.29) buster; urgency=medium
+rc-gui (1.30) buster; urgency=medium
 
   * Restore overscan switch for FKMS
 
  -- Simon Long <simon@raspberrypi.org>  Tue, 17 Sep 2019 15:36:10 +0100
+
+rc-gui (1.29) buster; urgency=medium
+
+  * Correct default GPU memory value
+
+ -- Simon Long <simon@raspberrypi.org>  Wed, 17 Jul 2019 07:42:22 +0100
 
 rc-gui (1.28) buster; urgency=medium
 
