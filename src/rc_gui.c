@@ -102,18 +102,25 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_PI4_ATV     "raspi-config nonint do_pi4video V2"
 #define SET_PI4_NONE    "raspi-config nonint do_pi4video V3"
 #define GET_PI4_VID     "raspi-config nonint get_pi4video"
+#define GET_OVERLAYNOW  "raspi-config nonint get_overlay_now"
+#define GET_OVERLAY     "raspi-config nonint get_overlay_conf"
+#define GET_BOOTRO      "raspi-config nonint get_bootro_conf"
+#define SET_OFS_ON      "raspi-config nonint enable_overlayfs"
+#define SET_OFS_OFF     "raspi-config nonint disable_overlayfs"
+#define SET_BOOTP_RO    "raspi-config nonint enable_bootro"
+#define SET_BOOTP_RW    "raspi-config nonint disable_bootro"
 #define WLAN_INTERFACES "raspi-config nonint list_wlan_interfaces"
 #define DEFAULT_GPU_MEM "vcgencmd get_mem gpu | cut -d = -f 2 | cut -d M -f 1"
 #define CHANGE_PASSWD   "echo \"$SUDO_USER:%s\" | chpasswd"
 
 /* Controls */
 
-static GObject *expandfs_btn, *passwd_btn, *res_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn;
+static GObject *expandfs_btn, *passwd_btn, *res_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
 static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb, *pixdub_on_rb, *pixdub_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
 static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb, *h4k_on_rb, *h4k_off_rb, *analog_on_rb, *analog_off_rb;
-static GObject *overclock_cb, *memsplit_sb, *hostname_tb;
+static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_rb, *ofs_dis_rb, *bp_ro_rb, *bp_rw_rb, *ofs_lbl;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwentry3_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
 static GObject *tzarea_cb, *tzloc_cb, *wccountry_cb, *resolution_cb;
@@ -126,10 +133,11 @@ static GtkWidget *main_dlg, *msg_dlg;
 static char *orig_hostname;
 static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
 static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub, orig_pi4v;
+static int orig_ofs, orig_bpro;
 
 /* Reboot flag set after locale change */
 
-static int needs_reboot;
+static int needs_reboot, ovfs_rb;
 
 /* Number of items in comboboxes */
 
@@ -1412,6 +1420,79 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     gtk_widget_destroy (dlg);
 }
 
+/* Overlay file system setting */
+
+static void on_overlay_fs (GtkButton* btn, gpointer ptr)
+{
+    ovfs_rb = 0;
+    if (orig_ofs && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ofs_en_rb))) ovfs_rb = 1;
+    if (!orig_ofs && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ofs_dis_rb))) ovfs_rb = 1;
+    if (orig_bpro && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (bp_ro_rb))) ovfs_rb = 1;
+    if (!orig_bpro && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (bp_rw_rb))) ovfs_rb = 1;
+
+    if (ovfs_rb)
+        gtk_label_set_text (GTK_LABEL (ofs_lbl), _("Changes will not take effect until a reboot"));
+    else
+        gtk_label_set_text (GTK_LABEL (ofs_lbl), "");
+}
+
+static void on_set_ofs (GtkButton* btn, gpointer ptr)
+{
+    GtkBuilder *builder;
+    GtkWidget *dlg;
+
+    builder = gtk_builder_new ();
+    gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+    dlg = (GtkWidget *) gtk_builder_get_object (builder, "ofsdlg");
+    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+
+    ofs_en_rb = gtk_builder_get_object (builder, "rb_ofsen");
+    ofs_dis_rb = gtk_builder_get_object (builder, "rb_ofsdis");
+    bp_ro_rb = gtk_builder_get_object (builder, "rb_bpro");
+    bp_rw_rb = gtk_builder_get_object (builder, "rb_bprw");
+    ofs_lbl = gtk_builder_get_object (builder, "ofslabel3");
+
+    g_object_unref (builder);
+
+    if (orig_ofs = vsystem (GET_OVERLAY)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ofs_dis_rb), TRUE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ofs_en_rb), TRUE);
+
+    if (orig_bpro = vsystem (GET_BOOTRO)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bp_rw_rb), TRUE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bp_ro_rb), TRUE);
+
+    if (vsystem (GET_OVERLAYNOW))
+    {
+        gtk_widget_set_sensitive (GTK_WIDGET (bp_rw_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (bp_ro_rb), TRUE);
+    }
+    else
+    {
+        gtk_widget_set_sensitive (GTK_WIDGET (bp_rw_rb), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (bp_ro_rb), FALSE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (bp_rw_rb), _("The state of the boot partition cannot be changed while an overlay is active"));
+        gtk_widget_set_tooltip_text (GTK_WIDGET (bp_ro_rb), _("The state of the boot partition cannot be changed while an overlay is active"));
+    }
+
+    g_signal_connect (ofs_en_rb, "toggled", G_CALLBACK (on_overlay_fs), NULL);
+    g_signal_connect (bp_ro_rb, "toggled", G_CALLBACK (on_overlay_fs), NULL);
+    gtk_label_set_text (GTK_LABEL (ofs_lbl), "");
+
+    ovfs_rb = 0;
+    if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
+    {
+        if (ovfs_rb) needs_reboot = 1;
+        if (orig_bpro && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (bp_ro_rb)))
+            vsystem (SET_BOOTP_RO);
+        if (!orig_bpro && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (bp_rw_rb)))
+            vsystem (SET_BOOTP_RW);
+        if (orig_ofs && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ofs_en_rb)))
+            vsystem (SET_OFS_ON);
+        if (!orig_ofs && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ofs_dis_rb)))
+            vsystem (SET_OFS_OFF);
+    }
+    gtk_widget_destroy (dlg);
+}
+
 /* Button handlers */
 
 static void on_expand_fs (GtkButton* btn, gpointer ptr)
@@ -1949,6 +2030,9 @@ int main (int argc, char *argv[])
             gtk_widget_set_sensitive (GTK_WIDGET (overclock_cb), FALSE);
             break;
     }
+
+    ofs_btn = gtk_builder_get_object (builder, "button_ofs");
+    g_signal_connect (ofs_btn, "clicked", G_CALLBACK (on_set_ofs), NULL);
 
     item = gtk_builder_get_object (builder, "hbox1a");
     gtk_widget_hide (GTK_WIDGET (item));
