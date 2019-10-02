@@ -1436,6 +1436,13 @@ static void on_overlay_fs (GtkButton* btn, gpointer ptr)
         gtk_label_set_text (GTK_LABEL (ofs_lbl), "");
 }
 
+static gpointer initrd_thread (gpointer data)
+{
+    vsystem (SET_OFS_ON);
+    g_idle_add (close_msg, NULL);
+    return NULL;
+}
+
 static void on_set_ofs (GtkButton* btn, gpointer ptr)
 {
     GtkBuilder *builder;
@@ -1485,10 +1492,16 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
             vsystem (SET_BOOTP_RO);
         if (!orig_bpro && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (bp_rw_rb)))
             vsystem (SET_BOOTP_RW);
-        if (orig_ofs && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ofs_en_rb)))
-            vsystem (SET_OFS_ON);
         if (!orig_ofs && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ofs_dis_rb)))
             vsystem (SET_OFS_OFF);
+        if (orig_ofs && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ofs_en_rb)))
+        {
+            // warn about a short delay...
+            message (_("Setting up overlay - please wait..."));
+
+            // launch a thread with the system call to update the initrd
+            g_thread_new (NULL, initrd_thread, NULL);
+        }
     }
     gtk_widget_destroy (dlg);
 }
