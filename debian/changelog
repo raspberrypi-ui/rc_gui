@@ -1,3 +1,10 @@
+rc-gui (1.31) buster; urgency=medium
+
+  * Add overlay file system control
+  * Modify desktop file to preserve environment
+
+ -- Simon Long <simon@raspberrypi.org>  Fri, 05 Oct 2019 10:19:59 +0100
+
 rc-gui (1.30) buster; urgency=medium
 
   * Restore overscan switch for FKMS
