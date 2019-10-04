@@ -2117,7 +2117,11 @@ int main (int argc, char *argv[])
     gtk_widget_hide (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "hbox18");
     gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox19");
+    gtk_widget_hide (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "hbox1a");
+    gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox1b");
     gtk_widget_hide (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "hbox21");
     gtk_widget_hide (GTK_WIDGET (item));
@@ -2145,9 +2149,9 @@ int main (int argc, char *argv[])
     gtk_widget_show (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "hbox2e");
     gtk_widget_show (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox2f");
-    gtk_widget_show (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "vbox30");
+    gtk_widget_hide (GTK_WIDGET (item));
+    item = gtk_builder_get_object (builder, "hbox47");
     gtk_widget_hide (GTK_WIDGET (item));
     item = gtk_builder_get_object (builder, "hbox48");
     gtk_widget_hide (GTK_WIDGET (item));

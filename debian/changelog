@@ -1,9 +1,15 @@
-rc-gui (1.31) buster; urgency=medium
+rc-gui (1.32) buster; urgency=medium
 
   * Add overlay file system control
   * Modify desktop file to preserve environment
 
  -- Simon Long <simon@raspberrypi.org>  Fri, 05 Oct 2019 10:19:59 +0100
+
+rc-gui (1.31) buster; urgency=medium
+
+  * Remove incorrect options for x86 builds
+
+ -- Simon Long <simon@raspberrypi.org>  Tue, 24 Sep 2019 11:00:24 +0100
 
 rc-gui (1.30) buster; urgency=medium
 
