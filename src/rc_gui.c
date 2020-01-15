@@ -1453,6 +1453,16 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
 
     builder = gtk_builder_new ();
     gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+
+    if (0)  /*!!!!!*/
+    {
+        dlg = (GtkWidget *) gtk_builder_get_object (builder, "ofswarndialog");
+        gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+        gtk_dialog_run (GTK_DIALOG (dlg));
+        gtk_widget_destroy (dlg);
+        return;
+    }
+
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "ofsdlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
