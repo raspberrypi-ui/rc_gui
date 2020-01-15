@@ -3,12 +3,12 @@ Copyright (c) 2018 Raspberry Pi (Trading) Ltd.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:1
+modification, are permitted provided that the following conditions are met:
     * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.1
+      notice, this list of conditions and the following disclaimer.
     * Redistributions in binary form must reproduce the above copyright
       notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.1
+      documentation and/or other materials provided with the distribution.
     * Neither the name of the copyright holder nor the
       names of its contributors may be used to endorse or promote products
       derived from this software without specific prior written permission.
@@ -121,7 +121,7 @@ static GObject *expandfs_btn, *passwd_btn, *res_btn, *locale_btn, *timezone_btn,
 static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb, *pixdub_on_rb, *pixdub_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
-static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb, *h4k_on_rb, *h4k_off_rb;
+static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb;
 static GObject *analog_on_rb, *analog_off_rb, *blank_on_rb, *blank_off_rb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_rb, *ofs_dis_rb, *bp_ro_rb, *bp_rw_rb, *ofs_lbl;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwentry3_tb, *pwok_btn;
@@ -1576,37 +1576,6 @@ static void on_serial_off (GtkButton* btn, gpointer ptr)
     }
 }
 
-static void on_pi4video (GtkButton* btn, gpointer ptr)
-{
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (h4k_on_rb)))
-    {
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_off_rb), TRUE);
-        gtk_widget_set_sensitive (GTK_WIDGET (analog_on_rb), FALSE);
-        gtk_widget_set_sensitive (GTK_WIDGET (analog_off_rb), FALSE);
-        gtk_widget_set_tooltip_text (GTK_WIDGET (analog_on_rb), _("Composite video is not available when 4Kp60 HDMI is enabled"));
-        gtk_widget_set_tooltip_text (GTK_WIDGET (analog_off_rb), _("Composite video is not available when 4Kp60 HDMI is enabled"));
-    }
-    else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (analog_on_rb)))
-    {
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (h4k_off_rb), TRUE);
-        gtk_widget_set_sensitive (GTK_WIDGET (h4k_on_rb), FALSE);
-        gtk_widget_set_sensitive (GTK_WIDGET (h4k_off_rb), FALSE);
-        gtk_widget_set_tooltip_text (GTK_WIDGET (h4k_on_rb), _("4Kp60 HDMI is not available when analogue video is enabled"));
-        gtk_widget_set_tooltip_text (GTK_WIDGET (h4k_off_rb), _("4Kp60 HDMI is not available when analogue video is enabled"));
-    }
-    else
-    {
-        gtk_widget_set_sensitive (GTK_WIDGET (analog_on_rb), TRUE);
-        gtk_widget_set_sensitive (GTK_WIDGET (analog_off_rb), TRUE);
-        gtk_widget_set_sensitive (GTK_WIDGET (h4k_on_rb), TRUE);
-        gtk_widget_set_sensitive (GTK_WIDGET (h4k_off_rb), TRUE);
-        gtk_widget_set_tooltip_text (GTK_WIDGET (analog_on_rb), _("Enable analogue composite video on the 3.5mm socket"));
-        gtk_widget_set_tooltip_text (GTK_WIDGET (analog_off_rb), _("Disable analogue composite video"));
-        gtk_widget_set_tooltip_text (GTK_WIDGET (h4k_on_rb), _("Enable 4Kp60 output on HDMI0 (the port closest to the power socket)"));
-        gtk_widget_set_tooltip_text (GTK_WIDGET (h4k_off_rb), _("Disable 4Kp60 output"));
-    }
-}
-
 /* Write the changes to the system when OK is pressed */
 
 static int process_changes (void)
@@ -1638,12 +1607,6 @@ static int process_changes (void)
         vsystem (SET_SPLASH, (1 - orig_splash));
     }
 
-    if (orig_pixdub != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pixdub_off_rb)))
-    {
-        vsystem (SET_PIXDUB, (1 - orig_pixdub));
-        reboot = 1;
-    }
-
     if (orig_ssh != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ssh_off_rb)))
     {
         vsystem (SET_SSH, (1 - orig_ssh));
@@ -1665,6 +1628,12 @@ static int process_changes (void)
     if (orig_overscan != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (overscan_off_rb)))
     {
         vsystem (SET_OVERSCAN, (1 - orig_overscan));
+        reboot = 1;
+    }
+
+    if (orig_pixdub != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pixdub_off_rb)))
+    {
+        vsystem (SET_PIXDUB, (1 - orig_pixdub));
         reboot = 1;
     }
 
@@ -1754,15 +1723,7 @@ static int process_changes (void)
         }
     }
 
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (h4k_on_rb)))
-    {
-        if (orig_pi4v != 1)
-        {
-            vsystem (SET_PI4_4KH);
-            reboot = 1;
-        }
-    }
-    else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (analog_on_rb)))
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (analog_on_rb)))
     {
         if (orig_pi4v != 2)
         {
@@ -1927,12 +1888,12 @@ int main (int argc, char *argv[])
     orig_hostname = get_string (GET_HOSTNAME);
     gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hostname);
 
+#ifdef __arm__
     pixdub_on_rb = gtk_builder_get_object (builder, "rb_pd_on");
     pixdub_off_rb = gtk_builder_get_object (builder, "rb_pd_off");
     if (orig_pixdub = get_status (GET_PIXDUB)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pixdub_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pixdub_on_rb), TRUE);
 
-#ifdef __arm__
     res_btn = gtk_builder_get_object (builder, "button_res");
     g_signal_connect (res_btn, "clicked", G_CALLBACK (on_set_res), NULL);
 
@@ -1994,33 +1955,10 @@ int main (int argc, char *argv[])
     gtk_widget_set_sensitive (GTK_WIDGET (vnc_on_rb), enable);
     gtk_widget_set_sensitive (GTK_WIDGET (vnc_off_rb), enable);
 
-    h4k_on_rb = gtk_builder_get_object (builder, "rb_4k_on");
-    h4k_off_rb = gtk_builder_get_object (builder, "rb_4k_off");
     analog_on_rb = gtk_builder_get_object (builder, "rb_analog_on");
     analog_off_rb = gtk_builder_get_object (builder, "rb_analog_off");
-    gtk_widget_set_sensitive (GTK_WIDGET (analog_on_rb), TRUE);
-    gtk_widget_set_sensitive (GTK_WIDGET (analog_off_rb), TRUE);
-    gtk_widget_set_sensitive (GTK_WIDGET (h4k_on_rb), TRUE);
-    gtk_widget_set_sensitive (GTK_WIDGET (h4k_off_rb), TRUE);
-    g_signal_connect (h4k_on_rb, "toggled", G_CALLBACK (on_pi4video), NULL);
-    g_signal_connect (analog_on_rb, "toggled", G_CALLBACK (on_pi4video), NULL);
-    orig_pi4v = get_status (GET_PI4_VID);
-    switch (orig_pi4v)
-    {
-        case 1 :    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (h4k_on_rb), TRUE);
-                    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_off_rb), TRUE);
-                    //gtk_widget_set_sensitive (GTK_WIDGET (analog_on_rb), FALSE);
-                    //gtk_widget_set_sensitive (GTK_WIDGET (analog_off_rb), FALSE);
-                    break;
-        case 2 :    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_on_rb), TRUE);
-                    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (h4k_off_rb), TRUE);
-                    //gtk_widget_set_sensitive (GTK_WIDGET (h4k_on_rb), FALSE);
-                    //gtk_widget_set_sensitive (GTK_WIDGET (h4k_off_rb), FALSE);
-                    break;
-        default :   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (h4k_off_rb), TRUE);
-                    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_off_rb), TRUE);
-                    break;
-    }
+    if ((orig_pi4v = get_status (GET_PI4_VID)) == 2) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_on_rb), TRUE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_off_rb), TRUE);
 
     switch (get_status (GET_PI_TYPE))
     {
@@ -2079,26 +2017,21 @@ int main (int argc, char *argv[])
      * hbox51 - set resolution          -           -           Y           Y
      * hbox52 - overscan                Y           Y           Y           Y
      * hbox53 - pixel doubling          -           -           Y           Y
-     * hbox54 - 4kp60                   -           -           -           -
-     * hbox55 - composite out           Y           -           Y           -
-     * hbox56 - blanking                Y           Y           Y           Y
+     * hbox54 - composite out           Y           -           Y           -
+     * hbox55 - blanking                Y           Y           Y           Y
      * hbox5a - filler                  -           Y           -           Y
-     * hbox5b - filler                  Y           Y           Y           Y
+     * hbox5b - filler                  Y           Y           -           -
      * hbox5c - filler                  Y           Y           -           -
-     * hbox5d - filler                  Y           Y           -           -
      */
 
-    SHOW_WIDGET ("hbox52");
-    HIDE_WIDGET ("hbox54");
-    SHOW_WIDGET ("hbox56");
     if (vsystem (IS_PI4))
     {
-        HIDE_WIDGET ("hbox55");
+        HIDE_WIDGET ("hbox54");
         SHOW_WIDGET ("hbox5a");
     }
     else 
     {
-        SHOW_WIDGET ("hbox55");
+        SHOW_WIDGET ("hbox54");
         HIDE_WIDGET ("hbox5a");
     }
 
@@ -2106,9 +2039,8 @@ int main (int argc, char *argv[])
     {
         SHOW_WIDGET ("hbox51");
         SHOW_WIDGET ("hbox53");
-        SHOW_WIDGET ("hbox5b");
+        HIDE_WIDGET ("hbox5b");
         HIDE_WIDGET ("hbox5c");
-        HIDE_WIDGET ("hbox5d");
     }
     else
     {
@@ -2116,7 +2048,6 @@ int main (int argc, char *argv[])
         HIDE_WIDGET ("hbox53");
         SHOW_WIDGET ("hbox5b");
         SHOW_WIDGET ("hbox5c");
-        SHOW_WIDGET ("hbox5d");
     }
 
     GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);
@@ -2132,6 +2063,7 @@ int main (int argc, char *argv[])
     }
 
     HIDE_WIDGET ("vbox50");
+    HIDE_WIDGET ("vbox30");
 
     HIDE_WIDGET ("hbox21");
     HIDE_WIDGET ("hbox23");
@@ -2141,6 +2073,7 @@ int main (int argc, char *argv[])
     HIDE_WIDGET ("hbox27");
     HIDE_WIDGET ("hbox28");
     HIDE_WIDGET ("hbox29");
+
     SHOW_WIDGET ("hbox2a");
     SHOW_WIDGET ("hbox2b");
     SHOW_WIDGET ("hbox2c");
@@ -2149,8 +2082,6 @@ int main (int argc, char *argv[])
     SHOW_WIDGET ("hbox2f");
     SHOW_WIDGET ("hbox2g");
     SHOW_WIDGET ("hbox2h");
-
-    HIDE_WIDGET ("vbox30");
 #endif
 
     GdkPixbuf *win_icon = gtk_window_get_icon (GTK_WINDOW (main_dlg));

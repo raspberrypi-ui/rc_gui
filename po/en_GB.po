@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rc_gui 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-02 10:15+0100\n"
+"POT-Creation-Date: 2020-01-15 13:40+0000\n"
 "PO-Revision-Date: 2018-04-17 12:41+0100\n"
 "Last-Translator: Simon Long <simon@raspberrypi.org>\n"
 "Language-Team: English (British)\n"
@@ -18,62 +18,38 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:725
+#: ../src/rc_gui.c:728
 msgid "Setting locale - please wait..."
 msgstr "Setting locale - please wait..."
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:963
+#: ../src/rc_gui.c:966
 msgid "Setting timezone - please wait..."
 msgstr "Setting timezone - please wait..."
 
-#: ../src/rc_gui.c:1006 ../src/rc_gui.c:1029
+#: ../src/rc_gui.c:1009 ../src/rc_gui.c:1032
 msgid "<not set>"
 msgstr "<not set>"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:1405
+#: ../src/rc_gui.c:1408
 msgid "Setting keyboard - please wait..."
 msgstr "Setting keyboard - please wait..."
 
-#: ../src/rc_gui.c:1434 ../data/rc_gui.ui.h:120
+#: ../src/rc_gui.c:1437 ../data/rc_gui.ui.h:121
 msgid "Changes will not take effect until a reboot"
 msgstr "Changes will not take effect until a reboot"
 
-#: ../src/rc_gui.c:1479 ../src/rc_gui.c:1480
+#: ../src/rc_gui.c:1492 ../src/rc_gui.c:1493
 msgid ""
 "The state of the boot partition cannot be changed while an overlay is active"
 msgstr ""
 "The state of the boot partition cannot be changed while an overlay is active"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:1500
+#: ../src/rc_gui.c:1513
 msgid "Setting up overlay - please wait..."
 msgstr "Setting up overlay - please wait..."
-
-#: ../src/rc_gui.c:1573 ../src/rc_gui.c:1574
-msgid "Composite video is not available when 4Kp60 HDMI is enabled"
-msgstr "Composite video is not available when 4Kp60 HDMI is enabled"
-
-#: ../src/rc_gui.c:1581 ../src/rc_gui.c:1582
-msgid "4Kp60 HDMI is not available when analogue video is enabled"
-msgstr "4Kp60 HDMI is not available when analogue video is enabled"
-
-#: ../src/rc_gui.c:1590 ../data/rc_gui.ui.h:36
-msgid "Enable analogue composite video on the 3.5mm socket"
-msgstr "Enable analogue composite video on the 3.5mm socket"
-
-#: ../src/rc_gui.c:1591 ../data/rc_gui.ui.h:37
-msgid "Disable analogue composite video"
-msgstr "Disable analogue composite video"
-
-#: ../src/rc_gui.c:1592 ../data/rc_gui.ui.h:33
-msgid "Enable 4Kp60 output on HDMI0 (the port closest to the power socket)"
-msgstr "Enable 4Kp60 output on HDMI0 (the port closest to the power socket)"
-
-#: ../src/rc_gui.c:1593 ../data/rc_gui.ui.h:34
-msgid "Disable 4Kp60 output"
-msgstr "Disable 4Kp60 output"
 
 #: ../data/rc_gui.ui.h:1 ../data/rc_gui.desktop.in.h:1
 msgid "Raspberry Pi Configuration"
@@ -164,222 +140,242 @@ msgid "Show text messages at boot"
 msgstr "Show text messages at boot"
 
 #: ../data/rc_gui.ui.h:23
-msgid "Resolution:"
-msgstr "Resolution:"
-
-#: ../data/rc_gui.ui.h:24
-msgid "Set _Resolution..."
-msgstr "Set _Resolution..."
-
-#: ../data/rc_gui.ui.h:25
-msgid "Set the resolution for HDMI and VNC"
-msgstr "Set the resolution for HDMI and VNC"
-
-#: ../data/rc_gui.ui.h:26
-msgid "Overscan:"
-msgstr "Underscan:"
-
-#: ../data/rc_gui.ui.h:27
-msgid "Enable overscan to show the edges of the screen"
-msgstr "Enable underscan if the desktop does not all fit on screen"
-
-#: ../data/rc_gui.ui.h:28
-msgid "Disable overscan to hide black outline on screen"
-msgstr "Disable underscan if there is a black border around screen"
-
-#: ../data/rc_gui.ui.h:29
-msgid "Pixel Doubling:"
-msgstr "Pixel Doubling:"
-
-#: ../data/rc_gui.ui.h:30
-msgid "Enable pixel doubling to improve usability on high-res screens"
-msgstr "Enable pixel doubling to improve usability on high-res screens"
-
-#: ../data/rc_gui.ui.h:31
-msgid "Disable pixel doubling for standard resolution screens"
-msgstr "Disable pixel doubling for standard resolution screens"
-
-#: ../data/rc_gui.ui.h:32
-msgid "4Kp60 HDMI:"
-msgstr "4Kp60 HDMI:"
-
-#: ../data/rc_gui.ui.h:35
-msgid "Composite Video:"
-msgstr "Composite Video:"
-
-#: ../data/rc_gui.ui.h:38
 msgid "System"
 msgstr "System"
 
+#: ../data/rc_gui.ui.h:24
+msgid "Resolution:"
+msgstr "Resolution:"
+
+#: ../data/rc_gui.ui.h:25
+msgid "Set _Resolution..."
+msgstr "Set _Resolution..."
+
+#: ../data/rc_gui.ui.h:26
+msgid "Set the resolution for HDMI and VNC"
+msgstr "Set the resolution for HDMI and VNC"
+
+#: ../data/rc_gui.ui.h:27
+msgid "Overscan:"
+msgstr "Underscan:"
+
+#: ../data/rc_gui.ui.h:28
+msgid "Enable overscan to show the edges of the screen"
+msgstr "Enable underscan if the desktop does not all fit on screen"
+
+#: ../data/rc_gui.ui.h:29
+msgid "Disable overscan to hide black outline on screen"
+msgstr "Disable underscan if there is a black border around screen"
+
+#: ../data/rc_gui.ui.h:30
+msgid "Pixel Doubling:"
+msgstr "Pixel Doubling:"
+
+#: ../data/rc_gui.ui.h:31
+msgid "Enable pixel doubling to improve usability on high-res screens"
+msgstr "Enable pixel doubling to improve usability on high-res screens"
+
+#: ../data/rc_gui.ui.h:32
+msgid "Disable pixel doubling for standard resolution screens"
+msgstr "Disable pixel doubling for standard resolution screens"
+
+#: ../data/rc_gui.ui.h:33
+msgid "Composite Video:"
+msgstr "Composite Video:"
+
+#: ../data/rc_gui.ui.h:34
+msgid "Enable analogue composite video on the 3.5mm socket"
+msgstr "Enable analogue composite video on the 3.5mm socket"
+
+#: ../data/rc_gui.ui.h:35
+msgid "Disable analogue composite video"
+msgstr "Disable analogue composite video"
+
+#: ../data/rc_gui.ui.h:36
+msgid "Screen Blanking:"
+msgstr "Screen Blanking:"
+
+#: ../data/rc_gui.ui.h:37
+msgid "Blank the screen after a period of inactivity"
+msgstr "Blank the screen after a period of inactivity"
+
+#: ../data/rc_gui.ui.h:38
+msgid "Never blank the screen"
+msgstr "Never blank the screen"
+
 #: ../data/rc_gui.ui.h:39
+msgid "Display"
+msgstr "Display"
+
+#: ../data/rc_gui.ui.h:40
 msgid "Camera:"
 msgstr "Camera:"
 
-#: ../data/rc_gui.ui.h:40
+#: ../data/rc_gui.ui.h:41
 msgid "Enable the Raspberry Pi Camera Board"
 msgstr "Enable the Raspberry Pi Camera Board"
 
-#: ../data/rc_gui.ui.h:41
+#: ../data/rc_gui.ui.h:42
 msgid "Disable the Raspberry Pi Camera Board"
 msgstr "Disable the Raspberry Pi Camera Board"
 
-#: ../data/rc_gui.ui.h:42
+#: ../data/rc_gui.ui.h:43
 msgid "SSH:"
 msgstr "SSH:"
 
-#: ../data/rc_gui.ui.h:43
+#: ../data/rc_gui.ui.h:44
 msgid "Enable remote access to this Pi via SSH"
 msgstr "Enable remote access to this Pi via SSH"
 
-#: ../data/rc_gui.ui.h:44
+#: ../data/rc_gui.ui.h:45
 msgid "Disable remote access to this Pi via SSH"
 msgstr "Disable remote access to this Pi via SSH"
 
-#: ../data/rc_gui.ui.h:45
+#: ../data/rc_gui.ui.h:46
 msgid "VNC:"
 msgstr "VNC:"
 
-#: ../data/rc_gui.ui.h:46
+#: ../data/rc_gui.ui.h:47
 msgid "Enable remote access to this Pi using RealVNC"
 msgstr "Enable remote access to this Pi using RealVNC"
 
-#: ../data/rc_gui.ui.h:47
+#: ../data/rc_gui.ui.h:48
 msgid "Disable remote access to this Pi using RealVNC"
 msgstr "Disable remote access to this Pi using RealVNC"
 
-#: ../data/rc_gui.ui.h:48
+#: ../data/rc_gui.ui.h:49
 msgid "SPI:"
 msgstr "SPI:"
 
-#: ../data/rc_gui.ui.h:49
+#: ../data/rc_gui.ui.h:50
 msgid "Enable the automatic loading of the SPI kernel module"
 msgstr "Enable the automatic loading of the SPI kernel module"
 
-#: ../data/rc_gui.ui.h:50
+#: ../data/rc_gui.ui.h:51
 msgid "Disable the automatic loading of the SPI kernel module"
 msgstr "Disable the automatic loading of the SPI kernel module"
 
-#: ../data/rc_gui.ui.h:51
+#: ../data/rc_gui.ui.h:52
 msgid "I2C:"
 msgstr "I2C:"
 
-#: ../data/rc_gui.ui.h:52
+#: ../data/rc_gui.ui.h:53
 msgid "Enable the automatic loading of the I2C kernel module"
 msgstr "Enable the automatic loading of the I2C kernel module"
 
-#: ../data/rc_gui.ui.h:53
+#: ../data/rc_gui.ui.h:54
 msgid "Disable the automatic loading of the I2C kernel module"
 msgstr "Disable the automatic loading of the I2C kernel module"
 
-#: ../data/rc_gui.ui.h:54
+#: ../data/rc_gui.ui.h:55
 msgid "Serial Port:"
 msgstr "Serial Port:"
 
-#: ../data/rc_gui.ui.h:55
+#: ../data/rc_gui.ui.h:56
 msgid "Enable the serial port over the GPIO pins"
 msgstr "Enable the serial port over the GPIO pins"
 
-#: ../data/rc_gui.ui.h:56
+#: ../data/rc_gui.ui.h:57
 msgid "Disable the serial port over the GPIO pins"
 msgstr "Disable the serial port over the GPIO pins"
 
-#: ../data/rc_gui.ui.h:57
+#: ../data/rc_gui.ui.h:58
 msgid "Serial Console:"
 msgstr "Serial Console:"
 
-#: ../data/rc_gui.ui.h:58
+#: ../data/rc_gui.ui.h:59
 msgid "Enable shell and kernel messages on the serial connection"
 msgstr "Enable shell and kernel messages on the serial connection"
 
-#: ../data/rc_gui.ui.h:59
+#: ../data/rc_gui.ui.h:60
 msgid "Disable shell and kernel messages on the serial connection"
 msgstr "Disable shell and kernel messages on the serial connection"
 
-#: ../data/rc_gui.ui.h:60
+#: ../data/rc_gui.ui.h:61
 msgid "1-Wire:"
 msgstr "1-Wire:"
 
-#: ../data/rc_gui.ui.h:61
+#: ../data/rc_gui.ui.h:62
 msgid "Enable 1-wire peripheral interface"
 msgstr "Enable 1-wire peripheral interface"
 
-#: ../data/rc_gui.ui.h:62
+#: ../data/rc_gui.ui.h:63
 msgid "Disable 1-wire peripheral interface"
 msgstr "Disable 1-wire peripheral interface"
 
-#: ../data/rc_gui.ui.h:63
+#: ../data/rc_gui.ui.h:64
 msgid "Remote GPIO:"
 msgstr "Remote GPIO:"
 
-#: ../data/rc_gui.ui.h:64
+#: ../data/rc_gui.ui.h:65
 msgid "Enable remote access to GPIO pins"
 msgstr "Enable remote access to GPIO pins"
 
-#: ../data/rc_gui.ui.h:65
+#: ../data/rc_gui.ui.h:66
 msgid "Disable remote access to GPIO pins"
 msgstr "Disable remote access to GPIO pins"
 
-#: ../data/rc_gui.ui.h:66
+#: ../data/rc_gui.ui.h:67
 msgid "Interfaces"
 msgstr "Interfaces"
 
-#: ../data/rc_gui.ui.h:67
+#: ../data/rc_gui.ui.h:68
 msgid "O_verclock:"
 msgstr "Overclock:"
 
-#: ../data/rc_gui.ui.h:68
+#: ../data/rc_gui.ui.h:69
 msgid "Set the level of overclock to control performance"
 msgstr "Set the level of overclock to control performance"
 
-#: ../data/rc_gui.ui.h:69
+#: ../data/rc_gui.ui.h:70
 msgid "None (700MHz)"
 msgstr "None (700MHz)"
 
-#: ../data/rc_gui.ui.h:70
+#: ../data/rc_gui.ui.h:71
 msgid "Modest (800MHz)"
 msgstr "Modest (800MHz)"
 
-#: ../data/rc_gui.ui.h:71
+#: ../data/rc_gui.ui.h:72
 msgid "Medium (900MHz)"
 msgstr "Medium (900MHz)"
 
-#: ../data/rc_gui.ui.h:72
+#: ../data/rc_gui.ui.h:73
 msgid "High (950MHz)"
 msgstr "High (950MHz)"
 
-#: ../data/rc_gui.ui.h:73
+#: ../data/rc_gui.ui.h:74
 msgid "Turbo (1000MHz)"
 msgstr "Turbo (1000MHz)"
 
-#: ../data/rc_gui.ui.h:74
+#: ../data/rc_gui.ui.h:75
 msgid "None (900MHz)"
 msgstr "None (900MHz)"
 
-#: ../data/rc_gui.ui.h:75
+#: ../data/rc_gui.ui.h:76
 msgid "High (1000MHz)"
 msgstr "High (1000MHz)"
 
-#: ../data/rc_gui.ui.h:76
+#: ../data/rc_gui.ui.h:77
 msgid "Not available"
 msgstr "Not available"
 
-#: ../data/rc_gui.ui.h:77
+#: ../data/rc_gui.ui.h:78
 msgid "_GPU Memory:"
 msgstr "GPU Memory:"
 
-#: ../data/rc_gui.ui.h:78
+#: ../data/rc_gui.ui.h:79
 msgid "Enter the amount of memory available to the GPU"
 msgstr "Enter the amount of memory available to the GPU"
 
-#: ../data/rc_gui.ui.h:79
+#: ../data/rc_gui.ui.h:80
 msgid "Overlay File System:"
 msgstr "Overlay File System:"
 
-#: ../data/rc_gui.ui.h:80
+#: ../data/rc_gui.ui.h:81
 msgid "Configure..."
 msgstr "Configure..."
 
-#: ../data/rc_gui.ui.h:81
+#: ../data/rc_gui.ui.h:82
 msgid ""
 "Configure an overlay file system to protect data from being overwritten or "
 "deleted"
@@ -387,63 +383,63 @@ msgstr ""
 "Configure an overlay file system to protect data from being overwritten or "
 "deleted"
 
-#: ../data/rc_gui.ui.h:82
+#: ../data/rc_gui.ui.h:83
 msgid "Performance"
 msgstr "Performance"
 
-#: ../data/rc_gui.ui.h:83
+#: ../data/rc_gui.ui.h:84
 msgid "Locale:"
 msgstr "Locale:"
 
-#: ../data/rc_gui.ui.h:84
+#: ../data/rc_gui.ui.h:85
 msgid "Set _Locale..."
 msgstr "Set _Locale..."
 
-#: ../data/rc_gui.ui.h:85
+#: ../data/rc_gui.ui.h:86
 msgid "Set internationalisation settings for units etc."
 msgstr "Set internationalisation settings for language, units etc."
 
-#: ../data/rc_gui.ui.h:86
+#: ../data/rc_gui.ui.h:87
 msgid "Timezone:"
 msgstr "Timezone:"
 
-#: ../data/rc_gui.ui.h:87
+#: ../data/rc_gui.ui.h:88
 msgid "Set _Timezone..."
 msgstr "Set _Timezone..."
 
-#: ../data/rc_gui.ui.h:88
+#: ../data/rc_gui.ui.h:89
 msgid "Set the timezone to be used by the internal clock"
 msgstr "Set the timezone to be used by the internal clock"
 
-#: ../data/rc_gui.ui.h:89
+#: ../data/rc_gui.ui.h:90
 msgid "Keyboard:"
 msgstr "Keyboard:"
 
-#: ../data/rc_gui.ui.h:90
+#: ../data/rc_gui.ui.h:91
 msgid "Set _Keyboard..."
 msgstr "Set _Keyboard..."
 
-#: ../data/rc_gui.ui.h:91
+#: ../data/rc_gui.ui.h:92
 msgid "Set international keyboard options"
 msgstr "Set international keyboard options"
 
-#: ../data/rc_gui.ui.h:92
+#: ../data/rc_gui.ui.h:93
 msgid "WiFi Country:"
 msgstr "WiFi Country:"
 
-#: ../data/rc_gui.ui.h:93
+#: ../data/rc_gui.ui.h:94
 msgid "Set _WiFi Country..."
 msgstr "Set _WiFi Country..."
 
-#: ../data/rc_gui.ui.h:94
+#: ../data/rc_gui.ui.h:95
 msgid "Set WiFi country code"
 msgstr "Set WiFi country code"
 
-#: ../data/rc_gui.ui.h:95
+#: ../data/rc_gui.ui.h:96
 msgid "Localisation"
 msgstr "Localisation"
 
-#: ../data/rc_gui.ui.h:96
+#: ../data/rc_gui.ui.h:97
 msgid ""
 "The Raspberry Pi Configuration application can only modify a standard "
 "configuration.\n"
@@ -464,11 +460,11 @@ msgstr ""
 "In order to use this application, you need to have the latest firmware "
 "installed, device tree enabled, and the lightdm application installed. "
 
-#: ../data/rc_gui.ui.h:101
+#: ../data/rc_gui.ui.h:102
 msgid "Filesystem Expanded"
 msgstr "Filesystem Expanded"
 
-#: ../data/rc_gui.ui.h:102
+#: ../data/rc_gui.ui.h:103
 msgid ""
 "The filesystem has been expanded.\n"
 "\n"
@@ -478,83 +474,83 @@ msgstr ""
 "\n"
 "The new space will not be available until you reboot your Raspberry Pi."
 
-#: ../data/rc_gui.ui.h:105
+#: ../data/rc_gui.ui.h:106
 msgid "Locale"
 msgstr "Locale"
 
-#: ../data/rc_gui.ui.h:106
+#: ../data/rc_gui.ui.h:107
 msgid "Language:"
 msgstr "Language:"
 
-#: ../data/rc_gui.ui.h:107
+#: ../data/rc_gui.ui.h:108
 msgid "Country:"
 msgstr "Country:"
 
-#: ../data/rc_gui.ui.h:108
+#: ../data/rc_gui.ui.h:109
 msgid "Character Set:"
 msgstr "Character Set:"
 
-#: ../data/rc_gui.ui.h:109
+#: ../data/rc_gui.ui.h:110
 msgid "Overlay File System"
 msgstr "Overlay File System"
 
-#: ../data/rc_gui.ui.h:110
+#: ../data/rc_gui.ui.h:111
 msgid "Overlay:"
 msgstr "Overlay:"
 
-#: ../data/rc_gui.ui.h:111
+#: ../data/rc_gui.ui.h:112
 msgid "Enabled"
 msgstr "Enabled"
 
-#: ../data/rc_gui.ui.h:112
+#: ../data/rc_gui.ui.h:113
 msgid "Enable a file system overlay; all changes will be lost on reboot"
 msgstr "Enable a file system overlay; all changes will be lost on reboot"
 
-#: ../data/rc_gui.ui.h:113
+#: ../data/rc_gui.ui.h:114
 msgid "Disabled"
 msgstr "Disabled"
 
-#: ../data/rc_gui.ui.h:114
+#: ../data/rc_gui.ui.h:115
 msgid "Disable a file system overlay; changes will be saved to the SD card"
 msgstr "Disable a file system overlay; changes will be saved to the SD card"
 
-#: ../data/rc_gui.ui.h:115
+#: ../data/rc_gui.ui.h:116
 msgid "Boot Partition:"
 msgstr "Boot Partition:"
 
-#: ../data/rc_gui.ui.h:116
+#: ../data/rc_gui.ui.h:117
 msgid "Read-only"
 msgstr "Read-only"
 
-#: ../data/rc_gui.ui.h:117
+#: ../data/rc_gui.ui.h:118
 msgid "Make the boot partition read-only"
 msgstr "Make the boot partition read-only"
 
-#: ../data/rc_gui.ui.h:118
+#: ../data/rc_gui.ui.h:119
 msgid "Read-write"
 msgstr "Read-write"
 
-#: ../data/rc_gui.ui.h:119
+#: ../data/rc_gui.ui.h:120
 msgid "Make the boot partition writable"
 msgstr "Make the boot partition writable"
 
-#: ../data/rc_gui.ui.h:121
+#: ../data/rc_gui.ui.h:122
 msgid "Change Password"
 msgstr "Change Password"
 
-#: ../data/rc_gui.ui.h:122
+#: ../data/rc_gui.ui.h:123
 msgid "Enter new password:"
 msgstr "Enter new password:"
 
-#: ../data/rc_gui.ui.h:123
+#: ../data/rc_gui.ui.h:124
 msgid "Confirm new password:"
 msgstr "Confirm new password:"
 
-#: ../data/rc_gui.ui.h:124
+#: ../data/rc_gui.ui.h:125
 msgid "Password Not Changed"
 msgstr "Password Not Changed"
 
-#: ../data/rc_gui.ui.h:125
+#: ../data/rc_gui.ui.h:126
 msgid ""
 "The password change failed.\n"
 "\n"
@@ -567,19 +563,19 @@ msgstr ""
 "This could be because the new password was not sufficiently complex or was "
 "too similar to the current password."
 
-#: ../data/rc_gui.ui.h:128
+#: ../data/rc_gui.ui.h:129
 msgid "Password Changed"
 msgstr "Password Changed"
 
-#: ../data/rc_gui.ui.h:129
+#: ../data/rc_gui.ui.h:130
 msgid "The password has been changed successfully."
 msgstr "The password has been changed successfully."
 
-#: ../data/rc_gui.ui.h:130
+#: ../data/rc_gui.ui.h:131
 msgid "Reboot needed"
 msgstr "Reboot needed"
 
-#: ../data/rc_gui.ui.h:131
+#: ../data/rc_gui.ui.h:132
 msgid ""
 "The changes you have made require the Raspberry Pi to be rebooted to take "
 "effect.\n"
@@ -591,41 +587,54 @@ msgstr ""
 "\n"
 "Would you like to reboot now? "
 
-#: ../data/rc_gui.ui.h:134
+#: ../data/rc_gui.ui.h:135
 msgid "Set Resolution"
 msgstr "Set Resolution"
 
-#: ../data/rc_gui.ui.h:135
+#: ../data/rc_gui.ui.h:136
 msgid "Timezone"
 msgstr "Timezone"
 
-#: ../data/rc_gui.ui.h:136
+#: ../data/rc_gui.ui.h:137
 msgid "Area:"
 msgstr "Area:"
 
-#: ../data/rc_gui.ui.h:137
+#: ../data/rc_gui.ui.h:138
 msgid "Location:"
 msgstr "Location:"
 
-#: ../data/rc_gui.ui.h:138
+#: ../data/rc_gui.ui.h:139
 msgid "WiFi Country Code"
 msgstr "WiFi Country"
 
-#: ../data/rc_gui.ui.h:139
+#: ../data/rc_gui.ui.h:140
 msgid "Keyboard"
 msgstr "Keyboard"
 
-#: ../data/rc_gui.ui.h:140
+#: ../data/rc_gui.ui.h:141
 msgid "Model:"
 msgstr "Model:"
 
-#: ../data/rc_gui.ui.h:141
+#: ../data/rc_gui.ui.h:142
 msgid "Layout:"
 msgstr "Layout:"
 
-#: ../data/rc_gui.ui.h:142
+#: ../data/rc_gui.ui.h:143
 msgid "Variant:"
 msgstr "Variant:"
+
+#: ../data/rc_gui.ui.h:144
+#, fuzzy
+msgid "Reboot Needed"
+msgstr "Reboot needed"
+
+#: ../data/rc_gui.ui.h:145
+msgid ""
+"Your system has recently been updated. Please reboot to ensure these updates "
+"have loaded before setting up the overlay file system."
+msgstr ""
+"Your system has recently been updated. Please reboot to ensure these updates "
+"have loaded before setting up the overlay file system."
 
 #: ../data/rc_gui.desktop.in.h:2
 msgid "Configure Raspberry Pi system"
@@ -634,3 +643,18 @@ msgstr "Configure Raspberry Pi system"
 #: ../data/pwdrcg.sh:6
 msgid "Password Required"
 msgstr "Password Required"
+
+#~ msgid "Composite video is not available when 4Kp60 HDMI is enabled"
+#~ msgstr "Composite video is not available when 4Kp60 HDMI is enabled"
+
+#~ msgid "4Kp60 HDMI is not available when analogue video is enabled"
+#~ msgstr "4Kp60 HDMI is not available when analogue video is enabled"
+
+#~ msgid "Enable 4Kp60 output on HDMI0 (the port closest to the power socket)"
+#~ msgstr "Enable 4Kp60 output on HDMI0 (the port closest to the power socket)"
+
+#~ msgid "Disable 4Kp60 output"
+#~ msgstr "Disable 4Kp60 output"
+
+#~ msgid "4Kp60 HDMI:"
+#~ msgstr "4Kp60 HDMI:"
