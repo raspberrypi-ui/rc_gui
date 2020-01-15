@@ -3,12 +3,12 @@ Copyright (c) 2018 Raspberry Pi (Trading) Ltd.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+modification, are permitted provided that the following conditions are met:1
     * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
+      notice, this list of conditions and the following disclaimer.1
     * Redistributions in binary form must reproduce the above copyright
       notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
+      documentation and/or other materials provided with the distribution.1
     * Neither the name of the copyright holder nor the
       names of its contributors may be used to endorse or promote products
       derived from this software without specific prior written permission.
@@ -83,6 +83,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_1WIRE       "raspi-config nonint do_onewire %d"
 #define GET_RGPIO       "raspi-config nonint get_rgpio"
 #define SET_RGPIO       "raspi-config nonint do_rgpio %d"
+#define GET_BLANK       "raspi-config nonint get_blanking"
+#define SET_BLANK       "raspi-config nonint do_blanking %d"
 #define GET_PI_TYPE     "raspi-config nonint get_pi_type"
 #define IS_PI4          "raspi-config nonint is_pifour"
 #define GET_FKMS        "raspi-config nonint is_fkms"
@@ -119,7 +121,8 @@ static GObject *expandfs_btn, *passwd_btn, *res_btn, *locale_btn, *timezone_btn,
 static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb, *pixdub_on_rb, *pixdub_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
-static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb, *h4k_on_rb, *h4k_off_rb, *analog_on_rb, *analog_off_rb;
+static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb, *h4k_on_rb, *h4k_off_rb;
+static GObject *analog_on_rb, *analog_off_rb, *blank_on_rb, *blank_off_rb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_rb, *ofs_dis_rb, *bp_ro_rb, *bp_rw_rb, *ofs_lbl;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwentry3_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
@@ -133,7 +136,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 static char *orig_hostname;
 static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
 static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub, orig_pi4v;
-static int orig_ofs, orig_bpro;
+static int orig_ofs, orig_bpro, orig_blank;
 
 /* Reboot flag set after locale change */
 
@@ -1655,6 +1658,11 @@ static int process_changes (void)
         reboot = 1;
     }
 
+    if (orig_blank != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (blank_off_rb)))
+    {
+        vsystem (SET_BLANK, (1 - orig_blank));
+    }
+
     if (orig_vnc != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (vnc_off_rb)))
     {
         vsystem (SET_VNC, (1 - orig_vnc));
@@ -1806,6 +1814,9 @@ static int has_wifi (void)
 
 
 /* The dialog... */
+
+#define SHOW_WIDGET(name) item = gtk_builder_get_object (builder, name); gtk_widget_show (GTK_WIDGET (item));
+#define HIDE_WIDGET(name) item = gtk_builder_get_object (builder, name); gtk_widget_hide (GTK_WIDGET (item));
 
 int main (int argc, char *argv[])
 {
@@ -1961,6 +1972,11 @@ int main (int argc, char *argv[])
     if (orig_vnc = get_status (GET_VNC)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vnc_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vnc_on_rb), TRUE);
 
+    blank_on_rb = gtk_builder_get_object (builder, "rb_blank_on");
+    blank_off_rb = gtk_builder_get_object (builder, "rb_blank_off");
+    if (orig_blank = get_status (GET_BLANK)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (blank_off_rb), TRUE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (blank_on_rb), TRUE);
+
     // disable the buttons if RealVNC isn't installed
     gboolean enable = TRUE;
     struct stat buf;
@@ -2047,59 +2063,50 @@ int main (int argc, char *argv[])
     ofs_btn = gtk_builder_get_object (builder, "button_ofs");
     g_signal_connect (ofs_btn, "clicked", G_CALLBACK (on_set_ofs), NULL);
 
-    item = gtk_builder_get_object (builder, "hbox1a");
-    gtk_widget_hide (GTK_WIDGET (item));
+    /*  Video options for various platforms
+     *
+     *                              FKMS,Pi4    FKMS,Pi3    Leg,Pi4     Leg,Pi3
+     * hbox51 - set resolution          -           -           Y           Y
+     * hbox52 - overscan                Y           Y           Y           Y
+     * hbox53 - pixel doubling          -           -           Y           Y
+     * hbox54 - 4kp60                   -           -           -           -
+     * hbox55 - composite out           Y           -           Y           -
+     * hbox56 - blanking                Y           Y           Y           Y
+     * hbox5a - filler                  -           Y           -           Y
+     * hbox5b - filler                  Y           Y           Y           Y
+     * hbox5c - filler                  Y           Y           -           -
+     * hbox5d - filler                  Y           Y           -           -
+     */
+
+    SHOW_WIDGET ("hbox52");
+    HIDE_WIDGET ("hbox54");
+    SHOW_WIDGET ("hbox56");
+    if (vsystem (IS_PI4))
+    {
+        HIDE_WIDGET ("hbox55");
+        SHOW_WIDGET ("hbox5a");
+    }
+    else 
+    {
+        SHOW_WIDGET ("hbox55");
+        HIDE_WIDGET ("hbox5a");
+    }
+
     if (vsystem (GET_FKMS))
     {
-        item = gtk_builder_get_object (builder, "hbox17");
-        gtk_widget_show (GTK_WIDGET (item));
-        item = gtk_builder_get_object (builder, "hbox18");
-        gtk_widget_show (GTK_WIDGET (item));
-        item = gtk_builder_get_object (builder, "hbox19");
-        gtk_widget_show (GTK_WIDGET (item));
-        if (vsystem (IS_PI4))
-        {
-            item = gtk_builder_get_object (builder, "hbox1b");
-            gtk_widget_hide (GTK_WIDGET (item));
-        }
-        else
-        {
-            item = gtk_builder_get_object (builder, "hbox1b");
-            gtk_widget_show (GTK_WIDGET (item));
-        }
-        item = gtk_builder_get_object (builder, "hbox1c");
-        gtk_widget_hide (GTK_WIDGET (item));
-        item = gtk_builder_get_object (builder, "hbox1d");
-        gtk_widget_hide (GTK_WIDGET (item));
-        item = gtk_builder_get_object (builder, "hbox1e");
-        gtk_widget_hide (GTK_WIDGET (item));
+        SHOW_WIDGET ("hbox51");
+        SHOW_WIDGET ("hbox53");
+        SHOW_WIDGET ("hbox5b");
+        HIDE_WIDGET ("hbox5c");
+        HIDE_WIDGET ("hbox5d");
     }
     else
     {
-        item = gtk_builder_get_object (builder, "hbox17");
-        gtk_widget_hide (GTK_WIDGET (item));
-        item = gtk_builder_get_object (builder, "hbox18");
-        gtk_widget_show (GTK_WIDGET (item));
-        item = gtk_builder_get_object (builder, "hbox19");
-        gtk_widget_hide (GTK_WIDGET (item));
-        if (vsystem (IS_PI4))
-        {
-            item = gtk_builder_get_object (builder, "hbox1b");
-            gtk_widget_hide (GTK_WIDGET (item));
-            item = gtk_builder_get_object (builder, "hbox1c");
-            gtk_widget_show (GTK_WIDGET (item));
-        }
-        else
-        {
-            item = gtk_builder_get_object (builder, "hbox1b");
-            gtk_widget_show (GTK_WIDGET (item));
-            item = gtk_builder_get_object (builder, "hbox1c");
-            gtk_widget_hide (GTK_WIDGET (item));
-        }
-        item = gtk_builder_get_object (builder, "hbox1d");
-        gtk_widget_show (GTK_WIDGET (item));
-        item = gtk_builder_get_object (builder, "hbox1e");
-        gtk_widget_hide (GTK_WIDGET (item));
+        HIDE_WIDGET ("hbox51");
+        HIDE_WIDGET ("hbox53");
+        SHOW_WIDGET ("hbox5b");
+        SHOW_WIDGET ("hbox5c");
+        SHOW_WIDGET ("hbox5d");
     }
 
     GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);
@@ -2113,50 +2120,27 @@ int main (int argc, char *argv[])
         gtk_widget_set_sensitive (GTK_WIDGET (splash_on_rb), FALSE);
         gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), FALSE);
     }
-    item = gtk_builder_get_object (builder, "hbox17");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox18");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox19");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox1a");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox1b");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox21");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox23");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox24");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox25");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox26");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox27");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox28");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox29");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox2a");
-    gtk_widget_show (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox2b");
-    gtk_widget_show (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox2c");
-    gtk_widget_show (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox2d");
-    gtk_widget_show (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox2e");
-    gtk_widget_show (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "vbox30");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox47");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox48");
-    gtk_widget_hide (GTK_WIDGET (item));
-    item = gtk_builder_get_object (builder, "hbox49");
-    gtk_widget_hide (GTK_WIDGET (item));
+
+    HIDE_WIDGET ("vbox50");
+
+    HIDE_WIDGET ("hbox21");
+    HIDE_WIDGET ("hbox23");
+    HIDE_WIDGET ("hbox24");
+    HIDE_WIDGET ("hbox25");
+    HIDE_WIDGET ("hbox26");
+    HIDE_WIDGET ("hbox27");
+    HIDE_WIDGET ("hbox28");
+    HIDE_WIDGET ("hbox29");
+    SHOW_WIDGET ("hbox2a");
+    SHOW_WIDGET ("hbox2b");
+    SHOW_WIDGET ("hbox2c");
+    SHOW_WIDGET ("hbox2d");
+    SHOW_WIDGET ("hbox2e");
+    SHOW_WIDGET ("hbox2f");
+    SHOW_WIDGET ("hbox2g");
+    SHOW_WIDGET ("hbox2h");
+
+    HIDE_WIDGET ("vbox30");
 #endif
 
     GdkPixbuf *win_icon = gtk_window_get_icon (GTK_WINDOW (main_dlg));
