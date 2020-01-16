@@ -1,3 +1,11 @@
+rc-gui (1.33) buster; urgency=medium
+
+  * Split system and display settings onto separate tabs
+  * Add screen blanking option
+  * Check kernel is in sync before enabling overlays
+
+ -- Simon Long <simon@raspberrypi.org>  Thu, 16 Jan 2020 10:06:17 +0000
+
 rc-gui (1.32) buster; urgency=medium
 
   * Add overlay file system control
