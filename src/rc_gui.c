@@ -111,6 +111,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_OFS_OFF     "raspi-config nonint disable_overlayfs"
 #define SET_BOOTP_RO    "raspi-config nonint enable_bootro"
 #define SET_BOOTP_RW    "raspi-config nonint disable_bootro"
+#define CHECK_UNAME     "raspi-config nonint is_uname_current"
 #define WLAN_INTERFACES "raspi-config nonint list_wlan_interfaces"
 #define DEFAULT_GPU_MEM "vcgencmd get_mem gpu | cut -d = -f 2 | cut -d M -f 1"
 #define CHANGE_PASSWD   "echo \"$SUDO_USER:%s\" | chpasswd"
@@ -1454,7 +1455,7 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
     builder = gtk_builder_new ();
     gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
 
-    if (0)  /*!!!!!*/
+    if (CHECK_UNAME)
     {
         dlg = (GtkWidget *) gtk_builder_get_object (builder, "ofswarndialog");
         gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
