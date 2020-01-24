@@ -1641,6 +1641,7 @@ static int process_changes (void)
     if (orig_blank != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (blank_off_rb)))
     {
         vsystem (SET_BLANK, (1 - orig_blank));
+        reboot = 1;
     }
 
     if (orig_vnc != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (vnc_off_rb)))
