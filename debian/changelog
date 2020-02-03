@@ -1,3 +1,9 @@
+rc-gui (1.34) buster; urgency=medium
+
+  * Restore pixel doubling option for FKMS platforms using xrandr
+
+ -- Simon Long <simon@raspberrypi.org>  Mon, 03 Feb 2020 09:31:47 +0000
+
 rc-gui (1.33) buster; urgency=medium
 
   * Split system and display settings onto separate tabs

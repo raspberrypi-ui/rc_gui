@@ -1890,12 +1890,17 @@ int main (int argc, char *argv[])
     orig_hostname = get_string (GET_HOSTNAME);
     gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hostname);
 
-#ifdef __arm__
     pixdub_on_rb = gtk_builder_get_object (builder, "rb_pd_on");
     pixdub_off_rb = gtk_builder_get_object (builder, "rb_pd_off");
     if (orig_pixdub = get_status (GET_PIXDUB)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pixdub_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pixdub_on_rb), TRUE);
 
+    blank_on_rb = gtk_builder_get_object (builder, "rb_blank_on");
+    blank_off_rb = gtk_builder_get_object (builder, "rb_blank_off");
+    if (orig_blank = get_status (GET_BLANK)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (blank_off_rb), TRUE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (blank_on_rb), TRUE);
+
+#ifdef __arm__
     res_btn = gtk_builder_get_object (builder, "button_res");
     g_signal_connect (res_btn, "clicked", G_CALLBACK (on_set_res), NULL);
 
@@ -1944,11 +1949,6 @@ int main (int argc, char *argv[])
     vnc_off_rb = gtk_builder_get_object (builder, "rb_vnc_off");
     if (orig_vnc = get_status (GET_VNC)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vnc_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vnc_on_rb), TRUE);
-
-    blank_on_rb = gtk_builder_get_object (builder, "rb_blank_on");
-    blank_off_rb = gtk_builder_get_object (builder, "rb_blank_off");
-    if (orig_blank = get_status (GET_BLANK)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (blank_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (blank_on_rb), TRUE);
 
     // disable the buttons if RealVNC isn't installed
     gboolean enable = TRUE;
@@ -2015,15 +2015,15 @@ int main (int argc, char *argv[])
 
     /*  Video options for various platforms
      *
-     *                              FKMS,Pi4    FKMS,Pi3    Leg,Pi4     Leg,Pi3
-     * hbox51 - set resolution          -           -           Y           Y
-     * hbox52 - overscan                Y           Y           Y           Y
-     * hbox53 - pixel doubling          -           -           Y           Y
-     * hbox54 - composite out           Y           -           Y           -
-     * hbox55 - blanking                Y           Y           Y           Y
-     * hbox5a - filler                  -           Y           -           Y
-     * hbox5b - filler                  Y           Y           -           -
-     * hbox5c - filler                  Y           Y           -           -
+     *                              FKMS,Pi4    FKMS,Pi3    Leg,Pi4     Leg,Pi3     x86
+     * hbox51 - set resolution          -           -           Y           Y        -
+     * hbox52 - overscan                Y           Y           Y           Y        -
+     * hbox53 - pixel doubling          Y           Y           Y           Y        Y
+     * hbox54 - composite out           Y           -           Y           -        -
+     * hbox55 - blanking                Y           Y           Y           Y        Y
+     * hbox5a - filler                  -           Y           -           Y        Y
+     * hbox5b - filler                  Y           Y           -           -        Y
+     * hbox5c - filler                  -           -           -           -        Y
      */
 
     if (vsystem (IS_PI4))
@@ -2040,16 +2040,12 @@ int main (int argc, char *argv[])
     if (vsystem (GET_FKMS))
     {
         SHOW_WIDGET ("hbox51");
-        SHOW_WIDGET ("hbox53");
         HIDE_WIDGET ("hbox5b");
-        HIDE_WIDGET ("hbox5c");
     }
     else
     {
         HIDE_WIDGET ("hbox51");
-        HIDE_WIDGET ("hbox53");
         SHOW_WIDGET ("hbox5b");
-        SHOW_WIDGET ("hbox5c");
     }
 
     GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);
@@ -2064,7 +2060,6 @@ int main (int argc, char *argv[])
         gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), FALSE);
     }
 
-    HIDE_WIDGET ("vbox50");
     HIDE_WIDGET ("vbox30");
 
     HIDE_WIDGET ("hbox21");
@@ -2084,6 +2079,13 @@ int main (int argc, char *argv[])
     SHOW_WIDGET ("hbox2f");
     SHOW_WIDGET ("hbox2g");
     SHOW_WIDGET ("hbox2h");
+
+    HIDE_WIDGET ("hbox51");
+    HIDE_WIDGET ("hbox52");
+    HIDE_WIDGET ("hbox54");
+    SHOW_WIDGET ("hbox5a");
+    SHOW_WIDGET ("hbox5b");
+    SHOW_WIDGET ("hbox5c");
 #endif
 
     GdkPixbuf *win_icon = gtk_window_get_icon (GTK_WINDOW (main_dlg));
