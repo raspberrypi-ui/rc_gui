@@ -1619,6 +1619,18 @@ static int process_changes (void)
         reboot = 1;
     }
 
+    if (orig_pixdub != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pixdub_off_rb)))
+    {
+        vsystem (SET_PIXDUB, (1 - orig_pixdub));
+        reboot = 1;
+    }
+
+    if (orig_blank != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (blank_off_rb)))
+    {
+        vsystem (SET_BLANK, (1 - orig_blank));
+        reboot = 1;
+    }
+
 #ifdef __arm__
     if (orig_camera != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (camera_off_rb)))
     {
@@ -1629,18 +1641,6 @@ static int process_changes (void)
     if (orig_overscan != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (overscan_off_rb)))
     {
         vsystem (SET_OVERSCAN, (1 - orig_overscan));
-        reboot = 1;
-    }
-
-    if (orig_pixdub != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pixdub_off_rb)))
-    {
-        vsystem (SET_PIXDUB, (1 - orig_pixdub));
-        reboot = 1;
-    }
-
-    if (orig_blank != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (blank_off_rb)))
-    {
-        vsystem (SET_BLANK, (1 - orig_blank));
         reboot = 1;
     }
 
