@@ -113,6 +113,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_BOOTP_RW    "raspi-config nonint disable_bootro"
 #define CHECK_UNAME     "raspi-config nonint is_uname_current"
 #define WLAN_INTERFACES "raspi-config nonint list_wlan_interfaces"
+#define VNC_INSTALLED   "raspi-config nonint is_installed realvnc-vnc-server"
 #define DEFAULT_GPU_MEM "vcgencmd get_mem gpu | cut -d = -f 2 | cut -d M -f 1"
 #define CHANGE_PASSWD   "echo \"$SUDO_USER:%s\" | chpasswd"
 
@@ -1951,11 +1952,11 @@ int main (int argc, char *argv[])
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vnc_on_rb), TRUE);
 
     // disable the buttons if RealVNC isn't installed
-    gboolean enable = TRUE;
-    struct stat buf;
-    if (stat ("/usr/share/doc/realvnc-vnc-server", &buf)) enable = FALSE;
-    gtk_widget_set_sensitive (GTK_WIDGET (vnc_on_rb), enable);
-    gtk_widget_set_sensitive (GTK_WIDGET (vnc_off_rb), enable);
+    if (vsystem (VNC_INSTALLED))
+    {
+        gtk_widget_set_sensitive (GTK_WIDGET (vnc_on_rb), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (vnc_off_rb), FALSE);
+    }
 
     analog_on_rb = gtk_builder_get_object (builder, "rb_analog_on");
     analog_off_rb = gtk_builder_get_object (builder, "rb_analog_off");
