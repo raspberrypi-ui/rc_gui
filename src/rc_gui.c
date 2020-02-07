@@ -114,6 +114,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define CHECK_UNAME     "raspi-config nonint is_uname_current"
 #define WLAN_INTERFACES "raspi-config nonint list_wlan_interfaces"
 #define VNC_INSTALLED   "raspi-config nonint is_installed realvnc-vnc-server"
+#define XSCR_INSTALLED  "raspi-config nonint is_installed xscreensaver"
 #define DEFAULT_GPU_MEM "vcgencmd get_mem gpu | cut -d = -f 2 | cut -d M -f 1"
 #define CHANGE_PASSWD   "echo \"$SUDO_USER:%s\" | chpasswd"
 
@@ -1565,6 +1566,8 @@ static void on_serial_on (GtkButton* btn, gpointer ptr)
     {
         gtk_widget_set_sensitive (GTK_WIDGET (scons_on_rb), TRUE);
         gtk_widget_set_sensitive (GTK_WIDGET (scons_off_rb), TRUE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (scons_on_rb), _("Enable shell and kernel messages on the serial connection"));
+        gtk_widget_set_tooltip_text (GTK_WIDGET (scons_off_rb), _("Disable shell and kernel messages on the serial connection"));
     }
 }
 
@@ -1575,6 +1578,8 @@ static void on_serial_off (GtkButton* btn, gpointer ptr)
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scons_off_rb), TRUE);
         gtk_widget_set_sensitive (GTK_WIDGET (scons_on_rb), FALSE);
         gtk_widget_set_sensitive (GTK_WIDGET (scons_off_rb), FALSE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (scons_on_rb), _("This setting cannot be changed while the serial port is disabled"));
+        gtk_widget_set_tooltip_text (GTK_WIDGET (scons_off_rb), _("This setting cannot be changed while the serial port is disabled"));
     }
 }
 
@@ -1901,6 +1906,14 @@ int main (int argc, char *argv[])
     if (orig_blank = get_status (GET_BLANK)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (blank_off_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (blank_on_rb), TRUE);
 
+    if (!vsystem (XSCR_INSTALLED))
+    {
+        gtk_widget_set_sensitive (GTK_WIDGET (blank_on_rb), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (blank_off_rb), FALSE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (blank_on_rb), _("This setting is overridden when Xscreensaver is installed"));
+        gtk_widget_set_tooltip_text (GTK_WIDGET (blank_off_rb), _("This setting is overridden when Xscreensaver is installed"));
+    }
+
 #ifdef __arm__
     res_btn = gtk_builder_get_object (builder, "button_res");
     g_signal_connect (res_btn, "clicked", G_CALLBACK (on_set_res), NULL);
@@ -1956,6 +1969,8 @@ int main (int argc, char *argv[])
     {
         gtk_widget_set_sensitive (GTK_WIDGET (vnc_on_rb), FALSE);
         gtk_widget_set_sensitive (GTK_WIDGET (vnc_off_rb), FALSE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_on_rb), _("The VNC server is not installed"));
+        gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_off_rb), _("The VNC server is not installed"));
     }
 
     analog_on_rb = gtk_builder_get_object (builder, "rb_analog_on");

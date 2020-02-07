@@ -1,3 +1,9 @@
+rc-gui (1.36) buster; urgency=medium
+
+  * Disable screen blanking switch if xscreensaver installed; update some tooltips
+
+ -- Simon Long <simon@raspberrypi.org>  Fri, 07 Feb 2020 13:45:55 +0000
+
 rc-gui (1.35) buster; urgency=medium
 
   * Improved test to see if VNC Server is installed

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rc_gui 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-15 13:40+0000\n"
+"POT-Creation-Date: 2020-02-07 13:43+0000\n"
 "PO-Revision-Date: 2018-04-17 12:41+0100\n"
 "Last-Translator: Simon Long <simon@raspberrypi.org>\n"
 "Language-Team: English (British)\n"
@@ -18,38 +18,58 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:728
+#: ../src/rc_gui.c:731
 msgid "Setting locale - please wait..."
 msgstr "Setting locale - please wait..."
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:966
+#: ../src/rc_gui.c:969
 msgid "Setting timezone - please wait..."
 msgstr "Setting timezone - please wait..."
 
-#: ../src/rc_gui.c:1009 ../src/rc_gui.c:1032
+#: ../src/rc_gui.c:1012 ../src/rc_gui.c:1035
 msgid "<not set>"
 msgstr "<not set>"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:1408
+#: ../src/rc_gui.c:1411
 msgid "Setting keyboard - please wait..."
 msgstr "Setting keyboard - please wait..."
 
-#: ../src/rc_gui.c:1437 ../data/rc_gui.ui.h:121
+#: ../src/rc_gui.c:1440 ../data/rc_gui.ui.h:121
 msgid "Changes will not take effect until a reboot"
 msgstr "Changes will not take effect until a reboot"
 
-#: ../src/rc_gui.c:1492 ../src/rc_gui.c:1493
+#: ../src/rc_gui.c:1495 ../src/rc_gui.c:1496
 msgid ""
 "The state of the boot partition cannot be changed while an overlay is active"
 msgstr ""
 "The state of the boot partition cannot be changed while an overlay is active"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:1513
+#: ../src/rc_gui.c:1516
 msgid "Setting up overlay - please wait..."
 msgstr "Setting up overlay - please wait..."
+
+#: ../src/rc_gui.c:1569 ../data/rc_gui.ui.h:59
+msgid "Enable shell and kernel messages on the serial connection"
+msgstr "Enable shell and kernel messages on the serial connection"
+
+#: ../src/rc_gui.c:1570 ../data/rc_gui.ui.h:60
+msgid "Disable shell and kernel messages on the serial connection"
+msgstr "Disable shell and kernel messages on the serial connection"
+
+#: ../src/rc_gui.c:1581 ../src/rc_gui.c:1582
+msgid "This setting cannot be changed while the serial port is disabled"
+msgstr "This setting cannot be changed while the serial port is disabled"
+
+#: ../src/rc_gui.c:1913 ../src/rc_gui.c:1914
+msgid "This setting is overridden when Xscreensaver is installed"
+msgstr "This setting is overridden when Xscreensaver is installed"
+
+#: ../src/rc_gui.c:1972 ../src/rc_gui.c:1973
+msgid "The VNC server is not installed"
+msgstr "The VNC server is not installed"
 
 #: ../data/rc_gui.ui.h:1 ../data/rc_gui.desktop.in.h:1
 msgid "Raspberry Pi Configuration"
@@ -282,14 +302,6 @@ msgstr "Disable the serial port over the GPIO pins"
 #: ../data/rc_gui.ui.h:58
 msgid "Serial Console:"
 msgstr "Serial Console:"
-
-#: ../data/rc_gui.ui.h:59
-msgid "Enable shell and kernel messages on the serial connection"
-msgstr "Enable shell and kernel messages on the serial connection"
-
-#: ../data/rc_gui.ui.h:60
-msgid "Disable shell and kernel messages on the serial connection"
-msgstr "Disable shell and kernel messages on the serial connection"
 
 #: ../data/rc_gui.ui.h:61
 msgid "1-Wire:"
