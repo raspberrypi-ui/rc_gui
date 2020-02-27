@@ -1,3 +1,9 @@
+rc-gui (1.37) buster; urgency=medium
+
+  * Check for Pi or x86 at runtime rather than compile time
+
+ -- Simon Long <simon@raspberrypi.org>  Thu, 27 Feb 2020 07:31:26 +0000
+
 rc-gui (1.36) buster; urgency=medium
 
   * Disable screen blanking switch if xscreensaver installed; update some tooltips

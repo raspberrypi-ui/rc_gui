@@ -86,6 +86,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_BLANK       "raspi-config nonint get_blanking"
 #define SET_BLANK       "raspi-config nonint do_blanking %d"
 #define GET_PI_TYPE     "raspi-config nonint get_pi_type"
+#define IS_PI           "raspi-config nonint is_pi"
 #define IS_PI4          "raspi-config nonint is_pifour"
 #define GET_FKMS        "raspi-config nonint is_fkms"
 #define GET_OVERCLOCK   "raspi-config nonint get_config_var arm_freq /boot/config.txt"
@@ -1637,117 +1638,118 @@ static int process_changes (void)
         reboot = 1;
     }
 
-#ifdef __arm__
-    if (orig_camera != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (camera_off_rb)))
+    if (!vsystem (IS_PI))
     {
-        vsystem (SET_CAMERA, (1 - orig_camera));
-        reboot = 1;
-    }
+        if (orig_camera != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (camera_off_rb)))
+        {
+            vsystem (SET_CAMERA, (1 - orig_camera));
+            reboot = 1;
+        }
 
-    if (orig_overscan != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (overscan_off_rb)))
-    {
-        vsystem (SET_OVERSCAN, (1 - orig_overscan));
-        reboot = 1;
-    }
+        if (orig_overscan != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (overscan_off_rb)))
+        {
+            vsystem (SET_OVERSCAN, (1 - orig_overscan));
+            reboot = 1;
+        }
 
-    if (orig_vnc != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (vnc_off_rb)))
-    {
-        vsystem (SET_VNC, (1 - orig_vnc));
-    }
+        if (orig_vnc != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (vnc_off_rb)))
+        {
+            vsystem (SET_VNC, (1 - orig_vnc));
+        }
 
-    if (orig_spi != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (spi_off_rb)))
-    {
-        vsystem (SET_SPI, (1 - orig_spi));
-    }
+        if (orig_spi != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (spi_off_rb)))
+        {
+            vsystem (SET_SPI, (1 - orig_spi));
+        }
 
-    if (orig_i2c != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (i2c_off_rb)))
-    {
-        vsystem (SET_I2C, (1 - orig_i2c));
-    }
+        if (orig_i2c != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (i2c_off_rb)))
+        {
+            vsystem (SET_I2C, (1 - orig_i2c));
+        }
 
-    if (orig_serial != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (serial_off_rb)) ||
-        orig_scons != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scons_off_rb)))
-    {
-        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (serial_off_rb)))
-            vsystem (SET_SERIAL, 1);
+        if (orig_serial != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (serial_off_rb)) ||
+            orig_scons != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scons_off_rb)))
+        {
+            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (serial_off_rb)))
+                vsystem (SET_SERIAL, 1);
+            else
+            {
+                if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scons_off_rb)))
+                    vsystem (SET_SERIAL, 2);
+                else
+                    vsystem (SET_SERIAL, 0);
+            }
+            reboot = 1;
+        }
+
+        if (orig_onewire != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (onewire_off_rb)))
+        {
+            vsystem (SET_1WIRE, (1 - orig_onewire));
+            reboot = 1;
+        }
+
+        if (orig_rgpio != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rgpio_off_rb)))
+        {
+            vsystem (SET_RGPIO, (1 - orig_rgpio));
+        }
+
+        if (orig_gpumem != gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)))
+        {
+            vsystem (SET_GPU_MEM, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)));
+            reboot = 1;
+        }
+
+        if (orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
+        {
+            switch (get_status (GET_PI_TYPE))
+            {
+                case 1:
+                    switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
+                    {
+                        case 0 :    vsystem (SET_OVERCLOCK, "None");
+                                    break;
+                        case 1 :    vsystem (SET_OVERCLOCK, "Modest");
+                                    break;
+                        case 2 :    vsystem (SET_OVERCLOCK, "Medium");
+                                    break;
+                        case 3 :    vsystem (SET_OVERCLOCK, "High");
+                                    break;
+                        case 4 :    vsystem (SET_OVERCLOCK, "Turbo");
+                                    break;
+                    }
+                    reboot = 1;
+                    break;
+
+                case 2:
+                    switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
+                    {
+                        case 0 :    vsystem (SET_OVERCLOCK, "None");
+                                    break;
+                        case 1 :    vsystem (SET_OVERCLOCK, "High");
+                                    break;
+                    }
+                    reboot = 1;
+                    break;
+            }
+        }
+
+        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (analog_on_rb)))
+        {
+            if (orig_pi4v != 2)
+            {
+                vsystem (SET_PI4_ATV);
+                reboot = 1;
+            }
+        }
         else
         {
-            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scons_off_rb)))
-                vsystem (SET_SERIAL, 2);
-            else
-                vsystem (SET_SERIAL, 0);
-        }
-        reboot = 1;
-    }
-
-    if (orig_onewire != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (onewire_off_rb)))
-    {
-        vsystem (SET_1WIRE, (1 - orig_onewire));
-        reboot = 1;
-    }
-
-    if (orig_rgpio != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rgpio_off_rb)))
-    {
-        vsystem (SET_RGPIO, (1 - orig_rgpio));
-    }
-
-    if (orig_gpumem != gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)))
-    {
-        vsystem (SET_GPU_MEM, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)));
-        reboot = 1;
-    }
-
-    if (orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-    {
-        switch (get_status (GET_PI_TYPE))
-        {
-            case 1:
-                switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-                {
-                    case 0 :    vsystem (SET_OVERCLOCK, "None");
-                                break;
-                    case 1 :    vsystem (SET_OVERCLOCK, "Modest");
-                                break;
-                    case 2 :    vsystem (SET_OVERCLOCK, "Medium");
-                                break;
-                    case 3 :    vsystem (SET_OVERCLOCK, "High");
-                                break;
-                    case 4 :    vsystem (SET_OVERCLOCK, "Turbo");
-                                break;
-                }
+            if (orig_pi4v != 0)
+            {
+                vsystem (SET_PI4_NONE);
                 reboot = 1;
-                break;
-
-            case 2:
-                switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-                {
-                    case 0 :    vsystem (SET_OVERCLOCK, "None");
-                                break;
-                    case 1 :    vsystem (SET_OVERCLOCK, "High");
-                                break;
-                }
-                reboot = 1;
-                break;
+            }
         }
     }
-
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (analog_on_rb)))
-    {
-        if (orig_pi4v != 2)
-        {
-            vsystem (SET_PI4_ATV);
-            reboot = 1;
-        }
-    }
-    else
-    {
-        if (orig_pi4v != 0)
-        {
-            vsystem (SET_PI4_NONE);
-            reboot = 1;
-        }
-    }
-#endif
 
     return reboot;
 }
@@ -1762,7 +1764,8 @@ static int can_configure (void)
     // check lightdm is installed
     if (stat ("/etc/init.d/lightdm", &buf)) return 0;
 
-#ifdef __arm__
+    if (vsystem (IS_PI)) return 1;
+
     // check startx.elf is present
     if (stat ("/boot/start_x.elf", &buf)) return 0;
 
@@ -1775,7 +1778,6 @@ static int can_configure (void)
 
     // create /boot/config.txt if it doesn't exist
     vsystem ("[ -e /boot/config.txt ] || touch /boot/config.txt");
-#endif
 
     return 1;
 }
@@ -1914,195 +1916,198 @@ int main (int argc, char *argv[])
         gtk_widget_set_tooltip_text (GTK_WIDGET (blank_off_rb), _("This setting is overridden when Xscreensaver is installed"));
     }
 
-#ifdef __arm__
-    res_btn = gtk_builder_get_object (builder, "button_res");
-    g_signal_connect (res_btn, "clicked", G_CALLBACK (on_set_res), NULL);
-
-    camera_on_rb = gtk_builder_get_object (builder, "rb_cam_on");
-    camera_off_rb = gtk_builder_get_object (builder, "rb_cam_off");
-    if (orig_camera = get_status (GET_CAMERA)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_on_rb), TRUE);
-
-    overscan_on_rb = gtk_builder_get_object (builder, "rb_os_on");
-    overscan_off_rb = gtk_builder_get_object (builder, "rb_os_off");
-    if (orig_overscan = get_status (GET_OVERSCAN)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overscan_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overscan_on_rb), TRUE);
-
-    spi_on_rb = gtk_builder_get_object (builder, "rb_spi_on");
-    spi_off_rb = gtk_builder_get_object (builder, "rb_spi_off");
-    if (orig_spi = get_status (GET_SPI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_on_rb), TRUE);
-
-    i2c_on_rb = gtk_builder_get_object (builder, "rb_i2c_on");
-    i2c_off_rb = gtk_builder_get_object (builder, "rb_i2c_off");
-    if (orig_i2c = get_status (GET_I2C)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_on_rb), TRUE);
-
-    serial_on_rb = gtk_builder_get_object (builder, "rb_ser_on");
-    g_signal_connect (serial_on_rb, "toggled", G_CALLBACK (on_serial_on), NULL);
-    serial_off_rb = gtk_builder_get_object (builder, "rb_ser_off");
-    g_signal_connect (serial_off_rb, "toggled", G_CALLBACK (on_serial_off), NULL);
-    scons_on_rb = gtk_builder_get_object (builder, "rb_serc_on");
-    scons_off_rb = gtk_builder_get_object (builder, "rb_serc_off");
-    if (orig_serial = get_status (GET_SERIALHW)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
-    if (orig_scons = get_status (GET_SERIAL)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scons_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scons_on_rb), TRUE);
-
-    onewire_on_rb = gtk_builder_get_object (builder, "rb_one_on");
-    onewire_off_rb = gtk_builder_get_object (builder, "rb_one_off");
-    if (orig_onewire = get_status (GET_1WIRE)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (onewire_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (onewire_on_rb), TRUE);
-
-    rgpio_on_rb = gtk_builder_get_object (builder, "rb_rgp_on");
-    rgpio_off_rb = gtk_builder_get_object (builder, "rb_rgp_off");
-    if (orig_rgpio = get_status (GET_RGPIO)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rgpio_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rgpio_on_rb), TRUE);
-
-    vnc_on_rb = gtk_builder_get_object (builder, "rb_vnc_on");
-    vnc_off_rb = gtk_builder_get_object (builder, "rb_vnc_off");
-    if (orig_vnc = get_status (GET_VNC)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vnc_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vnc_on_rb), TRUE);
-
-    // disable the buttons if RealVNC isn't installed
-    if (vsystem (VNC_INSTALLED))
+    if (!vsystem (IS_PI))
     {
-        gtk_widget_set_sensitive (GTK_WIDGET (vnc_on_rb), FALSE);
-        gtk_widget_set_sensitive (GTK_WIDGET (vnc_off_rb), FALSE);
-        gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_on_rb), _("The VNC server is not installed"));
-        gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_off_rb), _("The VNC server is not installed"));
-    }
+        res_btn = gtk_builder_get_object (builder, "button_res");
+        g_signal_connect (res_btn, "clicked", G_CALLBACK (on_set_res), NULL);
 
-    analog_on_rb = gtk_builder_get_object (builder, "rb_analog_on");
-    analog_off_rb = gtk_builder_get_object (builder, "rb_analog_off");
-    if ((orig_pi4v = get_status (GET_PI4_VID)) == 2) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_on_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_off_rb), TRUE);
+        camera_on_rb = gtk_builder_get_object (builder, "rb_cam_on");
+        camera_off_rb = gtk_builder_get_object (builder, "rb_cam_off");
+        if (orig_camera = get_status (GET_CAMERA)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_off_rb), TRUE);
+        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_on_rb), TRUE);
 
-    switch (get_status (GET_PI_TYPE))
-    {
-        case 1:
-            overclock_cb = gtk_builder_get_object (builder, "combo_oc_pi1");
-            switch (get_status (GET_OVERCLOCK))
-            {
-                case 800  : orig_clock = 1;
-                            break;
-                case 900  : orig_clock = 2;
-                            break;
-                case 950  : orig_clock = 3;
-                            break;
-                case 1000 : orig_clock = 4;
-                            break;
-                default   : orig_clock = 0;
-                            break;
-            }
-            gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
-            gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31a")));
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31b")));
-            gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31c")));
-            break;
+        overscan_on_rb = gtk_builder_get_object (builder, "rb_os_on");
+        overscan_off_rb = gtk_builder_get_object (builder, "rb_os_off");
+        if (orig_overscan = get_status (GET_OVERSCAN)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overscan_off_rb), TRUE);
+        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overscan_on_rb), TRUE);
 
-        case 2 :
-            overclock_cb = gtk_builder_get_object (builder, "combo_oc_pi2");
-            switch (get_status (GET_OVERCLOCK))
-            {
-                case 1000 : orig_clock = 1;
-                            break;
-                default   : orig_clock = 0;
-                            break;
-            }
-            gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
-            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31a")));
-            gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31b")));
-            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31c")));
-            break;
+        spi_on_rb = gtk_builder_get_object (builder, "rb_spi_on");
+        spi_off_rb = gtk_builder_get_object (builder, "rb_spi_off");
+        if (orig_spi = get_status (GET_SPI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_off_rb), TRUE);
+        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_on_rb), TRUE);
 
-        default :
-            overclock_cb = gtk_builder_get_object (builder, "combo_oc_pi3");
-            gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 0);
-            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31a")));
-            gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31b")));
-            gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31c")));
-            gtk_widget_set_sensitive (GTK_WIDGET (overclock_cb), FALSE);
-            break;
-    }
+        i2c_on_rb = gtk_builder_get_object (builder, "rb_i2c_on");
+        i2c_off_rb = gtk_builder_get_object (builder, "rb_i2c_off");
+        if (orig_i2c = get_status (GET_I2C)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_off_rb), TRUE);
+        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_on_rb), TRUE);
 
-    ofs_btn = gtk_builder_get_object (builder, "button_ofs");
-    g_signal_connect (ofs_btn, "clicked", G_CALLBACK (on_set_ofs), NULL);
+        serial_on_rb = gtk_builder_get_object (builder, "rb_ser_on");
+        g_signal_connect (serial_on_rb, "toggled", G_CALLBACK (on_serial_on), NULL);
+        serial_off_rb = gtk_builder_get_object (builder, "rb_ser_off");
+        g_signal_connect (serial_off_rb, "toggled", G_CALLBACK (on_serial_off), NULL);
+        scons_on_rb = gtk_builder_get_object (builder, "rb_serc_on");
+        scons_off_rb = gtk_builder_get_object (builder, "rb_serc_off");
+        if (orig_serial = get_status (GET_SERIALHW)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
+        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
+        if (orig_scons = get_status (GET_SERIAL)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scons_off_rb), TRUE);
+        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scons_on_rb), TRUE);
 
-    /*  Video options for various platforms
-     *
-     *                              FKMS,Pi4    FKMS,Pi3    Leg,Pi4     Leg,Pi3     x86
-     * hbox51 - set resolution          -           -           Y           Y        -
-     * hbox52 - overscan                Y           Y           Y           Y        -
-     * hbox53 - pixel doubling          Y           Y           Y           Y        Y
-     * hbox54 - composite out           Y           -           Y           -        -
-     * hbox55 - blanking                Y           Y           Y           Y        Y
-     * hbox5a - filler                  -           Y           -           Y        Y
-     * hbox5b - filler                  Y           Y           -           -        Y
-     * hbox5c - filler                  -           -           -           -        Y
-     */
+        onewire_on_rb = gtk_builder_get_object (builder, "rb_one_on");
+        onewire_off_rb = gtk_builder_get_object (builder, "rb_one_off");
+        if (orig_onewire = get_status (GET_1WIRE)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (onewire_off_rb), TRUE);
+        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (onewire_on_rb), TRUE);
 
-    if (vsystem (IS_PI4))
-    {
-        HIDE_WIDGET ("hbox54");
-        SHOW_WIDGET ("hbox5a");
-    }
-    else 
-    {
-        SHOW_WIDGET ("hbox54");
-        HIDE_WIDGET ("hbox5a");
-    }
+        rgpio_on_rb = gtk_builder_get_object (builder, "rb_rgp_on");
+        rgpio_off_rb = gtk_builder_get_object (builder, "rb_rgp_off");
+        if (orig_rgpio = get_status (GET_RGPIO)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rgpio_off_rb), TRUE);
+        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rgpio_on_rb), TRUE);
 
-    if (vsystem (GET_FKMS))
-    {
-        SHOW_WIDGET ("hbox51");
-        HIDE_WIDGET ("hbox5b");
+        vnc_on_rb = gtk_builder_get_object (builder, "rb_vnc_on");
+        vnc_off_rb = gtk_builder_get_object (builder, "rb_vnc_off");
+        if (orig_vnc = get_status (GET_VNC)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vnc_off_rb), TRUE);
+        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vnc_on_rb), TRUE);
+
+        // disable the buttons if RealVNC isn't installed
+        if (vsystem (VNC_INSTALLED))
+        {
+            gtk_widget_set_sensitive (GTK_WIDGET (vnc_on_rb), FALSE);
+            gtk_widget_set_sensitive (GTK_WIDGET (vnc_off_rb), FALSE);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_on_rb), _("The VNC server is not installed"));
+            gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_off_rb), _("The VNC server is not installed"));
+        }
+
+        analog_on_rb = gtk_builder_get_object (builder, "rb_analog_on");
+        analog_off_rb = gtk_builder_get_object (builder, "rb_analog_off");
+        if ((orig_pi4v = get_status (GET_PI4_VID)) == 2) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_on_rb), TRUE);
+        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_off_rb), TRUE);
+
+        switch (get_status (GET_PI_TYPE))
+        {
+            case 1:
+                overclock_cb = gtk_builder_get_object (builder, "combo_oc_pi1");
+                switch (get_status (GET_OVERCLOCK))
+                {
+                    case 800  : orig_clock = 1;
+                                break;
+                    case 900  : orig_clock = 2;
+                                break;
+                    case 950  : orig_clock = 3;
+                                break;
+                    case 1000 : orig_clock = 4;
+                                break;
+                    default   : orig_clock = 0;
+                                break;
+                }
+                gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
+                gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31a")));
+                gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31b")));
+                gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31c")));
+                break;
+
+            case 2 :
+                overclock_cb = gtk_builder_get_object (builder, "combo_oc_pi2");
+                switch (get_status (GET_OVERCLOCK))
+                {
+                    case 1000 : orig_clock = 1;
+                                break;
+                    default   : orig_clock = 0;
+                                break;
+                }
+                gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
+                gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31a")));
+                gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31b")));
+                gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31c")));
+                break;
+
+            default :
+                overclock_cb = gtk_builder_get_object (builder, "combo_oc_pi3");
+                gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 0);
+                gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31a")));
+                gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31b")));
+                gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31c")));
+                gtk_widget_set_sensitive (GTK_WIDGET (overclock_cb), FALSE);
+                break;
+        }
+
+        ofs_btn = gtk_builder_get_object (builder, "button_ofs");
+        g_signal_connect (ofs_btn, "clicked", G_CALLBACK (on_set_ofs), NULL);
+
+        /*  Video options for various platforms
+         *
+         *                              FKMS,Pi4    FKMS,Pi3    Leg,Pi4     Leg,Pi3     x86
+         * hbox51 - set resolution          -           -           Y           Y        -
+         * hbox52 - overscan                Y           Y           Y           Y        -
+         * hbox53 - pixel doubling          Y           Y           Y           Y        Y
+         * hbox54 - composite out           Y           -           Y           -        -
+         * hbox55 - blanking                Y           Y           Y           Y        Y
+         * hbox5a - filler                  -           Y           -           Y        Y
+         * hbox5b - filler                  Y           Y           -           -        Y
+         * hbox5c - filler                  -           -           -           -        Y
+         */
+
+        if (vsystem (IS_PI4))
+        {
+            HIDE_WIDGET ("hbox54");
+            SHOW_WIDGET ("hbox5a");
+        }
+        else
+        {
+            SHOW_WIDGET ("hbox54");
+            HIDE_WIDGET ("hbox5a");
+        }
+
+        if (vsystem (GET_FKMS))
+        {
+            SHOW_WIDGET ("hbox51");
+            HIDE_WIDGET ("hbox5b");
+        }
+        else
+        {
+            HIDE_WIDGET ("hbox51");
+            SHOW_WIDGET ("hbox5b");
+        }
+
+        GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);
+        memsplit_sb = gtk_builder_get_object (builder, "spin_gpu");
+        gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (memsplit_sb), GTK_ADJUSTMENT (adj));
+        orig_gpumem = get_gpu_mem ();
+        gtk_spin_button_set_value (GTK_SPIN_BUTTON (memsplit_sb), orig_gpumem);
     }
     else
     {
+        if (!get_status ("grep -q boot=live /proc/cmdline ; echo $?"))
+        {
+            gtk_widget_set_sensitive (GTK_WIDGET (splash_on_rb), FALSE);
+            gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), FALSE);
+        }
+
+        HIDE_WIDGET ("vbox30");
+
+        HIDE_WIDGET ("hbox21");
+        HIDE_WIDGET ("hbox23");
+        HIDE_WIDGET ("hbox24");
+        HIDE_WIDGET ("hbox25");
+        HIDE_WIDGET ("hbox26");
+        HIDE_WIDGET ("hbox27");
+        HIDE_WIDGET ("hbox28");
+        HIDE_WIDGET ("hbox29");
+
+        SHOW_WIDGET ("hbox2a");
+        SHOW_WIDGET ("hbox2b");
+        SHOW_WIDGET ("hbox2c");
+        SHOW_WIDGET ("hbox2d");
+        SHOW_WIDGET ("hbox2e");
+        SHOW_WIDGET ("hbox2f");
+        SHOW_WIDGET ("hbox2g");
+        SHOW_WIDGET ("hbox2h");
+
         HIDE_WIDGET ("hbox51");
+        HIDE_WIDGET ("hbox52");
+        HIDE_WIDGET ("hbox54");
+        SHOW_WIDGET ("hbox5a");
         SHOW_WIDGET ("hbox5b");
+        SHOW_WIDGET ("hbox5c");
     }
-
-    GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);
-    memsplit_sb = gtk_builder_get_object (builder, "spin_gpu");
-    gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (memsplit_sb), GTK_ADJUSTMENT (adj));
-    orig_gpumem = get_gpu_mem ();
-    gtk_spin_button_set_value (GTK_SPIN_BUTTON (memsplit_sb), orig_gpumem);
-#else
-    if (!get_status ("grep -q boot=live /proc/cmdline ; echo $?"))
-    {
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_on_rb), FALSE);
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), FALSE);
-    }
-
-    HIDE_WIDGET ("vbox30");
-
-    HIDE_WIDGET ("hbox21");
-    HIDE_WIDGET ("hbox23");
-    HIDE_WIDGET ("hbox24");
-    HIDE_WIDGET ("hbox25");
-    HIDE_WIDGET ("hbox26");
-    HIDE_WIDGET ("hbox27");
-    HIDE_WIDGET ("hbox28");
-    HIDE_WIDGET ("hbox29");
-
-    SHOW_WIDGET ("hbox2a");
-    SHOW_WIDGET ("hbox2b");
-    SHOW_WIDGET ("hbox2c");
-    SHOW_WIDGET ("hbox2d");
-    SHOW_WIDGET ("hbox2e");
-    SHOW_WIDGET ("hbox2f");
-    SHOW_WIDGET ("hbox2g");
-    SHOW_WIDGET ("hbox2h");
-
-    HIDE_WIDGET ("hbox51");
-    HIDE_WIDGET ("hbox52");
-    HIDE_WIDGET ("hbox54");
-    SHOW_WIDGET ("hbox5a");
-    SHOW_WIDGET ("hbox5b");
-    SHOW_WIDGET ("hbox5c");
-#endif
 
     GdkPixbuf *win_icon = gtk_window_get_icon (GTK_WINDOW (main_dlg));
     GList *list;
