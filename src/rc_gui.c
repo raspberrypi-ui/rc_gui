@@ -197,7 +197,8 @@ static int get_status (char *cmd)
 {
     FILE *fp = popen (cmd, "r");
     char *buf = NULL;
-    int res = 0, val = 0;
+    size_t res = 0;
+    int val = 0;
 
     if (fp == NULL) return 0;
     if (getline (&buf, &res, fp) > 0)
@@ -215,7 +216,7 @@ static int get_status (char *cmd)
 static char *get_string (char *cmd)
 {
     char *line = NULL, *res = NULL;
-    int len = 0;
+    size_t len = 0;
     FILE *fp = popen (cmd, "r");
 
     if (fp == NULL) return NULL;
@@ -238,7 +239,8 @@ static int get_total_mem (void)
 {
     FILE *fp;
     char *buf;
-    int arm, gpu, len;
+    int arm, gpu;
+    size_t len;
 
     fp = popen ("vcgencmd get_mem arm", "r");
     if (fp == NULL) return 0;
@@ -280,7 +282,7 @@ static int get_gpu_mem (void)
 static char *get_quoted_param (char *path, char *fname, char *toseek)
 {
     char *pathname, *linebuf, *cptr, *dptr, *res;
-    int len;
+    size_t len;
 
     pathname = g_strdup_printf ("%s/%s", path, fname);
     FILE *fp = fopen (pathname, "rb");
@@ -486,7 +488,7 @@ static void read_locales (void)
     char *cname, *lname, *buffer, *lang, *country, *charset, *loccode, *flname, *fcname;
     GtkTreeIter iter;
     FILE *fp;
-    int len;
+    size_t len;
 
     // populate the locale database
     buffer = NULL;
@@ -991,7 +993,8 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
     GtkWidget *dlg;
     char *buffer, *cnow, *cptr;
     FILE *fp;
-    int n, found, len;
+    int n, found;
+    size_t len;
 
     builder = gtk_builder_new ();
     gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
@@ -1055,7 +1058,8 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
     GtkWidget *dlg;
     char *buffer, *cptr, *entry, group;
     FILE *fp;
-    int n, found, hmode, hgroup, mode, x, y, freq, ax, ay, conn, len;
+    int n, found, hmode, hgroup, mode, x, y, freq, ax, ay, conn;
+    size_t len;
 
     builder = gtk_builder_new ();
     gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
@@ -1207,7 +1211,8 @@ static void layout_changed (GtkComboBox *cb, char *init_variant)
     FILE *fp;
     GtkTreeIter iter;
     char *buffer, *cptr, *t1, *t2;
-    int siz, in_list;
+    size_t siz;
+    int in_list;
 
     // get the currently-set layout from the combo box
     gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keylayout_cb), &iter);
@@ -1269,7 +1274,8 @@ static void read_keyboards (void)
 {
     FILE *fp;
     char *cptr, *t1, *t2;
-    int siz, in_list;
+    size_t siz;
+    int in_list;
     GtkTreeIter iter;
 
     // loop through lines in KeyboardNames file
