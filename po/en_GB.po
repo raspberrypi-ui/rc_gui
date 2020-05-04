@@ -437,15 +437,15 @@ msgstr "Set international keyboard options"
 
 #: ../data/rc_gui.ui.h:93
 msgid "WiFi Country:"
-msgstr "WiFi Country:"
+msgstr "Wireless LAN Country:"
 
 #: ../data/rc_gui.ui.h:94
 msgid "Set _WiFi Country..."
-msgstr "Set _WiFi Country..."
+msgstr "Set _WLAN Country..."
 
 #: ../data/rc_gui.ui.h:95
 msgid "Set WiFi country code"
-msgstr "Set WiFi country code"
+msgstr "Set wireless LAN country code"
 
 #: ../data/rc_gui.ui.h:96
 msgid "Localisation"
@@ -617,7 +617,7 @@ msgstr "Location:"
 
 #: ../data/rc_gui.ui.h:139
 msgid "WiFi Country Code"
-msgstr "WiFi Country"
+msgstr "Wireless LAN Country"
 
 #: ../data/rc_gui.ui.h:140
 msgid "Keyboard"
