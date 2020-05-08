@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rc_gui 1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-30 17:59+0200\n"
-"PO-Revision-Date: 2020-05-08 17:55+0200\n"
+"PO-Revision-Date: 2020-05-08 18:10+0200\n"
 "Last-Translator: Emanuele Goldoni <emanuele.goldoni@gmail.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -594,7 +594,7 @@ msgstr "Disabilitato"
 #: ../data/rc_gui.ui.h:115
 msgid "Disable a file system overlay; changes will be saved to the SD card"
 msgstr ""
-"Disabilita la protezione del file system (overlay); i cambiamenti verranno "
+"Disabilita la protezione del file system (overlay): i cambiamenti verranno "
 "salvati sulla scheda SD"
 
 #: ../data/rc_gui.ui.h:116
