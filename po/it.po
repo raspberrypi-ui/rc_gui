@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rc_gui 1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-30 17:59+0200\n"
-"PO-Revision-Date: 2020-05-08 15:22+0200\n"
+"PO-Revision-Date: 2020-05-08 17:19+0200\n"
 "Last-Translator: Emanuele Goldoni <emanuele.goldoni@gmail.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -222,7 +222,7 @@ msgstr "Raddoppio pixel:"
 #: ../data/rc_gui.ui.h:31
 msgid "Enable pixel doubling to improve usability on high-res screens"
 msgstr ""
-"Abilita il raddoppio pixel per migliorare l'usabilità su schermi ad altra "
+"Abilita il raddoppio pixel per migliorare l'usabilità su schermi ad alta "
 "risoluzione"
 
 # tooltip
@@ -509,7 +509,7 @@ msgid "Set WiFi country code"
 msgstr "Imposta la nazione per il WiFi"
 
 # tab
-# NB in italiano "localizzazione" ha comunemente un'altra accezione
+# NB "Localizzazione" o "Opzioni internazionali"?
 #: ../data/rc_gui.ui.h:96
 msgid "Localisation"
 msgstr "Localizzazione"
