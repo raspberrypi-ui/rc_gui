@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rc_gui 1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-30 17:59+0200\n"
-"PO-Revision-Date: 2020-05-08 15:02+0200\n"
+"PO-Revision-Date: 2020-05-08 15:22+0200\n"
 "Last-Translator: Emanuele Goldoni <emanuele.goldoni@gmail.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -457,17 +457,17 @@ msgstr "Prestazioni"
 
 #: ../data/rc_gui.ui.h:84
 msgid "Locale:"
-msgstr "Localizzazione:"
+msgstr "Lingua:"
 
 #: ../data/rc_gui.ui.h:85
 msgid "Set _Locale..."
-msgstr "Imposta _localizzazione..."
+msgstr "Imposta _lingua..."
 
 # tooltip
 #: ../data/rc_gui.ui.h:86
 msgid "Set internationalisation settings for units etc."
 msgstr ""
-"Imposta le configurazioni di localizzazione per le unità di misura, ecc."
+"Imposta le opzioni internazionali per la lingua, le unità di misura, ecc."
 
 #: ../data/rc_gui.ui.h:87
 msgid "Timezone:"
@@ -512,7 +512,7 @@ msgstr "Imposta la nazione per il WiFi"
 # NB in italiano "localizzazione" ha comunemente un'altra accezione
 #: ../data/rc_gui.ui.h:96
 msgid "Localisation"
-msgstr "Opzioni internazionali"
+msgstr "Localizzazione"
 
 #: ../data/rc_gui.ui.h:97
 msgid ""
@@ -553,7 +553,7 @@ msgstr ""
 
 #: ../data/rc_gui.ui.h:106
 msgid "Locale"
-msgstr "Localizzazione"
+msgstr "Lingua"
 
 #: ../data/rc_gui.ui.h:107
 msgid "Language:"
