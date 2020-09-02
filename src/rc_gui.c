@@ -85,6 +85,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_RGPIO       "raspi-config nonint do_rgpio %d"
 #define GET_BLANK       "raspi-config nonint get_blanking"
 #define SET_BLANK       "raspi-config nonint do_blanking %d"
+#define GET_LEDS        "raspi-config nonint get_leds"
+#define SET_LEDS        "raspi-config nonint do_leds %d"
 #define GET_PI_TYPE     "raspi-config nonint get_pi_type"
 #define IS_PI           "raspi-config nonint is_pi"
 #define IS_PI4          "raspi-config nonint is_pifour"
@@ -126,7 +128,7 @@ static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb, *p
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
 static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb;
-static GObject *analog_on_rb, *analog_off_rb, *blank_on_rb, *blank_off_rb;
+static GObject *analog_on_rb, *analog_off_rb, *blank_on_rb, *blank_off_rb, *led_pwr_rb, *led_actpwr_rb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_rb, *ofs_dis_rb, *bp_ro_rb, *bp_rw_rb, *ofs_lbl;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwentry3_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
@@ -140,7 +142,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 static char *orig_hostname;
 static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
 static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub, orig_pi4v;
-static int orig_ofs, orig_bpro, orig_blank;
+static int orig_ofs, orig_bpro, orig_blank, orig_leds;
 
 /* Reboot flag set after locale change */
 
@@ -1705,6 +1707,11 @@ static int process_changes (void)
             reboot = 1;
         }
 
+        if (orig_leds != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (led_pwr_rb)))
+        {
+            vsystem (SET_LEDS, (1 - orig_leds));
+        }
+
         if (orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
         {
             switch (get_status (GET_PI_TYPE))
@@ -1987,6 +1994,11 @@ int main (int argc, char *argv[])
         if ((orig_pi4v = get_status (GET_PI4_VID)) == 2) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_on_rb), TRUE);
         else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_off_rb), TRUE);
 
+        led_pwr_rb = gtk_builder_get_object (builder, "rb_led_pwr");
+        led_actpwr_rb = gtk_builder_get_object (builder, "rb_led_actpwr");
+        if ((orig_leds = get_status (GET_LEDS))) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (led_pwr_rb), TRUE);
+        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (led_actpwr_rb), TRUE);
+
         switch (get_status (GET_PI_TYPE))
         {
             case 1:
@@ -2088,6 +2100,9 @@ int main (int argc, char *argv[])
         }
 
         HIDE_WIDGET ("vbox30");
+
+        HIDE_WIDGET ("hbox17");
+        SHOW_WIDGET ("hbox1a");
 
         HIDE_WIDGET ("hbox21");
         HIDE_WIDGET ("hbox23");
