@@ -274,10 +274,10 @@ static int get_gpu_mem (void)
         mem = get_status (GET_GPU_MEM_256);
 
     if (mem == 0) mem = get_status (GET_GPU_MEM);
-    if (mem == 0 && get_total_mem() > 1008)
-        mem = 76;
-    else
+    if (mem == 0 && get_total_mem() <= 1008)
         mem = 64;
+    else
+        mem = 76;
     return mem;
 }
 
