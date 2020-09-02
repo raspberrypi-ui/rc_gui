@@ -7,7 +7,7 @@ Uses the command-line equivalent, [`raspi-config`](https://github.com/RPi-Distro
 
 ## Building
 
-Install pre-requisites:
+Install prerequisites:
 
 ```bash
 sudo apt update
