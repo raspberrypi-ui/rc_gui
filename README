@@ -1,4 +1,0 @@
-This is an application which allows the configuration of Raspberry Pi system settings..
-
-To build, run autogen.sh, then ./configure and make.
-Use sudo make install to install data files.
