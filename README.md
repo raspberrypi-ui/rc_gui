@@ -1,7 +1,6 @@
 # rc_gui
 
-GUI for configuring Raspberry Pi settings.
-(Including Raspberry Pi Desktop for PC/Mac).
+GUI for configuring Raspberry Pi settings. (Including Raspberry Pi Desktop for PC/Mac).
 
 Uses the command-line equivalent, [`raspi-config`](https://github.com/RPi-Distro/raspi-config), internally for some operations.
 
