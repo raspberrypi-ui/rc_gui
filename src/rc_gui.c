@@ -1707,7 +1707,7 @@ static int process_changes (void)
             reboot = 1;
         }
 
-        if (orig_leds != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (led_pwr_rb)))
+        if (orig_leds != -1 && orig_leds != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (led_pwr_rb)))
         {
             vsystem (SET_LEDS, (1 - orig_leds));
         }
@@ -1996,9 +1996,17 @@ int main (int argc, char *argv[])
 
         led_pwr_rb = gtk_builder_get_object (builder, "rb_led_pwr");
         led_actpwr_rb = gtk_builder_get_object (builder, "rb_led_actpwr");
-        if ((orig_leds = get_status (GET_LEDS))) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (led_pwr_rb), TRUE);
-        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (led_actpwr_rb), TRUE);
-
+        orig_leds = get_status (GET_LEDS);
+        if (orig_leds == -1)
+        {
+            HIDE_WIDGET ("hbox17");
+            SHOW_WIDGET ("hbox1a");
+        }
+        else
+        {
+            if ((orig_leds = get_status (GET_LEDS))) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (led_pwr_rb), TRUE);
+            else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (led_actpwr_rb), TRUE);
+        }
         switch (get_status (GET_PI_TYPE))
         {
             case 1:
