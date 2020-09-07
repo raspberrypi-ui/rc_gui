@@ -1,3 +1,9 @@
+rc-gui (1.41) buster; urgency=medium
+
+  * Japanese translations updated
+
+ -- Simon Long <simon@raspberrypi.com>  Mon, 07 Sep 2020 14:31:46 +0100
+
 rc-gui (1.40) buster; urgency=medium
 
   * Add switch for power LED activity indication on Pi Zero
