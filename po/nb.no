@@ -1,0 +1,684 @@
+# Raspberry Pi Configuration utility
+# Copyright (C) 2018 Raspberry Pi
+# This file is distributed under the same license as the rc_gui package.
+# Simon Long <simon@raspberrypi.org>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: rc_gui 1.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-02 13:52+0100\n"
+"PO-Revision-Date: 2020-09-27 03:41+0200\n"
+"Last-Translator: Imre Kristoffer Eilertsen <imreeil42@gmail.com>\n"
+"Language-Team: Norwegian Bokmål\n"
+"Language: nb\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.4.1\n"
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:736
+msgid "Setting locale - please wait..."
+msgstr "Velger region - vennligst vent …"
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:974
+msgid "Setting timezone - please wait..."
+msgstr "Velger tidssone - vennligst vent …"
+
+#: ../src/rc_gui.c:1018 ../src/rc_gui.c:1041
+msgid "<not set>"
+msgstr "<ikke valgt>"
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:1420
+msgid "Setting keyboard - please wait..."
+msgstr "Velger tastatur - vennligst vent …"
+
+#: ../src/rc_gui.c:1449 ../data/rc_gui.ui.h:126
+msgid "Changes will not take effect until a reboot"
+msgstr "Endringer trer ikke i kraft før en omstart"
+
+#: ../src/rc_gui.c:1504 ../src/rc_gui.c:1505
+msgid ""
+"The state of the boot partition cannot be changed while an overlay is active"
+msgstr ""
+"Tilstanden til oppstartspartisjonen kan ikke endres mens et overlegg er "
+"aktivt"
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:1525
+msgid "Setting up overlay - please wait..."
+msgstr "Setter opp overlegg - vennligst vent …"
+
+#: ../src/rc_gui.c:1578 ../data/rc_gui.ui.h:64
+msgid "Enable shell and kernel messages on the serial connection"
+msgstr "Skru på skall- og kernelmeldinger på den serielle tilkoblingen"
+
+#: ../src/rc_gui.c:1579 ../data/rc_gui.ui.h:65
+msgid "Disable shell and kernel messages on the serial connection"
+msgstr "Skru av skall- og kernelmeldinger på den serielle tilkoblingen"
+
+#: ../src/rc_gui.c:1590 ../src/rc_gui.c:1591
+msgid "This setting cannot be changed while the serial port is disabled"
+msgstr ""
+"Denne innstillingen kan ikke endres mens den serielle porten er skrudd av"
+
+#: ../src/rc_gui.c:1928 ../src/rc_gui.c:1929
+msgid "This setting is overridden when Xscreensaver is installed"
+msgstr "Denne innstillingen overstyres når Xscreensaver er installert"
+
+#: ../src/rc_gui.c:1988 ../src/rc_gui.c:1989
+msgid "The VNC server is not installed"
+msgstr "VNC-serveren er ikke installert"
+
+#: ../data/rc_gui.ui.h:1 ../data/rc_gui.desktop.in.h:1
+msgid "Raspberry Pi Configuration"
+msgstr "Raspberry Pi-konfigurasjon"
+
+#: ../data/rc_gui.ui.h:2
+msgid "Password:"
+msgstr "Passord:"
+
+#: ../data/rc_gui.ui.h:3
+msgid "Change _Password..."
+msgstr "Endre _passord …"
+
+#: ../data/rc_gui.ui.h:4
+msgid "Change password for the default user (pi)"
+msgstr "Endre passordet til standardbrukeren (pi)"
+
+#: ../data/rc_gui.ui.h:5
+msgid "Hostname:"
+msgstr "Vertsnavn:"
+
+#: ../data/rc_gui.ui.h:6
+msgid "Set the name of your Pi on a local network"
+msgstr "Velg navnet til Pi-en din på et lokalt nettverk"
+
+#: ../data/rc_gui.ui.h:7
+msgid "Boot:"
+msgstr "Oppstart:"
+
+#: ../data/rc_gui.ui.h:8
+msgid "To Desktop"
+msgstr "Til skrivebord"
+
+#: ../data/rc_gui.ui.h:9
+msgid "Launch the desktop environment automatically on boot"
+msgstr "Start opp skrivebordsmiljøet automatisk ved oppstart"
+
+#: ../data/rc_gui.ui.h:10
+msgid "To CLI"
+msgstr "Til ledetekst"
+
+#: ../data/rc_gui.ui.h:11
+msgid "Boot into a command line shell rather than the desktop"
+msgstr "Start opp til en ledetekst i stedet for skrivebordet"
+
+#: ../data/rc_gui.ui.h:12
+msgid "Auto login:"
+msgstr "Auto-pålogging:"
+
+#: ../data/rc_gui.ui.h:13
+msgid "Login as user 'pi'"
+msgstr "Logg på som brukeren 'pi'"
+
+#: ../data/rc_gui.ui.h:14
+msgid "Automatically log in the default user (pi)"
+msgstr "Automatisk logg på som standardbrukeren (pi)"
+
+#: ../data/rc_gui.ui.h:15
+msgid "Network at Boot:"
+msgstr "Nettverk ved oppstart:"
+
+#: ../data/rc_gui.ui.h:16
+msgid "Wait for network"
+msgstr "Vent på nettverk"
+
+#: ../data/rc_gui.ui.h:17
+msgid "Do not complete boot until network connection is established"
+msgstr "Ikke fullfør oppstarten før en nettverkstilkobling har blitt etablert"
+
+#: ../data/rc_gui.ui.h:18
+msgid "Splash Screen:"
+msgstr "Velkomstskjerm:"
+
+#: ../data/rc_gui.ui.h:19
+msgid "Enable"
+msgstr "Slå på"
+
+#: ../data/rc_gui.ui.h:20
+msgid "Show graphical splash screen at boot"
+msgstr "Vis en grafisk velkomstskjerm ved oppstart"
+
+#: ../data/rc_gui.ui.h:21
+msgid "Disable"
+msgstr "Skru av"
+
+#: ../data/rc_gui.ui.h:22
+msgid "Show text messages at boot"
+msgstr "Vis tekstmeldinger ved oppstart"
+
+#: ../data/rc_gui.ui.h:23
+msgid "Power LED:"
+msgstr "Strøm-LED:"
+
+#: ../data/rc_gui.ui.h:24
+msgid "Constant"
+msgstr "Konstant"
+
+#: ../data/rc_gui.ui.h:25
+msgid "Do not flash the power LED"
+msgstr "Ikke blink med strøm-LED-lyset"
+
+#: ../data/rc_gui.ui.h:26
+msgid "Activity"
+msgstr "Aktivitet"
+
+#: ../data/rc_gui.ui.h:27
+msgid "Flash the power LED on disk activity"
+msgstr "Blink med strøm-LED-lyset ved diskaktivitet"
+
+#: ../data/rc_gui.ui.h:28
+msgid "System"
+msgstr "System"
+
+#: ../data/rc_gui.ui.h:29
+msgid "Resolution:"
+msgstr "Oppløsning:"
+
+#: ../data/rc_gui.ui.h:30
+msgid "Set _Resolution..."
+msgstr "Velg _oppløsning …"
+
+#: ../data/rc_gui.ui.h:31
+msgid "Set the resolution for HDMI and VNC"
+msgstr "Bestem oppløsningen for HDMI og VNC"
+
+#: ../data/rc_gui.ui.h:32
+msgid "Overscan:"
+msgstr "Overskanning:"
+
+#: ../data/rc_gui.ui.h:33
+msgid "Enable overscan to show the edges of the screen"
+msgstr "Skru på overskanning for å vise kantene til skjermen"
+
+#: ../data/rc_gui.ui.h:34
+msgid "Disable overscan to hide black outline on screen"
+msgstr "Skru av overskanning for å skjule svarte omriss på skjermen"
+
+#: ../data/rc_gui.ui.h:35
+msgid "Pixel Doubling:"
+msgstr "Pikseldobling:"
+
+#: ../data/rc_gui.ui.h:36
+msgid "Enable pixel doubling to improve usability on high-res screens"
+msgstr ""
+"Skru på pikseldobling for å forbedre brukbarheten på høyoppløsningsskjermer"
+
+#: ../data/rc_gui.ui.h:37
+msgid "Disable pixel doubling for standard resolution screens"
+msgstr "Skru av pikseldobling for skjermer med standard oppløsning"
+
+#: ../data/rc_gui.ui.h:38
+msgid "Composite Video:"
+msgstr "Komposittvideo:"
+
+#: ../data/rc_gui.ui.h:39
+msgid "Enable analogue composite video on the 3.5mm socket"
+msgstr "Skru på analog komposittvideo på 3,5mm-uttaket"
+
+#: ../data/rc_gui.ui.h:40
+msgid "Disable analogue composite video"
+msgstr "Skru av analog komposittvideo"
+
+#: ../data/rc_gui.ui.h:41
+msgid "Screen Blanking:"
+msgstr "Skjermblanking:"
+
+#: ../data/rc_gui.ui.h:42
+msgid "Blank the screen after a period of inactivity"
+msgstr "La skjermen gå i svart etter en viss tid med inaktivitet"
+
+#: ../data/rc_gui.ui.h:43
+msgid "Never blank the screen"
+msgstr "Aldri la skjermen gå i svart"
+
+#: ../data/rc_gui.ui.h:44
+msgid "Display"
+msgstr "Skjerm"
+
+#: ../data/rc_gui.ui.h:45
+msgid "Camera:"
+msgstr "Kamera:"
+
+#: ../data/rc_gui.ui.h:46
+msgid "Enable the Raspberry Pi Camera Board"
+msgstr "Skru på Raspberry Pi-kamerabrikken"
+
+#: ../data/rc_gui.ui.h:47
+msgid "Disable the Raspberry Pi Camera Board"
+msgstr "Skru av Raspberry Pi-kamerabrikken"
+
+#: ../data/rc_gui.ui.h:48
+msgid "SSH:"
+msgstr "SSH:"
+
+#: ../data/rc_gui.ui.h:49
+msgid "Enable remote access to this Pi via SSH"
+msgstr "Skru på ekstern tilgang til denne Pi-en gjennom SSH"
+
+#: ../data/rc_gui.ui.h:50
+msgid "Disable remote access to this Pi via SSH"
+msgstr "Skru av ekstern tilgang til denne Pi-en gjennom SSH"
+
+#: ../data/rc_gui.ui.h:51
+msgid "VNC:"
+msgstr "VNC:"
+
+#: ../data/rc_gui.ui.h:52
+msgid "Enable remote access to this Pi using RealVNC"
+msgstr "Skru på ekstern tilgang til denne Pi-en gjennom RealVNC"
+
+#: ../data/rc_gui.ui.h:53
+msgid "Disable remote access to this Pi using RealVNC"
+msgstr "Skru av ekstern tilgang til denne Pi-en gjennom RealVNC"
+
+#: ../data/rc_gui.ui.h:54
+msgid "SPI:"
+msgstr "SPI:"
+
+#: ../data/rc_gui.ui.h:55
+msgid "Enable the automatic loading of the SPI kernel module"
+msgstr "Skru på automatisk innlasting av SPI-kernelmodulen"
+
+#: ../data/rc_gui.ui.h:56
+msgid "Disable the automatic loading of the SPI kernel module"
+msgstr "Skru av automatisk innlasting av SPI-kernelmodulen"
+
+#: ../data/rc_gui.ui.h:57
+msgid "I2C:"
+msgstr "I2C:"
+
+#: ../data/rc_gui.ui.h:58
+msgid "Enable the automatic loading of the I2C kernel module"
+msgstr "Skru på automatisk innlasting av I2C-kernelmodulen"
+
+#: ../data/rc_gui.ui.h:59
+msgid "Disable the automatic loading of the I2C kernel module"
+msgstr "Skru av automatisk innlasting av I2C-kernelmodulen"
+
+#: ../data/rc_gui.ui.h:60
+msgid "Serial Port:"
+msgstr "Seriell port:"
+
+#: ../data/rc_gui.ui.h:61
+msgid "Enable the serial port over the GPIO pins"
+msgstr "Skru på seriellporten over GPIO-pinnene"
+
+#: ../data/rc_gui.ui.h:62
+msgid "Disable the serial port over the GPIO pins"
+msgstr "Skru av seriellporten over GPIO-pinnene"
+
+#: ../data/rc_gui.ui.h:63
+msgid "Serial Console:"
+msgstr "Seriell konsoll:"
+
+#: ../data/rc_gui.ui.h:66
+msgid "1-Wire:"
+msgstr "1-ledning:"
+
+#: ../data/rc_gui.ui.h:67
+msgid "Enable 1-wire peripheral interface"
+msgstr "Skru på 1-lednings grensesnittstilbehør"
+
+#: ../data/rc_gui.ui.h:68
+msgid "Disable 1-wire peripheral interface"
+msgstr "Skru av 1-lednings grensesnittstilbehør"
+
+#: ../data/rc_gui.ui.h:69
+msgid "Remote GPIO:"
+msgstr "Ekstern GPIO:"
+
+#: ../data/rc_gui.ui.h:70
+msgid "Enable remote access to GPIO pins"
+msgstr "Skru på ekstern tilgang til GPIO-pinnene"
+
+#: ../data/rc_gui.ui.h:71
+msgid "Disable remote access to GPIO pins"
+msgstr "Skru av ekstern tilgang til GPIO-pinnene"
+
+#: ../data/rc_gui.ui.h:72
+msgid "Interfaces"
+msgstr "Grensesnitt"
+
+#: ../data/rc_gui.ui.h:73
+msgid "O_verclock:"
+msgstr "O_verklokk:"
+
+#: ../data/rc_gui.ui.h:74
+msgid "Set the level of overclock to control performance"
+msgstr "Velg overklokkingsnivået for å styre ytelsen"
+
+#: ../data/rc_gui.ui.h:75
+msgid "None (700MHz)"
+msgstr "Ingen (700MHz)"
+
+#: ../data/rc_gui.ui.h:76
+msgid "Modest (800MHz)"
+msgstr "Beskjeden (800MHz)"
+
+#: ../data/rc_gui.ui.h:77
+msgid "Medium (900MHz)"
+msgstr "Medium (900MHz)"
+
+#: ../data/rc_gui.ui.h:78
+msgid "High (950MHz)"
+msgstr "Høyt (950MHz)"
+
+#: ../data/rc_gui.ui.h:79
+msgid "Turbo (1000MHz)"
+msgstr "Turbo (1000MHz)"
+
+#: ../data/rc_gui.ui.h:80
+msgid "None (900MHz)"
+msgstr "Ingen (900MHz)"
+
+#: ../data/rc_gui.ui.h:81
+msgid "High (1000MHz)"
+msgstr "Høyt (1000MHz)"
+
+#: ../data/rc_gui.ui.h:82
+msgid "Not available"
+msgstr "Ikke tilgjengelig"
+
+#: ../data/rc_gui.ui.h:83
+msgid "_GPU Memory:"
+msgstr "_GPU-minne:"
+
+#: ../data/rc_gui.ui.h:84
+msgid "Enter the amount of memory available to the GPU"
+msgstr "Skriv inn minnemengden som skal være tilgjengelig for GPU-en"
+
+#: ../data/rc_gui.ui.h:85
+msgid "Overlay File System:"
+msgstr "Overlegg-filsystem:"
+
+#: ../data/rc_gui.ui.h:86
+msgid "Configure..."
+msgstr "Konfigurer …"
+
+#: ../data/rc_gui.ui.h:87
+msgid ""
+"Configure an overlay file system to protect data from being overwritten or "
+"deleted"
+msgstr ""
+"Sett opp et overleggsfilsystem for å beskytte data fra å bli overskrevet "
+"eller slettet"
+
+#: ../data/rc_gui.ui.h:88
+msgid "Performance"
+msgstr "Ytelse"
+
+#: ../data/rc_gui.ui.h:89
+msgid "Locale:"
+msgstr "Språk:"
+
+#: ../data/rc_gui.ui.h:90
+msgid "Set _Locale..."
+msgstr "Angi _region …"
+
+#: ../data/rc_gui.ui.h:91
+msgid "Set internationalisation settings for units etc."
+msgstr "Velg internasjonaliseringsinnstillinger for enheter osv."
+
+#: ../data/rc_gui.ui.h:92
+msgid "Timezone:"
+msgstr "Tidssone:"
+
+#: ../data/rc_gui.ui.h:93
+msgid "Set _Timezone..."
+msgstr "Velg _tidssone …"
+
+#: ../data/rc_gui.ui.h:94
+msgid "Set the timezone to be used by the internal clock"
+msgstr "Velg tidssonen som skal brukes av den interne klokken"
+
+#: ../data/rc_gui.ui.h:95
+msgid "Keyboard:"
+msgstr "Tastatur:"
+
+#: ../data/rc_gui.ui.h:96
+msgid "Set _Keyboard..."
+msgstr "Velg _tastatur …"
+
+#: ../data/rc_gui.ui.h:97
+msgid "Set international keyboard options"
+msgstr "Velg internasjonale tastaturinnstillinger"
+
+#: ../data/rc_gui.ui.h:98
+msgid "WiFi Country:"
+msgstr "Wi-Fi-land:"
+
+#: ../data/rc_gui.ui.h:99
+msgid "Set _WiFi Country..."
+msgstr "Velg _Wi-Fi-land …"
+
+#: ../data/rc_gui.ui.h:100
+msgid "Set WiFi country code"
+msgstr "Velg Wi-Fi-landskode"
+
+#: ../data/rc_gui.ui.h:101
+msgid "Localisation"
+msgstr "Lokalisasjon"
+
+#: ../data/rc_gui.ui.h:102
+msgid ""
+"The Raspberry Pi Configuration application can only modify a standard "
+"configuration.\n"
+"\n"
+"Your configuration appears to have been modified by other tools, and so this "
+"application cannot be used on your system.\n"
+"\n"
+"In order to use this application, you need to have the latest firmware "
+"installed, Device Tree enabled, the default \"pi\" user set up and the "
+"lightdm application installed. "
+msgstr ""
+"Raspberry Pi-konfigurasjonsprogrammet kan bare modifisere en "
+"standardkonfigurasjon.\n"
+"\n"
+"Din konfigurasjon ser ut til å ha bli modifisert av andre verktøy, så dermed "
+"kan dette programmet ikke brukes på ditt system.\n"
+"\n"
+"For å bruke dette programmet, må du ha installert den nyeste fastvaren, "
+"skrudd på Enhetstre, satt opp standardbrukeren «pi», og installert "
+"programmet «lightdm». "
+
+#: ../data/rc_gui.ui.h:107
+msgid "Filesystem Expanded"
+msgstr "Filsystemet ble utvidet"
+
+#: ../data/rc_gui.ui.h:108
+msgid ""
+"The filesystem has been expanded.\n"
+"\n"
+"The new space will not be available until you reboot your Raspberry Pi."
+msgstr ""
+"Filsystemet har blitt utvidet.\n"
+"\n"
+"Den nye plassen vil ikke bli tilgjengelig før du har omstartet din Raspberry "
+"Pi."
+
+#: ../data/rc_gui.ui.h:111
+msgid "Locale"
+msgstr "Språk"
+
+#: ../data/rc_gui.ui.h:112
+msgid "Language:"
+msgstr "Språk:"
+
+#: ../data/rc_gui.ui.h:113
+msgid "Country:"
+msgstr "Land:"
+
+#: ../data/rc_gui.ui.h:114
+msgid "Character Set:"
+msgstr "Tegnsett:"
+
+#: ../data/rc_gui.ui.h:115
+msgid "Overlay File System"
+msgstr "Overlegg-filsystem"
+
+#: ../data/rc_gui.ui.h:116
+msgid "Overlay:"
+msgstr "Overlegg:"
+
+#: ../data/rc_gui.ui.h:117
+msgid "Enabled"
+msgstr "Aktivert"
+
+#: ../data/rc_gui.ui.h:118
+msgid "Enable a file system overlay; all changes will be lost on reboot"
+msgstr "Skru på et filsystemoverlegg; alle endringer vil gå tapt ved omstart"
+
+#: ../data/rc_gui.ui.h:119
+msgid "Disabled"
+msgstr "Deaktivert"
+
+#: ../data/rc_gui.ui.h:120
+msgid "Disable a file system overlay; changes will be saved to the SD card"
+msgstr "Skru av et filsystemoverlegg; endringer vil bli lagret på SD-kortet"
+
+#: ../data/rc_gui.ui.h:121
+msgid "Boot Partition:"
+msgstr "Oppstartspartisjon:"
+
+#: ../data/rc_gui.ui.h:122
+msgid "Read-only"
+msgstr "Skrivebeskyttet"
+
+#: ../data/rc_gui.ui.h:123
+msgid "Make the boot partition read-only"
+msgstr "Gjør oppstartspartisjonen skrivebeskyttet"
+
+#: ../data/rc_gui.ui.h:124
+msgid "Read-write"
+msgstr "Les/skriv"
+
+#: ../data/rc_gui.ui.h:125
+msgid "Make the boot partition writable"
+msgstr "Gjør oppstartspartisjonen skrivbar"
+
+#: ../data/rc_gui.ui.h:127
+msgid "Change Password"
+msgstr "Endre passord"
+
+#: ../data/rc_gui.ui.h:128
+msgid "Enter new password:"
+msgstr "Skriv nytt passord:"
+
+#: ../data/rc_gui.ui.h:129
+msgid "Confirm new password:"
+msgstr "Bekreft nytt passord:"
+
+#: ../data/rc_gui.ui.h:130
+msgid "Password Not Changed"
+msgstr "Passordet ble ikke endret"
+
+#: ../data/rc_gui.ui.h:131
+msgid ""
+"The password change failed.\n"
+"\n"
+"This could be because the current password was incorrect, or because the new "
+"password was not sufficiently complex or was too similar to the current "
+"password."
+msgstr ""
+"Passordendringen mislyktes.\n"
+"\n"
+"Dette kan være fordi det nåværende passordet var feil, eller fordi det nye "
+"passordet ikke var tilstrekkelig avansert eller lignet for mye på det "
+"nåværende passordet."
+
+#: ../data/rc_gui.ui.h:134
+msgid "Password Changed"
+msgstr "Passordet ble endret"
+
+#: ../data/rc_gui.ui.h:135
+msgid "The password has been changed successfully."
+msgstr "Passordet har blitt vellykket endret."
+
+#: ../data/rc_gui.ui.h:136
+msgid "Reboot needed"
+msgstr "Oppstart er nødvendig"
+
+#: ../data/rc_gui.ui.h:137
+msgid ""
+"The changes you have made require the Raspberry Pi to be rebooted to take "
+"effect.\n"
+"\n"
+"Would you like to reboot now? "
+msgstr ""
+"Endringene du har gjort, krever at Raspberry Pi-maskinen startes på nytt for "
+"at de skal benyttes.\n"
+"\n"
+"Vil du starte på nytt nå? "
+
+#: ../data/rc_gui.ui.h:140
+msgid "Set Resolution"
+msgstr "Velg oppløsning"
+
+#: ../data/rc_gui.ui.h:141
+msgid "Timezone"
+msgstr "Tidssone"
+
+#: ../data/rc_gui.ui.h:142
+msgid "Area:"
+msgstr "Område:"
+
+#: ../data/rc_gui.ui.h:143
+msgid "Location:"
+msgstr "Lokasjon:"
+
+#: ../data/rc_gui.ui.h:144
+msgid "WiFi Country Code"
+msgstr "Wi-Fi-landskode"
+
+#: ../data/rc_gui.ui.h:145
+msgid "Keyboard"
+msgstr "Tastatur"
+
+#: ../data/rc_gui.ui.h:146
+msgid "Model:"
+msgstr "Modell:"
+
+#: ../data/rc_gui.ui.h:147
+msgid "Layout:"
+msgstr "Utforming:"
+
+#: ../data/rc_gui.ui.h:148
+msgid "Variant:"
+msgstr "Variant:"
+
+#: ../data/rc_gui.ui.h:149
+msgid "Reboot Needed"
+msgstr "Oppstart er nødvendig"
+
+#: ../data/rc_gui.ui.h:150
+msgid ""
+"Your system has recently been updated. Please reboot to ensure these updates "
+"have loaded before setting up the overlay file system."
+msgstr ""
+"Systemet ditt har nylig blitt oppdatert. Vennligst start på nytt for å sørge "
+"for at oppdateringene har blitt lastet inn, før du setter opp "
+"overleggsfilsystemet."
+
+#: ../data/rc_gui.desktop.in.h:2
+msgid "Configure Raspberry Pi system"
+msgstr "Konfigurer Raspberry Pi-systemet"
+
+#: ../data/pwdrcg.sh:6
+msgid "Password Required"
+msgstr "Passord påkrevd"
