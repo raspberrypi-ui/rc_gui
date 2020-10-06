@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rc_gui 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-02 13:52+0100\n"
+"POT-Creation-Date: 2020-10-06 15:12+0100\n"
 "PO-Revision-Date: 2018-04-17 12:41+0100\n"
 "Last-Translator: Simon Long <simon@raspberrypi.org>\n"
 "Language-Team: English (British)\n"
@@ -18,56 +18,56 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:736
+#: ../src/rc_gui.c:741
 msgid "Setting locale - please wait..."
 msgstr "Setting locale - please wait..."
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:974
+#: ../src/rc_gui.c:979
 msgid "Setting timezone - please wait..."
 msgstr "Setting timezone - please wait..."
 
-#: ../src/rc_gui.c:1018 ../src/rc_gui.c:1041
+#: ../src/rc_gui.c:1023 ../src/rc_gui.c:1046
 msgid "<not set>"
 msgstr "<not set>"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:1420
+#: ../src/rc_gui.c:1425
 msgid "Setting keyboard - please wait..."
 msgstr "Setting keyboard - please wait..."
 
-#: ../src/rc_gui.c:1449 ../data/rc_gui.ui.h:126
+#: ../src/rc_gui.c:1454 ../data/rc_gui.ui.h:133
 msgid "Changes will not take effect until a reboot"
 msgstr "Changes will not take effect until a reboot"
 
-#: ../src/rc_gui.c:1504 ../src/rc_gui.c:1505
+#: ../src/rc_gui.c:1509 ../src/rc_gui.c:1510
 msgid ""
 "The state of the boot partition cannot be changed while an overlay is active"
 msgstr ""
 "The state of the boot partition cannot be changed while an overlay is active"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:1525
+#: ../src/rc_gui.c:1530
 msgid "Setting up overlay - please wait..."
 msgstr "Setting up overlay - please wait..."
 
-#: ../src/rc_gui.c:1578 ../data/rc_gui.ui.h:64
+#: ../src/rc_gui.c:1583 ../data/rc_gui.ui.h:64
 msgid "Enable shell and kernel messages on the serial connection"
 msgstr "Enable shell and kernel messages on the serial connection"
 
-#: ../src/rc_gui.c:1579 ../data/rc_gui.ui.h:65
+#: ../src/rc_gui.c:1584 ../data/rc_gui.ui.h:65
 msgid "Disable shell and kernel messages on the serial connection"
 msgstr "Disable shell and kernel messages on the serial connection"
 
-#: ../src/rc_gui.c:1590 ../src/rc_gui.c:1591
+#: ../src/rc_gui.c:1595 ../src/rc_gui.c:1596
 msgid "This setting cannot be changed while the serial port is disabled"
 msgstr "This setting cannot be changed while the serial port is disabled"
 
-#: ../src/rc_gui.c:1928 ../src/rc_gui.c:1929
+#: ../src/rc_gui.c:1951 ../src/rc_gui.c:1952
 msgid "This setting is overridden when Xscreensaver is installed"
 msgstr "This setting is overridden when Xscreensaver is installed"
 
-#: ../src/rc_gui.c:1988 ../src/rc_gui.c:1989
+#: ../src/rc_gui.c:2011 ../src/rc_gui.c:2012
 msgid "The VNC server is not installed"
 msgstr "The VNC server is not installed"
 
@@ -164,20 +164,20 @@ msgid "Power LED:"
 msgstr "Power LED:"
 
 #: ../data/rc_gui.ui.h:24
-msgid "Constant"
-msgstr "Constant"
-
-#: ../data/rc_gui.ui.h:25
-msgid "Do not flash the power LED"
-msgstr "Do not flash the power LED"
-
-#: ../data/rc_gui.ui.h:26
 msgid "Activity"
 msgstr "Activity"
 
-#: ../data/rc_gui.ui.h:27
+#: ../data/rc_gui.ui.h:25
 msgid "Flash the power LED on disk activity"
 msgstr "Flash the power LED on disk activity"
+
+#: ../data/rc_gui.ui.h:26
+msgid "Constant"
+msgstr "Constant"
+
+#: ../data/rc_gui.ui.h:27
+msgid "Do not flash the power LED"
+msgstr "Do not flash the power LED"
 
 #: ../data/rc_gui.ui.h:28
 msgid "System"
@@ -416,62 +416,90 @@ msgstr ""
 "deleted"
 
 #: ../data/rc_gui.ui.h:88
+msgid "Fan:"
+msgstr "Fan:"
+
+#: ../data/rc_gui.ui.h:89
+msgid "Enable a temperature-controlled fan on a GPIO pin"
+msgstr "Enable a temperature-controlled fan on a GPIO pin"
+
+#: ../data/rc_gui.ui.h:90
+msgid "Disable GPIO fan"
+msgstr "Disable GPIO fan"
+
+#: ../data/rc_gui.ui.h:91
+msgid "Fan GPIO:"
+msgstr "Fan GPIO:"
+
+#: ../data/rc_gui.ui.h:92
+msgid "Set the GPIO to which the fan is connected"
+msgstr "Set the GPIO to which the fan is connected"
+
+#: ../data/rc_gui.ui.h:93
+msgid "Fan Temperature:"
+msgstr "Fan Temperature:"
+
+#: ../data/rc_gui.ui.h:94
+msgid "Set the temperature in degrees C at which the fan turns on"
+msgstr "Set the temperature in degrees C at which the fan turns on"
+
+#: ../data/rc_gui.ui.h:95
 msgid "Performance"
 msgstr "Performance"
 
-#: ../data/rc_gui.ui.h:89
+#: ../data/rc_gui.ui.h:96
 msgid "Locale:"
 msgstr "Locale:"
 
-#: ../data/rc_gui.ui.h:90
+#: ../data/rc_gui.ui.h:97
 msgid "Set _Locale..."
 msgstr "Set _Locale..."
 
-#: ../data/rc_gui.ui.h:91
+#: ../data/rc_gui.ui.h:98
 msgid "Set internationalisation settings for units etc."
 msgstr "Set internationalisation settings for language, units etc."
 
-#: ../data/rc_gui.ui.h:92
+#: ../data/rc_gui.ui.h:99
 msgid "Timezone:"
 msgstr "Timezone:"
 
-#: ../data/rc_gui.ui.h:93
+#: ../data/rc_gui.ui.h:100
 msgid "Set _Timezone..."
 msgstr "Set _Timezone..."
 
-#: ../data/rc_gui.ui.h:94
+#: ../data/rc_gui.ui.h:101
 msgid "Set the timezone to be used by the internal clock"
 msgstr "Set the timezone to be used by the internal clock"
 
-#: ../data/rc_gui.ui.h:95
+#: ../data/rc_gui.ui.h:102
 msgid "Keyboard:"
 msgstr "Keyboard:"
 
-#: ../data/rc_gui.ui.h:96
+#: ../data/rc_gui.ui.h:103
 msgid "Set _Keyboard..."
 msgstr "Set _Keyboard..."
 
-#: ../data/rc_gui.ui.h:97
+#: ../data/rc_gui.ui.h:104
 msgid "Set international keyboard options"
 msgstr "Set international keyboard options"
 
-#: ../data/rc_gui.ui.h:98
+#: ../data/rc_gui.ui.h:105
 msgid "WiFi Country:"
 msgstr "Wireless LAN Country:"
 
-#: ../data/rc_gui.ui.h:99
+#: ../data/rc_gui.ui.h:106
 msgid "Set _WiFi Country..."
 msgstr "Set _WLAN Country..."
 
-#: ../data/rc_gui.ui.h:100
+#: ../data/rc_gui.ui.h:107
 msgid "Set WiFi country code"
 msgstr "Set wireless LAN country code"
 
-#: ../data/rc_gui.ui.h:101
+#: ../data/rc_gui.ui.h:108
 msgid "Localisation"
 msgstr "Localisation"
 
-#: ../data/rc_gui.ui.h:102
+#: ../data/rc_gui.ui.h:109
 msgid ""
 "The Raspberry Pi Configuration application can only modify a standard "
 "configuration.\n"
@@ -492,11 +520,11 @@ msgstr ""
 "In order to use this application, you need to have the latest firmware "
 "installed, device tree enabled, and the lightdm application installed. "
 
-#: ../data/rc_gui.ui.h:107
+#: ../data/rc_gui.ui.h:114
 msgid "Filesystem Expanded"
 msgstr "Filesystem Expanded"
 
-#: ../data/rc_gui.ui.h:108
+#: ../data/rc_gui.ui.h:115
 msgid ""
 "The filesystem has been expanded.\n"
 "\n"
@@ -506,83 +534,83 @@ msgstr ""
 "\n"
 "The new space will not be available until you reboot your Raspberry Pi."
 
-#: ../data/rc_gui.ui.h:111
+#: ../data/rc_gui.ui.h:118
 msgid "Locale"
 msgstr "Locale"
 
-#: ../data/rc_gui.ui.h:112
+#: ../data/rc_gui.ui.h:119
 msgid "Language:"
 msgstr "Language:"
 
-#: ../data/rc_gui.ui.h:113
+#: ../data/rc_gui.ui.h:120
 msgid "Country:"
 msgstr "Country:"
 
-#: ../data/rc_gui.ui.h:114
+#: ../data/rc_gui.ui.h:121
 msgid "Character Set:"
 msgstr "Character Set:"
 
-#: ../data/rc_gui.ui.h:115
+#: ../data/rc_gui.ui.h:122
 msgid "Overlay File System"
 msgstr "Overlay File System"
 
-#: ../data/rc_gui.ui.h:116
+#: ../data/rc_gui.ui.h:123
 msgid "Overlay:"
 msgstr "Overlay:"
 
-#: ../data/rc_gui.ui.h:117
+#: ../data/rc_gui.ui.h:124
 msgid "Enabled"
 msgstr "Enabled"
 
-#: ../data/rc_gui.ui.h:118
+#: ../data/rc_gui.ui.h:125
 msgid "Enable a file system overlay; all changes will be lost on reboot"
 msgstr "Enable a file system overlay; all changes will be lost on reboot"
 
-#: ../data/rc_gui.ui.h:119
+#: ../data/rc_gui.ui.h:126
 msgid "Disabled"
 msgstr "Disabled"
 
-#: ../data/rc_gui.ui.h:120
+#: ../data/rc_gui.ui.h:127
 msgid "Disable a file system overlay; changes will be saved to the SD card"
 msgstr "Disable a file system overlay; changes will be saved to the SD card"
 
-#: ../data/rc_gui.ui.h:121
+#: ../data/rc_gui.ui.h:128
 msgid "Boot Partition:"
 msgstr "Boot Partition:"
 
-#: ../data/rc_gui.ui.h:122
+#: ../data/rc_gui.ui.h:129
 msgid "Read-only"
 msgstr "Read-only"
 
-#: ../data/rc_gui.ui.h:123
+#: ../data/rc_gui.ui.h:130
 msgid "Make the boot partition read-only"
 msgstr "Make the boot partition read-only"
 
-#: ../data/rc_gui.ui.h:124
+#: ../data/rc_gui.ui.h:131
 msgid "Read-write"
 msgstr "Read-write"
 
-#: ../data/rc_gui.ui.h:125
+#: ../data/rc_gui.ui.h:132
 msgid "Make the boot partition writable"
 msgstr "Make the boot partition writable"
 
-#: ../data/rc_gui.ui.h:127
+#: ../data/rc_gui.ui.h:134
 msgid "Change Password"
 msgstr "Change Password"
 
-#: ../data/rc_gui.ui.h:128
+#: ../data/rc_gui.ui.h:135
 msgid "Enter new password:"
 msgstr "Enter new password:"
 
-#: ../data/rc_gui.ui.h:129
+#: ../data/rc_gui.ui.h:136
 msgid "Confirm new password:"
 msgstr "Confirm new password:"
 
-#: ../data/rc_gui.ui.h:130
+#: ../data/rc_gui.ui.h:137
 msgid "Password Not Changed"
 msgstr "Password Not Changed"
 
-#: ../data/rc_gui.ui.h:131
+#: ../data/rc_gui.ui.h:138
 msgid ""
 "The password change failed.\n"
 "\n"
@@ -595,19 +623,19 @@ msgstr ""
 "This could be because the new password was not sufficiently complex or was "
 "too similar to the current password."
 
-#: ../data/rc_gui.ui.h:134
+#: ../data/rc_gui.ui.h:141
 msgid "Password Changed"
 msgstr "Password Changed"
 
-#: ../data/rc_gui.ui.h:135
+#: ../data/rc_gui.ui.h:142
 msgid "The password has been changed successfully."
 msgstr "The password has been changed successfully."
 
-#: ../data/rc_gui.ui.h:136
+#: ../data/rc_gui.ui.h:143
 msgid "Reboot needed"
 msgstr "Reboot needed"
 
-#: ../data/rc_gui.ui.h:137
+#: ../data/rc_gui.ui.h:144
 msgid ""
 "The changes you have made require the Raspberry Pi to be rebooted to take "
 "effect.\n"
@@ -619,48 +647,48 @@ msgstr ""
 "\n"
 "Would you like to reboot now? "
 
-#: ../data/rc_gui.ui.h:140
+#: ../data/rc_gui.ui.h:147
 msgid "Set Resolution"
 msgstr "Set Resolution"
 
-#: ../data/rc_gui.ui.h:141
+#: ../data/rc_gui.ui.h:148
 msgid "Timezone"
 msgstr "Timezone"
 
-#: ../data/rc_gui.ui.h:142
+#: ../data/rc_gui.ui.h:149
 msgid "Area:"
 msgstr "Area:"
 
-#: ../data/rc_gui.ui.h:143
+#: ../data/rc_gui.ui.h:150
 msgid "Location:"
 msgstr "Location:"
 
-#: ../data/rc_gui.ui.h:144
+#: ../data/rc_gui.ui.h:151
 msgid "WiFi Country Code"
 msgstr "Wireless LAN Country"
 
-#: ../data/rc_gui.ui.h:145
+#: ../data/rc_gui.ui.h:152
 msgid "Keyboard"
 msgstr "Keyboard"
 
-#: ../data/rc_gui.ui.h:146
+#: ../data/rc_gui.ui.h:153
 msgid "Model:"
 msgstr "Model:"
 
-#: ../data/rc_gui.ui.h:147
+#: ../data/rc_gui.ui.h:154
 msgid "Layout:"
 msgstr "Layout:"
 
-#: ../data/rc_gui.ui.h:148
+#: ../data/rc_gui.ui.h:155
 msgid "Variant:"
 msgstr "Variant:"
 
-#: ../data/rc_gui.ui.h:149
+#: ../data/rc_gui.ui.h:156
 #, fuzzy
 msgid "Reboot Needed"
 msgstr "Reboot needed"
 
-#: ../data/rc_gui.ui.h:150
+#: ../data/rc_gui.ui.h:157
 msgid ""
 "Your system has recently been updated. Please reboot to ensure these updates "
 "have loaded before setting up the overlay file system."

@@ -98,6 +98,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_GPU_MEM_512 "raspi-config nonint get_config_var gpu_mem_512 /boot/config.txt"
 #define GET_GPU_MEM_1K  "raspi-config nonint get_config_var gpu_mem_1024 /boot/config.txt"
 #define SET_GPU_MEM     "raspi-config nonint do_memory_split %d"
+#define GET_FAN         "raspi-config nonint get_fan"
+#define GET_FAN_GPIO    "raspi-config nonint get_fan_gpio"
+#define GET_FAN_TEMP    "raspi-config nonint get_fan_temp"
+#define SET_FAN         "raspi-config nonint do_fan %d %d %d"
 #define GET_HDMI_GROUP  "raspi-config nonint get_config_var hdmi_group /boot/config.txt"
 #define GET_HDMI_MODE   "raspi-config nonint get_config_var hdmi_mode /boot/config.txt"
 #define SET_HDMI_GP_MOD "raspi-config nonint do_resolution %d %d"
@@ -128,8 +132,9 @@ static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb, *p
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
 static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb;
-static GObject *analog_on_rb, *analog_off_rb, *blank_on_rb, *blank_off_rb, *led_pwr_rb, *led_actpwr_rb;
+static GObject *analog_on_rb, *analog_off_rb, *blank_on_rb, *blank_off_rb, *led_pwr_rb, *led_actpwr_rb, *fan_on_rb, *fan_off_rb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_rb, *ofs_dis_rb, *bp_ro_rb, *bp_rw_rb, *ofs_lbl;
+static GObject *fan_gpio_sb, *fan_temp_sb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwentry3_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
 static GObject *tzarea_cb, *tzloc_cb, *wccountry_cb, *resolution_cb;
@@ -142,7 +147,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 static char *orig_hostname;
 static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
 static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub, orig_pi4v;
-static int orig_ofs, orig_bpro, orig_blank, orig_leds;
+static int orig_ofs, orig_bpro, orig_blank, orig_leds, orig_fan, orig_fan_gpio, orig_fan_temp;
 
 /* Reboot flag set after locale change */
 
@@ -1592,6 +1597,12 @@ static void on_serial_off (GtkButton* btn, gpointer ptr)
     }
 }
 
+static void on_fan_toggle (GtkButton* btn, gpointer ptr)
+{
+    gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)));
+    gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)));
+}
+
 /* Write the changes to the system when OK is pressed */
 
 static int process_changes (void)
@@ -1762,6 +1773,17 @@ static int process_changes (void)
                 reboot = 1;
             }
         }
+
+        int fan_gpio = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_gpio_sb));
+        int fan_temp = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_temp_sb));
+        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (fan_off_rb)))
+        {
+            if (orig_fan == 0) vsystem (SET_FAN, 1, 0, 0);
+        }
+        else
+        {
+            if (orig_fan == 1 || orig_fan_gpio != fan_gpio || orig_fan_temp != fan_temp) vsystem (SET_FAN, 0, fan_gpio, fan_temp);
+        }
     }
 
     return reboot;
@@ -1816,6 +1838,7 @@ int main (int argc, char *argv[])
 {
     GtkBuilder *builder;
     GObject *item;
+    GtkObject *madj, *gadj, *tadj;
     GtkWidget *dlg;
 
 #ifdef ENABLE_NLS
@@ -2007,6 +2030,35 @@ int main (int argc, char *argv[])
             if ((orig_leds = get_status (GET_LEDS))) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (led_pwr_rb), TRUE);
             else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (led_actpwr_rb), TRUE);
         }
+
+        fan_on_rb = gtk_builder_get_object (builder, "rb_fan_on");
+        fan_off_rb = gtk_builder_get_object (builder, "rb_fan_off");
+        fan_gpio_sb = gtk_builder_get_object (builder, "sb_fan_gpio");
+        fan_temp_sb = gtk_builder_get_object (builder, "sb_fan_temp");
+        if (orig_fan = get_status (GET_FAN))
+        {
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (fan_off_rb), TRUE);
+            gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), FALSE);
+            gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), FALSE);
+        }
+        else
+        {
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (fan_on_rb), TRUE);
+            gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), TRUE);
+            gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), TRUE);
+        }
+        g_signal_connect (fan_on_rb, "toggled", G_CALLBACK (on_fan_toggle), NULL);
+
+        gadj = gtk_adjustment_new (14, 2, 27, 1, 1, 0);
+        gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (fan_gpio_sb), GTK_ADJUSTMENT (gadj));
+        orig_fan_gpio = get_status (GET_FAN_GPIO);
+        gtk_spin_button_set_value (GTK_SPIN_BUTTON (fan_gpio_sb), orig_fan_gpio);
+
+        tadj = gtk_adjustment_new (80, 60, 120, 5, 10, 0);
+        gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (fan_temp_sb), GTK_ADJUSTMENT (tadj));
+        orig_fan_temp = get_status (GET_FAN_TEMP);
+        gtk_spin_button_set_value (GTK_SPIN_BUTTON (fan_temp_sb), orig_fan_temp);
+
         switch (get_status (GET_PI_TYPE))
         {
             case 1:
@@ -2093,9 +2145,9 @@ int main (int argc, char *argv[])
             SHOW_WIDGET ("hbox5b");
         }
 
-        GtkObject *adj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);
+        madj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);
         memsplit_sb = gtk_builder_get_object (builder, "spin_gpu");
-        gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (memsplit_sb), GTK_ADJUSTMENT (adj));
+        gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (memsplit_sb), GTK_ADJUSTMENT (madj));
         orig_gpumem = get_gpu_mem ();
         gtk_spin_button_set_value (GTK_SPIN_BUTTON (memsplit_sb), orig_gpumem);
     }

@@ -1,3 +1,9 @@
+rc-gui (1.43) buster; urgency=medium
+
+  * Add fan control to performance tab
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 06 Oct 2020 15:15:28 +0100
+
 rc-gui (1.42) buster; urgency=medium
 
   * Norwegian translations updated
