@@ -1872,6 +1872,7 @@
                   <object class="GtkHBox" id="hbox33">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label33">
                         <property name="visible">True</property>
