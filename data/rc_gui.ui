@@ -102,6 +102,9 @@
                         <property name="receives_default">True</property>
                         <property name="tooltip_text" translatable="yes">Change password for the default user (pi)</property>
                         <property name="use_underline">True</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label11"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -153,6 +156,9 @@
                         <property name="secondary_icon_activatable">False</property>
                         <property name="primary_icon_sensitive">True</property>
                         <property name="secondary_icon_sensitive">True</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label12"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -273,6 +279,9 @@
                         <property name="receives_default">False</property>
                         <property name="tooltip_text" translatable="yes">Automatically log in the default user (pi)</property>
                         <property name="draw_indicator">True</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label14"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -324,6 +333,9 @@
                         <property name="receives_default">False</property>
                         <property name="tooltip_text" translatable="yes">Do not complete boot until network connection is established</property>
                         <property name="draw_indicator">True</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label15"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">True</property>
