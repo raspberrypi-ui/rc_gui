@@ -131,7 +131,7 @@ static GObject *expandfs_btn, *passwd_btn, *res_btn, *locale_btn, *timezone_btn,
 static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb, *pixdub_on_rb, *pixdub_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
-static GObject *autologin_cb, *netwait_cb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb;
+static GObject *alogin_on_rb, *alogin_off_rb, *netwait_on_rb, *netwait_off_rb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb;
 static GObject *analog_on_rb, *analog_off_rb, *blank_on_rb, *blank_off_rb, *led_pwr_rb, *led_actpwr_rb, *fan_on_rb, *fan_off_rb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_rb, *ofs_dis_rb, *bp_ro_rb, *bp_rw_rb, *ofs_lbl;
 static GObject *fan_gpio_sb, *fan_temp_sb;
@@ -1610,9 +1610,9 @@ static int process_changes (void)
     int reboot = 0;
 
     if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)) 
-        || orig_autolog == gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (autologin_cb)))
+        || orig_autolog == gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (alogin_on_rb)))
     {
-        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (autologin_cb)))
+        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (alogin_on_rb)))
         {
             if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUIA);
             else vsystem (SET_BOOT_CLIA);
@@ -1624,7 +1624,7 @@ static int process_changes (void)
         }
     }
     
-    if (orig_netwait == gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (netwait_cb)))
+    if (orig_netwait != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (netwait_off_rb)))
     {
         vsystem (SET_BOOT_WAIT, (1 - orig_netwait));
     }
@@ -1917,13 +1917,15 @@ int main (int argc, char *argv[])
     if (orig_boot = get_status (GET_BOOT_CLI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
 
-    autologin_cb = gtk_builder_get_object (builder, "cb_login");
-    if (orig_autolog = get_status (GET_AUTOLOGIN)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autologin_cb), FALSE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autologin_cb), TRUE);
+    alogin_on_rb = gtk_builder_get_object (builder, "rb_alogin_on");
+    alogin_off_rb = gtk_builder_get_object (builder, "rb_alogin_off");
+    if (orig_autolog = get_status (GET_AUTOLOGIN)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (alogin_off_rb), TRUE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (alogin_on_rb), TRUE);
 
-    netwait_cb = gtk_builder_get_object (builder, "cb_network");
-    if (orig_netwait = get_status (GET_BOOT_WAIT)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_cb), FALSE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_cb), TRUE);
+    netwait_on_rb = gtk_builder_get_object (builder, "rb_netwait_on");
+    netwait_off_rb = gtk_builder_get_object (builder, "rb_netwait_off");
+    if (orig_netwait = get_status (GET_BOOT_WAIT)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_off_rb), TRUE);
+    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_on_rb), TRUE);
 
     ssh_on_rb = gtk_builder_get_object (builder, "rb_ssh_on");
     ssh_off_rb = gtk_builder_get_object (builder, "rb_ssh_off");

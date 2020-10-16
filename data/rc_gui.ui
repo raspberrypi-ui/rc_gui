@@ -272,21 +272,34 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkCheckButton" id="cb_login">
+                      <object class="GtkRadioButton" id="rb_alogin_on">
                         <property name="label" translatable="yes">Login as user 'pi'</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="tooltip_text" translatable="yes">Automatically log in the default user (pi)</property>
                         <property name="draw_indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label14"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="rb_alogin_off">
+                        <property name="label" translatable="yes">Disabled</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Prompt for password at boot</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">rb_alogin_on</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">3</property>
                       </packing>
                     </child>
                   </object>
@@ -326,21 +339,34 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkCheckButton" id="cb_network">
+                      <object class="GtkRadioButton" id="rb_netwait_on">
                         <property name="label" translatable="yes">Wait for network</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="tooltip_text" translatable="yes">Do not complete boot until network connection is established</property>
                         <property name="draw_indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label15"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="rb_netwait_off">
+                        <property name="label" translatable="yes">Do not wait</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Do not wait for network connection during boot</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">rb_netwait_on</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">3</property>
                       </packing>
                     </child>
                   </object>
