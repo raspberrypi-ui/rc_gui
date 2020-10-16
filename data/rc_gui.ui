@@ -102,9 +102,6 @@
                         <property name="receives_default">True</property>
                         <property name="tooltip_text" translatable="yes">Change password for the default user (pi)</property>
                         <property name="use_underline">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label11"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1749,6 +1746,9 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="tooltip_text" translatable="yes">Set the level of overclock to control performance</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label31a"/>
+                        </accessibility>
                         <items>
                           <item translatable="yes">None (700MHz)</item>
                           <item translatable="yes">Modest (800MHz)</item>
@@ -1794,6 +1794,9 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="tooltip_text" translatable="yes">Set the level of overclock to control performance</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label31b"/>
+                        </accessibility>
                         <items>
                           <item translatable="yes">None (900MHz)</item>
                           <item translatable="yes">High (1000MHz)</item>
@@ -1835,6 +1838,9 @@
                       <object class="GtkComboBoxText" id="combo_oc_pi3">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label31c"/>
+                        </accessibility>
                         <items>
                           <item translatable="yes">Not available</item>
                         </items>
@@ -1892,6 +1898,9 @@
                         <property name="secondary_icon_activatable">False</property>
                         <property name="primary_icon_sensitive">True</property>
                         <property name="secondary_icon_sensitive">True</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label32"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1942,6 +1951,9 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="tooltip_text" translatable="yes">Configure an overlay file system to protect data from being overwritten or deleted</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label33"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -2064,6 +2076,9 @@
                         <property name="secondary_icon_activatable">False</property>
                         <property name="primary_icon_sensitive">True</property>
                         <property name="secondary_icon_sensitive">True</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label35"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -2117,6 +2132,9 @@
                         <property name="secondary_icon_activatable">False</property>
                         <property name="primary_icon_sensitive">True</property>
                         <property name="secondary_icon_sensitive">True</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label36"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">True</property>
