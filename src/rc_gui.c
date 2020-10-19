@@ -168,7 +168,7 @@ GtkListStore *model_list, *layout_list, *variant_list;
 
 /* List for locale setting */
 
-GtkListStore *locale_list;
+GtkListStore *locale_list, *country_list, *charset_list;
 
 #define LOC_NAME   0
 #define LOC_LCODE  1
@@ -547,7 +547,11 @@ static void read_locales (void)
             else
                 fcname = NULL;
             gtk_list_store_append (locale_list, &iter);
-            gtk_list_store_set (locale_list, &iter, LOC_LCODE, lang, LOC_CCODE, country, LOC_CHSET, charset, LOC_LCCODE, loccode, LOC_CNAME, fcname, LOC_LNAME, flname, -1);
+            gtk_list_store_set (locale_list, &iter, LOC_NAME, flname, LOC_LCODE, lang, LOC_CCODE, country, LOC_CHSET, charset, LOC_LCCODE, loccode, LOC_CNAME, fcname, LOC_LNAME, flname, -1);
+            gtk_list_store_append (country_list, &iter);
+            gtk_list_store_set (country_list, &iter, LOC_NAME, fcname, LOC_LCODE, lang, LOC_CCODE, country, LOC_CHSET, charset, LOC_LCCODE, loccode, LOC_CNAME, fcname, LOC_LNAME, flname, -1);
+            gtk_list_store_append (charset_list, &iter);
+            gtk_list_store_set (charset_list, &iter, LOC_NAME, charset, LOC_LCODE, lang, LOC_CCODE, country, LOC_CHSET, charset, LOC_LCCODE, loccode, LOC_CNAME, fcname, LOC_LNAME, flname, -1);
             g_free (cname);
             g_free (lname);
             g_free (lang);
@@ -577,7 +581,7 @@ static void country_changed (GtkComboBox *cb, char *ptr)
         gtk_tree_model_get (model, &iter, LOC_CCODE, &cstr, -1);
 
     // filter and sort the master database for entries matching this code
-    f1 = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (locale_list), NULL));
+    f1 = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (charset_list), NULL));
     gtk_tree_model_filter_set_visible_func (f1, (GtkTreeModelFilterVisibleFunc) match_lang, lstr, NULL);
 
     f2 = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (f1), NULL));
@@ -613,7 +617,7 @@ static void language_changed (GtkComboBox *cb, char *ptr)
         gtk_tree_model_get (model, &iter, LOC_LCODE, &lstr, -1);
 
     // filter and sort the master database for entries matching this code
-    f1 = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (locale_list), NULL));
+    f1 = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (country_list), NULL));
     gtk_tree_model_filter_set_visible_func (f1, (GtkTreeModelFilterVisibleFunc) match_lang, lstr, NULL);
 
     f2 = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (f1), NULL));
@@ -675,6 +679,8 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 
     // create and populate the locale database
     locale_list = gtk_list_store_new (7, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+    country_list = gtk_list_store_new (7, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+    charset_list = gtk_list_store_new (7, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
     read_locales ();
 
     // create the dialog
