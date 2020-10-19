@@ -3405,21 +3405,25 @@ Would you like to reboot now? </property>
             <property name="n_columns">2</property>
             <property name="column_spacing">5</property>
             <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
               <object class="GtkLabel" id="reslabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Resolution:</property>
               </object>
+            </child>
+            <child>
+              <object class="GtkComboBoxText" id="rescb">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <accessibility>
+                  <relation type="labelled-by" target="reslabel"/>
+                </accessibility>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+              </packing>
             </child>
           </object>
           <packing>

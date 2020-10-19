@@ -1059,10 +1059,7 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "resdialog");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
-    GtkWidget *table = (GtkWidget *) gtk_builder_get_object (builder, "restable");
-    resolution_cb = (GObject *) gtk_combo_box_new_text ();
-    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (resolution_cb), 1, 2, 0, 1, GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 0, 0);
-    gtk_widget_show_all (GTK_WIDGET (resolution_cb));
+    resolution_cb = (GObject *) gtk_builder_get_object (builder, "rescb");
 
     // get the current HDMI group and mode
     hgroup = get_status (GET_HDMI_GROUP);
