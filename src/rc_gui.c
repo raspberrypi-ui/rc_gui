@@ -168,7 +168,17 @@ GtkListStore *model_list, *layout_list, *variant_list;
 
 /* List for locale setting */
 
-GtkListStore *locale_list, *timezone_list, *tzcity_list;
+GtkListStore *locale_list;
+
+#define LOC_NAME   0
+#define LOC_LCODE  1
+#define LOC_CCODE  2
+#define LOC_CHSET  3
+#define LOC_LCCODE 4
+#define LOC_CNAME  5
+#define LOC_LNAME  6
+
+GtkListStore *timezone_list, *tzcity_list;
 
 #define TZ_NAME 0
 #define TZ_PATH 1
@@ -448,7 +458,7 @@ static gboolean match_lang (GtkTreeModel *model, GtkTreeIter *iter, gpointer dat
     char *str;
     gboolean res;
 
-    gtk_tree_model_get (model, iter, 0, &str, -1);
+    gtk_tree_model_get (model, iter, LOC_LCODE, &str, -1);
     if (!g_strcmp0 (str, (char *) data)) res = TRUE;
     else res = FALSE;
     g_free (str);
@@ -460,7 +470,7 @@ static gboolean match_country (GtkTreeModel *model, GtkTreeIter *iter, gpointer 
     char *str;
     gboolean res;
 
-    gtk_tree_model_get (model, iter, 1, &str, -1);
+    gtk_tree_model_get (model, iter, LOC_CCODE, &str, -1);
     if (!g_strcmp0 (str, (char *) data)) res = TRUE;
     else res = FALSE;
     g_free (str);
@@ -537,7 +547,7 @@ static void read_locales (void)
             else
                 fcname = NULL;
             gtk_list_store_append (locale_list, &iter);
-            gtk_list_store_set (locale_list, &iter, 0, lang, 1, country, 2, charset, 3, loccode, 4, fcname, 5, flname, -1);
+            gtk_list_store_set (locale_list, &iter, LOC_LCODE, lang, LOC_CCODE, country, LOC_CHSET, charset, LOC_LCCODE, loccode, LOC_CNAME, fcname, LOC_LNAME, flname, -1);
             g_free (cname);
             g_free (lname);
             g_free (lang);
@@ -559,12 +569,12 @@ static void country_changed (GtkComboBox *cb, char *ptr)
     // get the current language code from the combo box
     model = gtk_combo_box_get_model (GTK_COMBO_BOX (loclang_cb));
     if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (loclang_cb), &iter))
-        gtk_tree_model_get (model, &iter, 0, &lstr, -1);
+        gtk_tree_model_get (model, &iter, LOC_LCODE, &lstr, -1);
 
     // get the current country code from the combo box
     model = gtk_combo_box_get_model (GTK_COMBO_BOX (loccount_cb));
     if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (loccount_cb), &iter))
-        gtk_tree_model_get (model, &iter, 1, &cstr, -1);
+        gtk_tree_model_get (model, &iter, LOC_CCODE, &cstr, -1);
 
     // filter and sort the master database for entries matching this code
     f1 = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (locale_list), NULL));
@@ -574,13 +584,13 @@ static void country_changed (GtkComboBox *cb, char *ptr)
     gtk_tree_model_filter_set_visible_func (f2, (GtkTreeModelFilterVisibleFunc) match_country, cstr, NULL);
 
     schar = GTK_TREE_MODEL_SORT (gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (f2)));
-    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (schar), 2, GTK_SORT_ASCENDING);
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (schar), LOC_CHSET, GTK_SORT_ASCENDING);
 
     // set up the combo box from the sorted and filtered list
     gtk_combo_box_set_model (GTK_COMBO_BOX (locchar_cb), GTK_TREE_MODEL (schar));
 
     if (ptr == NULL) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), 0);
-    else set_init (GTK_TREE_MODEL (schar), locchar_cb, 3, ptr);
+    else set_init (GTK_TREE_MODEL (schar), locchar_cb, LOC_LCCODE, ptr);
 
     g_object_unref (f1);
     g_object_unref (f2);
@@ -600,17 +610,17 @@ static void language_changed (GtkComboBox *cb, char *ptr)
     // get the current language code from the combo box
     model = gtk_combo_box_get_model (GTK_COMBO_BOX (loclang_cb));
     if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (loclang_cb), &iter))
-        gtk_tree_model_get (model, &iter, 0, &lstr, -1);
+        gtk_tree_model_get (model, &iter, LOC_LCODE, &lstr, -1);
 
     // filter and sort the master database for entries matching this code
     f1 = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (locale_list), NULL));
     gtk_tree_model_filter_set_visible_func (f1, (GtkTreeModelFilterVisibleFunc) match_lang, lstr, NULL);
 
     f2 = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (f1), NULL));
-    gtk_tree_model_filter_set_visible_func (f2, (GtkTreeModelFilterVisibleFunc) unique_rows, (void *) 1, NULL);
+    gtk_tree_model_filter_set_visible_func (f2, (GtkTreeModelFilterVisibleFunc) unique_rows, (void *) LOC_CCODE, NULL);
 
     scount = GTK_TREE_MODEL_SORT (gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (f2)));
-    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (scount), 1, GTK_SORT_ASCENDING);
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (scount), LOC_CCODE, GTK_SORT_ASCENDING);
 
     // set up the combo box from the sorted and filtered list
     gtk_combo_box_set_model (GTK_COMBO_BOX (loccount_cb), GTK_TREE_MODEL (scount));
@@ -622,7 +632,7 @@ static void language_changed (GtkComboBox *cb, char *ptr)
         init = g_strdup (ptr);
         strtok (init, "_");
         init_count = strtok (NULL, " .");
-        set_init (GTK_TREE_MODEL (scount), loccount_cb, 1, init_count);
+        set_init (GTK_TREE_MODEL (scount), loccount_cb, LOC_CCODE, init_count);
         g_free (init);
     }
 
@@ -664,7 +674,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     int len;
 
     // create and populate the locale database
-    locale_list = gtk_list_store_new (6, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+    locale_list = gtk_list_store_new (7, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
     read_locales ();
 
     // create the dialog
@@ -681,11 +691,11 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 
     col = gtk_cell_renderer_text_new ();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (loclang_cb), col, FALSE);
-    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (loclang_cb), col, "text", 5);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (loclang_cb), col, "text", LOC_LNAME);
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (loccount_cb), col, FALSE);
-    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (loccount_cb), col, "text", 4);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (loccount_cb), col, "text", LOC_CNAME);
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (locchar_cb), col, FALSE);
-    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (locchar_cb), col, "text", 2);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (locchar_cb), col, "text", LOC_CHSET);
 
     // get the current locale setting and save as init_locale
     init_locale = get_string ("grep LANG= /etc/default/locale | cut -d = -f 2");
@@ -693,10 +703,10 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 
     // filter and sort the master database
     slang = GTK_TREE_MODEL_SORT (gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (locale_list)));
-    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (slang), 0, GTK_SORT_ASCENDING);
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (slang), LOC_LCODE, GTK_SORT_ASCENDING);
 
     flang = GTK_TREE_MODEL_FILTER (gtk_tree_model_filter_new (GTK_TREE_MODEL (slang), NULL));
-    gtk_tree_model_filter_set_visible_func (flang, (GtkTreeModelFilterVisibleFunc) unique_rows, (void *) 0, NULL);
+    gtk_tree_model_filter_set_visible_func (flang, (GtkTreeModelFilterVisibleFunc) unique_rows, (void *) LOC_LCODE, NULL);
 
     // set up the language combo box from the sorted and filtered language list
     gtk_combo_box_set_model (GTK_COMBO_BOX (loclang_cb), GTK_TREE_MODEL (flang));
@@ -706,7 +716,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     {
         str = g_strdup (init_locale);
         strtok (str, "_");
-        set_init (GTK_TREE_MODEL (flang), loclang_cb, 0, str);
+        set_init (GTK_TREE_MODEL (flang), loclang_cb, LOC_LCODE, str);
         g_free (str);
     }
 
@@ -722,7 +732,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
         // get the current charset code from the combo box
         model = gtk_combo_box_get_model (GTK_COMBO_BOX (locchar_cb));
         gtk_combo_box_get_active_iter (GTK_COMBO_BOX (locchar_cb), &iter);
-        gtk_tree_model_get (model, &iter, 3, &str, -1);
+        gtk_tree_model_get (model, &iter, LOC_LCCODE, &str, -1);
         strcpy (gbuffer, str);
         g_free (str);
 
