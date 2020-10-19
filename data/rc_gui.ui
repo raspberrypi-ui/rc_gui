@@ -2686,15 +2686,6 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
             <property name="n_columns">2</property>
             <property name="column_spacing">5</property>
             <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
               <object class="GtkLabel" id="loclabellang">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -2722,6 +2713,49 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
                 <property name="label" translatable="yes">Character Set:</property>
               </object>
               <packing>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBox" id="loccblang">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <accessibility>
+                  <relation type="labelled-by" target="loclabellang"/>
+                </accessibility>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBox" id="loccbcountry">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <accessibility>
+                  <relation type="labelled-by" target="loclabelcountry"/>
+                </accessibility>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBox" id="loccbchar">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <accessibility>
+                  <relation type="labelled-by" target="loclabelchar"/>
+                </accessibility>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
                 <property name="top_attach">2</property>
                 <property name="bottom_attach">3</property>
               </packing>
@@ -3043,6 +3077,9 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
                 <property name="secondary_icon_activatable">False</property>
                 <property name="primary_icon_sensitive">True</property>
                 <property name="secondary_icon_sensitive">True</property>
+                <accessibility>
+                  <relation type="labelled-by" target="pwlabel2"/>
+                </accessibility>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -3086,6 +3123,9 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
                 <property name="secondary_icon_activatable">False</property>
                 <property name="primary_icon_sensitive">True</property>
                 <property name="secondary_icon_sensitive">True</property>
+                <accessibility>
+                  <relation type="labelled-by" target="pwlabel3"/>
+                </accessibility>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -3454,12 +3494,6 @@ Would you like to reboot now? </property>
             <property name="n_columns">2</property>
             <property name="column_spacing">5</property>
             <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
               <object class="GtkLabel" id="tzarealabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -3475,6 +3509,34 @@ Would you like to reboot now? </property>
                 <property name="label" translatable="yes">Location:</property>
               </object>
               <packing>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBox" id="tzcbarea">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <accessibility>
+                  <relation type="labelled-by" target="tzarealabel"/>
+                </accessibility>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBox" id="tzcbloc">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <accessibility>
+                  <relation type="labelled-by" target="tzloclabel"/>
+                </accessibility>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
                 <property name="top_attach">1</property>
                 <property name="bottom_attach">2</property>
               </packing>
@@ -3551,21 +3613,25 @@ Would you like to reboot now? </property>
             <property name="n_columns">2</property>
             <property name="column_spacing">5</property>
             <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
               <object class="GtkLabel" id="wccountrylabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Country:</property>
               </object>
+            </child>
+            <child>
+              <object class="GtkComboBoxText" id="wccbcountry">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <accessibility>
+                  <relation type="labelled-by" target="wccountrylabel"/>
+                </accessibility>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+              </packing>
             </child>
           </object>
           <packing>
@@ -3640,15 +3706,6 @@ Would you like to reboot now? </property>
             <property name="n_columns">2</property>
             <property name="column_spacing">5</property>
             <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
               <object class="GtkLabel" id="keylabelmodel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -3676,6 +3733,49 @@ Would you like to reboot now? </property>
                 <property name="label" translatable="yes">Variant:</property>
               </object>
               <packing>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBox" id="keycbmodel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <accessibility>
+                  <relation type="labelled-by" target="keylabelmodel"/>
+                </accessibility>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBox" id="keycblayout">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <accessibility>
+                  <relation type="labelled-by" target="keylabellayout"/>
+                </accessibility>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBox" id="keycbvar">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <accessibility>
+                  <relation type="labelled-by" target="keylabelvar"/>
+                </accessibility>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
                 <property name="top_attach">2</property>
                 <property name="bottom_attach">3</property>
               </packing>
