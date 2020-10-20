@@ -546,12 +546,14 @@ static void read_locales (void)
                 fcname = g_strdup_printf ("%s (%s)", country, cname);
             else
                 fcname = NULL;
+
             gtk_list_store_append (locale_list, &iter);
-            gtk_list_store_set (locale_list, &iter, LOC_NAME, flname, LOC_LCODE, lang, LOC_CCODE, country, LOC_CHSET, charset, LOC_LCCODE, loccode, LOC_CNAME, fcname, LOC_LNAME, flname, -1);
+            gtk_list_store_set (locale_list, &iter, LOC_NAME, flname, LOC_LCODE, lang, LOC_LNAME, flname, -1);
             gtk_list_store_append (country_list, &iter);
-            gtk_list_store_set (country_list, &iter, LOC_NAME, fcname, LOC_LCODE, lang, LOC_CCODE, country, LOC_CHSET, charset, LOC_LCCODE, loccode, LOC_CNAME, fcname, LOC_LNAME, flname, -1);
+            gtk_list_store_set (country_list, &iter, LOC_NAME, fcname, LOC_LCODE, lang, LOC_CCODE, country, LOC_CNAME, fcname, -1);
             gtk_list_store_append (charset_list, &iter);
-            gtk_list_store_set (charset_list, &iter, LOC_NAME, charset, LOC_LCODE, lang, LOC_CCODE, country, LOC_CHSET, charset, LOC_LCCODE, loccode, LOC_CNAME, fcname, LOC_LNAME, flname, -1);
+            gtk_list_store_set (charset_list, &iter, LOC_NAME, charset, LOC_LCODE, lang, LOC_CCODE, country, LOC_CHSET, charset, LOC_LCCODE, loccode, -1);
+
             g_free (cname);
             g_free (lname);
             g_free (lang);
