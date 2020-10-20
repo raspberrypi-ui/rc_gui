@@ -677,8 +677,8 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     int len;
 
     // create and populate the locale database
-    locale_list = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
-    country_list = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+    locale_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+    country_list = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
     charset_list = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
     read_locales ();
 
