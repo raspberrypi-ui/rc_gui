@@ -173,10 +173,7 @@ GtkListStore *locale_list, *country_list, *charset_list;
 #define LOC_NAME   0
 #define LOC_LCODE  1
 #define LOC_CCODE  2
-#define LOC_CHSET  3
-#define LOC_LCCODE 4
-#define LOC_CNAME  5
-#define LOC_LNAME  6
+#define LOC_LCCODE 3
 
 GtkListStore *timezone_list, *tzcity_list;
 
@@ -548,11 +545,11 @@ static void read_locales (void)
                 fcname = NULL;
 
             gtk_list_store_append (locale_list, &iter);
-            gtk_list_store_set (locale_list, &iter, LOC_NAME, flname, LOC_LCODE, lang, LOC_LNAME, flname, -1);
+            gtk_list_store_set (locale_list, &iter, LOC_NAME, flname, LOC_LCODE, lang, -1);
             gtk_list_store_append (country_list, &iter);
-            gtk_list_store_set (country_list, &iter, LOC_NAME, fcname, LOC_LCODE, lang, LOC_CCODE, country, LOC_CNAME, fcname, -1);
+            gtk_list_store_set (country_list, &iter, LOC_NAME, fcname, LOC_LCODE, lang, LOC_CCODE, country, -1);
             gtk_list_store_append (charset_list, &iter);
-            gtk_list_store_set (charset_list, &iter, LOC_NAME, charset, LOC_LCODE, lang, LOC_CCODE, country, LOC_CHSET, charset, LOC_LCCODE, loccode, -1);
+            gtk_list_store_set (charset_list, &iter, LOC_NAME, charset, LOC_LCODE, lang, LOC_CCODE, country, LOC_LCCODE, loccode, -1);
 
             g_free (cname);
             g_free (lname);
@@ -590,7 +587,7 @@ static void country_changed (GtkComboBox *cb, char *ptr)
     gtk_tree_model_filter_set_visible_func (f2, (GtkTreeModelFilterVisibleFunc) match_country, cstr, NULL);
 
     schar = GTK_TREE_MODEL_SORT (gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (f2)));
-    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (schar), LOC_CHSET, GTK_SORT_ASCENDING);
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (schar), LOC_NAME, GTK_SORT_ASCENDING);
 
     // set up the combo box from the sorted and filtered list
     gtk_combo_box_set_model (GTK_COMBO_BOX (locchar_cb), GTK_TREE_MODEL (schar));
@@ -680,9 +677,9 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     int len;
 
     // create and populate the locale database
-    locale_list = gtk_list_store_new (7, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
-    country_list = gtk_list_store_new (7, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
-    charset_list = gtk_list_store_new (7, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+    locale_list = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+    country_list = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+    charset_list = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
     read_locales ();
 
     // create the dialog
@@ -699,11 +696,11 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 
     col = gtk_cell_renderer_text_new ();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (loclang_cb), col, FALSE);
-    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (loclang_cb), col, "text", LOC_LNAME);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (loclang_cb), col, "text", LOC_NAME);
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (loccount_cb), col, FALSE);
-    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (loccount_cb), col, "text", LOC_CNAME);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (loccount_cb), col, "text", LOC_NAME);
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (locchar_cb), col, FALSE);
-    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (locchar_cb), col, "text", LOC_CHSET);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (locchar_cb), col, "text", LOC_NAME);
 
     // get the current locale setting and save as init_locale
     init_locale = get_string ("grep LANG= /etc/default/locale | cut -d = -f 2");
