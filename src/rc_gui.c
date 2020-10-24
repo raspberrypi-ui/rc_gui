@@ -90,6 +90,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_PI_TYPE     "raspi-config nonint get_pi_type"
 #define IS_PI           "raspi-config nonint is_pi"
 #define IS_PI4          "raspi-config nonint is_pifour"
+#define HAS_ANALOG      "raspi-config nonint has_analog"
 #define GET_FKMS        "raspi-config nonint is_fkms"
 #define GET_OVERCLOCK   "raspi-config nonint get_config_var arm_freq /boot/config.txt"
 #define SET_OVERCLOCK   "raspi-config nonint do_overclock %s"
@@ -2129,7 +2130,7 @@ int main (int argc, char *argv[])
          * hbox5c - filler                  -           -           -           -        Y
          */
 
-        if (vsystem (IS_PI4))
+        if (vsystem (IS_PI4) || vsystem (HAS_ANALOG))
         {
             HIDE_WIDGET ("hbox54");
             SHOW_WIDGET ("hbox5a");
