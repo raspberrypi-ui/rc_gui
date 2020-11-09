@@ -102,6 +102,9 @@
                         <property name="receives_default">True</property>
                         <property name="tooltip_text" translatable="yes">Change password for the default user (pi)</property>
                         <property name="use_underline">True</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label11"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -630,6 +633,9 @@
                         <property name="receives_default">True</property>
                         <property name="tooltip_text" translatable="yes">Set the resolution for HDMI and VNC</property>
                         <property name="use_underline">True</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label51"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -2356,6 +2362,9 @@
                         <property name="receives_default">True</property>
                         <property name="tooltip_text" translatable="yes">Set internationalisation settings for units etc.</property>
                         <property name="use_underline">True</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label41"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -2408,6 +2417,9 @@
                         <property name="receives_default">True</property>
                         <property name="tooltip_text" translatable="yes">Set the timezone to be used by the internal clock</property>
                         <property name="use_underline">True</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label42"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -2460,6 +2472,9 @@
                         <property name="receives_default">True</property>
                         <property name="tooltip_text" translatable="yes">Set international keyboard options</property>
                         <property name="use_underline">True</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label43"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -2512,6 +2527,9 @@
                         <property name="receives_default">True</property>
                         <property name="tooltip_text" translatable="yes">Set WiFi country code</property>
                         <property name="use_underline">True</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label44"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
