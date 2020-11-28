@@ -1,0 +1,697 @@
+# Raspberry Pi Configuration utility
+# Copyright (C) 2018 Raspberry Pi
+# This file is distributed under the same license as the rc_gui package.
+# Jose Riha <jose1711 gmail com>, 2020
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: rc_gui 1.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-16 11:26+0100\n"
+"PO-Revision-Date: 2020-11-28 20:17+0100\n"
+"Last-Translator: Jose Riha <jose1711@gmail.com>\n"
+"Language-Team: Slovak\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.4.1\n"
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:741
+msgid "Setting locale - please wait..."
+msgstr "Konfigurujú sa jazykové nastavenia - čakajte prosím..."
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:979
+msgid "Setting timezone - please wait..."
+msgstr "Nastavuje sa časové pásmo - čakajte prosím..."
+
+#: ../src/rc_gui.c:1023 ../src/rc_gui.c:1046
+msgid "<not set>"
+msgstr "<nenastavené>"
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:1425
+msgid "Setting keyboard - please wait..."
+msgstr "Nastavuje sa klávesnica - čakajte prosím..."
+
+#: ../src/rc_gui.c:1454 ../data/rc_gui.ui.h:136
+msgid "Changes will not take effect until a reboot"
+msgstr "Zmeny sa prejavia až po reboote"
+
+#: ../src/rc_gui.c:1509 ../src/rc_gui.c:1510
+msgid "The state of the boot partition cannot be changed while an overlay is active"
+msgstr "Stav zavádzacej (boot) partície nie je možné meniť, kým je aktívny overlay"
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:1530
+msgid "Setting up overlay - please wait..."
+msgstr "Nastavuje sa overlay - čakajte prosím..."
+
+#: ../src/rc_gui.c:1583 ../data/rc_gui.ui.h:68
+msgid "Enable shell and kernel messages on the serial connection"
+msgstr "Zapnúť správy shellu a jadra na sériovej linke"
+
+#: ../src/rc_gui.c:1584 ../data/rc_gui.ui.h:69
+msgid "Disable shell and kernel messages on the serial connection"
+msgstr "Vypnúť správy shellu a jadra na sériovej linke"
+
+#: ../src/rc_gui.c:1595 ../src/rc_gui.c:1596
+msgid "This setting cannot be changed while the serial port is disabled"
+msgstr "Toto nastavenie nie je možné zmeniť, kým je sériový port vypnutý"
+
+#: ../src/rc_gui.c:1953 ../src/rc_gui.c:1954
+msgid "This setting is overridden when Xscreensaver is installed"
+msgstr "Toto nastavenie nie je účinné, ak je nainštalovaný Xscreensaver"
+
+#: ../src/rc_gui.c:2013 ../src/rc_gui.c:2014
+msgid "The VNC server is not installed"
+msgstr "VNC server nie je nainštalovaný"
+
+#: ../data/rc_gui.ui.h:1 ../data/rc_gui.desktop.in.h:1
+msgid "Raspberry Pi Configuration"
+msgstr "Konfigurácia Raspberry Pi"
+
+#: ../data/rc_gui.ui.h:2
+msgid "Password:"
+msgstr "Heslo:"
+
+#: ../data/rc_gui.ui.h:3
+msgid "Change _Password..."
+msgstr "Zmeniť _heslo..."
+
+#: ../data/rc_gui.ui.h:4
+msgid "Change password for the default user (pi)"
+msgstr "Zmeniť heslo pre aktuálneho používateľa"
+
+#: ../data/rc_gui.ui.h:5
+msgid "Hostname:"
+msgstr "Názov hostiteľa:"
+
+#: ../data/rc_gui.ui.h:6
+msgid "Set the name of your Pi on a local network"
+msgstr "Nastavte, ako sa má volať Vaše Pi v miestnej sieti"
+
+#: ../data/rc_gui.ui.h:7
+msgid "Boot:"
+msgstr "Boot:"
+
+#: ../data/rc_gui.ui.h:8
+msgid "To Desktop"
+msgstr "Do grafického prostredia"
+
+#: ../data/rc_gui.ui.h:9
+msgid "Launch the desktop environment automatically on boot"
+msgstr "Po boote automaticky spustiť grafické prostredie"
+
+#: ../data/rc_gui.ui.h:10
+msgid "To CLI"
+msgstr "Do prík. riadku"
+
+#: ../data/rc_gui.ui.h:11
+msgid "Boot into a command line shell rather than the desktop"
+msgstr "Miesto desktopového prostredia nabootovať do príkazového riadku"
+
+#: ../data/rc_gui.ui.h:12
+msgid "Auto login:"
+msgstr "Automatické prihlásenie:"
+
+#: ../data/rc_gui.ui.h:13
+msgid "Login as user 'pi'"
+msgstr "Ako aktuálny používateľ"
+
+#: ../data/rc_gui.ui.h:14
+msgid "Automatically log in the default user (pi)"
+msgstr "Automaticky prihlásiť aktuálneho používateľa"
+
+#: ../data/rc_gui.ui.h:15
+msgid "Disabled"
+msgstr "Vypnúť"
+
+#: ../data/rc_gui.ui.h:16
+msgid "Prompt for password at boot"
+msgstr "Pri boote vyžadovať zadanie hesla"
+
+#: ../data/rc_gui.ui.h:17
+msgid "Network at Boot:"
+msgstr "Sieť počas bootovania:"
+
+#: ../data/rc_gui.ui.h:18
+msgid "Wait for network"
+msgstr "Počkať na sieť"
+
+#: ../data/rc_gui.ui.h:19
+msgid "Do not complete boot until network connection is established"
+msgstr "Nedokončiť bootovanie, kým nie je nadviazané sieťové spojenie"
+
+#: ../data/rc_gui.ui.h:20
+msgid "Do not wait"
+msgstr "Nečakať"
+
+#: ../data/rc_gui.ui.h:21
+msgid "Do not wait for network connection during boot"
+msgstr "Nečakať na sieťové spojenie počas bootovania"
+
+#: ../data/rc_gui.ui.h:22
+msgid "Splash Screen:"
+msgstr "Štartovacia obrazovka:"
+
+#: ../data/rc_gui.ui.h:23
+msgid "Enable"
+msgstr "Zapnúť"
+
+#: ../data/rc_gui.ui.h:24
+msgid "Show graphical splash screen at boot"
+msgstr "Zobraziť štartovaciu obrazovku počas bootovania"
+
+#: ../data/rc_gui.ui.h:25
+msgid "Disable"
+msgstr "Vypnúť"
+
+#: ../data/rc_gui.ui.h:26
+msgid "Show text messages at boot"
+msgstr "Zobraziť textové správy počas bootu"
+
+#: ../data/rc_gui.ui.h:27
+msgid "Power LED:"
+msgstr "Dióda napájania:"
+
+#: ../data/rc_gui.ui.h:28
+msgid "Activity"
+msgstr "Aktivita"
+
+#: ../data/rc_gui.ui.h:29
+msgid "Flash the power LED on disk activity"
+msgstr "Pri aktivite na disku dióda napájania bliká"
+
+#: ../data/rc_gui.ui.h:30
+msgid "Constant"
+msgstr "Svieti"
+
+#: ../data/rc_gui.ui.h:31
+msgid "Do not flash the power LED"
+msgstr "Dióda napájania nebliká"
+
+#: ../data/rc_gui.ui.h:32
+msgid "System"
+msgstr "Systém"
+
+#: ../data/rc_gui.ui.h:33
+msgid "Resolution:"
+msgstr "Rozlíšenie:"
+
+#: ../data/rc_gui.ui.h:34
+msgid "Set _Resolution..."
+msgstr "Nastaviť _rozlíšenie..."
+
+#: ../data/rc_gui.ui.h:35
+msgid "Set the resolution for HDMI and VNC"
+msgstr "Nastaviť rozlíšenie pre HDMI a VNC"
+
+#: ../data/rc_gui.ui.h:36
+msgid "Overscan:"
+msgstr "Presnímanie:"
+
+#: ../data/rc_gui.ui.h:37
+msgid "Enable overscan to show the edges of the screen"
+msgstr "Zapnite presnímanie, ak sa časť plochy nezmestí na obrazovku"
+
+#: ../data/rc_gui.ui.h:38
+msgid "Disable overscan to hide black outline on screen"
+msgstr "Vypnite presnímanie, ak sa okolo obrazovky nachádza čierny okraj"
+
+#: ../data/rc_gui.ui.h:39
+msgid "Pixel Doubling:"
+msgstr "Zdvojené pixely:"
+
+#: ../data/rc_gui.ui.h:40
+msgid "Enable pixel doubling to improve usability on high-res screens"
+msgstr "Zapnite zdvojenie pixelov, aby ste vylepšili zobrazenie na obrazovkách s vysokým rozlíšením"
+
+#: ../data/rc_gui.ui.h:41
+msgid "Disable pixel doubling for standard resolution screens"
+msgstr "Vypnite zdvojenie pixelov pre obrazovky s bežným rozlíšením"
+
+#: ../data/rc_gui.ui.h:42
+msgid "Composite Video:"
+msgstr "Kompozitné video:"
+
+#: ../data/rc_gui.ui.h:43
+msgid "Enable analogue composite video on the 3.5mm socket"
+msgstr "Zapnúť analógové kompozitné video na 3.5mm výstupe"
+
+#: ../data/rc_gui.ui.h:44
+msgid "Disable analogue composite video"
+msgstr "Vypnúť analógové kompozitné video"
+
+#: ../data/rc_gui.ui.h:45
+msgid "Screen Blanking:"
+msgstr "Vypínanie obrazovky:"
+
+#: ../data/rc_gui.ui.h:46
+msgid "Blank the screen after a period of inactivity"
+msgstr "Vypnúť obrazovku po uplynutí stanovenej doby"
+
+#: ../data/rc_gui.ui.h:47
+msgid "Never blank the screen"
+msgstr "Nikdy nevypínať obrazovku"
+
+#: ../data/rc_gui.ui.h:48
+msgid "Display"
+msgstr "Zobrazenie"
+
+#: ../data/rc_gui.ui.h:49
+msgid "Camera:"
+msgstr "Kamera:"
+
+#: ../data/rc_gui.ui.h:50
+msgid "Enable the Raspberry Pi Camera Board"
+msgstr "Zapnúť kameru Raspberry Pi"
+
+#: ../data/rc_gui.ui.h:51
+msgid "Disable the Raspberry Pi Camera Board"
+msgstr "Vypnúť kameru Raspberry Pi"
+
+#: ../data/rc_gui.ui.h:52
+msgid "SSH:"
+msgstr "SSH:"
+
+#: ../data/rc_gui.ui.h:53
+msgid "Enable remote access to this Pi via SSH"
+msgstr "Zapnúť vzdialený prístup k tomuto Pi prostredníctvom SSH"
+
+#: ../data/rc_gui.ui.h:54
+msgid "Disable remote access to this Pi via SSH"
+msgstr "Vypnút vzdialený prístup k tomuto Pi prostredníctvom SSH"
+
+#: ../data/rc_gui.ui.h:55
+msgid "VNC:"
+msgstr "VNC:"
+
+#: ../data/rc_gui.ui.h:56
+msgid "Enable remote access to this Pi using RealVNC"
+msgstr "Zapnúť vzdialený prístup k tomuto Pi prostredníctvom RealVNC"
+
+#: ../data/rc_gui.ui.h:57
+msgid "Disable remote access to this Pi using RealVNC"
+msgstr "Vypnúť vzdialený prístup k tomuto Pi prostredníctvom RealVNC"
+
+#: ../data/rc_gui.ui.h:58
+msgid "SPI:"
+msgstr "SPI:"
+
+#: ../data/rc_gui.ui.h:59
+msgid "Enable the automatic loading of the SPI kernel module"
+msgstr "Zapnúť automatické načítanie modulu jadra SPI"
+
+#: ../data/rc_gui.ui.h:60
+msgid "Disable the automatic loading of the SPI kernel module"
+msgstr "Vypnúť automatické načítanie modulu jadra SPI"
+
+#: ../data/rc_gui.ui.h:61
+msgid "I2C:"
+msgstr "I2C:"
+
+#: ../data/rc_gui.ui.h:62
+msgid "Enable the automatic loading of the I2C kernel module"
+msgstr "Zapnúť automatické načítanie modulu jadra I2C"
+
+#: ../data/rc_gui.ui.h:63
+msgid "Disable the automatic loading of the I2C kernel module"
+msgstr "Vypnúť automatické načítanie modulu jadra I2C"
+
+#: ../data/rc_gui.ui.h:64
+msgid "Serial Port:"
+msgstr "Sériový port:"
+
+#: ../data/rc_gui.ui.h:65
+msgid "Enable the serial port over the GPIO pins"
+msgstr "Zapnúť sériový port na GPIO"
+
+#: ../data/rc_gui.ui.h:66
+msgid "Disable the serial port over the GPIO pins"
+msgstr "Vypnúť sériový port na GPIO"
+
+#: ../data/rc_gui.ui.h:67
+msgid "Serial Console:"
+msgstr "Sériová konzola:"
+
+#: ../data/rc_gui.ui.h:70
+msgid "1-Wire:"
+msgstr "1-Wire:"
+
+#: ../data/rc_gui.ui.h:71
+msgid "Enable 1-wire peripheral interface"
+msgstr "Zapnúť komunikačné rozhranie 1-wire"
+
+#: ../data/rc_gui.ui.h:72
+msgid "Disable 1-wire peripheral interface"
+msgstr "Vypnúť komunikačné rozhranie 1-wire"
+
+#: ../data/rc_gui.ui.h:73
+msgid "Remote GPIO:"
+msgstr "Vzdialené GPIO:"
+
+#: ../data/rc_gui.ui.h:74
+msgid "Enable remote access to GPIO pins"
+msgstr "Zapnúť vzdialený prístup na GPIO"
+
+#: ../data/rc_gui.ui.h:75
+msgid "Disable remote access to GPIO pins"
+msgstr "Vypnúť vzdialený prístup na GPIO"
+
+#: ../data/rc_gui.ui.h:76
+msgid "Interfaces"
+msgstr "Rozhrania"
+
+#: ../data/rc_gui.ui.h:77
+msgid "O_verclock:"
+msgstr "P_retaktovanie:"
+
+#: ../data/rc_gui.ui.h:78
+msgid "Set the level of overclock to control performance"
+msgstr "Pre zmenu výkonu nastavte úroveň pretaktovania"
+
+#: ../data/rc_gui.ui.h:79
+msgid "None (700MHz)"
+msgstr "Žiadne (700MHz)"
+
+#: ../data/rc_gui.ui.h:80
+msgid "Modest (800MHz)"
+msgstr "Mierne (800MHz)"
+
+#: ../data/rc_gui.ui.h:81
+msgid "Medium (900MHz)"
+msgstr "Stredné (900MHz)"
+
+#: ../data/rc_gui.ui.h:82
+msgid "High (950MHz)"
+msgstr "Vysoké (950MHz)"
+
+#: ../data/rc_gui.ui.h:83
+msgid "Turbo (1000MHz)"
+msgstr "Turbo (1000MHz)"
+
+#: ../data/rc_gui.ui.h:84
+msgid "None (900MHz)"
+msgstr "Žiadne (900MHz)"
+
+#: ../data/rc_gui.ui.h:85
+msgid "High (1000MHz)"
+msgstr "Vysoké (1000MHz)"
+
+#: ../data/rc_gui.ui.h:86
+msgid "Not available"
+msgstr "Nedostupné"
+
+#: ../data/rc_gui.ui.h:87
+msgid "_GPU Memory:"
+msgstr "Pamäť _GPU:"
+
+#: ../data/rc_gui.ui.h:88
+msgid "Enter the amount of memory available to the GPU"
+msgstr "Zadajte množstvo pamäte, ktorá bude dostupná pre GPU"
+
+#: ../data/rc_gui.ui.h:89
+msgid "Overlay File System:"
+msgstr "Súborový systém Overlay:"
+
+#: ../data/rc_gui.ui.h:90
+msgid "Configure..."
+msgstr "Nastaviť..."
+
+#: ../data/rc_gui.ui.h:91
+msgid "Configure an overlay file system to protect data from being overwritten or deleted"
+msgstr "Nastavte súborový systém Overlay a ochráňte tak údaje pred prepísaním alebo odstránením"
+
+#: ../data/rc_gui.ui.h:92
+msgid "Fan:"
+msgstr "Ventilátor:"
+
+#: ../data/rc_gui.ui.h:93
+msgid "Enable a temperature-controlled fan on a GPIO pin"
+msgstr "Zapnúť teplotou ovládaný ventilátor pripojený ku GPIO"
+
+#: ../data/rc_gui.ui.h:94
+msgid "Disable GPIO fan"
+msgstr "Vypnúť ventilátor pripojený ku GPIO"
+
+#: ../data/rc_gui.ui.h:95
+msgid "Fan GPIO:"
+msgstr "GPIO ventilátora:"
+
+#: ../data/rc_gui.ui.h:96
+msgid "Set the GPIO to which the fan is connected"
+msgstr "Nastavte GPIO, ku ktorému je ventilátor pripojený"
+
+#: ../data/rc_gui.ui.h:97
+msgid "Fan Temperature:"
+msgstr "Teplota pre ventilátor:"
+
+#: ../data/rc_gui.ui.h:98
+msgid "Set the temperature in degrees C at which the fan turns on"
+msgstr "Nastavte teplotu v stupňoch Celzia, pri ktorej sa ventilátor začne točiť"
+
+#: ../data/rc_gui.ui.h:99
+msgid "Performance"
+msgstr "Výkon"
+
+#: ../data/rc_gui.ui.h:100
+msgid "Locale:"
+msgstr "Jazykové nastavenia:"
+
+#: ../data/rc_gui.ui.h:101
+msgid "Set _Locale..."
+msgstr "Nastaviť _jazykové nastavenia..."
+
+#: ../data/rc_gui.ui.h:102
+msgid "Set internationalisation settings for units etc."
+msgstr "Konfigurovat národné nastavenia ako je jazyk, jednotky, a pod."
+
+#: ../data/rc_gui.ui.h:103
+msgid "Timezone:"
+msgstr "Časové pásmo:"
+
+#: ../data/rc_gui.ui.h:104
+msgid "Set _Timezone..."
+msgstr "Nastaviť časové _pásmo..."
+
+#: ../data/rc_gui.ui.h:105
+msgid "Set the timezone to be used by the internal clock"
+msgstr "Nastaviť časové pásmo použité internými hodinami"
+
+#: ../data/rc_gui.ui.h:106
+msgid "Keyboard:"
+msgstr "Klávesnica:"
+
+#: ../data/rc_gui.ui.h:107
+msgid "Set _Keyboard..."
+msgstr "Nastaviť _klávesnicu..."
+
+#: ../data/rc_gui.ui.h:108
+msgid "Set international keyboard options"
+msgstr "Nastaviť možnosti medzinárodnej klávesnice"
+
+#: ../data/rc_gui.ui.h:109
+msgid "WiFi Country:"
+msgstr "Krajina WiFi:"
+
+#: ../data/rc_gui.ui.h:110
+msgid "Set _WiFi Country..."
+msgstr "Nastaviť krajinu _WiFi..."
+
+#: ../data/rc_gui.ui.h:111
+msgid "Set WiFi country code"
+msgstr "Nastaviť kóď krajiny WiFi"
+
+#: ../data/rc_gui.ui.h:112
+msgid "Localisation"
+msgstr "Jazyk"
+
+#: ../data/rc_gui.ui.h:113
+msgid ""
+"The Raspberry Pi Configuration application can only modify a standard configuration.\n"
+"\n"
+"Your configuration appears to have been modified by other tools, and so this application cannot be used on your system.\n"
+"\n"
+"In order to use this application, you need to have the latest firmware installed, Device Tree enabled, the default \"pi\" user set up and the lightdm application "
+"installed. "
+msgstr ""
+"Aplikácia Konfigurácia Raspberry Pi dokáže meniť iba štandardnú konfiguráciu.\n"
+"\n"
+"Vyzerá, že Vaša konfigurácia bola menená inými nástrojmi a preto nemôžete použiť tento program na Vašom systéme.\n"
+"\n"
+"Pre použitie tejto aplikácie musíte nainštalovať najnovší firmvér, zapnúť device tree a mať nainštalovanú aplikáciu lightdm. "
+
+#: ../data/rc_gui.ui.h:118
+msgid "Filesystem Expanded"
+msgstr "Súborový systém zväčšený"
+
+#: ../data/rc_gui.ui.h:119
+msgid ""
+"The filesystem has been expanded.\n"
+"\n"
+"The new space will not be available until you reboot your Raspberry Pi."
+msgstr ""
+"Súborový systém bol zväčšený.\n"
+"\n"
+"Nové miesto nebude dostupné, kým nereštartujte Raspberry Pi."
+
+#: ../data/rc_gui.ui.h:122
+msgid "Locale"
+msgstr "Miestne nastavenia"
+
+#: ../data/rc_gui.ui.h:123
+msgid "Language:"
+msgstr "Jazyk:"
+
+#: ../data/rc_gui.ui.h:124
+msgid "Country:"
+msgstr "Krajina:"
+
+#: ../data/rc_gui.ui.h:125
+msgid "Character Set:"
+msgstr "Kódovanie znakov:"
+
+#: ../data/rc_gui.ui.h:126
+msgid "Overlay File System"
+msgstr "Súborový systém Overlay"
+
+#: ../data/rc_gui.ui.h:127
+msgid "Overlay:"
+msgstr "Overlay:"
+
+#: ../data/rc_gui.ui.h:128
+msgid "Enabled"
+msgstr "Zapnúť"
+
+#: ../data/rc_gui.ui.h:129
+msgid "Enable a file system overlay; all changes will be lost on reboot"
+msgstr "Zapnúť súborový systém Overlay; všetky zmeny sa po reštarte stratia"
+
+#: ../data/rc_gui.ui.h:130
+msgid "Disable a file system overlay; changes will be saved to the SD card"
+msgstr "Vypnúť súborový systém Overlay; zmeny budú zapísané na kartu SD"
+
+#: ../data/rc_gui.ui.h:131
+msgid "Boot Partition:"
+msgstr "Zavádzacia (boot) partícia:"
+
+#: ../data/rc_gui.ui.h:132
+msgid "Read-only"
+msgstr "Iba čítanie"
+
+#: ../data/rc_gui.ui.h:133
+msgid "Make the boot partition read-only"
+msgstr "Na zavádzacej (boot) partícií povoliť iba čítanie"
+
+#: ../data/rc_gui.ui.h:134
+msgid "Read-write"
+msgstr "Čítanie aj zapisovanie"
+
+#: ../data/rc_gui.ui.h:135
+msgid "Make the boot partition writable"
+msgstr "Povoliť zápis na zavádzaciu (boot) partíciu"
+
+#: ../data/rc_gui.ui.h:137
+msgid "Change Password"
+msgstr "Zmeniť heslo"
+
+#: ../data/rc_gui.ui.h:138
+msgid "Enter new password:"
+msgstr "Zadajte nové heslo:"
+
+#: ../data/rc_gui.ui.h:139
+msgid "Confirm new password:"
+msgstr "Potvrďte nové heslo:"
+
+#: ../data/rc_gui.ui.h:140
+msgid "Password Not Changed"
+msgstr "Heslo nebolo zmenené"
+
+#: ../data/rc_gui.ui.h:141
+msgid ""
+"The password change failed.\n"
+"\n"
+"This could be because the current password was incorrect, or because the new password was not sufficiently complex or was too similar to the current password."
+msgstr ""
+"Chyba pri zmene hesla.\n"
+"\n"
+"Toto môže nastať, ak ste zadali neplatné aktuálne heslo, nové heslo nebolo dostatočne zložité alebo sa príliš podobá na aktuálne heslo."
+
+#: ../data/rc_gui.ui.h:144
+msgid "Password Changed"
+msgstr "Heslo bolo zmenené"
+
+#: ../data/rc_gui.ui.h:145
+msgid "The password has been changed successfully."
+msgstr "Heslo bolo úšpešne zmenené."
+
+#: ../data/rc_gui.ui.h:146
+msgid "Reboot needed"
+msgstr "Je vyžadovaný reboot"
+
+#: ../data/rc_gui.ui.h:147
+msgid ""
+"The changes you have made require the Raspberry Pi to be rebooted to take effect.\n"
+"\n"
+"Would you like to reboot now? "
+msgstr ""
+"Zmeny, ktoré ste vykonali sa prejavia až po reštartovaní Raspberry Pi.\n"
+"\n"
+"Chcete ho reštartovať teraz? "
+
+#: ../data/rc_gui.ui.h:150
+msgid "Set Resolution"
+msgstr "Nastaviť rozlíšenie"
+
+#: ../data/rc_gui.ui.h:151
+msgid "Timezone"
+msgstr "Časové pásmo"
+
+#: ../data/rc_gui.ui.h:152
+msgid "Area:"
+msgstr "Oblasť:"
+
+#: ../data/rc_gui.ui.h:153
+msgid "Location:"
+msgstr "Miesto:"
+
+#: ../data/rc_gui.ui.h:154
+msgid "WiFi Country Code"
+msgstr "Kód krajiny WiFi"
+
+#: ../data/rc_gui.ui.h:155
+msgid "Keyboard"
+msgstr "Klávesnica"
+
+#: ../data/rc_gui.ui.h:156
+msgid "Model:"
+msgstr "Model:"
+
+#: ../data/rc_gui.ui.h:157
+msgid "Layout:"
+msgstr "Rozloženie:"
+
+#: ../data/rc_gui.ui.h:158
+msgid "Variant:"
+msgstr "Varianta:"
+
+#: ../data/rc_gui.ui.h:159
+msgid "Reboot Needed"
+msgstr "Je vyžadovaný reboot"
+
+#: ../data/rc_gui.ui.h:160
+msgid "Your system has recently been updated. Please reboot to ensure these updates have loaded before setting up the overlay file system."
+msgstr ""
+"Váš systém bol nedávno aktualizovaný. Pred nastavením súborového systému Overlay vykonajte reštart, aby ste sa uistili, že doslo k načítaniu všetkých aktualizácií."
+
+#: ../data/rc_gui.desktop.in.h:2
+msgid "Configure Raspberry Pi system"
+msgstr "Nastavte systém Raspberry Pi"
+
+#: ../data/pwdrcg.sh:6
+msgid "Password Required"
+msgstr "Je vyžadované heslo"
