@@ -1,3 +1,9 @@
+rc-gui (1.45) buster; urgency=medium
+
+  * Added Slovak translation; updated Italian translation
+
+ -- Simon Long <simon@raspberrypi.com>  Mon, 07 Dec 2020 08:00:09 +0000
+
 rc-gui (1.44) buster; urgency=medium
 
   * Add more accessibility labels
