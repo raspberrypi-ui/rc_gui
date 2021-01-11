@@ -2372,6 +2372,15 @@
       <action-widget response="-5">button1</action-widget>
     </action-widgets>
   </object>
+  <object class="GtkSizeGroup">
+    <widgets>
+      <widget name="tablabel1"/>
+      <widget name="tablabel2"/>
+      <widget name="tablabel3"/>
+      <widget name="tablabel4"/>
+      <widget name="tablabel5"/>
+    </widgets>
+  </object>
   <object class="GtkDialog" id="errordialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
