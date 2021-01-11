@@ -342,22 +342,14 @@ static char *get_quoted_param (char *path, char *fname, char *toseek)
 
 static void message (char *msg)
 {
-    GdkRGBA col;
     GtkWidget *wid;
-    GtkBuilder *builder = gtk_builder_new ();
-    gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+    GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
 
     msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "msg");
     gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
 
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "msg_eb");
-    gdk_rgba_parse (&col, "#FFFFFF");
-    gtk_widget_override_background_color (wid, GTK_STATE_NORMAL, &col);
-
     wid = (GtkWidget *) gtk_builder_get_object (builder, "msg_lbl");
     gtk_label_set_text (GTK_LABEL (wid), msg);
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "msg_bb");
 
     gtk_widget_show_all (msg_dlg);
     g_object_unref (builder);

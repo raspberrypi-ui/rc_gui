@@ -3690,6 +3690,7 @@ Would you like to reboot now? </property>
     </action-widgets>
   </object>
   <object class="GtkWindow" id="msg">
+    <property name="name">pixbox</property>
     <property name="can_focus">False</property>
     <property name="modal">True</property>
     <property name="window_position">center-on-parent</property>
