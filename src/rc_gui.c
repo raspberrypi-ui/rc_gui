@@ -1552,7 +1552,7 @@ static void on_expand_fs (GtkButton* btn, gpointer ptr)
     gtk_widget_destroy (dlg);
 }
 
-static void on_boot_cli (GtkButton* btn, gpointer ptr)
+static void on_boot_toggle (GtkButton* btn, gpointer ptr)
 {
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
     {
@@ -1560,18 +1560,14 @@ static void on_boot_cli (GtkButton* btn, gpointer ptr)
         gtk_widget_set_sensitive (GTK_WIDGET (splash_on_rb), FALSE);
         gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), FALSE);
     }
-}
-
-static void on_boot_gui (GtkButton* btn, gpointer ptr)
-{
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
+    else
     {
         gtk_widget_set_sensitive (GTK_WIDGET (splash_on_rb), TRUE);
         gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), TRUE);
     }
 }
 
-static void on_serial_on (GtkButton* btn, gpointer ptr)
+static void on_serial_toggle (GtkButton* btn, gpointer ptr)
 {
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
     {
@@ -1580,11 +1576,7 @@ static void on_serial_on (GtkButton* btn, gpointer ptr)
         gtk_widget_set_tooltip_text (GTK_WIDGET (scons_on_rb), _("Enable shell and kernel messages on the serial connection"));
         gtk_widget_set_tooltip_text (GTK_WIDGET (scons_off_rb), _("Disable shell and kernel messages on the serial connection"));
     }
-}
-
-static void on_serial_off (GtkButton* btn, gpointer ptr)
-{
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
+    else
     {
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scons_off_rb), TRUE);
         gtk_widget_set_sensitive (GTK_WIDGET (scons_on_rb), FALSE);
@@ -1904,11 +1896,20 @@ int main (int argc, char *argv[])
     else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (splash_on_rb), TRUE);
 
     boot_desktop_rb = gtk_builder_get_object (builder, "rb_desktop");
-    g_signal_connect (boot_desktop_rb, "toggled", G_CALLBACK (on_boot_gui), NULL);
     boot_cli_rb = gtk_builder_get_object (builder, "rb_cli");
-    g_signal_connect (boot_cli_rb, "toggled", G_CALLBACK (on_boot_cli), NULL);
-    if (orig_boot = get_status (GET_BOOT_CLI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
+    g_signal_connect (boot_cli_rb, "toggled", G_CALLBACK (on_boot_toggle), NULL);
+    if (orig_boot = get_status (GET_BOOT_CLI))
+    {
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_on_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), TRUE);
+    }
+    else
+    {
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_on_rb), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), FALSE);
+    }
 
     alogin_on_rb = gtk_builder_get_object (builder, "rb_alogin_on");
     alogin_off_rb = gtk_builder_get_object (builder, "rb_alogin_off");
@@ -1973,13 +1974,27 @@ int main (int argc, char *argv[])
         else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_on_rb), TRUE);
 
         serial_on_rb = gtk_builder_get_object (builder, "rb_ser_on");
-        g_signal_connect (serial_on_rb, "toggled", G_CALLBACK (on_serial_on), NULL);
         serial_off_rb = gtk_builder_get_object (builder, "rb_ser_off");
-        g_signal_connect (serial_off_rb, "toggled", G_CALLBACK (on_serial_off), NULL);
+        g_signal_connect (serial_on_rb, "toggled", G_CALLBACK (on_serial_toggle), NULL);
         scons_on_rb = gtk_builder_get_object (builder, "rb_serc_on");
         scons_off_rb = gtk_builder_get_object (builder, "rb_serc_off");
-        if (orig_serial = get_status (GET_SERIALHW)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
-        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
+        if (orig_serial = get_status (GET_SERIALHW))
+        {
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
+            gtk_widget_set_sensitive (GTK_WIDGET (scons_on_rb), FALSE);
+            gtk_widget_set_sensitive (GTK_WIDGET (scons_off_rb), FALSE);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (scons_on_rb), _("This setting cannot be changed while the serial port is disabled"));
+            gtk_widget_set_tooltip_text (GTK_WIDGET (scons_off_rb), _("This setting cannot be changed while the serial port is disabled"));
+        }
+        else
+        {
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
+            gtk_widget_set_sensitive (GTK_WIDGET (scons_on_rb), TRUE);
+            gtk_widget_set_sensitive (GTK_WIDGET (scons_off_rb), TRUE);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (scons_on_rb), _("Enable shell and kernel messages on the serial connection"));
+            gtk_widget_set_tooltip_text (GTK_WIDGET (scons_off_rb), _("Disable shell and kernel messages on the serial connection"));
+        }
+
         if (orig_scons = get_status (GET_SERIAL)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scons_off_rb), TRUE);
         else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scons_on_rb), TRUE);
 
