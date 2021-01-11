@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.24"/>
+  <requires lib="gtk+" version="3.0"/>
   <!-- interface-naming-policy project-wide -->
   <object class="GtkDialog" id="dialog1">
     <property name="can_focus">False</property>
@@ -10,12 +10,13 @@
     <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox1">
+      <object class="GtkBox" id="dialog-vbox1">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area1">
+          <object class="GtkButtonBox" id="dialog-action_area1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -58,15 +59,17 @@
           <object class="GtkNotebook" id="notebook1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="homogeneous">True</property>
             <child>
-              <object class="GtkVBox" id="vbox10">
+              <object class="GtkBox" id="vbox10">
+                <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <property name="spacing">5</property>
+                <property name="margin">5</property>
                 <child>
-                  <object class="GtkHBox" id="hbox11">
+                  <object class="GtkBox" id="hbox11">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -109,7 +112,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox12">
+                  <object class="GtkBox" id="hbox12">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -153,7 +157,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox13">
+                  <object class="GtkBox" id="hbox13">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -217,7 +222,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox14">
+                  <object class="GtkBox" id="hbox14">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -279,7 +285,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox15">
+                  <object class="GtkBox" id="hbox15">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -341,7 +348,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox16">
+                  <object class="GtkBox" id="hbox16">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -405,7 +413,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox17">
+                  <object class="GtkBox" id="hbox17">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -469,7 +478,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox18">
+                  <object class="GtkBox" id="hbox18">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -480,7 +490,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox19">
+                  <object class="GtkBox" id="hbox19">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -491,7 +502,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox1a">
+                  <object class="GtkBox" id="hbox1a">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">False</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -514,13 +526,16 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox50">
+              <object class="GtkBox" id="vbox50">
+                <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <property name="spacing">5</property>
+                <property name="margin">5</property>
                 <child>
-                  <object class="GtkHBox" id="hbox51">
+                  <object class="GtkBox" id="hbox51">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -564,7 +579,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox52">
+                  <object class="GtkBox" id="hbox52">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -628,7 +644,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox53">
+                  <object class="GtkBox" id="hbox53">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -692,7 +709,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox54">
+                  <object class="GtkBox" id="hbox54">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -756,7 +774,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox55">
+                  <object class="GtkBox" id="hbox55">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -820,7 +839,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox56">
+                  <object class="GtkBox" id="hbox56">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -831,7 +851,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox57">
+                  <object class="GtkBox" id="hbox57">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -842,7 +863,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox58">
+                  <object class="GtkBox" id="hbox58">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -853,7 +875,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox59">
+                  <object class="GtkBox" id="hbox59">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -864,7 +887,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox5a">
+                  <object class="GtkBox" id="hbox5a">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">False</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -875,7 +899,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox5b">
+                  <object class="GtkBox" id="hbox5b">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">False</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -886,7 +911,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox5c">
+                  <object class="GtkBox" id="hbox5c">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">False</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -913,13 +939,16 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox20">
+              <object class="GtkBox" id="vbox20">
+                <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <property name="spacing">5</property>
+                <property name="margin">5</property>
                 <child>
-                  <object class="GtkHBox" id="hbox21">
+                  <object class="GtkBox" id="hbox21">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -985,7 +1014,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox22">
+                  <object class="GtkBox" id="hbox22">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1049,7 +1079,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox23">
+                  <object class="GtkBox" id="hbox23">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1113,7 +1144,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox24">
+                  <object class="GtkBox" id="hbox24">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1177,7 +1209,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox25">
+                  <object class="GtkBox" id="hbox25">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1241,7 +1274,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox26">
+                  <object class="GtkBox" id="hbox26">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1305,7 +1339,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox27">
+                  <object class="GtkBox" id="hbox27">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1369,7 +1404,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox28">
+                  <object class="GtkBox" id="hbox28">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1433,7 +1469,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox29">
+                  <object class="GtkBox" id="hbox29">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1497,7 +1534,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox2a">
+                  <object class="GtkBox" id="hbox2a">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">False</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -1508,7 +1546,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox2b">
+                  <object class="GtkBox" id="hbox2b">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">False</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -1519,7 +1558,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox2c">
+                  <object class="GtkBox" id="hbox2c">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">False</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -1530,7 +1570,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox2d">
+                  <object class="GtkBox" id="hbox2d">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">False</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -1541,7 +1582,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox2e">
+                  <object class="GtkBox" id="hbox2e">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">False</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -1552,7 +1594,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox2f">
+                  <object class="GtkBox" id="hbox2f">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">False</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -1563,7 +1606,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox2g">
+                  <object class="GtkBox" id="hbox2g">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">False</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -1574,7 +1618,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox2h">
+                  <object class="GtkBox" id="hbox2h">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">False</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -1601,13 +1646,16 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox30">
+              <object class="GtkBox" id="vbox30">
+                <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <property name="spacing">5</property>
+                <property name="margin">5</property>
                 <child>
-                  <object class="GtkHBox" id="hbox31a">
+                  <object class="GtkBox" id="hbox31a">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1656,7 +1704,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox31b">
+                  <object class="GtkBox" id="hbox31b">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1702,7 +1751,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox31c">
+                  <object class="GtkBox" id="hbox31c">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1746,7 +1796,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox32">
+                  <object class="GtkBox" id="hbox32">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1792,7 +1843,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox33">
+                  <object class="GtkBox" id="hbox33">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1834,7 +1886,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox34">
+                  <object class="GtkBox" id="hbox34">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1898,7 +1951,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox35">
+                  <object class="GtkBox" id="hbox35">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1943,7 +1997,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox36">
+                  <object class="GtkBox" id="hbox36">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -1988,7 +2043,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox37">
+                  <object class="GtkBox" id="hbox37">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -1999,7 +2055,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox38">
+                  <object class="GtkBox" id="hbox38">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -2010,7 +2067,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox39">
+                  <object class="GtkBox" id="hbox39">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -2037,13 +2095,16 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox40">
+              <object class="GtkBox" id="vbox40">
+                <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <property name="spacing">5</property>
+                <property name="margin">5</property>
                 <child>
-                  <object class="GtkHBox" id="hbox41">
+                  <object class="GtkBox" id="hbox41">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -2087,7 +2148,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox42">
+                  <object class="GtkBox" id="hbox42">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -2131,7 +2193,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox43">
+                  <object class="GtkBox" id="hbox43">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -2175,7 +2238,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox44">
+                  <object class="GtkBox" id="hbox44">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -2219,7 +2283,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox45">
+                  <object class="GtkBox" id="hbox45">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -2230,7 +2295,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox46">
+                  <object class="GtkBox" id="hbox46">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -2241,7 +2307,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox47">
+                  <object class="GtkBox" id="hbox47">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -2252,7 +2319,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox48">
+                  <object class="GtkBox" id="hbox48">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -2263,7 +2331,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox49">
+                  <object class="GtkBox" id="hbox49">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -2311,7 +2380,8 @@
     <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="errordlg_vbox">
+      <object class="GtkBox" id="errordlg_vbox">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
@@ -2377,7 +2447,8 @@ In order to use this application, you need to have the latest firmware installed
     <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="fsddlg_vbox">
+      <object class="GtkBox" id="fsddlg_vbox">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
@@ -2440,7 +2511,8 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="localedlg_vbox">
+      <object class="GtkBox" id="localedlg_vbox">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
@@ -2586,7 +2658,8 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
     <property name="title" translatable="yes">Overlay File System</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="ofsdlg-vbox">
+      <object class="GtkBox" id="ofsdlg-vbox">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
@@ -2631,11 +2704,13 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="ofsvbox2">
+          <object class="GtkBox" id="ofsvbox2">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkHBox" id="ofshbox1">
+              <object class="GtkBox" id="ofshbox1">
+                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
@@ -2700,7 +2775,8 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
               </packing>
             </child>
             <child>
-              <object class="GtkHBox" id="ofshbox2">
+              <object class="GtkBox" id="ofshbox2">
+                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
@@ -2799,7 +2875,8 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="pwddlg_vbox">
+      <object class="GtkBox" id="pwddlg_vbox">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
@@ -2846,7 +2923,8 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="pwhbox2">
+          <object class="GtkBox" id="pwhbox2">
+            <property name="orientation">horizontal</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="homogeneous">True</property>
@@ -2892,7 +2970,8 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="pwhbox3">
+          <object class="GtkBox" id="pwhbox3">
+            <property name="orientation">horizontal</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="homogeneous">True</property>
@@ -2952,7 +3031,8 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
     <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="pwbaddlg_vbox">
+      <object class="GtkBox" id="pwbaddlg_vbox">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
@@ -3016,7 +3096,8 @@ This could be because the current password was incorrect, or because the new pas
     <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="pwokdlg_vbox">
+      <object class="GtkBox" id="pwokdlg_vbox">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
@@ -3077,7 +3158,8 @@ This could be because the current password was incorrect, or because the new pas
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="rbtdlg_vbox">
+      <object class="GtkBox" id="rbtdlg_vbox">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
@@ -3150,7 +3232,8 @@ Would you like to reboot now? </property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="resdlg_vbox">
+      <object class="GtkBox" id="resdlg_vbox">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
@@ -3242,7 +3325,8 @@ Would you like to reboot now? </property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="tzdlg_vbox">
+      <object class="GtkBox" id="tzdlg_vbox">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
@@ -3362,7 +3446,8 @@ Would you like to reboot now? </property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="wcdlg_vbox">
+      <object class="GtkBox" id="wcdlg_vbox">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
@@ -3454,7 +3539,8 @@ Would you like to reboot now? </property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="keyboarddlg_vbox">
+      <object class="GtkBox" id="keyboarddlg_vbox">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
@@ -3615,7 +3701,8 @@ Would you like to reboot now? </property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkVBox" id="vbox1">
+                  <object class="GtkBox" id="vbox1">
+                    <property name="orientation">vertical</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
@@ -3652,7 +3739,8 @@ Would you like to reboot now? </property>
     <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="ofswdlg_vbox">
+      <object class="GtkBox" id="ofswdlg_vbox">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>

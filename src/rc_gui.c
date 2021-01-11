@@ -342,7 +342,7 @@ static char *get_quoted_param (char *path, char *fname, char *toseek)
 
 static void message (char *msg)
 {
-    GdkColor col;
+    GdkRGBA col;
     GtkWidget *wid;
     GtkBuilder *builder = gtk_builder_new ();
     gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
@@ -351,8 +351,8 @@ static void message (char *msg)
     gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
 
     wid = (GtkWidget *) gtk_builder_get_object (builder, "msg_eb");
-    gdk_color_parse ("#FFFFFF", &col);
-    gtk_widget_modify_bg (wid, GTK_STATE_NORMAL, &col);
+    gdk_rgba_parse (&col, "#FFFFFF");
+    gtk_widget_override_background_color (wid, GTK_STATE_NORMAL, &col);
 
     wid = (GtkWidget *) gtk_builder_get_object (builder, "msg_lbl");
     gtk_label_set_text (GTK_LABEL (wid), msg);
@@ -1033,7 +1033,7 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
     // populate the combobox
     fp = fopen ("/usr/share/zoneinfo/iso3166.tab", "rb");
     found = 0;
-    gtk_combo_box_append_text (GTK_COMBO_BOX (wccountry_cb), _("<not set>"));
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (wccountry_cb), _("<not set>"));
     n = 1;
     buffer = NULL;
     len = 0;
@@ -1042,7 +1042,7 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
         if (buffer[0] != 0x0A && buffer[0] != '#')
         {
             buffer[strlen(buffer) - 1] = 0;
-            gtk_combo_box_append_text (GTK_COMBO_BOX (wccountry_cb), buffer);
+            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (wccountry_cb), buffer);
             if (!strncmp (cnow, buffer, 2)) found = n;
             n++;
         }
@@ -1055,7 +1055,7 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
         // update the wpa_supplicant.conf file
-        cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (wccountry_cb));
+        cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (wccountry_cb));
         if (!g_strcmp0 (cptr, _("<not set>")))
             vsystem (SET_WIFI_CTRY, "00");
         else if (strncmp (cnow, cptr, 2))
@@ -1107,7 +1107,7 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
     // populate the combobox
     if (conn)
     {
-        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "Default - preferred monitor settings");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "Default - preferred monitor settings");
         found = 0;
         n = 1;
 
@@ -1123,7 +1123,7 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
                 if (x <= 1920 && y <= 1200)
                 {
                     entry = g_strdup_printf ("CEA mode %d %dx%d %dHz %d:%d", mode, x, y, freq, ax, ay);
-                    gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), entry);
+                    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), entry);
                     g_free (entry);
                     if (hgroup == 1 && hmode == mode) found = n;
                     n++;
@@ -1145,7 +1145,7 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
                 if (x <= 1920 && y <= 1200)
                 {
                     entry = g_strdup_printf ("DMT mode %d %dx%d %dHz %d:%d", mode, x, y, freq, ax, ay);
-                    gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), entry);
+                    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), entry);
                     g_free (entry);
                     if (hgroup == 2 && hmode == mode) found = n;
                     n++;
@@ -1159,14 +1159,14 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
     {
         // no connected monitor - offer default modes for VNC
         found = 0;
-        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "Default 720x480");
-        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 4 640x480 60Hz 4:3");
-        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 9 800x600 60Hz 4:3");
-        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 16 1024x768 60Hz 4:3");
-        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 85 1280x720 60Hz 16:9");
-        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 35 1280x1024 60Hz 5:4");
-        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 51 1600x1200 60Hz 4:3");
-        gtk_combo_box_append_text (GTK_COMBO_BOX (resolution_cb), "DMT mode 82 1920x1080 60Hz 16:9");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "Default 720x480");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "DMT mode 4 640x480 60Hz 4:3");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "DMT mode 9 800x600 60Hz 4:3");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "DMT mode 16 1024x768 60Hz 4:3");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "DMT mode 85 1280x720 60Hz 16:9");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "DMT mode 35 1280x1024 60Hz 5:4");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "DMT mode 51 1600x1200 60Hz 4:3");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "DMT mode 82 1920x1080 60Hz 16:9");
         if (hgroup == 2)
         {
             switch (hmode)
@@ -1196,7 +1196,7 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
         // set the HDMI variables
-        cptr = gtk_combo_box_get_active_text (GTK_COMBO_BOX (resolution_cb));
+        cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (resolution_cb));
         if (!strncmp (cptr, "Default", 7))
         {
             // clear setting
@@ -1843,19 +1843,17 @@ int main (int argc, char *argv[])
 {
     GtkBuilder *builder;
     GObject *item;
-    GtkObject *madj, *gadj, *tadj;
+    GtkAdjustment *madj, *gadj, *tadj;
     GtkWidget *dlg;
 
 #ifdef ENABLE_NLS
     setlocale (LC_ALL, "");
-    bindtextdomain ( GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR );
-    bind_textdomain_codeset ( GETTEXT_PACKAGE, "UTF-8" );
-    textdomain ( GETTEXT_PACKAGE );
+    bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
+    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+    textdomain (GETTEXT_PACKAGE);
 #endif
 
     // GTK setup
-    gdk_threads_init ();
-    gdk_threads_enter ();
     gtk_init (&argc, &argv);
     gtk_icon_theme_prepend_search_path (gtk_icon_theme_get_default(), PACKAGE_DATA_DIR);
 
@@ -1879,8 +1877,7 @@ int main (int argc, char *argv[])
     }
 
     // build the UI
-    builder = gtk_builder_new ();
-    gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
 
     if (!can_configure ())
     {
@@ -1890,7 +1887,6 @@ int main (int argc, char *argv[])
         gtk_widget_destroy (dlg);
         return 0;
     }
-
     main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "dialog1");
 
     passwd_btn = gtk_builder_get_object (builder, "button_pw");
@@ -2085,8 +2081,8 @@ int main (int argc, char *argv[])
                 }
                 gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
                 gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31a")));
-                gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31b")));
-                gtk_widget_hide_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31c")));
+                gtk_widget_hide (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31b")));
+                gtk_widget_hide (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31c")));
                 break;
 
             case 2 :
@@ -2099,16 +2095,16 @@ int main (int argc, char *argv[])
                                 break;
                 }
                 gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
-                gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31a")));
+                gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31a")));
                 gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31b")));
-                gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31c")));
+                gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31c")));
                 break;
 
             default :
                 overclock_cb = gtk_builder_get_object (builder, "combo_oc_pi3");
                 gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 0);
-                gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31a")));
-                gtk_widget_hide_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31b")));
+                gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31a")));
+                gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31b")));
                 gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31c")));
                 gtk_widget_set_sensitive (GTK_WIDGET (overclock_cb), FALSE);
                 break;
@@ -2220,7 +2216,6 @@ int main (int argc, char *argv[])
 
     g_object_unref (builder);
     gtk_widget_destroy (main_dlg);
-    gdk_threads_leave ();
 
     return 0;
 }
