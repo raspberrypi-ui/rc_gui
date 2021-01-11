@@ -72,7 +72,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label11">
                         <property name="visible">True</property>
@@ -116,7 +115,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label12">
                         <property name="visible">True</property>
@@ -144,7 +142,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -161,7 +159,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label13">
                         <property name="visible">True</property>
@@ -189,7 +186,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -209,7 +206,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -226,7 +223,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label14">
                         <property name="visible">True</property>
@@ -253,7 +249,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -272,7 +268,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -289,7 +285,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label15">
                         <property name="visible">True</property>
@@ -316,7 +311,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -335,7 +330,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -352,7 +347,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label16">
                         <property name="visible">True</property>
@@ -380,7 +374,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -400,7 +394,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -417,7 +411,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label17">
                         <property name="visible">True</property>
@@ -445,7 +438,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -465,7 +458,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -538,7 +531,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label51">
                         <property name="visible">True</property>
@@ -583,7 +575,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label52">
                         <property name="visible">True</property>
@@ -611,7 +602,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -631,7 +622,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -648,7 +639,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label53">
                         <property name="visible">True</property>
@@ -676,7 +666,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -696,7 +686,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -713,7 +703,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label54">
                         <property name="visible">True</property>
@@ -741,7 +730,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -761,7 +750,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -778,7 +767,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label55">
                         <property name="visible">True</property>
@@ -806,7 +794,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -826,7 +814,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -951,7 +939,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label21">
                         <property name="visible">True</property>
@@ -980,7 +967,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1001,7 +988,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -1018,7 +1005,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label22">
                         <property name="visible">True</property>
@@ -1046,7 +1032,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1066,7 +1052,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -1083,7 +1069,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label23">
                         <property name="visible">True</property>
@@ -1111,7 +1096,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1131,7 +1116,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -1148,7 +1133,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label24">
                         <property name="visible">True</property>
@@ -1176,7 +1160,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1196,7 +1180,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -1213,7 +1197,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label25">
                         <property name="visible">True</property>
@@ -1241,7 +1224,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1261,7 +1244,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -1278,7 +1261,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label26">
                         <property name="visible">True</property>
@@ -1306,7 +1288,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1326,7 +1308,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -1343,7 +1325,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label27">
                         <property name="visible">True</property>
@@ -1371,7 +1352,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1391,7 +1372,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -1408,7 +1389,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label28">
                         <property name="visible">True</property>
@@ -1436,7 +1416,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1456,7 +1436,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -1473,7 +1453,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label29">
                         <property name="visible">True</property>
@@ -1501,7 +1480,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1521,7 +1500,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -1658,7 +1637,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label31a">
                         <property name="visible">True</property>
@@ -1691,7 +1669,7 @@
                         </items>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1708,7 +1686,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label31b">
                         <property name="visible">True</property>
@@ -1738,7 +1715,7 @@
                         </items>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1755,7 +1732,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label31c">
                         <property name="visible">True</property>
@@ -1783,7 +1759,7 @@
                         </items>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1800,7 +1776,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label32">
                         <property name="visible">True</property>
@@ -1830,7 +1805,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1847,7 +1822,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label33">
                         <property name="visible">True</property>
@@ -1873,7 +1847,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1890,7 +1864,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label34">
                         <property name="visible">True</property>
@@ -1918,7 +1891,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1938,7 +1911,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
@@ -1955,7 +1928,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label35">
                         <property name="visible">True</property>
@@ -1984,7 +1956,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -2001,7 +1973,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label36">
                         <property name="visible">True</property>
@@ -2030,7 +2001,7 @@
                         </accessibility>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -2107,7 +2078,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label41">
                         <property name="visible">True</property>
@@ -2152,7 +2122,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label42">
                         <property name="visible">True</property>
@@ -2197,7 +2166,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label43">
                         <property name="visible">True</property>
@@ -2242,7 +2210,6 @@
                     <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="label44">
                         <property name="visible">True</property>
@@ -2379,6 +2346,102 @@
       <widget name="tablabel3"/>
       <widget name="tablabel4"/>
       <widget name="tablabel5"/>
+    </widgets>
+  </object>
+  <object class="GtkSizeGroup">
+    <widgets>
+      <widget name="button_pw"/>
+      <widget name="entry_hn"/>
+      <widget name="button_loc"/>
+      <widget name="button_tz"/>
+      <widget name="button_wifi"/>
+      <widget name="button_kb"/>
+      <widget name="combo_oc_pi1"/>
+      <widget name="combo_oc_pi2"/>
+      <widget name="combo_oc_pi3"/>
+      <widget name="button_ofs"/>
+      <widget name="spin_gpu"/>
+      <widget name="sb_fan_temp"/>
+      <widget name="sb_fan_gpio"/>
+    </widgets>
+  </object>
+  <object class="GtkSizeGroup">
+    <widgets>
+      <widget name="label11"/>
+      <widget name="label12"/>
+      <widget name="label13"/>
+      <widget name="label14"/>
+      <widget name="label15"/>
+      <widget name="label16"/>
+      <widget name="label17"/>
+      <widget name="label21"/>
+      <widget name="label22"/>
+      <widget name="label23"/>
+      <widget name="label24"/>
+      <widget name="label25"/>
+      <widget name="label26"/>
+      <widget name="label27"/>
+      <widget name="label28"/>
+      <widget name="label29"/>
+      <widget name="label31a"/>
+      <widget name="label31b"/>
+      <widget name="label31c"/>
+      <widget name="label32"/>
+      <widget name="label33"/>
+      <widget name="label34"/>
+      <widget name="label35"/>
+      <widget name="label36"/>
+      <widget name="label41"/>
+      <widget name="label42"/>
+      <widget name="label43"/>
+      <widget name="label44"/>
+      <widget name="label51"/>
+      <widget name="label52"/>
+      <widget name="label53"/>
+      <widget name="label54"/>
+      <widget name="label55"/>
+    </widgets>
+  </object>
+  <object class="GtkSizeGroup">
+    <widgets>
+      <widget name="rb_desktop"/>
+      <widget name="rb_cli"/>
+      <widget name="rb_alogin_on"/>
+      <widget name="rb_alogin_off"/>
+      <widget name="rb_netwait_on"/>
+      <widget name="rb_netwait_off"/>
+      <widget name="rb_splash_on"/>
+      <widget name="rb_splash_off"/>
+      <widget name="rb_led_actpwr"/>
+      <widget name="rb_led_pwr"/>
+      <widget name="rb_fan_on"/>
+      <widget name="rb_fan_off"/>
+      <widget name="rb_os_on"/>
+      <widget name="rb_os_off"/>
+      <widget name="rb_pd_on"/>
+      <widget name="rb_pd_off"/>
+      <widget name="rb_blank_on"/>
+      <widget name="rb_blank_off"/>
+      <widget name="rb_analog_on"/>
+      <widget name="rb_analog_off"/>
+      <widget name="rb_cam_on"/>
+      <widget name="rb_cam_off"/>
+      <widget name="rb_ssh_on"/>
+      <widget name="rb_ssh_off"/>
+      <widget name="rb_vnc_on"/>
+      <widget name="rb_vnc_off"/>
+      <widget name="rb_spi_on"/>
+      <widget name="rb_spi_off"/>
+      <widget name="rb_i2c_on"/>
+      <widget name="rb_i2c_off"/>
+      <widget name="rb_ser_on"/>
+      <widget name="rb_ser_off"/>
+      <widget name="rb_serc_on"/>
+      <widget name="rb_serc_off"/>
+      <widget name="rb_one_on"/>
+      <widget name="rb_one_off"/>
+      <widget name="rb_rgp_on"/>
+      <widget name="rb_rgp_off"/>
     </widgets>
   </object>
   <object class="GtkDialog" id="errordialog">
