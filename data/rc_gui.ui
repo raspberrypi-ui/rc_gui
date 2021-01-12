@@ -64,7 +64,6 @@
                 <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="homogeneous">True</property>
                 <property name="spacing">5</property>
                 <property name="margin">5</property>
                 <child>
@@ -470,42 +469,6 @@
                     <property name="position">6</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkBox" id="hbox18">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">7</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox19">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">8</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox1a">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">False</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">9</property>
-                  </packing>
-                </child>
               </object>
             </child>
             <child type="tab">
@@ -523,7 +486,6 @@
                 <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="homogeneous">True</property>
                 <property name="spacing">5</property>
                 <property name="margin">5</property>
                 <child>
@@ -826,90 +788,6 @@
                     <property name="position">4</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkBox" id="hbox56">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox57">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">6</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox58">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">7</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox59">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">8</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox5a">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">False</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">9</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox5b">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">False</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">10</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox5c">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">False</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">11</property>
-                  </packing>
-                </child>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -931,7 +809,6 @@
                 <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="homogeneous">True</property>
                 <property name="spacing">5</property>
                 <property name="margin">5</property>
                 <child>
@@ -1512,102 +1389,6 @@
                     <property name="position">8</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkBox" id="hbox2a">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">False</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">9</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox2b">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">False</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">10</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox2c">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">False</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">11</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox2d">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">False</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">12</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox2e">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">False</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">13</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox2f">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">False</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">14</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox2g">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">False</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">15</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox2h">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">False</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">16</property>
-                  </packing>
-                </child>
               </object>
               <packing>
                 <property name="position">2</property>
@@ -1629,7 +1410,6 @@
                 <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="homogeneous">True</property>
                 <property name="spacing">5</property>
                 <property name="margin">5</property>
                 <child>
@@ -2013,42 +1793,6 @@
                     <property name="position">7</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkBox" id="hbox37">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">8</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox38">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">9</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox39">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">10</property>
-                  </packing>
-                </child>
               </object>
               <packing>
                 <property name="position">3</property>
@@ -2070,7 +1814,6 @@
                 <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="homogeneous">True</property>
                 <property name="spacing">5</property>
                 <property name="margin">5</property>
                 <child>
@@ -2249,66 +1992,6 @@
                     <property name="position">3</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkBox" id="hbox45">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">4</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox46">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox47">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">6</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox48">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">7</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox49">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">8</property>
-                  </packing>
-                </child>
               </object>
               <packing>
                 <property name="position">4</property>
@@ -2366,40 +2049,41 @@
     </widgets>
   </object>
   <object class="GtkSizeGroup">
+    <property name="mode">vertical</property>
     <widgets>
-      <widget name="label11"/>
-      <widget name="label12"/>
-      <widget name="label13"/>
-      <widget name="label14"/>
-      <widget name="label15"/>
-      <widget name="label16"/>
-      <widget name="label17"/>
-      <widget name="label21"/>
-      <widget name="label22"/>
-      <widget name="label23"/>
-      <widget name="label24"/>
-      <widget name="label25"/>
-      <widget name="label26"/>
-      <widget name="label27"/>
-      <widget name="label28"/>
-      <widget name="label29"/>
-      <widget name="label31a"/>
-      <widget name="label31b"/>
-      <widget name="label31c"/>
-      <widget name="label32"/>
-      <widget name="label33"/>
-      <widget name="label34"/>
-      <widget name="label35"/>
-      <widget name="label36"/>
-      <widget name="label41"/>
-      <widget name="label42"/>
-      <widget name="label43"/>
-      <widget name="label44"/>
-      <widget name="label51"/>
-      <widget name="label52"/>
-      <widget name="label53"/>
-      <widget name="label54"/>
-      <widget name="label55"/>
+      <widget name="hbox11"/>
+      <widget name="hbox12"/>
+      <widget name="hbox13"/>
+      <widget name="hbox14"/>
+      <widget name="hbox15"/>
+      <widget name="hbox16"/>
+      <widget name="hbox17"/>
+      <widget name="hbox21"/>
+      <widget name="hbox22"/>
+      <widget name="hbox23"/>
+      <widget name="hbox24"/>
+      <widget name="hbox25"/>
+      <widget name="hbox26"/>
+      <widget name="hbox27"/>
+      <widget name="hbox28"/>
+      <widget name="hbox29"/>
+      <widget name="hbox31a"/>
+      <widget name="hbox31b"/>
+      <widget name="hbox31c"/>
+      <widget name="hbox32"/>
+      <widget name="hbox33"/>
+      <widget name="hbox34"/>
+      <widget name="hbox35"/>
+      <widget name="hbox36"/>
+      <widget name="hbox41"/>
+      <widget name="hbox42"/>
+      <widget name="hbox43"/>
+      <widget name="hbox44"/>
+      <widget name="hbox51"/>
+      <widget name="hbox52"/>
+      <widget name="hbox53"/>
+      <widget name="hbox54"/>
+      <widget name="hbox55"/>
     </widgets>
   </object>
   <object class="GtkSizeGroup">

@@ -2033,7 +2033,6 @@ int main (int argc, char *argv[])
         if (orig_leds == -1)
         {
             HIDE_WIDGET ("hbox17");
-            SHOW_WIDGET ("hbox1a");
         }
         else
         {
@@ -2128,31 +2127,24 @@ int main (int argc, char *argv[])
          * hbox53 - pixel doubling          Y           Y           Y           Y        Y
          * hbox54 - composite out           Y           -           Y           -        -
          * hbox55 - blanking                Y           Y           Y           Y        Y
-         * hbox5a - filler                  -           Y           -           Y        Y
-         * hbox5b - filler                  Y           Y           -           -        Y
-         * hbox5c - filler                  -           -           -           -        Y
          */
 
         if (vsystem (IS_PI4) || vsystem (HAS_ANALOG))
         {
             HIDE_WIDGET ("hbox54");
-            SHOW_WIDGET ("hbox5a");
         }
         else
         {
             SHOW_WIDGET ("hbox54");
-            HIDE_WIDGET ("hbox5a");
         }
 
         if (vsystem (GET_FKMS))
         {
             SHOW_WIDGET ("hbox51");
-            HIDE_WIDGET ("hbox5b");
         }
         else
         {
             HIDE_WIDGET ("hbox51");
-            SHOW_WIDGET ("hbox5b");
         }
 
         madj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);
@@ -2172,7 +2164,6 @@ int main (int argc, char *argv[])
         HIDE_WIDGET ("vbox30");
 
         HIDE_WIDGET ("hbox17");
-        SHOW_WIDGET ("hbox1a");
 
         HIDE_WIDGET ("hbox21");
         HIDE_WIDGET ("hbox23");
@@ -2183,21 +2174,9 @@ int main (int argc, char *argv[])
         HIDE_WIDGET ("hbox28");
         HIDE_WIDGET ("hbox29");
 
-        SHOW_WIDGET ("hbox2a");
-        SHOW_WIDGET ("hbox2b");
-        SHOW_WIDGET ("hbox2c");
-        SHOW_WIDGET ("hbox2d");
-        SHOW_WIDGET ("hbox2e");
-        SHOW_WIDGET ("hbox2f");
-        SHOW_WIDGET ("hbox2g");
-        SHOW_WIDGET ("hbox2h");
-
         HIDE_WIDGET ("hbox51");
         HIDE_WIDGET ("hbox52");
         HIDE_WIDGET ("hbox54");
-        SHOW_WIDGET ("hbox5a");
-        SHOW_WIDGET ("hbox5b");
-        SHOW_WIDGET ("hbox5c");
     }
 
     GdkPixbuf *win_icon = gtk_window_get_icon (GTK_WINDOW (main_dlg));
