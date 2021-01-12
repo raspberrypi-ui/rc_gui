@@ -3289,11 +3289,10 @@ Would you like to reboot now? </property>
           </packing>
         </child>
         <child>
-          <object class="GtkTable" id="wctable">
+          <object class="GtkBox" id="wchbox1">
+            <property name="orientation">horizontal</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="n_columns">2</property>
-            <property name="column_spacing">5</property>
             <child>
               <object class="GtkLabel" id="wccountrylabel">
                 <property name="visible">True</property>
@@ -3301,6 +3300,11 @@ Would you like to reboot now? </property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Country:</property>
               </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
             </child>
             <child>
               <object class="GtkComboBoxText" id="wccbcountry">
@@ -3311,8 +3315,9 @@ Would you like to reboot now? </property>
                 </accessibility>
               </object>
               <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </object>
