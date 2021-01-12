@@ -2128,25 +2128,26 @@
       <widget name="rb_rgp_off"/>
     </widgets>
   </object>
-  <object class="GtkDialog" id="localedlg">
+  <object class="GtkDialog" id="passwddialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
-    <property name="title" translatable="yes">Locale</property>
+    <property name="title" translatable="yes">Change Password</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkBox" id="localedlg_vbox">
+      <object class="GtkBox" id="pwddlg_vbox">
         <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
+        <property name="homogeneous">True</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="localedlg_action_area">
+          <object class="GtkHButtonBox" id="pwddlg_action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="loccancel">
+              <object class="GtkButton" id="passwdcancel">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -2160,7 +2161,167 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="locok">
+              <object class="GtkButton" id="passwdok">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <property name="image_position">bottom</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="pwhbox2">
+            <property name="orientation">horizontal</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkLabel" id="pwlabel2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Enter new password:</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">2</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="pwentry2">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char_set">True</property>
+                <property name="primary_icon_activatable">False</property>
+                <property name="secondary_icon_activatable">False</property>
+                <property name="primary_icon_sensitive">True</property>
+                <property name="secondary_icon_sensitive">True</property>
+                <accessibility>
+                  <relation type="labelled-by" target="pwlabel2"/>
+                </accessibility>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">2</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="pwhbox3">
+            <property name="orientation">horizontal</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkLabel" id="pwlabel3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Confirm new password:</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">2</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="pwentry3">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char_set">True</property>
+                <property name="primary_icon_activatable">False</property>
+                <property name="secondary_icon_activatable">False</property>
+                <property name="primary_icon_sensitive">True</property>
+                <property name="secondary_icon_sensitive">True</property>
+                <accessibility>
+                  <relation type="labelled-by" target="pwlabel3"/>
+                </accessibility>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">2</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">passwdcancel</action-widget>
+      <action-widget response="-5">passwdok</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkSizeGroup">
+    <widgets>
+      <widget name="pwentry2"/>
+      <widget name="pwentry3"/>
+    </widgets>
+  </object>
+  <object class="GtkDialog" id="resdialog">
+    <property name="can_focus">False</property>
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Set Resolution</property>
+    <property name="resizable">False</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="resdlg_vbox">
+        <property name="orientation">vertical</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="resdlg_action_area">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="rescancel">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="resok">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -2181,129 +2342,36 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="locvbox2">
-            <property name="orientation">vertical</property>
+          <object class="GtkBox" id="reshbox">
+            <property name="orientation">horizontal</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkBox" id="lochbox1">
-                <property name="orientation">horizontal</property>
+              <object class="GtkLabel" id="reslabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <child>
-                    <object class="GtkLabel" id="loclabellang">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Language:</property>
-                    </object>
-                    <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                    </packing>
-                </child>
-                <child>
-                    <object class="GtkComboBox" id="loccblang">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <accessibility>
-                            <relation type="labelled-by" target="loclabellang"/>
-                        </accessibility>
-                    </object>
-                    <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                    </packing>
-                </child>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Resolution:</property>
               </object>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
-                <property name="padding">3</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="lochbox2">
-                <property name="orientation">horizontal</property>
+              <object class="GtkComboBoxText" id="rescb">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <child>
-                    <object class="GtkLabel" id="loclabelcountry">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Country:</property>
-                    </object>
-                    <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                    </packing>
-                </child>
-                <child>
-                    <object class="GtkComboBox" id="loccbcountry">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <accessibility>
-                            <relation type="labelled-by" target="loclabelcountry"/>
-                        </accessibility>
-                    </object>
-                    <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                    </packing>
-                </child>
+                <accessibility>
+                  <relation type="labelled-by" target="reslabel"/>
+                </accessibility>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="padding">3</property>
                 <property name="position">1</property>
               </packing>
-            </child>
-            <child>
-              <object class="GtkBox" id="lochbox3">
-                <property name="orientation">horizontal</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                    <object class="GtkLabel" id="loclabelchar">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Character Set:</property>
-                    </object>
-                    <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                    </packing>
-                </child>
-                <child>
-                    <object class="GtkComboBox" id="loccbchar">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <accessibility>
-                            <relation type="labelled-by" target="loclabelchar"/>
-                        </accessibility>
-                    </object>
-                    <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                    </packing>
-                </child>
-            </object>
-            <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="padding">3</property>
-                <property name="position">2</property>
-            </packing>
             </child>
           </object>
           <packing>
@@ -2315,8 +2383,8 @@
       </object>
     </child>
     <action-widgets>
-      <action-widget response="-6">loccancel</action-widget>
-      <action-widget response="-5">locok</action-widget>
+      <action-widget response="-6">rescancel</action-widget>
+      <action-widget response="-5">resok</action-widget>
     </action-widgets>
   </object>
   <object class="GtkDialog" id="ofsdlg">
@@ -2533,180 +2601,33 @@
       <action-widget response="-5">ofsok</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkDialog" id="passwddialog">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
-    <property name="title" translatable="yes">Change Password</property>
-    <property name="resizable">False</property>
-    <property name="type_hint">dialog</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="pwddlg_vbox">
-        <property name="orientation">vertical</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="spacing">2</property>
-        <property name="homogeneous">True</property>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="pwddlg_action_area">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="passwdcancel">
-                <property name="label">gtk-cancel</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="passwdok">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <property name="image_position">bottom</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="pwhbox2">
-            <property name="orientation">horizontal</property>
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="homogeneous">True</property>
-            <child>
-              <object class="GtkLabel" id="pwlabel2">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Enter new password:</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="padding">2</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="pwentry2">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char_set">True</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">True</property>
-                <property name="secondary_icon_sensitive">True</property>
-                <accessibility>
-                  <relation type="labelled-by" target="pwlabel2"/>
-                </accessibility>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="padding">2</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="pwhbox3">
-            <property name="orientation">horizontal</property>
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="homogeneous">True</property>
-            <child>
-              <object class="GtkLabel" id="pwlabel3">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Confirm new password:</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="padding">2</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="pwentry3">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char_set">True</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">True</property>
-                <property name="secondary_icon_sensitive">True</property>
-                <accessibility>
-                  <relation type="labelled-by" target="pwlabel3"/>
-                </accessibility>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="padding">2</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">3</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="-6">passwdcancel</action-widget>
-      <action-widget response="-5">passwdok</action-widget>
-    </action-widgets>
+  <object class="GtkSizeGroup">
+    <widgets>
+      <widget name="rb_ofsen"/>
+      <widget name="rb_ofsdis"/>
+      <widget name="rb_bpro"/>
+      <widget name="rb_bprw"/>
+    </widgets>
   </object>
-  <object class="GtkDialog" id="resdialog">
+  <object class="GtkDialog" id="localedlg">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
-    <property name="title" translatable="yes">Set Resolution</property>
+    <property name="title" translatable="yes">Locale</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkBox" id="resdlg_vbox">
+      <object class="GtkBox" id="localedlg_vbox">
         <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="resdlg_action_area">
+          <object class="GtkHButtonBox" id="localedlg_action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="rescancel">
+              <object class="GtkButton" id="loccancel">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -2720,7 +2641,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="resok">
+              <object class="GtkButton" id="locok">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -2741,36 +2662,129 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="reshbox">
-            <property name="orientation">horizontal</property>
+          <object class="GtkBox" id="locvbox2">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkLabel" id="reslabel">
+              <object class="GtkBox" id="lochbox1">
+                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Resolution:</property>
+                <child>
+                    <object class="GtkLabel" id="loclabellang">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Language:</property>
+                    </object>
+                    <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                    </packing>
+                </child>
+                <child>
+                    <object class="GtkComboBox" id="loccblang">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <accessibility>
+                            <relation type="labelled-by" target="loclabellang"/>
+                        </accessibility>
+                    </object>
+                    <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                    </packing>
+                </child>
               </object>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">3</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkComboBoxText" id="rescb">
+              <object class="GtkBox" id="lochbox2">
+                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <accessibility>
-                  <relation type="labelled-by" target="reslabel"/>
-                </accessibility>
+                <child>
+                    <object class="GtkLabel" id="loclabelcountry">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Country:</property>
+                    </object>
+                    <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                    </packing>
+                </child>
+                <child>
+                    <object class="GtkComboBox" id="loccbcountry">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <accessibility>
+                            <relation type="labelled-by" target="loclabelcountry"/>
+                        </accessibility>
+                    </object>
+                    <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                    </packing>
+                </child>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">3</property>
                 <property name="position">1</property>
               </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="lochbox3">
+                <property name="orientation">horizontal</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                    <object class="GtkLabel" id="loclabelchar">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Character Set:</property>
+                    </object>
+                    <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                    </packing>
+                </child>
+                <child>
+                    <object class="GtkComboBox" id="loccbchar">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <accessibility>
+                            <relation type="labelled-by" target="loclabelchar"/>
+                        </accessibility>
+                    </object>
+                    <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                    </packing>
+                </child>
+            </object>
+            <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">3</property>
+                <property name="position">2</property>
+            </packing>
             </child>
           </object>
           <packing>
@@ -2782,9 +2796,16 @@
       </object>
     </child>
     <action-widgets>
-      <action-widget response="-6">rescancel</action-widget>
-      <action-widget response="-5">resok</action-widget>
+      <action-widget response="-6">loccancel</action-widget>
+      <action-widget response="-5">locok</action-widget>
     </action-widgets>
+  </object>
+  <object class="GtkSizeGroup">
+    <widgets>
+      <widget name="loccblang"/>
+      <widget name="loccbcountry"/>
+      <widget name="loccbchar"/>
+    </widgets>
   </object>
   <object class="GtkDialog" id="tzdialog">
     <property name="can_focus">False</property>
@@ -2937,103 +2958,11 @@
       <action-widget response="-5">tzok</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkDialog" id="wcdialog">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
-    <property name="title" translatable="yes">WiFi Country Code</property>
-    <property name="resizable">False</property>
-    <property name="type_hint">dialog</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="wcdlg_vbox">
-        <property name="orientation">vertical</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="wcdlg_action_area">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="wccancel">
-                <property name="label">gtk-cancel</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="wcok">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="wchbox1">
-            <property name="orientation">horizontal</property>
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <object class="GtkLabel" id="wccountrylabel">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Country:</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkComboBoxText" id="wccbcountry">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <accessibility>
-                  <relation type="labelled-by" target="wccountrylabel"/>
-                </accessibility>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="-6">wccancel</action-widget>
-      <action-widget response="-5">wcok</action-widget>
-    </action-widgets>
+  <object class="GtkSizeGroup">
+    <widgets>
+      <widget name="tzcbloc"/>
+      <widget name="tzcbarea"/>
+    </widgets>
   </object>
   <object class="GtkDialog" id="keyboarddlg">
     <property name="can_focus">False</property>
@@ -3224,6 +3153,111 @@
     <action-widgets>
       <action-widget response="-6">keycancel</action-widget>
       <action-widget response="-5">keyok</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkSizeGroup">
+    <widgets>
+      <widget name="keycbmodel"/>
+      <widget name="keycblayout"/>
+      <widget name="keycbvar"/>
+    </widgets>
+  </object>
+  <object class="GtkDialog" id="wcdialog">
+    <property name="can_focus">False</property>
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">WiFi Country Code</property>
+    <property name="resizable">False</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="wcdlg_vbox">
+        <property name="orientation">vertical</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="wcdlg_action_area">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="wccancel">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="wcok">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="wchbox1">
+            <property name="orientation">horizontal</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkLabel" id="wccountrylabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Country:</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBoxText" id="wccbcountry">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <accessibility>
+                  <relation type="labelled-by" target="wccountrylabel"/>
+                </accessibility>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">wccancel</action-widget>
+      <action-widget response="-5">wcok</action-widget>
     </action-widgets>
   </object>
   <object class="GtkDialog" id="errordialog">
