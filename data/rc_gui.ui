@@ -3417,85 +3417,128 @@ Would you like to reboot now? </property>
           </packing>
         </child>
         <child>
-          <object class="GtkTable" id="keytable">
+          <object class="GtkBox" id="keyvbox2">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="n_rows">3</property>
-            <property name="n_columns">2</property>
-            <property name="column_spacing">5</property>
             <child>
-              <object class="GtkLabel" id="keylabelmodel">
+              <object class="GtkBox" id="keyhbox1">
+                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Model:</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="keylabellayout">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Layout:</property>
+                <child>
+                    <object class="GtkLabel" id="keylabelmodel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Model:</property>
+                    </object>
+                    <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                    </packing>
+                </child>
+                <child>
+                    <object class="GtkComboBox" id="keycbmodel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <accessibility>
+                            <relation type="labelled-by" target="keylabelmodel"/>
+                        </accessibility>
+                    </object>
+                    <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                    </packing>
+                </child>
               </object>
               <packing>
-                <property name="top_attach">1</property>
-                <property name="bottom_attach">2</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">3</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="keylabelvar">
+              <object class="GtkBox" id="keyhbox2">
+                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Variant:</property>
+                <child>
+                    <object class="GtkLabel" id="keylabellayout">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Layout:</property>
+                    </object>
+                    <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                    </packing>
+                </child>
+                <child>
+                    <object class="GtkComboBox" id="keycblayout">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <accessibility>
+                            <relation type="labelled-by" target="keylabellayout"/>
+                        </accessibility>
+                    </object>
+                    <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                    </packing>
+                </child>
               </object>
               <packing>
-                <property name="top_attach">2</property>
-                <property name="bottom_attach">3</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">3</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
-              <object class="GtkComboBox" id="keycbmodel">
+              <object class="GtkBox" id="keyhbox3">
+                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <accessibility>
-                  <relation type="labelled-by" target="keylabelmodel"/>
-                </accessibility>
+                <child>
+                    <object class="GtkLabel" id="keylabelvar">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Variant:</property>
+                    </object>
+                    <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                    </packing>
+                </child>
+                <child>
+                    <object class="GtkComboBox" id="keycbvar">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <accessibility>
+                            <relation type="labelled-by" target="keylabelvar"/>
+                        </accessibility>
+                    </object>
+                    <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                    </packing>
+                </child>
               </object>
               <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkComboBox" id="keycblayout">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <accessibility>
-                  <relation type="labelled-by" target="keylabellayout"/>
-                </accessibility>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
-                <property name="top_attach">1</property>
-                <property name="bottom_attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkComboBox" id="keycbvar">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <accessibility>
-                  <relation type="labelled-by" target="keylabelvar"/>
-                </accessibility>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
-                <property name="top_attach">2</property>
-                <property name="bottom_attach">3</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">3</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </object>
