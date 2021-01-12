@@ -391,8 +391,7 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
     const char *entry;
     char *pw1, *pw2;
 
-    builder = gtk_builder_new ();
-    gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "passwddialog");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
     pwentry2_tb = gtk_builder_get_object (builder, "pwentry2");
@@ -675,8 +674,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     read_locales ();
 
     // create the dialog
-    builder = gtk_builder_new ();
-    gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "localedlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
     tab = (GtkWidget *) gtk_builder_get_object (builder, "loctable");
@@ -911,8 +909,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
     tzcity_list = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
     read_timezones ();
 
-    builder = gtk_builder_new ();
-    gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "tzdialog");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
@@ -1011,8 +1008,7 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
     int n, found;
     size_t len;
 
-    builder = gtk_builder_new ();
-    gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "wcdialog");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
@@ -1073,8 +1069,7 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
     int n, found, hmode, hgroup, mode, x, y, freq, ax, ay, conn;
     size_t len;
 
-    builder = gtk_builder_new ();
-    gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "resdialog");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
@@ -1346,8 +1341,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     read_keyboards ();
 
     // build the dialog and attach the combo boxes
-    builder = gtk_builder_new ();
-    gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "keyboarddlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
@@ -1465,8 +1459,7 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
     GtkBuilder *builder;
     GtkWidget *dlg;
 
-    builder = gtk_builder_new ();
-    gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
 
     if (vsystem (CHECK_UNAME))
     {
@@ -1543,8 +1536,7 @@ static void on_expand_fs (GtkButton* btn, gpointer ptr)
     GtkBuilder *builder;
     GtkWidget *dlg;
 
-    builder = gtk_builder_new ();
-    gtk_builder_add_from_file (builder, PACKAGE_DATA_DIR "/rc_gui.ui", NULL);
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "fsdonedlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
     g_object_unref (builder);
