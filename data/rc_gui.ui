@@ -2128,138 +2128,6 @@
       <widget name="rb_rgp_off"/>
     </widgets>
   </object>
-  <object class="GtkDialog" id="errordialog">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
-    <property name="title" translatable="yes">Raspberry Pi Configuration</property>
-    <property name="resizable">False</property>
-    <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
-    <property name="type_hint">dialog</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="errordlg_vbox">
-        <property name="orientation">vertical</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="errordlg_action_area">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <object class="GtkButton" id="errorokbtn">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="errormsg">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="xpad">10</property>
-            <property name="ypad">5</property>
-            <property name="label" translatable="yes">The Raspberry Pi Configuration application can only modify a standard configuration.
-
-Your configuration appears to have been modified by other tools, and so this application cannot be used on your system.
-
-In order to use this application, you need to have the latest firmware installed, Device Tree enabled, the default "pi" user set up and the lightdm application installed. </property>
-            <property name="wrap">True</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="0">errorokbtn</action-widget>
-    </action-widgets>
-  </object>
-  <object class="GtkDialog" id="fsdonedlg">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
-    <property name="title" translatable="yes">Filesystem Expanded</property>
-    <property name="resizable">False</property>
-    <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
-    <property name="type_hint">dialog</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="fsddlg_vbox">
-        <property name="orientation">vertical</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="spacing">2</property>
-        <child>
-          <object class="GtkLabel" id="fsdonemsg">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="xpad">10</property>
-            <property name="ypad">5</property>
-            <property name="label" translatable="yes">The filesystem has been expanded.
-
-The new space will not be available until you reboot your Raspberry Pi.</property>
-            <property name="wrap">True</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="fsddlg_action_area">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <object class="GtkButton" id="fsdoneok">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="0">fsdoneok</action-widget>
-    </action-widgets>
-  </object>
   <object class="GtkDialog" id="localedlg">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -2820,208 +2688,6 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
       <action-widget response="-5">passwdok</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkDialog" id="pwbaddialog">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
-    <property name="title" translatable="yes">Password Not Changed</property>
-    <property name="resizable">False</property>
-    <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
-    <property name="type_hint">dialog</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="pwbaddlg_vbox">
-        <property name="orientation">vertical</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="spacing">2</property>
-        <child>
-          <object class="GtkLabel" id="pwbadmsg">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="xpad">5</property>
-            <property name="ypad">5</property>
-            <property name="label" translatable="yes">The password change failed.
-
-This could be because the current password was incorrect, or because the new password was not sufficiently complex or was too similar to the current password.</property>
-            <property name="wrap">True</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="pwbaddlg_action_area">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <object class="GtkButton" id="pwbadbtn">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="0">pwbadbtn</action-widget>
-    </action-widgets>
-  </object>
-  <object class="GtkDialog" id="pwokdialog">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
-    <property name="title" translatable="yes">Password Changed</property>
-    <property name="resizable">False</property>
-    <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
-    <property name="type_hint">dialog</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="pwokdlg_vbox">
-        <property name="orientation">vertical</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="spacing">2</property>
-        <child>
-          <object class="GtkLabel" id="pwokmsg">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="xpad">5</property>
-            <property name="ypad">5</property>
-            <property name="label" translatable="yes">The password has been changed successfully.</property>
-            <property name="wrap">True</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="pwokdlg_action_area">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <object class="GtkButton" id="pwokbtn">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="0">pwokbtn</action-widget>
-    </action-widgets>
-  </object>
-  <object class="GtkDialog" id="rebootdlg">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
-    <property name="title" translatable="yes">Reboot needed</property>
-    <property name="resizable">False</property>
-    <property name="type_hint">dialog</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="rbtdlg_vbox">
-        <property name="orientation">vertical</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="rbtdlg_action_area">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="rebootno">
-                <property name="label">gtk-no</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="rebootyes">
-                <property name="label">gtk-yes</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="rebootlbl">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">The changes you have made require the Raspberry Pi to be rebooted to take effect.
-
-Would you like to reboot now? </property>
-            <property name="wrap">True</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="-9">rebootno</action-widget>
-      <action-widget response="-8">rebootyes</action-widget>
-    </action-widgets>
-  </object>
   <object class="GtkDialog" id="resdialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -3075,11 +2741,10 @@ Would you like to reboot now? </property>
           </packing>
         </child>
         <child>
-          <object class="GtkTable" id="restable">
+          <object class="GtkBox" id="reshbox">
+            <property name="orientation">horizontal</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="n_columns">2</property>
-            <property name="column_spacing">5</property>
             <child>
               <object class="GtkLabel" id="reslabel">
                 <property name="visible">True</property>
@@ -3087,6 +2752,11 @@ Would you like to reboot now? </property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Resolution:</property>
               </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
             </child>
             <child>
               <object class="GtkComboBoxText" id="rescb">
@@ -3097,8 +2767,9 @@ Would you like to reboot now? </property>
                 </accessibility>
               </object>
               <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </object>
@@ -3553,6 +3224,340 @@ Would you like to reboot now? </property>
     <action-widgets>
       <action-widget response="-6">keycancel</action-widget>
       <action-widget response="-5">keyok</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkDialog" id="errordialog">
+    <property name="can_focus">False</property>
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Raspberry Pi Configuration</property>
+    <property name="resizable">False</property>
+    <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="errordlg_vbox">
+        <property name="orientation">vertical</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="errordlg_action_area">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkButton" id="errorokbtn">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="errormsg">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xpad">10</property>
+            <property name="ypad">5</property>
+            <property name="label" translatable="yes">The Raspberry Pi Configuration application can only modify a standard configuration.
+
+Your configuration appears to have been modified by other tools, and so this application cannot be used on your system.
+
+In order to use this application, you need to have the latest firmware installed, Device Tree enabled, the default "pi" user set up and the lightdm application installed. </property>
+            <property name="wrap">True</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="0">errorokbtn</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkDialog" id="fsdonedlg">
+    <property name="can_focus">False</property>
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Filesystem Expanded</property>
+    <property name="resizable">False</property>
+    <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="fsddlg_vbox">
+        <property name="orientation">vertical</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">2</property>
+        <child>
+          <object class="GtkLabel" id="fsdonemsg">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xpad">10</property>
+            <property name="ypad">5</property>
+            <property name="label" translatable="yes">The filesystem has been expanded.
+
+The new space will not be available until you reboot your Raspberry Pi.</property>
+            <property name="wrap">True</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="fsddlg_action_area">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkButton" id="fsdoneok">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="0">fsdoneok</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkDialog" id="pwbaddialog">
+    <property name="can_focus">False</property>
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Password Not Changed</property>
+    <property name="resizable">False</property>
+    <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="pwbaddlg_vbox">
+        <property name="orientation">vertical</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">2</property>
+        <child>
+          <object class="GtkLabel" id="pwbadmsg">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xpad">5</property>
+            <property name="ypad">5</property>
+            <property name="label" translatable="yes">The password change failed.
+
+This could be because the current password was incorrect, or because the new password was not sufficiently complex or was too similar to the current password.</property>
+            <property name="wrap">True</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="pwbaddlg_action_area">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkButton" id="pwbadbtn">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="0">pwbadbtn</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkDialog" id="pwokdialog">
+    <property name="can_focus">False</property>
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Password Changed</property>
+    <property name="resizable">False</property>
+    <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="pwokdlg_vbox">
+        <property name="orientation">vertical</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">2</property>
+        <child>
+          <object class="GtkLabel" id="pwokmsg">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xpad">5</property>
+            <property name="ypad">5</property>
+            <property name="label" translatable="yes">The password has been changed successfully.</property>
+            <property name="wrap">True</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="pwokdlg_action_area">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkButton" id="pwokbtn">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="0">pwokbtn</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkDialog" id="rebootdlg">
+    <property name="can_focus">False</property>
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Reboot needed</property>
+    <property name="resizable">False</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="rbtdlg_vbox">
+        <property name="orientation">vertical</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="rbtdlg_action_area">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="rebootno">
+                <property name="label">gtk-no</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="rebootyes">
+                <property name="label">gtk-yes</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="rebootlbl">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">The changes you have made require the Raspberry Pi to be rebooted to take effect.
+
+Would you like to reboot now? </property>
+            <property name="wrap">True</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-9">rebootno</action-widget>
+      <action-widget response="-8">rebootyes</action-widget>
     </action-widgets>
   </object>
   <object class="GtkWindow" id="msg">
