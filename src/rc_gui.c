@@ -1528,22 +1528,6 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
 
 /* Button handlers */
 
-static void on_expand_fs (GtkButton* btn, gpointer ptr)
-{
-    vsystem (EXPAND_FS);
-    needs_reboot = 1;
-
-    GtkBuilder *builder;
-    GtkWidget *dlg;
-
-    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
-    dlg = (GtkWidget *) gtk_builder_get_object (builder, "fsdonedlg");
-    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
-    g_object_unref (builder);
-    gtk_dialog_run (GTK_DIALOG (dlg));
-    gtk_widget_destroy (dlg);
-}
-
 static void on_boot_toggle (GtkButton* btn, gpointer ptr)
 {
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))

@@ -2120,7 +2120,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
+        <property name="spacing">5</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="errordlg_action_area">
             <property name="visible">True</property>
@@ -2168,68 +2168,6 @@ In order to use this application, you need to have the latest firmware installed
     </child>
     <action-widgets>
       <action-widget response="0">errorokbtn</action-widget>
-    </action-widgets>
-  </object>
-  <object class="GtkDialog" id="fsdonedlg">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
-    <property name="title" translatable="yes">Filesystem Expanded</property>
-    <property name="resizable">False</property>
-    <property name="type_hint">dialog</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="fsddlg_vbox">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox" id="fsddlg_action_area">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="fsdoneok">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="fsdonemsg">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">The filesystem has been expanded.
-
-The new space will not be available until you reboot your Raspberry Pi.</property>
-            <property name="wrap">True</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="0">fsdoneok</action-widget>
     </action-widgets>
   </object>
   <object class="GtkDialog" id="keyboarddlg">
@@ -2882,7 +2820,7 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
+        <property name="spacing">5</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="ofswdlg_action_area">
             <property name="visible">True</property>
@@ -3093,7 +3031,7 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
+        <property name="spacing">5</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="pwbaddlg_action_area">
             <property name="visible">True</property>
@@ -3155,7 +3093,7 @@ This could be because the current password was incorrect, or because the new pas
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
+        <property name="spacing">5</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="pwokdlg_action_area">
             <property name="visible">True</property>
@@ -3215,7 +3153,7 @@ This could be because the current password was incorrect, or because the new pas
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
+        <property name="spacing">5</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="rbtdlg_action_area">
             <property name="visible">True</property>
