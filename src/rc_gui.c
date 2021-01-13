@@ -2143,11 +2143,6 @@ int main (int argc, char *argv[])
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox54")));
     }
 
-    GdkPixbuf *win_icon = gtk_window_get_icon (GTK_WINDOW (main_dlg));
-    GList *list;
-    list = g_list_append (list, win_icon);
-    gtk_window_set_default_icon_list (list);
-
     needs_reboot = 0;
     if (gtk_dialog_run (GTK_DIALOG (main_dlg)) == GTK_RESPONSE_OK)
     {

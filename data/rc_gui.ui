@@ -8,7 +8,7 @@
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Raspberry Pi Configuration</property>
     <property name="resizable">False</property>
-    <property name="icon">usr/share/raspberrypi-artwork/raspitr.png</property>
+    <property name="icon_name">rpi</property>
     <property name="type_hint">dialog</property>
     <child>
       <placeholder/>
@@ -2179,6 +2179,7 @@
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Keyboard</property>
     <property name="resizable">False</property>
+    <property name="icon_name">rpi</property>
     <property name="type_hint">dialog</property>
     <child>
       <placeholder/>
@@ -2365,6 +2366,7 @@
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Locale</property>
     <property name="resizable">False</property>
+    <property name="icon_name">rpi</property>
     <property name="type_hint">dialog</property>
     <child>
       <placeholder/>
@@ -2550,6 +2552,7 @@
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Overlay File System</property>
+    <property name="icon_name">rpi</property>
     <property name="type_hint">dialog</property>
     <child>
       <placeholder/>
@@ -2761,6 +2764,7 @@
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Change Password</property>
     <property name="resizable">False</property>
+    <property name="icon_name">rpi</property>
     <property name="type_hint">dialog</property>
     <child>
       <placeholder/>
@@ -2912,6 +2916,7 @@
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Reboot needed</property>
     <property name="resizable">False</property>
+    <property name="icon_name">rpi</property>
     <property name="type_hint">dialog</property>
     <child>
       <placeholder/>
@@ -2989,6 +2994,7 @@ Would you like to reboot now? </property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Set Resolution</property>
     <property name="resizable">False</property>
+    <property name="icon_name">rpi</property>
     <property name="type_hint">dialog</property>
     <child>
       <placeholder/>
@@ -3090,6 +3096,7 @@ Would you like to reboot now? </property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Timezone</property>
     <property name="resizable">False</property>
+    <property name="icon_name">rpi</property>
     <property name="type_hint">dialog</property>
     <child>
       <placeholder/>
@@ -3236,6 +3243,7 @@ Would you like to reboot now? </property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">WiFi Country Code</property>
     <property name="resizable">False</property>
+    <property name="icon_name">rpi</property>
     <property name="type_hint">dialog</property>
     <child>
       <placeholder/>
