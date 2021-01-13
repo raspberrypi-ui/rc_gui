@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
-  <!-- interface-naming-policy project-wide -->
   <object class="GtkDialog" id="dialog1">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -9,11 +9,14 @@
     <property name="resizable">False</property>
     <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox1">
-        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="dialog-action_area1">
@@ -61,25 +64,24 @@
             <property name="can_focus">True</property>
             <child>
               <object class="GtkBox" id="vbox10">
-                <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
-                <property name="margin-top">5</property>
-                <property name="margin-bottom">5</property>
-                <property name="margin-left">5</property>
-                <property name="margin-right">5</property>
                 <child>
                   <object class="GtkBox" id="hbox11">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label11">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Password:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -114,15 +116,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox12">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label12">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Hostname:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -137,8 +138,6 @@
                         <property name="tooltip_text" translatable="yes">Set the name of your Pi on a local network</property>
                         <property name="primary_icon_activatable">False</property>
                         <property name="secondary_icon_activatable">False</property>
-                        <property name="primary_icon_sensitive">True</property>
-                        <property name="secondary_icon_sensitive">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label12"/>
                         </accessibility>
@@ -158,15 +157,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox13">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label13">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Boot:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -222,15 +220,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox14">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label14">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Auto login:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -284,15 +281,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox15">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label15">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Network at Boot:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -346,15 +342,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox16">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label16">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Splash Screen:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -410,15 +405,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox17">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label17">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Power LED:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -486,26 +480,25 @@
             </child>
             <child>
               <object class="GtkBox" id="vbox50">
-                <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
-                <property name="margin-top">5</property>
-                <property name="margin-bottom">5</property>
-                <property name="margin-left">5</property>
-                <property name="margin-right">5</property>
                 <child>
                   <object class="GtkBox" id="hbox51">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label51">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Resolution:</property>
                         <property name="ellipsize">middle</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -540,15 +533,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox52">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label52">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Overscan:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -604,15 +596,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox53">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label53">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Pixel Doubling:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -668,15 +659,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox54">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label54">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Composite Video:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -732,15 +722,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox55">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label55">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Screen Blanking:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -812,25 +801,24 @@
             </child>
             <child>
               <object class="GtkBox" id="vbox20">
-                <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
-                <property name="margin-top">5</property>
-                <property name="margin-bottom">5</property>
-                <property name="margin-left">5</property>
-                <property name="margin-right">5</property>
                 <child>
                   <object class="GtkBox" id="hbox21">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label21">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Camera:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -888,15 +876,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox22">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label22">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">SSH:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -952,15 +939,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox23">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label23">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">VNC:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1016,15 +1002,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox24">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label24">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">SPI:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1080,15 +1065,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox25">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label25">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">I2C:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1144,15 +1128,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox26">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label26">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Serial Port:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1208,15 +1191,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox27">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label27">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Serial Console:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1272,15 +1254,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox28">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label28">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">1-Wire:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1336,15 +1317,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox29">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label29">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Remote GPIO:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1416,27 +1396,26 @@
             </child>
             <child>
               <object class="GtkBox" id="vbox30">
-                <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
-                <property name="margin-top">5</property>
-                <property name="margin-bottom">5</property>
-                <property name="margin-left">5</property>
-                <property name="margin-right">5</property>
                 <child>
                   <object class="GtkBox" id="hbox31a">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label31a">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">O_verclock:</property>
                         <property name="use_underline">True</property>
                         <property name="mnemonic_widget">combo_oc_pi1</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1449,9 +1428,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="tooltip_text" translatable="yes">Set the level of overclock to control performance</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label31a"/>
-                        </accessibility>
                         <items>
                           <item translatable="yes">None (700MHz)</item>
                           <item translatable="yes">Modest (800MHz)</item>
@@ -1459,6 +1435,9 @@
                           <item translatable="yes">High (950MHz)</item>
                           <item translatable="yes">Turbo (1000MHz)</item>
                         </items>
+                        <accessibility>
+                          <relation type="labelled-by" target="label31a"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1475,17 +1454,16 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox31b">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label31b">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">O_verclock:</property>
                         <property name="use_underline">True</property>
                         <property name="mnemonic_widget">combo_oc_pi2</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1498,13 +1476,13 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="tooltip_text" translatable="yes">Set the level of overclock to control performance</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label31b"/>
-                        </accessibility>
                         <items>
                           <item translatable="yes">None (900MHz)</item>
                           <item translatable="yes">High (1000MHz)</item>
                         </items>
+                        <accessibility>
+                          <relation type="labelled-by" target="label31b"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1521,17 +1499,16 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox31c">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label31c">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">O_verclock:</property>
                         <property name="use_underline">True</property>
                         <property name="mnemonic_widget">combo_oc_pi3</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1543,12 +1520,12 @@
                       <object class="GtkComboBoxText" id="combo_oc_pi3">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label31c"/>
-                        </accessibility>
                         <items>
                           <item translatable="yes">Not available</item>
                         </items>
+                        <accessibility>
+                          <relation type="labelled-by" target="label31c"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1565,17 +1542,16 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox32">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label32">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">_GPU Memory:</property>
                         <property name="use_underline">True</property>
                         <property name="mnemonic_widget">spin_gpu</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1590,8 +1566,6 @@
                         <property name="tooltip_text" translatable="yes">Enter the amount of memory available to the GPU</property>
                         <property name="primary_icon_activatable">False</property>
                         <property name="secondary_icon_activatable">False</property>
-                        <property name="primary_icon_sensitive">True</property>
-                        <property name="secondary_icon_sensitive">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label32"/>
                         </accessibility>
@@ -1611,15 +1585,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox33">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label33">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Overlay File System:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1653,15 +1626,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox34">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label34">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Fan:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1717,15 +1689,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox35">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label35">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Fan GPIO:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1741,8 +1712,6 @@
                         <property name="invisible_char">•</property>
                         <property name="primary_icon_activatable">False</property>
                         <property name="secondary_icon_activatable">False</property>
-                        <property name="primary_icon_sensitive">True</property>
-                        <property name="secondary_icon_sensitive">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label35"/>
                         </accessibility>
@@ -1762,15 +1731,14 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox36">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label36">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Fan Temperature:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1786,8 +1754,6 @@
                         <property name="invisible_char">•</property>
                         <property name="primary_icon_activatable">False</property>
                         <property name="secondary_icon_activatable">False</property>
-                        <property name="primary_icon_sensitive">True</property>
-                        <property name="secondary_icon_sensitive">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label36"/>
                         </accessibility>
@@ -1823,26 +1789,25 @@
             </child>
             <child>
               <object class="GtkBox" id="vbox40">
-                <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
-                <property name="margin-top">5</property>
-                <property name="margin-bottom">5</property>
-                <property name="margin-left">5</property>
-                <property name="margin-right">5</property>
                 <child>
                   <object class="GtkBox" id="hbox41">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label41">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Locale:</property>
                         <property name="ellipsize">middle</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1877,16 +1842,15 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox42">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label42">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Timezone:</property>
                         <property name="ellipsize">middle</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1921,16 +1885,15 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox43">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label43">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Keyboard:</property>
                         <property name="ellipsize">middle</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1965,16 +1928,15 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox44">
-                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label44">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">WiFi Country:</property>
                         <property name="ellipsize">middle</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -2149,14 +2111,17 @@
     <property name="title" translatable="yes">Raspberry Pi Configuration</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="errordlg_vbox">
-        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="errordlg_action_area">
+          <object class="GtkButtonBox" id="errordlg_action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -2215,31 +2180,17 @@ In order to use this application, you need to have the latest firmware installed
     <property name="title" translatable="yes">Filesystem Expanded</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="fsddlg_vbox">
-        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
-        <child>
-          <object class="GtkLabel" id="fsdonemsg">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="xpad">10</property>
-            <property name="ypad">5</property>
-            <property name="label" translatable="yes">The filesystem has been expanded.
-
-The new space will not be available until you reboot your Raspberry Pi.</property>
-            <property name="wrap">True</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="fsddlg_action_area">
+          <object class="GtkButtonBox" id="fsddlg_action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -2267,6 +2218,23 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
             <property name="position">1</property>
           </packing>
         </child>
+        <child>
+          <object class="GtkLabel" id="fsdonemsg">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xpad">10</property>
+            <property name="ypad">5</property>
+            <property name="label" translatable="yes">The filesystem has been expanded.
+
+The new space will not be available until you reboot your Raspberry Pi.</property>
+            <property name="wrap">True</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
       </object>
     </child>
     <action-widgets>
@@ -2279,14 +2247,17 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
     <property name="title" translatable="yes">Keyboard</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="keyboarddlg_vbox">
-        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="keyboarddlg_action_area">
+          <object class="GtkButtonBox" id="keyboarddlg_action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -2327,41 +2298,40 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
         </child>
         <child>
           <object class="GtkBox" id="keyvbox2">
-            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
             <child>
               <object class="GtkBox" id="keyhbox1">
-                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">10</property>
                 <child>
-                    <object class="GtkLabel" id="keylabelmodel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Model:</property>
-                    </object>
-                    <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                    </packing>
+                  <object class="GtkLabel" id="keylabelmodel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Model:</property>
+                    <property name="xalign">0</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
-                    <object class="GtkComboBox" id="keycbmodel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <accessibility>
-                            <relation type="labelled-by" target="keylabelmodel"/>
-                        </accessibility>
-                    </object>
-                    <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                    </packing>
+                  <object class="GtkComboBox" id="keycbmodel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <accessibility>
+                      <relation type="labelled-by" target="keylabelmodel"/>
+                    </accessibility>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -2373,36 +2343,35 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
             </child>
             <child>
               <object class="GtkBox" id="keyhbox2">
-                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">10</property>
                 <child>
-                    <object class="GtkLabel" id="keylabellayout">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Layout:</property>
-                    </object>
-                    <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                    </packing>
+                  <object class="GtkLabel" id="keylabellayout">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Layout:</property>
+                    <property name="xalign">0</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
-                    <object class="GtkComboBox" id="keycblayout">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <accessibility>
-                            <relation type="labelled-by" target="keylabellayout"/>
-                        </accessibility>
-                    </object>
-                    <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                    </packing>
+                  <object class="GtkComboBox" id="keycblayout">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <accessibility>
+                      <relation type="labelled-by" target="keylabellayout"/>
+                    </accessibility>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -2414,36 +2383,35 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
             </child>
             <child>
               <object class="GtkBox" id="keyhbox3">
-                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">10</property>
                 <child>
-                    <object class="GtkLabel" id="keylabelvar">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Variant:</property>
-                    </object>
-                    <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                    </packing>
+                  <object class="GtkLabel" id="keylabelvar">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Variant:</property>
+                    <property name="xalign">0</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
-                    <object class="GtkComboBox" id="keycbvar">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <accessibility>
-                            <relation type="labelled-by" target="keylabelvar"/>
-                        </accessibility>
-                    </object>
-                    <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                    </packing>
+                  <object class="GtkComboBox" id="keycbvar">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <accessibility>
+                      <relation type="labelled-by" target="keylabelvar"/>
+                    </accessibility>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -2480,14 +2448,17 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
     <property name="title" translatable="yes">Locale</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="localedlg_vbox">
-        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="localedlg_action_area">
+          <object class="GtkButtonBox" id="localedlg_action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -2528,41 +2499,40 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
         </child>
         <child>
           <object class="GtkBox" id="locvbox2">
-            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
             <child>
               <object class="GtkBox" id="lochbox1">
-                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">10</property>
                 <child>
-                    <object class="GtkLabel" id="loclabellang">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Language:</property>
-                    </object>
-                    <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                    </packing>
+                  <object class="GtkLabel" id="loclabellang">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Language:</property>
+                    <property name="xalign">0</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
-                    <object class="GtkComboBox" id="loccblang">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <accessibility>
-                            <relation type="labelled-by" target="loclabellang"/>
-                        </accessibility>
-                    </object>
-                    <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                    </packing>
+                  <object class="GtkComboBox" id="loccblang">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <accessibility>
+                      <relation type="labelled-by" target="loclabellang"/>
+                    </accessibility>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -2574,36 +2544,35 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
             </child>
             <child>
               <object class="GtkBox" id="lochbox2">
-                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">10</property>
                 <child>
-                    <object class="GtkLabel" id="loclabelcountry">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Country:</property>
-                    </object>
-                    <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                    </packing>
+                  <object class="GtkLabel" id="loclabelcountry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Country:</property>
+                    <property name="xalign">0</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
-                    <object class="GtkComboBox" id="loccbcountry">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <accessibility>
-                            <relation type="labelled-by" target="loclabelcountry"/>
-                        </accessibility>
-                    </object>
-                    <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                    </packing>
+                  <object class="GtkComboBox" id="loccbcountry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <accessibility>
+                      <relation type="labelled-by" target="loclabelcountry"/>
+                    </accessibility>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -2615,44 +2584,43 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
             </child>
             <child>
               <object class="GtkBox" id="lochbox3">
-                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">10</property>
                 <child>
-                    <object class="GtkLabel" id="loclabelchar">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Character Set:</property>
-                    </object>
-                    <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                    </packing>
+                  <object class="GtkLabel" id="loclabelchar">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Character Set:</property>
+                    <property name="xalign">0</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
-                    <object class="GtkComboBox" id="loccbchar">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <accessibility>
-                            <relation type="labelled-by" target="loclabelchar"/>
-                        </accessibility>
-                    </object>
-                    <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                    </packing>
+                  <object class="GtkComboBox" id="loccbchar">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <accessibility>
+                      <relation type="labelled-by" target="loclabelchar"/>
+                    </accessibility>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
-            </object>
-            <packing>
+              </object>
+              <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="padding">3</property>
                 <property name="position">2</property>
-            </packing>
+              </packing>
             </child>
           </object>
           <packing>
@@ -2683,6 +2651,9 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
     <property name="skip_taskbar_hint">True</property>
     <property name="decorated">False</property>
     <child>
+      <placeholder/>
+    </child>
+    <child>
       <object class="GtkFrame" id="frame1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -2698,16 +2669,15 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
                 <property name="can_focus">False</property>
                 <child>
                   <object class="GtkBox" id="vbox1">
-                    <property name="orientation">vertical</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkLabel" id="msg_lbl">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xpad">20</property>
                         <property name="ypad">20</property>
-                        <property name="label" translatable="yes"></property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -2732,14 +2702,17 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Overlay File System</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="ofsdlg-vbox">
-        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="ofsdlg_action_area">
+          <object class="GtkButtonBox" id="ofsdlg_action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -2780,12 +2753,11 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
         </child>
         <child>
           <object class="GtkBox" id="ofsvbox2">
-            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
             <child>
               <object class="GtkBox" id="ofshbox1">
-                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">10</property>
@@ -2793,8 +2765,8 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
                   <object class="GtkLabel" id="ofslabel1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
                     <property name="label" translatable="yes">Overlay:</property>
+                    <property name="xalign">0</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -2808,11 +2780,11 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="tooltip_text" translatable="yes">Enable a file system overlay; all changes will be lost on reboot</property>
                     <property name="active">True</property>
                     <property name="draw_indicator">True</property>
-                    <property name="tooltip_text" translatable="yes">Enable a file system overlay; all changes will be lost on reboot</property>
                     <accessibility>
-                        <relation type="labelled-by" target="ofslabel1"/>
+                      <relation type="labelled-by" target="ofslabel1"/>
                     </accessibility>
                   </object>
                   <packing>
@@ -2827,12 +2799,12 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="tooltip_text" translatable="yes">Disable a file system overlay; changes will be saved to the SD card</property>
                     <property name="active">True</property>
                     <property name="draw_indicator">True</property>
                     <property name="group">rb_ofsen</property>
-                    <property name="tooltip_text" translatable="yes">Disable a file system overlay; changes will be saved to the SD card</property>
                     <accessibility>
-                        <relation type="labelled-by" target="ofslabel1"/>
+                      <relation type="labelled-by" target="ofslabel1"/>
                     </accessibility>
                   </object>
                   <packing>
@@ -2851,7 +2823,6 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
             </child>
             <child>
               <object class="GtkBox" id="ofshbox2">
-                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">10</property>
@@ -2859,8 +2830,8 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
                   <object class="GtkLabel" id="ofslabel2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
                     <property name="label" translatable="yes">Boot Partition:</property>
+                    <property name="xalign">0</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -2874,11 +2845,11 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="tooltip_text" translatable="yes">Make the boot partition read-only</property>
                     <property name="active">True</property>
                     <property name="draw_indicator">True</property>
-                    <property name="tooltip_text" translatable="yes">Make the boot partition read-only</property>
                     <accessibility>
-                        <relation type="labelled-by" target="ofslabel2"/>
+                      <relation type="labelled-by" target="ofslabel2"/>
                     </accessibility>
                   </object>
                   <packing>
@@ -2893,12 +2864,12 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="tooltip_text" translatable="yes">Make the boot partition writable</property>
                     <property name="active">True</property>
                     <property name="draw_indicator">True</property>
                     <property name="group">rb_bpro</property>
-                    <property name="tooltip_text" translatable="yes">Make the boot partition writable</property>
                     <accessibility>
-                        <relation type="labelled-by" target="ofslabel2"/>
+                      <relation type="labelled-by" target="ofslabel2"/>
                     </accessibility>
                   </object>
                   <packing>
@@ -2919,8 +2890,8 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
               <object class="GtkLabel" id="ofslabel3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Changes will not take effect until a reboot</property>
+                <property name="xalign">0</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -2957,29 +2928,17 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
     <property name="title" translatable="yes">Reboot Needed</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="ofswdlg_vbox">
-        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
-        <child>
-          <object class="GtkLabel" id="ofswmsg">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="xpad">5</property>
-            <property name="ypad">5</property>
-            <property name="label" translatable="yes">Your system has recently been updated. Please reboot to ensure these updates have loaded before setting up the overlay file system.</property>
-            <property name="wrap">True</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="ofswdlg_action_area">
+          <object class="GtkButtonBox" id="ofswdlg_action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -3007,6 +2966,21 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
             <property name="position">1</property>
           </packing>
         </child>
+        <child>
+          <object class="GtkLabel" id="ofswmsg">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xpad">5</property>
+            <property name="ypad">5</property>
+            <property name="label" translatable="yes">Your system has recently been updated. Please reboot to ensure these updates have loaded before setting up the overlay file system.</property>
+            <property name="wrap">True</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
       </object>
     </child>
     <action-widgets>
@@ -3019,15 +2993,17 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
     <property name="title" translatable="yes">Change Password</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="pwddlg_vbox">
-        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
-        <property name="homogeneous">True</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="pwddlg_action_area">
+          <object class="GtkButtonBox" id="pwddlg_action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -3069,7 +3045,6 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
         </child>
         <child>
           <object class="GtkBox" id="pwhbox2">
-            <property name="orientation">horizontal</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">10</property>
@@ -3077,8 +3052,8 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
               <object class="GtkLabel" id="pwlabel2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Enter new password:</property>
+                <property name="xalign">0</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -3090,11 +3065,8 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
               <object class="GtkEntry" id="pwentry2">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char_set">True</property>
                 <property name="primary_icon_activatable">False</property>
                 <property name="secondary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">True</property>
-                <property name="secondary_icon_sensitive">True</property>
                 <accessibility>
                   <relation type="labelled-by" target="pwlabel2"/>
                 </accessibility>
@@ -3114,7 +3086,6 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
         </child>
         <child>
           <object class="GtkBox" id="pwhbox3">
-            <property name="orientation">horizontal</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">10</property>
@@ -3122,8 +3093,8 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
               <object class="GtkLabel" id="pwlabel3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Confirm new password:</property>
+                <property name="xalign">0</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -3135,11 +3106,8 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
               <object class="GtkEntry" id="pwentry3">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char_set">True</property>
                 <property name="primary_icon_activatable">False</property>
                 <property name="secondary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">True</property>
-                <property name="secondary_icon_sensitive">True</property>
                 <accessibility>
                   <relation type="labelled-by" target="pwlabel3"/>
                 </accessibility>
@@ -3176,31 +3144,17 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
     <property name="title" translatable="yes">Password Not Changed</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="pwbaddlg_vbox">
-        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
-        <child>
-          <object class="GtkLabel" id="pwbadmsg">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="xpad">5</property>
-            <property name="ypad">5</property>
-            <property name="label" translatable="yes">The password change failed.
-
-This could be because the current password was incorrect, or because the new password was not sufficiently complex or was too similar to the current password.</property>
-            <property name="wrap">True</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="pwbaddlg_action_area">
+          <object class="GtkButtonBox" id="pwbaddlg_action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -3228,6 +3182,23 @@ This could be because the current password was incorrect, or because the new pas
             <property name="position">1</property>
           </packing>
         </child>
+        <child>
+          <object class="GtkLabel" id="pwbadmsg">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xpad">5</property>
+            <property name="ypad">5</property>
+            <property name="label" translatable="yes">The password change failed.
+
+This could be because the current password was incorrect, or because the new password was not sufficiently complex or was too similar to the current password.</property>
+            <property name="wrap">True</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
       </object>
     </child>
     <action-widgets>
@@ -3240,29 +3211,17 @@ This could be because the current password was incorrect, or because the new pas
     <property name="title" translatable="yes">Password Changed</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="pwokdlg_vbox">
-        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
-        <child>
-          <object class="GtkLabel" id="pwokmsg">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="xpad">5</property>
-            <property name="ypad">5</property>
-            <property name="label" translatable="yes">The password has been changed successfully.</property>
-            <property name="wrap">True</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="pwokdlg_action_area">
+          <object class="GtkButtonBox" id="pwokdlg_action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -3290,6 +3249,21 @@ This could be because the current password was incorrect, or because the new pas
             <property name="position">1</property>
           </packing>
         </child>
+        <child>
+          <object class="GtkLabel" id="pwokmsg">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xpad">5</property>
+            <property name="ypad">5</property>
+            <property name="label" translatable="yes">The password has been changed successfully.</property>
+            <property name="wrap">True</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
       </object>
     </child>
     <action-widgets>
@@ -3302,14 +3276,17 @@ This could be because the current password was incorrect, or because the new pas
     <property name="title" translatable="yes">Reboot needed</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="rbtdlg_vbox">
-        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="rbtdlg_action_area">
+          <object class="GtkButtonBox" id="rbtdlg_action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -3376,14 +3353,17 @@ Would you like to reboot now? </property>
     <property name="title" translatable="yes">Set Resolution</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="resdlg_vbox">
-        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="resdlg_action_area">
+          <object class="GtkButtonBox" id="resdlg_action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -3424,7 +3404,6 @@ Would you like to reboot now? </property>
         </child>
         <child>
           <object class="GtkBox" id="reshbox">
-            <property name="orientation">horizontal</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">10</property>
@@ -3432,8 +3411,8 @@ Would you like to reboot now? </property>
               <object class="GtkLabel" id="reslabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Resolution:</property>
+                <property name="xalign">0</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -3475,14 +3454,17 @@ Would you like to reboot now? </property>
     <property name="title" translatable="yes">Timezone</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="tzdlg_vbox">
-        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="tzdlg_action_area">
+          <object class="GtkButtonBox" id="tzdlg_action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -3523,41 +3505,40 @@ Would you like to reboot now? </property>
         </child>
         <child>
           <object class="GtkBox" id="tzvbox2">
-            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
             <child>
               <object class="GtkBox" id="tzhbox1">
-                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">10</property>
                 <child>
-                    <object class="GtkLabel" id="tzarealabel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Area:</property>
-                    </object>
-                    <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                    </packing>
+                  <object class="GtkLabel" id="tzarealabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Area:</property>
+                    <property name="xalign">0</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
-                    <object class="GtkComboBox" id="tzcbarea">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <accessibility>
-                            <relation type="labelled-by" target="tzarealabel"/>
-                        </accessibility>
-                    </object>
-                    <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                    </packing>
+                  <object class="GtkComboBox" id="tzcbarea">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <accessibility>
+                      <relation type="labelled-by" target="tzarealabel"/>
+                    </accessibility>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -3569,36 +3550,35 @@ Would you like to reboot now? </property>
             </child>
             <child>
               <object class="GtkBox" id="tzhbox2">
-                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">10</property>
                 <child>
-                    <object class="GtkLabel" id="tzloclabel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Location:</property>
-                    </object>
-                    <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                    </packing>
+                  <object class="GtkLabel" id="tzloclabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Location:</property>
+                    <property name="xalign">0</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
-                    <object class="GtkComboBox" id="tzcbloc">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <accessibility>
-                            <relation type="labelled-by" target="tzloclabel"/>
-                        </accessibility>
-                    </object>
-                    <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                    </packing>
+                  <object class="GtkComboBox" id="tzcbloc">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <accessibility>
+                      <relation type="labelled-by" target="tzloclabel"/>
+                    </accessibility>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -3634,14 +3614,17 @@ Would you like to reboot now? </property>
     <property name="title" translatable="yes">WiFi Country Code</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="wcdlg_vbox">
-        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="wcdlg_action_area">
+          <object class="GtkButtonBox" id="wcdlg_action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -3682,7 +3665,6 @@ Would you like to reboot now? </property>
         </child>
         <child>
           <object class="GtkBox" id="wchbox1">
-            <property name="orientation">horizontal</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">10</property>
@@ -3690,8 +3672,8 @@ Would you like to reboot now? </property>
               <object class="GtkLabel" id="wccountrylabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Country:</property>
+                <property name="xalign">0</property>
               </object>
               <packing>
                 <property name="expand">True</property>
