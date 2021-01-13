@@ -3288,7 +3288,6 @@
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Raspberry Pi Configuration</property>
     <property name="resizable">False</property>
-    <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="errordlg_vbox">
@@ -3355,7 +3354,6 @@ In order to use this application, you need to have the latest firmware installed
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Filesystem Expanded</property>
     <property name="resizable">False</property>
-    <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="fsddlg_vbox">
@@ -3420,7 +3418,6 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Password Not Changed</property>
     <property name="resizable">False</property>
-    <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="pwbaddlg_vbox">
@@ -3485,7 +3482,6 @@ This could be because the current password was incorrect, or because the new pas
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Password Changed</property>
     <property name="resizable">False</property>
-    <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="pwokdlg_vbox">
@@ -3674,7 +3670,6 @@ Would you like to reboot now? </property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Reboot Needed</property>
     <property name="resizable">False</property>
-    <property name="icon">/usr/share/raspberrypi-artwork/raspitr.png</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="ofswdlg_vbox">
