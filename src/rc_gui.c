@@ -343,27 +343,33 @@ static void message (char *msg)
     GtkWidget *wid;
     GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
 
-    msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "msg");
+    msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "infodialog");
     gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
 
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "msg_lbl");
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "infodialog_msg");
     gtk_label_set_text (GTK_LABEL (wid), msg);
+    gtk_widget_show (wid);
 
-    gtk_widget_show_all (msg_dlg);
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "infobuttons");
+    gtk_widget_hide (wid);
+
+    gtk_widget_show (msg_dlg);
+
     g_object_unref (builder);
 }
 
-static void info (char *title, char *msg)
+static void info (char *msg)
 {
     GtkWidget *dlg, *lbl;
     GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
 
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "infodialog");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
-    gtk_window_set_title (GTK_WINDOW (dlg), title);
+
     lbl = (GtkWidget *) gtk_builder_get_object (builder, "infodialog_msg");
     gtk_label_set_text (GTK_LABEL (lbl), msg);
     g_object_unref (builder);
+
     gtk_dialog_run (GTK_DIALOG (dlg));
     gtk_widget_destroy (dlg);
 }
@@ -425,9 +431,9 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
         g_free (pw2);
         gtk_widget_destroy (dlg);
         if (res)
-            info (_("Password Not Changed"), _("The password change failed.\n\nThis could be because the current password was incorrect, or because the new password was not sufficiently complex or was too similar to the current password."));
+            info (_("The password change failed.\n\nThis could be because the current password was incorrect, or because the new password was not sufficiently complex or was too similar to the current password."));
         else
-            info (_("Password Changed"), _("The password has been changed successfully."));
+            info (_("The password has been changed successfully."));
     }
     else gtk_widget_destroy (dlg);
     g_object_unref (builder);
@@ -1473,7 +1479,7 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
 
     if (vsystem (CHECK_UNAME))
     {
-        info (_("Reboot Needed"), _("Your system has recently been updated. Please reboot to ensure these updates have loaded before setting up the overlay file system."));
+        info (_("Your system has recently been updated. Please reboot to ensure these updates have loaded before setting up the overlay file system."));
         return;
     }
 
@@ -1845,13 +1851,13 @@ int main (int argc, char *argv[])
 
     // build the UI
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+    main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "dialog1");
 
     if (!can_configure ())
     {
-        info (_("Cannot Configure"), _("The Raspberry Pi Configuration application can only modify a standard configuration.\n\nYour configuration appears to have been modified by other tools, and so this application cannot be used on your system.\n\nIn order to use this application, you need to have the latest firmware installed, Device Tree enabled, the default \"pi\" user set up and the lightdm application installed. "));
+        info (_("The Raspberry Pi Configuration application can only modify a standard configuration.\n\nYour configuration appears to have been modified by other tools, and so this application cannot be used on your system.\n\nIn order to use this application, you need to have the latest firmware installed, Device Tree enabled, the default \"pi\" user set up and the lightdm application installed. "));
         return 0;
     }
-    main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "dialog1");
 
     passwd_btn = gtk_builder_get_object (builder, "button_pw");
     g_signal_connect (passwd_btn, "clicked", G_CALLBACK (on_change_passwd), NULL);
