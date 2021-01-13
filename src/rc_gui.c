@@ -1809,13 +1809,9 @@ static int has_wifi (void)
 
 /* The dialog... */
 
-#define SHOW_WIDGET(name) item = gtk_builder_get_object (builder, name); gtk_widget_show (GTK_WIDGET (item));
-#define HIDE_WIDGET(name) item = gtk_builder_get_object (builder, name); gtk_widget_hide (GTK_WIDGET (item));
-
 int main (int argc, char *argv[])
 {
     GtkBuilder *builder;
-    GObject *item;
     GtkAdjustment *madj, *gadj, *tadj;
     GtkWidget *dlg;
 
@@ -2016,10 +2012,7 @@ int main (int argc, char *argv[])
         led_pwr_rb = gtk_builder_get_object (builder, "rb_led_pwr");
         led_actpwr_rb = gtk_builder_get_object (builder, "rb_led_actpwr");
         orig_leds = get_status (GET_LEDS);
-        if (orig_leds == -1)
-        {
-            HIDE_WIDGET ("hbox17");
-        }
+        if (orig_leds == -1) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
         else
         {
             if ((orig_leds = get_status (GET_LEDS))) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (led_pwr_rb), TRUE);
@@ -2115,23 +2108,8 @@ int main (int argc, char *argv[])
          * hbox55 - blanking                Y           Y           Y           Y        Y
          */
 
-        if (vsystem (IS_PI4) || vsystem (HAS_ANALOG))
-        {
-            HIDE_WIDGET ("hbox54");
-        }
-        else
-        {
-            SHOW_WIDGET ("hbox54");
-        }
-
-        if (vsystem (GET_FKMS))
-        {
-            SHOW_WIDGET ("hbox51");
-        }
-        else
-        {
-            HIDE_WIDGET ("hbox51");
-        }
+        if (!vsystem (GET_FKMS)) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox51")));
+        if (vsystem (IS_PI4) || vsystem (HAS_ANALOG)) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox54")));
 
         madj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);
         memsplit_sb = gtk_builder_get_object (builder, "spin_gpu");
@@ -2147,22 +2125,22 @@ int main (int argc, char *argv[])
             gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), FALSE);
         }
 
-        HIDE_WIDGET ("vbox30");
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "vbox30")));
 
-        HIDE_WIDGET ("hbox17");
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
 
-        HIDE_WIDGET ("hbox21");
-        HIDE_WIDGET ("hbox23");
-        HIDE_WIDGET ("hbox24");
-        HIDE_WIDGET ("hbox25");
-        HIDE_WIDGET ("hbox26");
-        HIDE_WIDGET ("hbox27");
-        HIDE_WIDGET ("hbox28");
-        HIDE_WIDGET ("hbox29");
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox21")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox23")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox24")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox25")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox26")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox27")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox28")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox29")));
 
-        HIDE_WIDGET ("hbox51");
-        HIDE_WIDGET ("hbox52");
-        HIDE_WIDGET ("hbox54");
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox51")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox52")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox54")));
     }
 
     GdkPixbuf *win_icon = gtk_window_get_icon (GTK_WINDOW (main_dlg));
