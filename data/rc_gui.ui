@@ -2106,7 +2106,7 @@
       <widget name="rb_rgp_off"/>
     </widgets>
   </object>
-  <object class="GtkDialog" id="errordialog">
+  <object class="GtkDialog" id="infodialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Raspberry Pi Configuration</property>
@@ -2116,18 +2116,18 @@
       <placeholder/>
     </child>
     <child internal-child="vbox">
-      <object class="GtkBox" id="errordlg_vbox">
+      <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child internal-child="action_area">
-          <object class="GtkButtonBox" id="errordlg_action_area">
+          <object class="GtkButtonBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="errorokbtn">
+              <object class="GtkButton" id="infook">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -2148,14 +2148,9 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="errormsg">
+          <object class="GtkLabel" id="infodialog_msg">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">The Raspberry Pi Configuration application can only modify a standard configuration.
-
-Your configuration appears to have been modified by other tools, and so this application cannot be used on your system.
-
-In order to use this application, you need to have the latest firmware installed, Device Tree enabled, the default "pi" user set up and the lightdm application installed. </property>
             <property name="wrap">True</property>
           </object>
           <packing>
@@ -2167,7 +2162,7 @@ In order to use this application, you need to have the latest firmware installed
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">errorokbtn</action-widget>
+      <action-widget response="0">infook</action-widget>
     </action-widgets>
   </object>
   <object class="GtkDialog" id="keyboarddlg">
@@ -2806,66 +2801,6 @@ In order to use this application, you need to have the latest firmware installed
       <widget name="rb_bprw"/>
     </widgets>
   </object>
-  <object class="GtkDialog" id="ofswarndialog">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
-    <property name="title" translatable="yes">Reboot Needed</property>
-    <property name="resizable">False</property>
-    <property name="type_hint">dialog</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="ofswdlg_vbox">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">5</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox" id="ofswdlg_action_area">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="ofswbtn">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="ofswmsg">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Your system has recently been updated. Please reboot to ensure these updates have loaded before setting up the overlay file system.</property>
-            <property name="wrap">True</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="0">ofswbtn</action-widget>
-    </action-widgets>
-  </object>
   <object class="GtkDialog" id="passwddialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -3016,128 +2951,6 @@ In order to use this application, you need to have the latest firmware installed
       <widget name="pwentry2"/>
       <widget name="pwentry3"/>
     </widgets>
-  </object>
-  <object class="GtkDialog" id="pwbaddialog">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
-    <property name="title" translatable="yes">Password Not Changed</property>
-    <property name="resizable">False</property>
-    <property name="type_hint">dialog</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="pwbaddlg_vbox">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">5</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox" id="pwbaddlg_action_area">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="pwbadbtn">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="pwbadmsg">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">The password change failed.
-
-This could be because the current password was incorrect, or because the new password was not sufficiently complex or was too similar to the current password.</property>
-            <property name="wrap">True</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="0">pwbadbtn</action-widget>
-    </action-widgets>
-  </object>
-  <object class="GtkDialog" id="pwokdialog">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
-    <property name="title" translatable="yes">Password Changed</property>
-    <property name="resizable">False</property>
-    <property name="type_hint">dialog</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="pwokdlg_vbox">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">5</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox" id="pwokdlg_action_area">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="pwokbtn">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="pwokmsg">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">The password has been changed successfully.</property>
-            <property name="wrap">True</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="0">pwokbtn</action-widget>
-    </action-widgets>
   </object>
   <object class="GtkDialog" id="rebootdlg">
     <property name="can_focus">False</property>

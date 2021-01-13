@@ -48,8 +48,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <libintl.h>
 
 /* Command strings */
-#define GET_CAN_EXPAND  "raspi-config nonint get_can_expand"
-#define EXPAND_FS       "raspi-config nonint do_expand_rootfs"
 #define GET_HOSTNAME    "raspi-config nonint get_hostname"
 #define SET_HOSTNAME    "raspi-config nonint do_hostname %s"
 #define GET_BOOT_CLI    "raspi-config nonint get_boot_cli"
@@ -128,7 +126,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /* Controls */
 
-static GObject *expandfs_btn, *passwd_btn, *res_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
+static GObject *passwd_btn, *res_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
 static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb, *pixdub_on_rb, *pixdub_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
@@ -355,6 +353,21 @@ static void message (char *msg)
     g_object_unref (builder);
 }
 
+static void info (char *title, char *msg)
+{
+    GtkWidget *dlg, *lbl;
+    GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+
+    dlg = (GtkWidget *) gtk_builder_get_object (builder, "infodialog");
+    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    gtk_window_set_title (GTK_WINDOW (dlg), title);
+    lbl = (GtkWidget *) gtk_builder_get_object (builder, "infodialog_msg");
+    gtk_label_set_text (GTK_LABEL (lbl), msg);
+    g_object_unref (builder);
+    gtk_dialog_run (GTK_DIALOG (dlg));
+    gtk_widget_destroy (dlg);
+}
+
 /* Password setting */
 
 static void set_passwd (GtkEntry *entry, gpointer ptr)
@@ -412,12 +425,9 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
         g_free (pw2);
         gtk_widget_destroy (dlg);
         if (res)
-            dlg = (GtkWidget *) gtk_builder_get_object (builder, "pwbaddialog");
+            info (_("Password Not Changed"), _("The password change failed.\n\nThis could be because the current password was incorrect, or because the new password was not sufficiently complex or was too similar to the current password."));
         else
-            dlg = (GtkWidget *) gtk_builder_get_object (builder, "pwokdialog");
-        gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
-        gtk_dialog_run (GTK_DIALOG (dlg));
-        gtk_widget_destroy (dlg);
+            info (_("Password Changed"), _("The password has been changed successfully."));
     }
     else gtk_widget_destroy (dlg);
     g_object_unref (builder);
@@ -1463,10 +1473,7 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
 
     if (vsystem (CHECK_UNAME))
     {
-        dlg = (GtkWidget *) gtk_builder_get_object (builder, "ofswarndialog");
-        gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
-        gtk_dialog_run (GTK_DIALOG (dlg));
-        gtk_widget_destroy (dlg);
+        info (_("Reboot Needed"), _("Your system has recently been updated. Please reboot to ensure these updates have loaded before setting up the overlay file system."));
         return;
     }
 
@@ -1841,10 +1848,7 @@ int main (int argc, char *argv[])
 
     if (!can_configure ())
     {
-        dlg = (GtkWidget *) gtk_builder_get_object (builder, "errordialog");
-        g_object_unref (builder);
-        gtk_dialog_run (GTK_DIALOG (dlg));
-        gtk_widget_destroy (dlg);
+        info (_("Cannot Configure"), _("The Raspberry Pi Configuration application can only modify a standard configuration.\n\nYour configuration appears to have been modified by other tools, and so this application cannot be used on your system.\n\nIn order to use this application, you need to have the latest firmware installed, Device Tree enabled, the default \"pi\" user set up and the lightdm application installed. "));
         return 0;
     }
     main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "dialog1");
