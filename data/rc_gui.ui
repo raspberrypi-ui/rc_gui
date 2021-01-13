@@ -65,7 +65,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">5</property>
-                <property name="margin">5</property>
+                <property name="margin-top">5</property>
+                <property name="margin-bottom">5</property>
+                <property name="margin-left">5</property>
+                <property name="margin-right">5</property>
                 <child>
                   <object class="GtkBox" id="hbox11">
                     <property name="orientation">horizontal</property>
@@ -487,7 +490,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">5</property>
-                <property name="margin">5</property>
+                <property name="margin-top">5</property>
+                <property name="margin-bottom">5</property>
+                <property name="margin-left">5</property>
+                <property name="margin-right">5</property>
                 <child>
                   <object class="GtkBox" id="hbox51">
                     <property name="orientation">horizontal</property>
@@ -810,7 +816,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">5</property>
-                <property name="margin">5</property>
+                <property name="margin-top">5</property>
+                <property name="margin-bottom">5</property>
+                <property name="margin-left">5</property>
+                <property name="margin-right">5</property>
                 <child>
                   <object class="GtkBox" id="hbox21">
                     <property name="orientation">horizontal</property>
@@ -1411,7 +1420,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">5</property>
-                <property name="margin">5</property>
+                <property name="margin-top">5</property>
+                <property name="margin-bottom">5</property>
+                <property name="margin-left">5</property>
+                <property name="margin-right">5</property>
                 <child>
                   <object class="GtkBox" id="hbox31a">
                     <property name="orientation">horizontal</property>
@@ -1815,7 +1827,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">5</property>
-                <property name="margin">5</property>
+                <property name="margin-top">5</property>
+                <property name="margin-bottom">5</property>
+                <property name="margin-left">5</property>
+                <property name="margin-right">5</property>
                 <child>
                   <object class="GtkBox" id="hbox41">
                     <property name="orientation">horizontal</property>
@@ -2187,7 +2202,7 @@
             <property name="orientation">horizontal</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="homogeneous">True</property>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="pwlabel2">
                 <property name="visible">True</property>
@@ -2198,7 +2213,6 @@
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
-                <property name="padding">2</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -2216,9 +2230,8 @@
                 </accessibility>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="padding">2</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -2234,7 +2247,7 @@
             <property name="orientation">horizontal</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="homogeneous">True</property>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="pwlabel3">
                 <property name="visible">True</property>
@@ -2245,7 +2258,6 @@
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
-                <property name="padding">2</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -2263,9 +2275,8 @@
                 </accessibility>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="padding">2</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -2346,6 +2357,7 @@
             <property name="orientation">horizontal</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="reslabel">
                 <property name="visible">True</property>
@@ -2448,6 +2460,7 @@
                 <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="spacing">10</property>
                 <child>
                   <object class="GtkLabel" id="ofslabel1">
                     <property name="visible">True</property>
@@ -2513,6 +2526,7 @@
                 <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="spacing">10</property>
                 <child>
                   <object class="GtkLabel" id="ofslabel2">
                     <property name="visible">True</property>
@@ -2671,6 +2685,7 @@
                 <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="spacing">10</property>
                 <child>
                     <object class="GtkLabel" id="loclabellang">
                         <property name="visible">True</property>
@@ -2711,6 +2726,7 @@
                 <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="spacing">10</property>
                 <child>
                     <object class="GtkLabel" id="loclabelcountry">
                         <property name="visible">True</property>
@@ -2751,6 +2767,7 @@
                 <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="spacing">10</property>
                 <child>
                     <object class="GtkLabel" id="loclabelchar">
                         <property name="visible">True</property>
@@ -2869,6 +2886,7 @@
                 <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="spacing">10</property>
                 <child>
                     <object class="GtkLabel" id="tzarealabel">
                         <property name="visible">True</property>
@@ -2909,6 +2927,7 @@
                 <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="spacing">10</property>
                 <child>
                     <object class="GtkLabel" id="tzloclabel">
                         <property name="visible">True</property>
@@ -3026,6 +3045,7 @@
                 <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="spacing">10</property>
                 <child>
                     <object class="GtkLabel" id="keylabelmodel">
                         <property name="visible">True</property>
@@ -3066,6 +3086,7 @@
                 <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="spacing">10</property>
                 <child>
                     <object class="GtkLabel" id="keylabellayout">
                         <property name="visible">True</property>
@@ -3106,6 +3127,7 @@
                 <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="spacing">10</property>
                 <child>
                     <object class="GtkLabel" id="keylabelvar">
                         <property name="visible">True</property>
@@ -3219,6 +3241,7 @@
             <property name="orientation">horizontal</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="wccountrylabel">
                 <property name="visible">True</property>
