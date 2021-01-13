@@ -2106,7 +2106,7 @@
       <widget name="rb_rgp_off"/>
     </widgets>
   </object>
-  <object class="GtkDialog" id="infodialog">
+  <object class="GtkDialog" id="infodlg">
     <property name="name">pixbox</property>
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -2759,7 +2759,7 @@
       <widget name="rb_bprw"/>
     </widgets>
   </object>
-  <object class="GtkDialog" id="passwddialog">
+  <object class="GtkDialog" id="passwddlg">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Change Password</property>
@@ -2817,6 +2817,47 @@
           </packing>
         </child>
         <child>
+          <object class="GtkBox" id="pwhbox1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="spacing">10</property>
+            <child>
+              <object class="GtkLabel" id="pwlabel1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Enter new password:</property>
+                <property name="xalign">0</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="pwentry1">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="primary_icon_activatable">False</property>
+                <property name="secondary_icon_activatable">False</property>
+                <accessibility>
+                  <relation type="labelled-by" target="pwlabel1"/>
+                </accessibility>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkBox" id="pwhbox2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -2825,7 +2866,7 @@
               <object class="GtkLabel" id="pwlabel2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Enter new password:</property>
+                <property name="label" translatable="yes">Confirm new password:</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -2854,47 +2895,6 @@
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="pwhbox3">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">10</property>
-            <child>
-              <object class="GtkLabel" id="pwlabel3">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Confirm new password:</property>
-                <property name="xalign">0</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="pwentry3">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
-                <accessibility>
-                  <relation type="labelled-by" target="pwlabel3"/>
-                </accessibility>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
             <property name="position">3</property>
           </packing>
         </child>
@@ -2907,8 +2907,8 @@
   </object>
   <object class="GtkSizeGroup">
     <widgets>
+      <widget name="pwentry1"/>
       <widget name="pwentry2"/>
-      <widget name="pwentry3"/>
     </widgets>
   </object>
   <object class="GtkDialog" id="rebootdlg">
@@ -2989,7 +2989,7 @@ Would you like to reboot now? </property>
       <action-widget response="-8">rebootyes</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkDialog" id="resdialog">
+  <object class="GtkDialog" id="resdlg">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Set Resolution</property>
@@ -3091,7 +3091,7 @@ Would you like to reboot now? </property>
       <action-widget response="-5">resok</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkDialog" id="tzdialog">
+  <object class="GtkDialog" id="tzdlg">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Timezone</property>
@@ -3238,7 +3238,7 @@ Would you like to reboot now? </property>
       <widget name="tzcbarea"/>
     </widgets>
   </object>
-  <object class="GtkDialog" id="wcdialog">
+  <object class="GtkDialog" id="wcdlg">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">WiFi Country Code</property>

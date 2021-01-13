@@ -134,7 +134,7 @@ static GObject *alogin_on_rb, *alogin_off_rb, *netwait_on_rb, *netwait_off_rb, *
 static GObject *analog_on_rb, *analog_off_rb, *blank_on_rb, *blank_off_rb, *led_pwr_rb, *led_actpwr_rb, *fan_on_rb, *fan_off_rb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_rb, *ofs_dis_rb, *bp_ro_rb, *bp_rw_rb, *ofs_lbl;
 static GObject *fan_gpio_sb, *fan_temp_sb;
-static GObject *pwentry1_tb, *pwentry2_tb, *pwentry3_tb, *pwok_btn;
+static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
 static GObject *tzarea_cb, *tzloc_cb, *wccountry_cb, *resolution_cb;
 static GObject *loclang_cb, *loccount_cb, *locchar_cb, *keymodel_cb, *keylayout_cb, *keyvar_cb;
@@ -343,7 +343,7 @@ static void message (char *msg)
     GtkWidget *wid;
     GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
 
-    msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "infodialog");
+    msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "infodlg");
     gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
 
     wid = (GtkWidget *) gtk_builder_get_object (builder, "infodialog_msg");
@@ -363,7 +363,7 @@ static void info (char *msg)
     GtkWidget *dlg, *lbl;
     GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
 
-    dlg = (GtkWidget *) gtk_builder_get_object (builder, "infodialog");
+    dlg = (GtkWidget *) gtk_builder_get_object (builder, "infodlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
     lbl = (GtkWidget *) gtk_builder_get_object (builder, "infodialog_msg");
@@ -378,8 +378,8 @@ static void info (char *msg)
 
 static void set_passwd (GtkEntry *entry, gpointer ptr)
 {
-    if (strlen (gtk_entry_get_text (GTK_ENTRY (pwentry2_tb))) && g_strcmp0 (gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), 
-        gtk_entry_get_text (GTK_ENTRY(pwentry3_tb))))
+    if (strlen (gtk_entry_get_text (GTK_ENTRY (pwentry1_tb))) && g_strcmp0 (gtk_entry_get_text (GTK_ENTRY (pwentry1_tb)), 
+        gtk_entry_get_text (GTK_ENTRY(pwentry2_tb))))
         gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), FALSE);
     else
         gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), TRUE);
@@ -411,21 +411,21 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
     char *pw1, *pw2;
 
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
-    dlg = (GtkWidget *) gtk_builder_get_object (builder, "passwddialog");
+    dlg = (GtkWidget *) gtk_builder_get_object (builder, "passwddlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    pwentry1_tb = gtk_builder_get_object (builder, "pwentry1");
     pwentry2_tb = gtk_builder_get_object (builder, "pwentry2");
-    pwentry3_tb = gtk_builder_get_object (builder, "pwentry3");
+    gtk_entry_set_visibility (GTK_ENTRY (pwentry1_tb), FALSE);
     gtk_entry_set_visibility (GTK_ENTRY (pwentry2_tb), FALSE);
-    gtk_entry_set_visibility (GTK_ENTRY (pwentry3_tb), FALSE);
+    g_signal_connect (pwentry1_tb, "changed", G_CALLBACK (set_passwd), NULL);
     g_signal_connect (pwentry2_tb, "changed", G_CALLBACK (set_passwd), NULL);
-    g_signal_connect (pwentry3_tb, "changed", G_CALLBACK (set_passwd), NULL);
     pwok_btn = gtk_builder_get_object (builder, "passwdok");
     gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), FALSE);
 
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
-        escape_passwd (gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), &pw1);
-        escape_passwd (gtk_entry_get_text (GTK_ENTRY (pwentry3_tb)), &pw2);
+        escape_passwd (gtk_entry_get_text (GTK_ENTRY (pwentry1_tb)), &pw1);
+        escape_passwd (gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), &pw2);
         res = vsystem (CHANGE_PASSWD, pw1);
         g_free (pw1);
         g_free (pw2);
@@ -926,7 +926,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
     read_timezones ();
 
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
-    dlg = (GtkWidget *) gtk_builder_get_object (builder, "tzdialog");
+    dlg = (GtkWidget *) gtk_builder_get_object (builder, "tzdlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
     tzarea_cb = (GObject *) gtk_builder_get_object (builder, "tzcbarea");
@@ -1025,7 +1025,7 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
     size_t len;
 
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
-    dlg = (GtkWidget *) gtk_builder_get_object (builder, "wcdialog");
+    dlg = (GtkWidget *) gtk_builder_get_object (builder, "wcdlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
     wccountry_cb = (GObject *) gtk_builder_get_object (builder, "wccbcountry");
@@ -1086,7 +1086,7 @@ static void on_set_res (GtkButton* btn, gpointer ptr)
     size_t len;
 
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
-    dlg = (GtkWidget *) gtk_builder_get_object (builder, "resdialog");
+    dlg = (GtkWidget *) gtk_builder_get_object (builder, "resdlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
     resolution_cb = (GObject *) gtk_builder_get_object (builder, "rescb");
