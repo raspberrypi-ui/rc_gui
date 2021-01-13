@@ -2126,9 +2126,6 @@
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <placeholder/>
-            </child>
-            <child>
               <object class="GtkButton" id="errorokbtn">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
@@ -2153,8 +2150,6 @@
           <object class="GtkLabel" id="errormsg">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="xpad">10</property>
-            <property name="ypad">5</property>
             <property name="label" translatable="yes">The Raspberry Pi Configuration application can only modify a standard configuration.
 
 Your configuration appears to have been modified by other tools, and so this application cannot be used on your system.
@@ -2195,9 +2190,6 @@ In order to use this application, you need to have the latest firmware installed
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <placeholder/>
-            </child>
-            <child>
               <object class="GtkButton" id="fsdoneok">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
@@ -2222,8 +2214,6 @@ In order to use this application, you need to have the latest firmware installed
           <object class="GtkLabel" id="fsdonemsg">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="xpad">10</property>
-            <property name="ypad">5</property>
             <property name="label" translatable="yes">The filesystem has been expanded.
 
 The new space will not be available until you reboot your Raspberry Pi.</property>
@@ -2907,9 +2897,6 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <placeholder/>
-            </child>
-            <child>
               <object class="GtkButton" id="ofswbtn">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
@@ -2934,8 +2921,6 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
           <object class="GtkLabel" id="ofswmsg">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="xpad">5</property>
-            <property name="ypad">5</property>
             <property name="label" translatable="yes">Your system has recently been updated. Please reboot to ensure these updates have loaded before setting up the overlay file system.</property>
             <property name="wrap">True</property>
           </object>
@@ -3043,7 +3028,7 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">2</property>
           </packing>
@@ -3084,7 +3069,7 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">3</property>
           </packing>
@@ -3123,9 +3108,6 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <placeholder/>
-            </child>
-            <child>
               <object class="GtkButton" id="pwbadbtn">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
@@ -3150,8 +3132,6 @@ The new space will not be available until you reboot your Raspberry Pi.</propert
           <object class="GtkLabel" id="pwbadmsg">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="xpad">5</property>
-            <property name="ypad">5</property>
             <property name="label" translatable="yes">The password change failed.
 
 This could be because the current password was incorrect, or because the new password was not sufficiently complex or was too similar to the current password.</property>
@@ -3190,9 +3170,6 @@ This could be because the current password was incorrect, or because the new pas
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <placeholder/>
-            </child>
-            <child>
               <object class="GtkButton" id="pwokbtn">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
@@ -3217,8 +3194,6 @@ This could be because the current password was incorrect, or because the new pas
           <object class="GtkLabel" id="pwokmsg">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="xpad">5</property>
-            <property name="ypad">5</property>
             <property name="label" translatable="yes">The password has been changed successfully.</property>
             <property name="wrap">True</property>
           </object>
