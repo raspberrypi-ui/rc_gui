@@ -1406,16 +1406,16 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
-                  <object class="GtkBox" id="hbox31a">
+                  <object class="GtkBox" id="hbox31">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkLabel" id="label31a">
+                      <object class="GtkLabel" id="label31">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">O_verclock:</property>
                         <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">combo_oc_pi1</property>
+                        <property name="mnemonic_widget">combo_oc</property>
                         <property name="xalign">0</property>
                       </object>
                       <packing>
@@ -1425,19 +1425,12 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBoxText" id="combo_oc_pi1">
+                      <object class="GtkComboBoxText" id="combo_oc">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="tooltip_text" translatable="yes">Set the level of overclock to control performance</property>
-                        <items>
-                          <item translatable="yes">None (700MHz)</item>
-                          <item translatable="yes">Modest (800MHz)</item>
-                          <item translatable="yes">Medium (900MHz)</item>
-                          <item translatable="yes">High (950MHz)</item>
-                          <item translatable="yes">Turbo (1000MHz)</item>
-                        </items>
                         <accessibility>
-                          <relation type="labelled-by" target="label31a"/>
+                          <relation type="labelled-by" target="label31"/>
                         </accessibility>
                       </object>
                       <packing>
@@ -1454,49 +1447,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="hbox31b">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="label31b">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">O_verclock:</property>
-                        <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">combo_oc_pi2</property>
-                        <property name="xalign">0</property>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkComboBoxText" id="combo_oc_pi2">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="tooltip_text" translatable="yes">Set the level of overclock to control performance</property>
-                        <items>
-                          <item translatable="yes">None (900MHz)</item>
-                          <item translatable="yes">High (1000MHz)</item>
-                        </items>
-                        <accessibility>
-                          <relation type="labelled-by" target="label31b"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
+                  <placeholder/>
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox32">
@@ -1974,8 +1925,7 @@
       <widget name="button_tz"/>
       <widget name="button_wifi"/>
       <widget name="button_kb"/>
-      <widget name="combo_oc_pi1"/>
-      <widget name="combo_oc_pi2"/>
+      <widget name="combo_oc"/>
       <widget name="button_ofs"/>
       <widget name="spin_gpu"/>
       <widget name="sb_fan_temp"/>
@@ -1992,6 +1942,11 @@
       <widget name="hbox15"/>
       <widget name="hbox16"/>
       <widget name="hbox17"/>
+      <widget name="hbox51"/>
+      <widget name="hbox52"/>
+      <widget name="hbox53"/>
+      <widget name="hbox54"/>
+      <widget name="hbox55"/>
       <widget name="hbox21"/>
       <widget name="hbox22"/>
       <widget name="hbox23"/>
@@ -2001,8 +1956,7 @@
       <widget name="hbox27"/>
       <widget name="hbox28"/>
       <widget name="hbox29"/>
-      <widget name="hbox31a"/>
-      <widget name="hbox31b"/>
+      <widget name="hbox31"/>
       <widget name="hbox32"/>
       <widget name="hbox33"/>
       <widget name="hbox34"/>
@@ -2012,11 +1966,6 @@
       <widget name="hbox42"/>
       <widget name="hbox43"/>
       <widget name="hbox44"/>
-      <widget name="hbox51"/>
-      <widget name="hbox52"/>
-      <widget name="hbox53"/>
-      <widget name="hbox54"/>
-      <widget name="hbox55"/>
     </widgets>
   </object>
   <object class="GtkSizeGroup">

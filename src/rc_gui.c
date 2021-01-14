@@ -2047,47 +2047,47 @@ int main (int argc, char *argv[])
         orig_fan_temp = get_status (GET_FAN_TEMP);
         gtk_spin_button_set_value (GTK_SPIN_BUTTON (fan_temp_sb), orig_fan_temp);
 
+        overclock_cb = gtk_builder_get_object (builder, "combo_oc");
         switch (get_status (GET_PI_TYPE))
         {
-            case 1:
-                overclock_cb = gtk_builder_get_object (builder, "combo_oc_pi1");
-                switch (get_status (GET_OVERCLOCK))
-                {
-                    case 800  : orig_clock = 1;
-                                break;
-                    case 900  : orig_clock = 2;
-                                break;
-                    case 950  : orig_clock = 3;
-                                break;
-                    case 1000 : orig_clock = 4;
-                                break;
-                    default   : orig_clock = 0;
-                                break;
-                }
-                gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
-                gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31a")));
-                gtk_widget_hide (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31b")));
-                break;
+            case 1 :    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("None (700MHz)"));
+                        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("Modest (800MHz)"));
+                        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("Medium (900MHz)"));
+                        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("High (950MHz)"));
+                        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("Turbo (1000MHz)"));
 
-            case 2 :
-                overclock_cb = gtk_builder_get_object (builder, "combo_oc_pi2");
-                switch (get_status (GET_OVERCLOCK))
-                {
-                    case 1000 : orig_clock = 1;
-                                break;
-                    default   : orig_clock = 0;
-                                break;
-                }
-                gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
-                gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31a")));
-                gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31b")));
-                break;
+                        switch (get_status (GET_OVERCLOCK))
+                        {
+                            case 800  : orig_clock = 1;
+                                        break;
+                            case 900  : orig_clock = 2;
+                                        break;
+                            case 950  : orig_clock = 3;
+                                        break;
+                            case 1000 : orig_clock = 4;
+                                        break;
+                            default   : orig_clock = 0;
+                                        break;
+                        }
+                        break;
 
-            default :
-                gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31a")));
-                gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31b")));
-                break;
+            case 2 :    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("None (900MHz)"));
+                        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("High (1000MHz)"));
+
+                        switch (get_status (GET_OVERCLOCK))
+                        {
+                            case 1000 : orig_clock = 1;
+                                        break;
+                            default   : orig_clock = 0;
+                                        break;
+                        }
+                        break;
+
+            default :   orig_clock = -1;
+                        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31")));
+                        break;
         }
+        gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
 
         ofs_btn = gtk_builder_get_object (builder, "button_ofs");
         g_signal_connect (ofs_btn, "clicked", G_CALLBACK (on_set_ofs), NULL);
