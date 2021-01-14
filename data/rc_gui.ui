@@ -1499,49 +1499,6 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="hbox31c">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="label31c">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">O_verclock:</property>
-                        <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">combo_oc_pi3</property>
-                        <property name="xalign">0</property>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkComboBoxText" id="combo_oc_pi3">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <items>
-                          <item translatable="yes">Not available</item>
-                        </items>
-                        <accessibility>
-                          <relation type="labelled-by" target="label31c"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkBox" id="hbox32">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
@@ -1581,7 +1538,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">3</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
@@ -1622,7 +1579,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">4</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
                 <child>
@@ -1685,7 +1642,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">5</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
                 <child>
@@ -1727,7 +1684,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">6</property>
+                    <property name="position">5</property>
                   </packing>
                 </child>
                 <child>
@@ -1769,7 +1726,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">7</property>
+                    <property name="position">6</property>
                   </packing>
                 </child>
               </object>
@@ -2019,7 +1976,6 @@
       <widget name="button_kb"/>
       <widget name="combo_oc_pi1"/>
       <widget name="combo_oc_pi2"/>
-      <widget name="combo_oc_pi3"/>
       <widget name="button_ofs"/>
       <widget name="spin_gpu"/>
       <widget name="sb_fan_temp"/>
@@ -2047,7 +2003,6 @@
       <widget name="hbox29"/>
       <widget name="hbox31a"/>
       <widget name="hbox31b"/>
-      <widget name="hbox31c"/>
       <widget name="hbox32"/>
       <widget name="hbox33"/>
       <widget name="hbox34"/>

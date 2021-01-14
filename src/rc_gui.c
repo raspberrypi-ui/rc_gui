@@ -2067,7 +2067,6 @@ int main (int argc, char *argv[])
                 gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
                 gtk_widget_show_all (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31a")));
                 gtk_widget_hide (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31b")));
-                gtk_widget_hide (GTK_WIDGET(gtk_builder_get_object (builder, "hbox31c")));
                 break;
 
             case 2 :
@@ -2082,16 +2081,11 @@ int main (int argc, char *argv[])
                 gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
                 gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31a")));
                 gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31b")));
-                gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31c")));
                 break;
 
             default :
-                overclock_cb = gtk_builder_get_object (builder, "combo_oc_pi3");
-                gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), 0);
                 gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31a")));
                 gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31b")));
-                gtk_widget_show_all (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31c")));
-                gtk_widget_set_sensitive (GTK_WIDGET (overclock_cb), FALSE);
                 break;
         }
 
