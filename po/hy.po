@@ -1,0 +1,732 @@
+# Raspberry Pi Configuration utility
+# Copyright (C) 2018 Raspberry Pi
+# This file is distributed under the same license as the rc_gui package.
+# Simon Long <simon@raspberrypi.org>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: rc_gui 1.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-16 11:26+0100\n"
+"PO-Revision-Date: 2018-04-17 12:41+0100\n"
+"Last-Translator: Sayan Avag <info@armath.am>\n"
+"Language-Team: Armenian\n"
+"Language: hy\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:741
+msgid "Setting locale - please wait..."
+msgstr "Կարգավորել լեզուն - խնդրում ենք սպասել..."
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:979
+msgid "Setting timezone - please wait..."
+msgstr "Կարգավորել ժամային գոտին - խնդրում ենք սպասել..."
+
+#: ../src/rc_gui.c:1023 ../src/rc_gui.c:1046
+msgid "<not set>"
+msgstr "<չսահմանված>"
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:1425
+msgid "Setting keyboard - please wait..."
+msgstr "Կարգավորել ստեղնաշարը - խնդրում ենք սպասել..."
+
+#: ../src/rc_gui.c:1454 ../data/rc_gui.ui.h:136
+msgid "Changes will not take effect until a reboot"
+msgstr "Փոփոխություններն ուժի մեջ կմտնեն վերագործարկումից հետո"
+
+#: ../src/rc_gui.c:1509 ../src/rc_gui.c:1510
+msgid ""
+"The state of the boot partition cannot be changed while an overlay is active"
+msgstr ""
+"boot հատորի տարածքը հնարավոր չէ փոխել, քանի դեռ այն ակտիվ ռեժիմի մեջ է"
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:1530
+msgid "Setting up overlay - please wait..."
+msgstr "Կարգավորել ծածկույթը - խնդրում ենք սպասել..."
+
+#: ../src/rc_gui.c:1583 ../data/rc_gui.ui.h:68
+msgid "Enable shell and kernel messages on the serial connection"
+msgstr "Միացնել վահանակի և միջուկի հաղոդրագրությունները սարքերի միացման ժամանակ"
+
+#: ../src/rc_gui.c:1584 ../data/rc_gui.ui.h:69
+msgid "Disable shell and kernel messages on the serial connection"
+msgstr "Անջատել վահանակի և միջուկի հաղոդրագրությունները սարքերի միացման ժամանակ"
+
+#: ../src/rc_gui.c:1595 ../src/rc_gui.c:1596
+msgid "This setting cannot be changed while the serial port is disabled"
+msgstr "Այս կարգավորումը չի կարող փոփոխվել, քանի դեռ սարքի կայանը անջատված է"
+
+#: ../src/rc_gui.c:1953 ../src/rc_gui.c:1954
+msgid "This setting is overridden when Xscreensaver is installed"
+msgstr "Այս կարգավորումը անտեսվում է, եթե Xscreensaver-ը տեղադրված է"
+
+#: ../src/rc_gui.c:2013 ../src/rc_gui.c:2014
+msgid "The VNC server is not installed"
+msgstr " VNC սերվերը տեղադրված չի"
+
+#: ../data/rc_gui.ui.h:1 ../data/rc_gui.desktop.in.h:1
+msgid "Raspberry Pi Configuration"
+msgstr "Raspberry Pi կարգավորումներ"
+
+#: ../data/rc_gui.ui.h:2
+msgid "Password:"
+msgstr "Գաղտնաբառ՝"
+
+#: ../data/rc_gui.ui.h:3
+msgid "Change _Password..."
+msgstr "Փոխել _Գաղտնաբառը..."
+
+#: ../data/rc_gui.ui.h:4
+msgid "Change password for the default user (pi)"
+msgstr "Փոխել գաղտնաբառը ընթացիկ օգտատիրոջ համար"
+
+#: ../data/rc_gui.ui.h:5
+msgid "Hostname:"
+msgstr "Hostname:"
+
+#: ../data/rc_gui.ui.h:6
+msgid "Set the name of your Pi on a local network"
+msgstr "Set the name of your Pi on a local network"
+
+#: ../data/rc_gui.ui.h:7
+msgid "Boot:"
+msgstr "Boot:"
+
+#: ../data/rc_gui.ui.h:8
+msgid "To Desktop"
+msgstr "Դեպի աշխատասեղան"
+
+#: ../data/rc_gui.ui.h:9
+msgid "Launch the desktop environment automatically on boot"
+msgstr "Launch the desktop environment automatically on boot"
+
+#: ../data/rc_gui.ui.h:10
+msgid "To CLI"
+msgstr "Դեպի վահանակ"
+
+#: ../data/rc_gui.ui.h:11
+msgid "Boot into a command line shell rather than the desktop"
+msgstr "Գործարկել հրահանգաշարի ռեժիմում, առանց աշխատասեղանի"
+
+#: ../data/rc_gui.ui.h:12
+msgid "Auto login:"
+msgstr "Ավտոմատ մուտք "
+
+#: ../data/rc_gui.ui.h:13
+msgid "Login as user 'pi'"
+msgstr "Որպես ընթացիկ օգտատեր"
+
+#: ../data/rc_gui.ui.h:14
+msgid "Automatically log in the default user (pi)"
+msgstr "Ինքնաբերաբար մուտք գործել, որպես նախադրված օգտատեր"
+
+#: ../data/rc_gui.ui.h:15
+msgid "Disabled"
+msgstr "Անջատված"
+
+#: ../data/rc_gui.ui.h:16
+msgid "Prompt for password at boot"
+msgstr "Հարցնել գաղտնաբառը գործարկման ժամանակ"
+
+#: ../data/rc_gui.ui.h:17
+msgid "Network at Boot:"
+msgstr "Ցանցը գործարկման ժամանակ՝"
+
+#: ../data/rc_gui.ui.h:18
+msgid "Wait for network"
+msgstr "Սպասել ցանցին"
+
+#: ../data/rc_gui.ui.h:19
+msgid "Do not complete boot until network connection is established"
+msgstr "Չգործարկել, եթե ցանցը միացված չէ"
+
+#: ../data/rc_gui.ui.h:20
+msgid "Do not wait"
+msgstr "Չսպասել"
+
+#: ../data/rc_gui.ui.h:21
+msgid "Do not wait for network connection during boot"
+msgstr "Չսպասել ցանցի միացմանը գործարկման ժամանակ"
+
+#: ../data/rc_gui.ui.h:22
+msgid "Splash Screen:"
+msgstr "Էկրանի գործարկման պատկեր"
+
+#: ../data/rc_gui.ui.h:23
+msgid "Enable"
+msgstr "Միացված"
+
+#: ../data/rc_gui.ui.h:24
+msgid "Show graphical splash screen at boot"
+msgstr "Ցույց տալ գրաֆիկական պատկերը գործարկման ժամանակ"
+
+#: ../data/rc_gui.ui.h:25
+msgid "Disable"
+msgstr "Անջատված"
+
+#: ../data/rc_gui.ui.h:26
+msgid "Show text messages at boot"
+msgstr "Ցույց տալ տեքստային հաղորդագրությունները գործարկման ժամանակ"
+
+#: ../data/rc_gui.ui.h:27
+msgid "Power LED:"
+msgstr "Հոսանքի լուսադիոդը՝"
+
+#: ../data/rc_gui.ui.h:28
+msgid "Activity"
+msgstr "Ակտիվություններ"
+
+#: ../data/rc_gui.ui.h:29
+msgid "Flash the power LED on disk activity"
+msgstr "Միացնել հոսանքի լուսադիոդը սկավառակի աշխատանքի ժամանակ"
+
+#: ../data/rc_gui.ui.h:30
+msgid "Constant"
+msgstr "Հաստատուն"
+
+#: ../data/rc_gui.ui.h:31
+msgid "Do not flash the power LED"
+msgstr "Չմիացնել հոսանքի լուսադիոդը"
+
+#: ../data/rc_gui.ui.h:32
+msgid "System"
+msgstr "Համակարգ"
+
+#: ../data/rc_gui.ui.h:33
+msgid "Resolution:"
+msgstr "Կետայնություն"
+
+#: ../data/rc_gui.ui.h:34
+msgid "Set _Resolution..."
+msgstr "Սահմանել _Կետայնությունը..."
+
+#: ../data/rc_gui.ui.h:35
+msgid "Set the resolution for HDMI and VNC"
+msgstr "Սահմանել կետայնությունը HDMI և VNC - ի համար"
+
+#: ../data/rc_gui.ui.h:36
+msgid "Overscan:"
+msgstr "Գերստուգում՝"
+
+#: ../data/rc_gui.ui.h:37
+msgid "Enable overscan to show the edges of the screen"
+msgstr "Էկրանի եզրերը ցուցադրելու համար միացնել գերստուգումը"
+
+#: ../data/rc_gui.ui.h:38
+msgid "Disable overscan to hide black outline on screen"
+msgstr "Էկրանի սև եզրերը թաքցնելու համար անջատել գերստուգումը"
+
+#: ../data/rc_gui.ui.h:39
+msgid "Pixel Doubling:"
+msgstr "Փիքսելի կրկնապատկում՝"
+
+#: ../data/rc_gui.ui.h:40
+msgid "Enable pixel doubling to improve usability on high-res screens"
+msgstr "Բարձր կետայնությամբ էկրանների որակը լավացնելու համար միացնել փիքսելի կրկնապատկումը"
+
+#: ../data/rc_gui.ui.h:41
+msgid "Disable pixel doubling for standard resolution screens"
+msgstr "Սովորական կետայնությամբ էկրանների համար անջատել փիքսելի կրկնապատկումը"
+
+#: ../data/rc_gui.ui.h:42
+msgid "Composite Video:"
+msgstr "Կոմպոզիտ տեսանյութ"
+
+#: ../data/rc_gui.ui.h:43
+msgid "Enable analogue composite video on the 3.5mm socket"
+msgstr "Միացնել անալոգային կոմպոզիտ տեսանյութեը 3.5մմ կցորդման դեպքում"
+
+#: ../data/rc_gui.ui.h:44
+msgid "Disable analogue composite video"
+msgstr "Անջատել անալոգային կոմպոզիտ տեսանյութը"
+
+#: ../data/rc_gui.ui.h:45
+msgid "Screen Blanking:"
+msgstr "Էկրանի մաքրում՝"
+
+#: ../data/rc_gui.ui.h:46
+msgid "Blank the screen after a period of inactivity"
+msgstr "Որոշակի ոչ ակտիվ ժամանակաշրջանից հետո դատարկել էկրանը"
+
+#: ../data/rc_gui.ui.h:47
+msgid "Never blank the screen"
+msgstr "Երբեք չդատարկել էկրանը"
+
+#: ../data/rc_gui.ui.h:48
+msgid "Display"
+msgstr "Ցուցադրել"
+
+#: ../data/rc_gui.ui.h:49
+msgid "Camera:"
+msgstr "Ֆոտոխցիկ՝"
+
+#: ../data/rc_gui.ui.h:50
+msgid "Enable the Raspberry Pi Camera Board"
+msgstr "Միացնել Raspberry Pi ֆոտոխցիկի սալիկը"
+
+#: ../data/rc_gui.ui.h:51
+msgid "Disable the Raspberry Pi Camera Board"
+msgstr "Անջատել Raspberry Pi ֆոտոխցիկի սալիկը"
+
+#: ../data/rc_gui.ui.h:52
+msgid "SSH:"
+msgstr "SSH:"
+
+#: ../data/rc_gui.ui.h:53
+msgid "Enable remote access to this Pi via SSH"
+msgstr "Միացնել SSH-ի միջոցով հեռավար հասանելիությունը այս սարքին"
+
+#: ../data/rc_gui.ui.h:54
+msgid "Disable remote access to this Pi via SSH"
+msgstr "Անջատել SSH-ի միջոցով հեռավար հասանելիությունը այս սարքին"
+
+#: ../data/rc_gui.ui.h:55
+msgid "VNC:"
+msgstr "VNC:"
+
+#: ../data/rc_gui.ui.h:56
+msgid "Enable remote access to this Pi using RealVNC"
+msgstr "Միացնել RealVNC-ի միջոցով հեռավար հասանելիությունը այս սարքին"
+
+#: ../data/rc_gui.ui.h:57
+msgid "Disable remote access to this Pi using RealVNC"
+msgstr "Անջատել RealVNC-ի միջոցով հեռավար հասանելիությունը այս սարքին"
+
+#: ../data/rc_gui.ui.h:58
+msgid "SPI:"
+msgstr "SPI:"
+
+#: ../data/rc_gui.ui.h:59
+msgid "Enable the automatic loading of the SPI kernel module"
+msgstr "Միացնել SPI kernel մոդուլի ինքնաբերաբար բեռնումը"
+
+#: ../data/rc_gui.ui.h:60
+msgid "Disable the automatic loading of the SPI kernel module"
+msgstr "Անջատել SPI kernel մոդուլի ինքնաբերաբար բեռնումը"
+
+#: ../data/rc_gui.ui.h:61
+msgid "I2C:"
+msgstr "I2C:"
+
+#: ../data/rc_gui.ui.h:62
+msgid "Enable the automatic loading of the I2C kernel module"
+msgstr "Միացնել I2C kernel մոդուլի ինքնաբերաբար բեռնումը"
+
+#: ../data/rc_gui.ui.h:63
+msgid "Disable the automatic loading of the I2C kernel module"
+msgstr "Անջատել I2C kernel մոդուլի ինքնաբերաբար բեռնումը"
+
+#: ../data/rc_gui.ui.h:64
+msgid "Serial Port:"
+msgstr "Serial Port:"
+
+#: ../data/rc_gui.ui.h:65
+msgid "Enable the serial port over the GPIO pins"
+msgstr "Enable the serial port over the GPIO pins"
+
+#: ../data/rc_gui.ui.h:66
+msgid "Disable the serial port over the GPIO pins"
+msgstr "Disable the serial port over the GPIO pins"
+
+#: ../data/rc_gui.ui.h:67
+msgid "Serial Console:"
+msgstr "Serial Console:"
+
+#: ../data/rc_gui.ui.h:70
+msgid "1-Wire:"
+msgstr "1-Wire:"
+
+#: ../data/rc_gui.ui.h:71
+msgid "Enable 1-wire peripheral interface"
+msgstr "Enable 1-wire peripheral interface"
+
+#: ../data/rc_gui.ui.h:72
+msgid "Disable 1-wire peripheral interface"
+msgstr "Disable 1-wire peripheral interface"
+
+#: ../data/rc_gui.ui.h:73
+msgid "Remote GPIO:"
+msgstr "Հեռավար GPIO:"
+
+#: ../data/rc_gui.ui.h:74
+msgid "Enable remote access to GPIO pins"
+msgstr "Միացնել հեռավար հասանելիությունը GPIO ոտնակներին"
+
+#: ../data/rc_gui.ui.h:75
+msgid "Disable remote access to GPIO pins"
+msgstr "Անջատել հեռավար հասանելիությունը GPIO ոտնակներին"
+
+#: ../data/rc_gui.ui.h:76
+msgid "Interfaces"
+msgstr "Միջերեսներ"
+
+#: ../data/rc_gui.ui.h:77
+msgid "O_verclock:"
+msgstr "Գերբեռնվածություն:"
+
+#: ../data/rc_gui.ui.h:78
+msgid "Set the level of overclock to control performance"
+msgstr "Սահմանել գերբեռնվածության մակարդակը"
+
+#: ../data/rc_gui.ui.h:79
+msgid "None (700MHz)"
+msgstr "Ոչ մեկը (700MHz)"
+
+#: ../data/rc_gui.ui.h:80
+msgid "Modest (800MHz)"
+msgstr "Համեստ (800MHz)"
+
+#: ../data/rc_gui.ui.h:81
+msgid "Medium (900MHz)"
+msgstr "Միջին (900MHz)"
+
+#: ../data/rc_gui.ui.h:82
+msgid "High (950MHz)"
+msgstr "Բարձր (950MHz)"
+
+#: ../data/rc_gui.ui.h:83
+msgid "Turbo (1000MHz)"
+msgstr "Տուրբո (1000MHz)"
+
+#: ../data/rc_gui.ui.h:84
+msgid "None (900MHz)"
+msgstr "Ոչ մեկը (900MHz)"
+
+#: ../data/rc_gui.ui.h:85
+msgid "High (1000MHz)"
+msgstr "Բարձր (1000MHz)"
+
+#: ../data/rc_gui.ui.h:86
+msgid "Not available"
+msgstr "Հասանելի չէ"
+
+#: ../data/rc_gui.ui.h:87
+msgid "_GPU Memory:"
+msgstr "GPU հիշողություն:"
+
+#: ../data/rc_gui.ui.h:88
+msgid "Enter the amount of memory available to the GPU"
+msgstr "Մուտքագրել GPU-ի հասանելիք հիշողության չափը"
+
+#: ../data/rc_gui.ui.h:89
+msgid "Overlay File System:"
+msgstr "Ծածկել նիշային համակարգը՝:"
+
+#: ../data/rc_gui.ui.h:90
+msgid "Configure..."
+msgstr "Կարգաբերել..."
+
+#: ../data/rc_gui.ui.h:91
+msgid ""
+"Configure an overlay file system to protect data from being overwritten or "
+"deleted"
+msgstr ""
+"Կարգաբերել նիշային համակարգի ծածկույթը տվյալների վերագրանցման կամ "
+"ջնջվելուց պաշտպանելու համար"
+
+#: ../data/rc_gui.ui.h:92
+msgid "Fan:"
+msgstr "Հովացուցիչ՝"
+
+#: ../data/rc_gui.ui.h:93
+msgid "Enable a temperature-controlled fan on a GPIO pin"
+msgstr "Միացնել հովացուցիչի ջերմաստիճանի ղեկավարումը GPIO pin-ի օգնությամբ"
+
+#: ../data/rc_gui.ui.h:94
+msgid "Disable GPIO fan"
+msgstr "Անջատել GPIO հովացումը"
+
+#: ../data/rc_gui.ui.h:95
+msgid "Fan GPIO:"
+msgstr "Հովացում GPIO-ով՝"
+
+#: ../data/rc_gui.ui.h:96
+msgid "Set the GPIO to which the fan is connected"
+msgstr "Սահմանել GPIO-ն, թե ինչ հովացման է միացված"
+
+#: ../data/rc_gui.ui.h:97
+msgid "Fan Temperature:"
+msgstr "Հովացուցիչի ջերմաստիճանը՝"
+
+#: ../data/rc_gui.ui.h:98
+msgid "Set the temperature in degrees C at which the fan turns on"
+msgstr "Սահմանել հովացոցիչի գործարկման ջերմաստիճանը ցելսիուսի սանդղակով"
+
+#: ../data/rc_gui.ui.h:99
+msgid "Performance"
+msgstr "Արտադրողականություն"
+
+#: ../data/rc_gui.ui.h:100
+msgid "Locale:"
+msgstr "Լեզու"
+
+#: ../data/rc_gui.ui.h:101
+msgid "Set _Locale..."
+msgstr "Սահմանել _Լեզուն..."
+
+#: ../data/rc_gui.ui.h:102
+msgid "Set internationalisation settings for units etc."
+msgstr "Սահմանել լեզվի կարգավորումները"
+
+#: ../data/rc_gui.ui.h:103
+msgid "Timezone:"
+msgstr "Ժամային գոտի՝"
+
+#: ../data/rc_gui.ui.h:104
+msgid "Set _Timezone..."
+msgstr "Սահմանել _Ժամային գոտին..."
+
+#: ../data/rc_gui.ui.h:105
+msgid "Set the timezone to be used by the internal clock"
+msgstr "Սահմանել ժամային գոտին ներքին ժամացույցի համար"
+
+#: ../data/rc_gui.ui.h:106
+msgid "Keyboard:"
+msgstr "Ստեղնաշար՝"
+
+#: ../data/rc_gui.ui.h:107
+msgid "Set _Keyboard..."
+msgstr "Կարգավորել _Ստեղնաշարը..."
+
+#: ../data/rc_gui.ui.h:108
+msgid "Set international keyboard options"
+msgstr "Կարգավորել ստեղնաշարի ընտրանքները"
+
+#: ../data/rc_gui.ui.h:109
+msgid "WiFi Country:"
+msgstr "Անլար ցանցի երկիրը՝"
+
+#: ../data/rc_gui.ui.h:110
+msgid "Set _WiFi Country..."
+msgstr "Կարգավորել _WLAN երկիրը..."
+
+#: ../data/rc_gui.ui.h:111
+msgid "Set WiFi country code"
+msgstr "Կարգավորել երկրի անլար ցանցի կոդը"
+
+#: ../data/rc_gui.ui.h:112
+msgid "Localisation"
+msgstr "Տեղայնացում"
+
+#: ../data/rc_gui.ui.h:113
+msgid ""
+"The Raspberry Pi Configuration application can only modify a standard "
+"configuration.\n"
+"\n"
+"Your configuration appears to have been modified by other tools, and so this "
+"application cannot be used on your system.\n"
+"\n"
+"In order to use this application, you need to have the latest firmware "
+"installed, Device Tree enabled, the default \"pi\" user set up and the "
+"lightdm application installed. "
+msgstr ""
+"Raspberry Pi կարգաբերման ծրագիրը կարող է փոփոխել միայն սովորական "
+"կարգավորումները.\n"
+"\n"
+"Ձեր կարգավորումները փոփոխվել են այլ գործիքներով, ուստ այս ծրագրի օգնությամբ "
+"հնարավոր չէ կատարել փոփոխություն.\n"
+"\n"
+"Այս ծրագիրն օգտագործելու համար պետք է ունենալ տպասալի վերջին ներքին ծրագրային "
+"ապահովումը, ակտիվացած սարքի ծառը, և lightdm հավելվածը "
+
+#: ../data/rc_gui.ui.h:118
+msgid "Filesystem Expanded"
+msgstr "Նիշային համակարգը բացազատված է"
+
+#: ../data/rc_gui.ui.h:119
+msgid ""
+"The filesystem has been expanded.\n"
+"\n"
+"The new space will not be available until you reboot your Raspberry Pi."
+msgstr ""
+"Այս նիշային համակարգը բացազատվել է.\n"
+"\n"
+"Նոր տարածքն ակտիվ կլինի, երբ դուք վերագործարկեք Raspberry Pi սարքը."
+
+#: ../data/rc_gui.ui.h:122
+msgid "Locale"
+msgstr "Տեղադրություն"
+
+#: ../data/rc_gui.ui.h:123
+msgid "Language:"
+msgstr "Լեզու՝"
+
+#: ../data/rc_gui.ui.h:124
+msgid "Country:"
+msgstr "Երկիրէ՝"
+
+#: ../data/rc_gui.ui.h:125
+msgid "Character Set:"
+msgstr "Սահմանել սիմվոլ՝"
+
+#: ../data/rc_gui.ui.h:126
+msgid "Overlay File System"
+msgstr "Ծածկել նիշային համակարգը"
+
+#: ../data/rc_gui.ui.h:127
+msgid "Overlay:"
+msgstr "Ծածկել՝"
+
+#: ../data/rc_gui.ui.h:128
+msgid "Enabled"
+msgstr "Անջատված"
+
+#: ../data/rc_gui.ui.h:129
+msgid "Enable a file system overlay; all changes will be lost on reboot"
+msgstr "Enable a file system overlay; all changes will be lost on reboot"
+
+#: ../data/rc_gui.ui.h:130
+msgid "Disable a file system overlay; changes will be saved to the SD card"
+msgstr "Անջատել համակարգի ծավալի ծածկումը։ Փոփոխությունները կպահպանվի SD կրիչի վրա"
+
+#: ../data/rc_gui.ui.h:131
+msgid "Boot Partition:"
+msgstr "Գործարկման հատոր՝"
+
+#: ../data/rc_gui.ui.h:132
+msgid "Read-only"
+msgstr "Միայն-կարդալու"
+
+#: ../data/rc_gui.ui.h:133
+msgid "Make the boot partition read-only"
+msgstr "Գործարկման հատորը դարձնել միայն-կարդալու"
+
+#: ../data/rc_gui.ui.h:134
+msgid "Read-write"
+msgstr "Կարդալ-գրառել"
+
+#: ../data/rc_gui.ui.h:135
+msgid "Make the boot partition writable"
+msgstr "Գործարկման հատորը դարձնել գրառելի"
+
+#: ../data/rc_gui.ui.h:137
+msgid "Change Password"
+msgstr "Փոխել գաղտնաբառը"
+
+#: ../data/rc_gui.ui.h:138
+msgid "Enter new password:"
+msgstr "Մուտքագրել նոր գաղտնաբառը՝"
+
+#: ../data/rc_gui.ui.h:139
+msgid "Confirm new password:"
+msgstr "Հաստատել նոր գաղտնաբառը"
+
+#: ../data/rc_gui.ui.h:140
+msgid "Password Not Changed"
+msgstr "Գաղտնաբառը չի փոխվել"
+
+#: ../data/rc_gui.ui.h:141
+msgid ""
+"The password change failed.\n"
+"\n"
+"This could be because the current password was incorrect, or because the new "
+"password was not sufficiently complex or was too similar to the current "
+"password."
+msgstr ""
+"Չհաջողվեց փոփոխել գաղտնաբառը.\n"
+"\n"
+"Այսպես կարող է լինել, եթե ընթացիկ գաղտնաբառը սխալ է կամ նոր մուտքագրածը "
+"շատ պարզ է և նման հին գաղտնաբառին։"
+
+#: ../data/rc_gui.ui.h:144
+msgid "Password Changed"
+msgstr "Գաղտնաբառը փոփոխված է"
+
+#: ../data/rc_gui.ui.h:145
+msgid "The password has been changed successfully."
+msgstr "Գաղտնաբառը հաջողությամբ փոփոխվեց"
+
+#: ../data/rc_gui.ui.h:146
+msgid "Reboot needed"
+msgstr "Անհրաժեշտ է վերագործարկում"
+
+#: ../data/rc_gui.ui.h:147
+msgid ""
+"The changes you have made require the Raspberry Pi to be rebooted to take "
+"effect.\n"
+"\n"
+"Would you like to reboot now? "
+msgstr ""
+"Փոփոխություններն ուժի մեջ մտնելու համար անհրաժեշտ է Raspberry Pi-ի վերագործարկում "
+"effect.\n"
+"\n"
+"Ցանկանո՞ւմ եք գործարկել հիմա "
+
+#: ../data/rc_gui.ui.h:150
+msgid "Set Resolution"
+msgstr "Սահմանել կետայնությունը"
+
+#: ../data/rc_gui.ui.h:151
+msgid "Timezone"
+msgstr "Ժամային գոտի"
+
+#: ../data/rc_gui.ui.h:152
+msgid "Area:"
+msgstr "Տարածաշրջան՝"
+
+#: ../data/rc_gui.ui.h:153
+msgid "Location:"
+msgstr "Վայրը՝"
+
+#: ../data/rc_gui.ui.h:154
+msgid "WiFi Country Code"
+msgstr "Անլար ցանցի երկիրը՝"
+
+#: ../data/rc_gui.ui.h:155
+msgid "Keyboard"
+msgstr "Ստեղնաշար"
+
+#: ../data/rc_gui.ui.h:156
+msgid "Model:"
+msgstr "Մոդել՝"
+
+#: ../data/rc_gui.ui.h:157
+msgid "Layout:"
+msgstr "Դասավորություն՝"
+
+#: ../data/rc_gui.ui.h:158
+msgid "Variant:"
+msgstr "Տարբերակ՝"
+
+#: ../data/rc_gui.ui.h:159
+#, fuzzy
+msgid "Reboot Needed"
+msgstr "Անհրաժեշտ է վերագործարկում"
+
+#: ../data/rc_gui.ui.h:160
+msgid ""
+"Your system has recently been updated. Please reboot to ensure these updates "
+"have loaded before setting up the overlay file system."
+msgstr ""
+"Հակամարգը վերջերս թարմացվել է։ Խնդրում ենք վերագործարկել թարմացումները ուժի մեջ մտնելու համար, "
+"որից հետո կարգավորեք նիշային համակարգի ծածկումը"
+
+#: ../data/rc_gui.desktop.in.h:2
+msgid "Configure Raspberry Pi system"
+msgstr "Կարգաբերել Raspberry Pi համակարգը"
+
+#: ../data/pwdrcg.sh:6
+msgid "Password Required"
+msgstr "Գաղտնաբառը պարտադիր է"
+
+#~ msgid "Composite video is not available when 4Kp60 HDMI is enabled"
+#~ msgstr "Կոմպոզիտային տեսանյութերը հասանելի չէ, երբ 4Kp60 HDMI միացված է"
+
+#~ msgid "4Kp60 HDMI is not available when analogue video is enabled"
+#~ msgstr "4Kp60 HDMI-ն հասանելի է չէ, երբ անալոգային տեսանյութը հասանելի է"
+
+#~ msgid "Enable 4Kp60 output on HDMI0 (the port closest to the power socket)"
+#~ msgstr "Միացնել 4Kp60 թողարկումը HDMI0-ին (հոսանքի մուտքին ամենամոտ գտնվող կայանը)"
+
+#~ msgid "Disable 4Kp60 output"
+#~ msgstr "Անջատել 4Kp60 թողարկումը"
+
+#~ msgid "4Kp60 HDMI:"
+#~ msgstr "4Kp60 HDMI:"
