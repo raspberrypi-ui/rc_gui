@@ -2130,16 +2130,8 @@ int main (int argc, char *argv[])
          * hbox5c - filler                  -           -           -           -        Y
          */
 
-        if (vsystem (IS_PI4) || vsystem (HAS_ANALOG))
-        {
-            HIDE_WIDGET ("hbox54");
-            SHOW_WIDGET ("hbox5a");
-        }
-        else
-        {
-            SHOW_WIDGET ("hbox54");
-            HIDE_WIDGET ("hbox5a");
-        }
+        HIDE_WIDGET ("hbox54");
+        SHOW_WIDGET ("hbox5a");
 
         if (vsystem (GET_FKMS))
         {
