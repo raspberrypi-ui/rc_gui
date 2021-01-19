@@ -131,7 +131,7 @@ static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb, *p
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
 static GObject *alogin_on_rb, *alogin_off_rb, *netwait_on_rb, *netwait_off_rb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb;
-static GObject *analog_on_rb, *analog_off_rb, *blank_on_rb, *blank_off_rb, *led_pwr_rb, *led_actpwr_rb, *fan_on_rb, *fan_off_rb;
+static GObject *blank_on_rb, *blank_off_rb, *led_pwr_rb, *led_actpwr_rb, *fan_on_rb, *fan_off_rb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_rb, *ofs_dis_rb, *bp_ro_rb, *bp_rw_rb, *ofs_lbl;
 static GObject *fan_gpio_sb, *fan_temp_sb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
@@ -1735,23 +1735,6 @@ static int process_changes (void)
             }
         }
 
-        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (analog_on_rb)))
-        {
-            if (orig_pi4v != 2)
-            {
-                vsystem (SET_PI4_ATV);
-                reboot = 1;
-            }
-        }
-        else
-        {
-            if (orig_pi4v != 0)
-            {
-                vsystem (SET_PI4_NONE);
-                reboot = 1;
-            }
-        }
-
         int fan_gpio = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_gpio_sb));
         int fan_temp = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_temp_sb));
         if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (fan_off_rb)))
@@ -2004,11 +1987,6 @@ int main (int argc, char *argv[])
             gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_off_rb), _("The VNC server is not installed"));
         }
 
-        analog_on_rb = gtk_builder_get_object (builder, "rb_analog_on");
-        analog_off_rb = gtk_builder_get_object (builder, "rb_analog_off");
-        if ((orig_pi4v = get_status (GET_PI4_VID)) == 2) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_on_rb), TRUE);
-        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (analog_off_rb), TRUE);
-
         led_pwr_rb = gtk_builder_get_object (builder, "rb_led_pwr");
         led_actpwr_rb = gtk_builder_get_object (builder, "rb_led_actpwr");
         orig_leds = get_status (GET_LEDS);
@@ -2098,12 +2076,10 @@ int main (int argc, char *argv[])
          * hbox51 - set resolution          -           -           Y           Y        -
          * hbox52 - overscan                Y           Y           Y           Y        -
          * hbox53 - pixel doubling          Y           Y           Y           Y        Y
-         * hbox54 - composite out           Y           -           Y           -        -
-         * hbox55 - blanking                Y           Y           Y           Y        Y
+         * hbox54 - blanking                Y           Y           Y           Y        Y
          */
 
         if (!vsystem (GET_FKMS)) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox51")));
-        if (vsystem (IS_PI4) || vsystem (HAS_ANALOG)) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox54")));
 
         madj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);
         memsplit_sb = gtk_builder_get_object (builder, "spin_gpu");
@@ -2134,7 +2110,6 @@ int main (int argc, char *argv[])
 
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox51")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox52")));
-        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox54")));
     }
 
     needs_reboot = 0;
