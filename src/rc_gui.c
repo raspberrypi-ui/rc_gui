@@ -1861,6 +1861,13 @@ static gboolean ok_main (GtkButton *button, gpointer data)
     return FALSE;
 }
 
+static gboolean close_prog (GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+    gtk_main_quit ();
+    return TRUE;
+}
+
+
 /* The dialog... */
 
 int main (int argc, char *argv[])
@@ -1902,6 +1909,8 @@ int main (int argc, char *argv[])
     // build the UI
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
     main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
+    g_signal_connect (main_dlg, "delete_event", G_CALLBACK (close_prog), NULL);
+
     wid = (GtkWidget *) gtk_builder_get_object (builder, "button_ok");
     g_signal_connect (wid, "clicked", G_CALLBACK (ok_main), NULL);
     wid = (GtkWidget *) gtk_builder_get_object (builder, "button_cancel");
