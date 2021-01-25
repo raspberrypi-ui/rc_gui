@@ -348,7 +348,6 @@ static void message (char *msg)
 
     wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_msg");
     gtk_label_set_text (GTK_LABEL (wid), msg);
-    gtk_widget_show (wid);
 
     wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_pb");
     gtk_widget_hide (wid);
