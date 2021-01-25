@@ -343,14 +343,18 @@ static void message (char *msg)
     GtkWidget *wid;
     GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
 
-    msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "infodlg");
+    msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal");
     gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
 
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "infodialog_msg");
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_msg");
     gtk_label_set_text (GTK_LABEL (wid), msg);
     gtk_widget_show (wid);
 
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "infobuttons");
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_pb");
+    gtk_widget_hide (wid);
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_cancel");
+    gtk_widget_hide (wid);
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_ok");
     gtk_widget_hide (wid);
 
     gtk_widget_show (msg_dlg);
@@ -358,21 +362,75 @@ static void message (char *msg)
     g_object_unref (builder);
 }
 
+static gboolean ok_clicked (GtkButton *button, gpointer data)
+{
+    gtk_widget_destroy (msg_dlg);
+    return FALSE;
+}
+
 static void info (char *msg)
 {
-    GtkWidget *dlg, *lbl;
+    GtkWidget *wid;
     GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
 
-    dlg = (GtkWidget *) gtk_builder_get_object (builder, "infodlg");
-    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal");
+    gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
 
-    lbl = (GtkWidget *) gtk_builder_get_object (builder, "infodialog_msg");
-    gtk_label_set_text (GTK_LABEL (lbl), msg);
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_msg");
+    gtk_label_set_text (GTK_LABEL (wid), msg);
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_pb");
+    gtk_widget_hide (wid);
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_cancel");
+    gtk_widget_hide (wid);
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_ok");
+    g_signal_connect (wid, "clicked", G_CALLBACK (ok_clicked), NULL);
+
+    gtk_widget_show (msg_dlg);
+
     g_object_unref (builder);
-
-    gtk_dialog_run (GTK_DIALOG (dlg));
-    gtk_widget_destroy (dlg);
 }
+
+static gboolean close_app (GtkButton *button, gpointer data)
+{
+    gtk_widget_destroy (msg_dlg);
+    gtk_main_quit ();
+    return FALSE;
+}
+
+static gboolean close_app_reboot (GtkButton *button, gpointer data)
+{
+    gtk_widget_destroy (msg_dlg);
+    gtk_main_quit ();
+    vsystem ("reboot");
+    return FALSE;
+}
+
+static void reboot (void)
+{
+    GtkWidget *wid;
+    GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+
+    msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal");
+    gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_msg");
+    gtk_label_set_text (GTK_LABEL (wid), _("The changes you have made require the Raspberry Pi to be rebooted to take effect.\n\nWould you like to reboot now? "));
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_pb");
+    gtk_widget_hide (wid);
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_cancel");
+    gtk_button_set_label (GTK_BUTTON (wid), _("_No"));
+    g_signal_connect (wid, "clicked", G_CALLBACK (close_app), NULL);
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_ok");
+    gtk_button_set_label (GTK_BUTTON (wid), _("_Yes"));
+    g_signal_connect (wid, "clicked", G_CALLBACK (close_app_reboot), NULL);
+
+    gtk_widget_show (msg_dlg);
+
+    g_object_unref (builder);
+}
+
 
 /* Password setting */
 
@@ -1789,6 +1847,20 @@ static int has_wifi (void)
     return ret;
 }
 
+static gboolean cancel_main (GtkButton *button, gpointer data)
+{
+    if (needs_reboot) reboot ();
+    else gtk_main_quit ();
+    return FALSE;
+}
+
+static gboolean ok_main (GtkButton *button, gpointer data)
+{
+    if (process_changes ()) needs_reboot = 1;
+    if (needs_reboot) reboot ();
+    else gtk_main_quit ();
+    return FALSE;
+}
 
 /* The dialog... */
 
@@ -1796,7 +1868,7 @@ int main (int argc, char *argv[])
 {
     GtkBuilder *builder;
     GtkAdjustment *madj, *gadj, *tadj;
-    GtkWidget *dlg;
+    GtkWidget *wid;
 
 #ifdef ENABLE_NLS
     setlocale (LC_ALL, "");
@@ -1830,7 +1902,11 @@ int main (int argc, char *argv[])
 
     // build the UI
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
-    main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "dialog1");
+    main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_ok");
+    g_signal_connect (wid, "clicked", G_CALLBACK (ok_main), NULL);
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_cancel");
+    g_signal_connect (wid, "clicked", G_CALLBACK (cancel_main), NULL);
 
     if (!can_configure ())
     {
@@ -2112,23 +2188,12 @@ int main (int argc, char *argv[])
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox52")));
     }
 
-    needs_reboot = 0;
-    if (gtk_dialog_run (GTK_DIALOG (main_dlg)) == GTK_RESPONSE_OK)
-    {
-        if (process_changes ()) needs_reboot = 1;
-    }
-    if (needs_reboot)
-    {
-        dlg = (GtkWidget *) gtk_builder_get_object (builder, "rebootdlg");
-        gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
-        if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_YES)
-        {
-            vsystem ("reboot");
-        }
-        gtk_widget_destroy (dlg);
-    }
-
     g_object_unref (builder);
+
+    needs_reboot = 0;
+    gtk_widget_show_all (main_dlg);
+    gtk_main ();
+
     gtk_widget_destroy (main_dlg);
 
     return 0;
