@@ -2191,7 +2191,7 @@ int main (int argc, char *argv[])
     g_object_unref (builder);
 
     needs_reboot = 0;
-    gtk_widget_show_all (main_dlg);
+    gtk_widget_show (main_dlg);
     gtk_main ();
 
     gtk_widget_destroy (main_dlg);
