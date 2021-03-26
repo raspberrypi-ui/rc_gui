@@ -1,3 +1,9 @@
+rc-gui (1.47) buster; urgency=medium
+
+  * GTK+3 version
+
+ -- Simon Long <simon@raspberrypi.com>  Fri, 26 Mar 2021 14:12:16 +0000
+
 rc-gui (1.46) buster; urgency=medium
 
   * Remove composite output switch on Pi 4
