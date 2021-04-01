@@ -5,6 +5,5 @@ _GenericName=Raspberry Pi Configuration
 _Comment=Configure Raspberry Pi system
 Icon=rpi
 Exec=env SUDO_ASKPASS=/usr/lib/rc-gui/pwdrcg.sh sudo -AE rc_gui
-NotShowIn=GNOME;XFCE;
 StartupNotify=true
 Categories=Settings;DesktopSettings;GTK;X-LXDE-Settings;
