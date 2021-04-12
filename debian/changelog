@@ -1,4 +1,4 @@
-rc-gui (1.47) buster; urgency=medium
+rc-gui (1.47) bullseye; urgency=medium
 
   * GTK+3 version
 
