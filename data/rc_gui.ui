@@ -383,7 +383,6 @@
     <property name="title" translatable="yes">Raspberry Pi Configuration</property>
     <property name="resizable">False</property>
     <property name="icon_name">rpi</property>
-    <property name="type_hint">dialog</property>
     <child>
       <placeholder/>
     </child>
