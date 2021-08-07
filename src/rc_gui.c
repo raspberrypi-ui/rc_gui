@@ -597,6 +597,23 @@ static void read_locales (void)
             if (cname) cname[0] = g_ascii_toupper (cname[0]);
             if (lname) lname[0] = g_ascii_toupper (lname[0]);
 
+            // deal with Curacao
+            if (cname && strchr (cname, '<'))
+            {
+                int val;
+                char *tmp = g_strdup (cname);
+                char *pos = strchr (tmp, '<');
+
+                if (sscanf (pos, "<U00%X>", &val) == 1)
+                {
+                    *pos++ = val >= 0xC0 ? 0xC3 : 0xC2;
+                    *pos++ = val >= 0xC0 ? val - 0x40 : val;
+                    sprintf (pos, "%s", strchr (cname, '>') + 1);
+                    g_free (cname);
+                    cname = tmp;
+                }
+            }
+
             // now split to language and country codes
             strtok (lang, "_");
             country = strtok (NULL, " \t\n\r");
