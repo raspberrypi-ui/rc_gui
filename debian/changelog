@@ -1,3 +1,15 @@
+rc-gui (1.50) bullseye; urgency=medium
+
+  * Fix Unicode characters in country names
+
+ -- Simon Long <simon@raspberrypi.com>  Sat, 07 Aug 2021 17:13:21 +0100
+
+rc-gui (1.49) bullseye; urgency=medium
+
+  * Add updated German and Polish translations
+
+ -- Simon Long <simon@raspberrypi.com>  Fri, 30 Jul 2021 09:26:28 +0100
+
 rc-gui (1.48) bullseye; urgency=medium
 
   * Remove dialog hint
