@@ -127,7 +127,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Controls */
 
 static GObject *passwd_btn, *res_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
-static GObject *boot_desktop_rb, *boot_cli_rb, *camera_on_rb, *camera_off_rb, *pixdub_on_rb, *pixdub_off_rb;
+static GObject *boot_desktop_rb, *boot_cli_rb, *pixdub_on_rb, *pixdub_off_rb;
 static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
 static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
 static GObject *alogin_on_rb, *alogin_off_rb, *netwait_on_rb, *netwait_off_rb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb;
@@ -1711,12 +1711,6 @@ static int process_changes (void)
 
     if (!vsystem (IS_PI))
     {
-        if (orig_camera != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (camera_off_rb)))
-        {
-            vsystem (SET_CAMERA, (1 - orig_camera));
-            reboot = 1;
-        }
-
         if (orig_overscan != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (overscan_off_rb)))
         {
             vsystem (SET_OVERSCAN, (1 - orig_overscan));
@@ -2019,11 +2013,6 @@ int main (int argc, char *argv[])
         res_btn = gtk_builder_get_object (builder, "button_res");
         g_signal_connect (res_btn, "clicked", G_CALLBACK (on_set_res), NULL);
 
-        camera_on_rb = gtk_builder_get_object (builder, "rb_cam_on");
-        camera_off_rb = gtk_builder_get_object (builder, "rb_cam_off");
-        if (orig_camera = get_status (GET_CAMERA)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_off_rb), TRUE);
-        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (camera_on_rb), TRUE);
-
         overscan_on_rb = gtk_builder_get_object (builder, "rb_os_on");
         overscan_off_rb = gtk_builder_get_object (builder, "rb_os_off");
         if (orig_overscan = get_status (GET_OVERSCAN)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overscan_off_rb), TRUE);
@@ -2200,7 +2189,6 @@ int main (int argc, char *argv[])
 
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
 
-        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox21")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox23")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox24")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox25")));

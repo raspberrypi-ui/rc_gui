@@ -1081,71 +1081,6 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
-                  <object class="GtkBox" id="hbox21">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="label21">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Camera:</property>
-                        <property name="xalign">0</property>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_cam_on">
-                        <property name="label" translatable="yes">Enable</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Enable the Raspberry Pi Camera Board</property>
-                        <property name="use_underline">True</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label21"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_cam_off">
-                        <property name="label" translatable="yes">Disable</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Disable the Raspberry Pi Camera Board</property>
-                        <property name="use_underline">True</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
-                        <property name="group">rb_cam_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label21"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkBox" id="hbox22">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
@@ -2232,8 +2167,6 @@
       <widget name="rb_pd_off"/>
       <widget name="rb_blank_on"/>
       <widget name="rb_blank_off"/>
-      <widget name="rb_cam_on"/>
-      <widget name="rb_cam_off"/>
       <widget name="rb_ssh_on"/>
       <widget name="rb_ssh_off"/>
       <widget name="rb_vnc_on"/>
@@ -2290,7 +2223,6 @@
       <widget name="hbox52"/>
       <widget name="hbox53"/>
       <widget name="hbox54"/>
-      <widget name="hbox21"/>
       <widget name="hbox22"/>
       <widget name="hbox23"/>
       <widget name="hbox24"/>
