@@ -121,6 +121,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define WLAN_INTERFACES "raspi-config nonint list_wlan_interfaces"
 #define VNC_INSTALLED   "raspi-config nonint is_installed realvnc-vnc-server"
 #define XSCR_INSTALLED  "raspi-config nonint is_installed xscreensaver"
+#define GET_VNC_RES     "raspi-config nonint get_vnc_resolution"
+#define SET_VNC_RES     "raspi-config nonint do_vnc_resolution %s"
 #define DEFAULT_GPU_MEM "vcgencmd get_mem gpu | cut -d = -f 2 | cut -d M -f 1"
 #define CHANGE_PASSWD   "echo \"$SUDO_USER:%s\" | chpasswd"
 
@@ -133,7 +135,7 @@ static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, 
 static GObject *alogin_on_rb, *alogin_off_rb, *netwait_on_rb, *netwait_off_rb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb;
 static GObject *blank_on_rb, *blank_off_rb, *led_pwr_rb, *led_actpwr_rb, *fan_on_rb, *fan_off_rb;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_rb, *ofs_dis_rb, *bp_ro_rb, *bp_rw_rb, *ofs_lbl;
-static GObject *fan_gpio_sb, *fan_temp_sb;
+static GObject *fan_gpio_sb, *fan_temp_sb, *vnc_res_cb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
 static GObject *tzarea_cb, *tzloc_cb, *wccountry_cb, *resolution_cb;
@@ -146,7 +148,8 @@ static GtkWidget *main_dlg, *msg_dlg;
 static char *orig_hostname;
 static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
 static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub, orig_pi4v;
-static int orig_ofs, orig_bpro, orig_blank, orig_leds, orig_fan, orig_fan_gpio, orig_fan_temp;
+static int orig_ofs, orig_bpro, orig_blank, orig_leds, orig_fan, orig_fan_gpio, orig_fan_temp, orig_vnc_res;
+static char *vres;
 
 /* Reboot flag set after locale change */
 
@@ -1803,6 +1806,14 @@ static int process_changes (void)
             }
         }
 
+        if (orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)))
+        {
+            vres = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (vnc_res_cb));
+            vsystem (SET_VNC_RES, vres);
+            g_free (vres);
+            reboot = 1;
+        }
+
         int fan_gpio = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_gpio_sb));
         int fan_temp = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_temp_sb));
         if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (fan_off_rb)))
@@ -2176,6 +2187,30 @@ int main (int argc, char *argv[])
         gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (memsplit_sb), GTK_ADJUSTMENT (madj));
         orig_gpumem = get_gpu_mem ();
         gtk_spin_button_set_value (GTK_SPIN_BUTTON (memsplit_sb), orig_gpumem);
+
+        vnc_res_cb = gtk_builder_get_object (builder, "combo_res");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "640x480");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "720x480");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "800x600");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1024x768");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1280x720");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1280x1024");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1600x1200");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1920x1080");
+
+        orig_vnc_res = -1;
+        vres = get_string (GET_VNC_RES);
+        if (!strcmp (vres, "640x480")) orig_vnc_res = 0;
+        if (!strcmp (vres, "720x480")) orig_vnc_res = 1;
+        if (!strcmp (vres, "800x600")) orig_vnc_res = 2;
+        if (!strcmp (vres, "1024x768")) orig_vnc_res = 3;
+        if (!strcmp (vres, "1280x720")) orig_vnc_res = 4;
+        if (!strcmp (vres, "1280x1024")) orig_vnc_res = 5;
+        if (!strcmp (vres, "1600x1200")) orig_vnc_res = 6;
+        if (!strcmp (vres, "1920x1080")) orig_vnc_res = 7;
+        g_free (vres);
+
+        gtk_combo_box_set_active (GTK_COMBO_BOX (vnc_res_cb), orig_vnc_res);
     }
     else
     {
@@ -2199,6 +2234,7 @@ int main (int argc, char *argv[])
 
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox51")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox52")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox55")));
     }
 
     g_object_unref (builder);
