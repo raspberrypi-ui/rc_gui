@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <!-- interface-local-resource-path / -->
   <object class="GtkDialog" id="keyboarddlg">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
+    <property name="can-focus">False</property>
+    <property name="border-width">5</property>
     <property name="title" translatable="yes">Keyboard</property>
     <property name="resizable">False</property>
-    <property name="icon_name">rpi</property>
-    <property name="type_hint">dialog</property>
-    <child>
-      <placeholder/>
-    </child>
+    <property name="icon-name">rpi</property>
+    <property name="type-hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="keyboarddlg_vbox">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="keyboarddlg_action_area">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
+            <property name="can-focus">False</property>
+            <property name="layout-style">end</property>
             <child>
               <object class="GtkButton" id="keycancel">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -42,9 +39,9 @@
               <object class="GtkButton" id="keyok">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -62,12 +59,12 @@
         <child>
           <object class="GtkBox" id="keyhbox1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="keylabelmodel">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Model:</property>
                 <property name="xalign">0</property>
               </object>
@@ -80,7 +77,7 @@
             <child>
               <object class="GtkComboBox" id="keycbmodel">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <accessibility>
                   <relation type="labelled-by" target="keylabelmodel"/>
                 </accessibility>
@@ -101,12 +98,12 @@
         <child>
           <object class="GtkBox" id="keyhbox2">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="keylabellayout">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Layout:</property>
                 <property name="xalign">0</property>
               </object>
@@ -119,7 +116,7 @@
             <child>
               <object class="GtkComboBox" id="keycblayout">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <accessibility>
                   <relation type="labelled-by" target="keylabellayout"/>
                 </accessibility>
@@ -140,12 +137,12 @@
         <child>
           <object class="GtkBox" id="keyhbox3">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="keylabelvar">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Variant:</property>
                 <property name="xalign">0</property>
               </object>
@@ -158,7 +155,7 @@
             <child>
               <object class="GtkComboBox" id="keycbvar">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <accessibility>
                   <relation type="labelled-by" target="keylabelvar"/>
                 </accessibility>
@@ -191,33 +188,30 @@
     </widgets>
   </object>
   <object class="GtkDialog" id="localedlg">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
+    <property name="can-focus">False</property>
+    <property name="border-width">5</property>
     <property name="title" translatable="yes">Locale</property>
     <property name="resizable">False</property>
-    <property name="icon_name">rpi</property>
-    <property name="type_hint">dialog</property>
-    <child>
-      <placeholder/>
-    </child>
+    <property name="icon-name">rpi</property>
+    <property name="type-hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="localedlg_vbox">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="localedlg_action_area">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
+            <property name="can-focus">False</property>
+            <property name="layout-style">end</property>
             <child>
               <object class="GtkButton" id="loccancel">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -229,9 +223,9 @@
               <object class="GtkButton" id="locok">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -249,12 +243,12 @@
         <child>
           <object class="GtkBox" id="lochbox1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="loclabellang">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Language:</property>
                 <property name="xalign">0</property>
               </object>
@@ -267,7 +261,7 @@
             <child>
               <object class="GtkComboBox" id="loccblang">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <accessibility>
                   <relation type="labelled-by" target="loclabellang"/>
                 </accessibility>
@@ -288,12 +282,12 @@
         <child>
           <object class="GtkBox" id="lochbox2">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="loclabelcountry">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Country:</property>
                 <property name="xalign">0</property>
               </object>
@@ -306,7 +300,7 @@
             <child>
               <object class="GtkComboBox" id="loccbcountry">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <accessibility>
                   <relation type="labelled-by" target="loclabelcountry"/>
                 </accessibility>
@@ -327,12 +321,12 @@
         <child>
           <object class="GtkBox" id="lochbox3">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="loclabelchar">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Character Set:</property>
                 <property name="xalign">0</property>
               </object>
@@ -345,7 +339,7 @@
             <child>
               <object class="GtkComboBox" id="loccbchar">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <accessibility>
                   <relation type="labelled-by" target="loclabelchar"/>
                 </accessibility>
@@ -378,42 +372,39 @@
     </widgets>
   </object>
   <object class="GtkWindow" id="main_window">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
+    <property name="can-focus">False</property>
+    <property name="border-width">5</property>
     <property name="title" translatable="yes">Raspberry Pi Configuration</property>
     <property name="resizable">False</property>
-    <property name="icon_name">rpi</property>
-    <child>
-      <placeholder/>
-    </child>
+    <property name="icon-name">rpi</property>
     <child>
       <object class="GtkBox" id="vbox1">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkNotebook" id="notebook1">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
+            <property name="can-focus">True</property>
             <child>
               <object class="GtkBox" id="vbox10">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_left">5</property>
-                <property name="margin_right">5</property>
-                <property name="margin_top">5</property>
-                <property name="margin_bottom">5</property>
+                <property name="can-focus">False</property>
+                <property name="margin-left">5</property>
+                <property name="margin-right">5</property>
+                <property name="margin-top">5</property>
+                <property name="margin-bottom">5</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkBox" id="hbox11">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label11">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Password:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -427,10 +418,10 @@
                       <object class="GtkButton" id="button_pw">
                         <property name="label" translatable="yes">Change _Password...</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="tooltip_text" translatable="yes">Change password for the default user (pi)</property>
-                        <property name="use_underline">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="tooltip-text" translatable="yes">Change password for the default user (pi)</property>
+                        <property name="use-underline">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label11"/>
                         </accessibility>
@@ -451,11 +442,11 @@
                 <child>
                   <object class="GtkBox" id="hbox12">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label12">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Hostname:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -468,10 +459,10 @@
                     <child>
                       <object class="GtkEntry" id="entry_hn">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Set the name of your Pi on a local network</property>
-                        <property name="primary_icon_activatable">False</property>
-                        <property name="secondary_icon_activatable">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Set the name of your Pi on a local network</property>
+                        <property name="primary-icon-activatable">False</property>
+                        <property name="secondary-icon-activatable">False</property>
                         <accessibility>
                           <relation type="labelled-by" target="label12"/>
                         </accessibility>
@@ -492,11 +483,11 @@
                 <child>
                   <object class="GtkBox" id="hbox13">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label13">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Boot:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -510,11 +501,11 @@
                       <object class="GtkRadioButton" id="rb_desktop">
                         <property name="label" translatable="yes">To Desktop</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Launch the desktop environment automatically on boot</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Launch the desktop environment automatically on boot</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label13"/>
                         </accessibility>
@@ -529,11 +520,11 @@
                       <object class="GtkRadioButton" id="rb_cli">
                         <property name="label" translatable="yes">To CLI</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Boot into a command line shell rather than the desktop</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Boot into a command line shell rather than the desktop</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_desktop</property>
                         <accessibility>
                           <relation type="labelled-by" target="label13"/>
@@ -555,11 +546,11 @@
                 <child>
                   <object class="GtkBox" id="hbox14">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label14">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Auto login:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -573,10 +564,10 @@
                       <object class="GtkRadioButton" id="rb_alogin_on">
                         <property name="label" translatable="yes">Login as user 'pi'</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Automatically log in the default user (pi)</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Automatically log in the default user (pi)</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label14"/>
                         </accessibility>
@@ -591,10 +582,10 @@
                       <object class="GtkRadioButton" id="rb_alogin_off">
                         <property name="label" translatable="yes">Disabled</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Prompt for password at boot</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Prompt for password at boot</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_alogin_on</property>
                         <accessibility>
                           <relation type="labelled-by" target="label14"/>
@@ -616,11 +607,11 @@
                 <child>
                   <object class="GtkBox" id="hbox15">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label15">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Network at Boot:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -634,10 +625,10 @@
                       <object class="GtkRadioButton" id="rb_netwait_on">
                         <property name="label" translatable="yes">Wait for network</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Do not complete boot until network connection is established</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Do not complete boot until network connection is established</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label15"/>
                         </accessibility>
@@ -652,10 +643,10 @@
                       <object class="GtkRadioButton" id="rb_netwait_off">
                         <property name="label" translatable="yes">Do not wait</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Do not wait for network connection during boot</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Do not wait for network connection during boot</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_netwait_on</property>
                         <accessibility>
                           <relation type="labelled-by" target="label15"/>
@@ -677,11 +668,11 @@
                 <child>
                   <object class="GtkBox" id="hbox16">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label16">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Splash Screen:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -695,11 +686,11 @@
                       <object class="GtkRadioButton" id="rb_splash_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Show graphical splash screen at boot</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Show graphical splash screen at boot</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label16"/>
                         </accessibility>
@@ -714,11 +705,11 @@
                       <object class="GtkRadioButton" id="rb_splash_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Show text messages at boot</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Show text messages at boot</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_splash_on</property>
                         <accessibility>
                           <relation type="labelled-by" target="label16"/>
@@ -740,11 +731,11 @@
                 <child>
                   <object class="GtkBox" id="hbox17">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label17">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Power LED:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -758,11 +749,11 @@
                       <object class="GtkRadioButton" id="rb_led_actpwr">
                         <property name="label" translatable="yes">Activity</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Flash the power LED on disk activity</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Flash the power LED on disk activity</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label17"/>
                         </accessibility>
@@ -777,11 +768,11 @@
                       <object class="GtkRadioButton" id="rb_led_pwr">
                         <property name="label" translatable="yes">Constant</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Do not flash the power LED</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Do not flash the power LED</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_led_actpwr</property>
                         <accessibility>
                           <relation type="labelled-by" target="label17"/>
@@ -805,31 +796,31 @@
             <child type="tab">
               <object class="GtkLabel" id="tablabel1">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">System</property>
               </object>
               <packing>
-                <property name="tab_fill">False</property>
+                <property name="tab-fill">False</property>
               </packing>
             </child>
             <child>
               <object class="GtkBox" id="vbox50">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_left">5</property>
-                <property name="margin_right">5</property>
-                <property name="margin_top">5</property>
-                <property name="margin_bottom">5</property>
+                <property name="can-focus">False</property>
+                <property name="margin-left">5</property>
+                <property name="margin-right">5</property>
+                <property name="margin-top">5</property>
+                <property name="margin-bottom">5</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkBox" id="hbox51">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label51">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Resolution:</property>
                         <property name="ellipsize">middle</property>
                         <property name="xalign">0</property>
@@ -844,10 +835,10 @@
                       <object class="GtkButton" id="button_res">
                         <property name="label" translatable="yes">Set _Resolution...</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="tooltip_text" translatable="yes">Set the resolution for HDMI and VNC</property>
-                        <property name="use_underline">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="tooltip-text" translatable="yes">Set the resolution for HDMI and VNC</property>
+                        <property name="use-underline">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label51"/>
                         </accessibility>
@@ -868,11 +859,11 @@
                 <child>
                   <object class="GtkBox" id="hbox52">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label52">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Overscan:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -886,11 +877,11 @@
                       <object class="GtkRadioButton" id="rb_os_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Enable overscan to show the edges of the screen</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Enable overscan to show the edges of the screen</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label52"/>
                         </accessibility>
@@ -905,11 +896,11 @@
                       <object class="GtkRadioButton" id="rb_os_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Disable overscan to hide black outline on screen</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Disable overscan to hide black outline on screen</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_os_on</property>
                         <accessibility>
                           <relation type="labelled-by" target="label52"/>
@@ -931,11 +922,11 @@
                 <child>
                   <object class="GtkBox" id="hbox53">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label53">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Pixel Doubling:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -949,11 +940,11 @@
                       <object class="GtkRadioButton" id="rb_pd_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Enable pixel doubling to improve usability on high-res screens</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Enable pixel doubling to improve usability on high-res screens</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label53"/>
                         </accessibility>
@@ -968,11 +959,11 @@
                       <object class="GtkRadioButton" id="rb_pd_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Disable pixel doubling for standard resolution screens</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Disable pixel doubling for standard resolution screens</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_pd_on</property>
                         <accessibility>
                           <relation type="labelled-by" target="label53"/>
@@ -994,11 +985,11 @@
                 <child>
                   <object class="GtkBox" id="hbox54">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label54">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Screen Blanking:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -1012,11 +1003,11 @@
                       <object class="GtkRadioButton" id="rb_blank_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Blank the screen after a period of inactivity</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Blank the screen after a period of inactivity</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label54"/>
                         </accessibility>
@@ -1031,11 +1022,11 @@
                       <object class="GtkRadioButton" id="rb_blank_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Never blank the screen</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Never blank the screen</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_blank_on</property>
                         <accessibility>
                           <relation type="labelled-by" target="label54"/>
@@ -1057,14 +1048,14 @@
                 <child>
                   <object class="GtkBox" id="hbox55">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label55">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Headless Resolution:</property>
-                        <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">combo_res</property>
+                        <property name="use-underline">True</property>
+                        <property name="mnemonic-widget">combo_res</property>
                         <property name="xalign">0</property>
                       </object>
                       <packing>
@@ -1076,8 +1067,8 @@
                     <child>
                       <object class="GtkComboBoxText" id="combo_res">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="tooltip_text" translatable="yes">Set the resolution for VNC when no monitor is connected</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Set the resolution for VNC when no monitor is connected</property>
                         <accessibility>
                           <relation type="labelled-by" target="label55"/>
                         </accessibility>
@@ -1103,32 +1094,32 @@
             <child type="tab">
               <object class="GtkLabel" id="tablabel5">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Display</property>
               </object>
               <packing>
                 <property name="position">1</property>
-                <property name="tab_fill">False</property>
+                <property name="tab-fill">False</property>
               </packing>
             </child>
             <child>
               <object class="GtkBox" id="vbox20">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_left">5</property>
-                <property name="margin_right">5</property>
-                <property name="margin_top">5</property>
-                <property name="margin_bottom">5</property>
+                <property name="can-focus">False</property>
+                <property name="margin-left">5</property>
+                <property name="margin-right">5</property>
+                <property name="margin-top">5</property>
+                <property name="margin-bottom">5</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkBox" id="hbox22">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label22">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">SSH:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -1142,11 +1133,11 @@
                       <object class="GtkRadioButton" id="rb_ssh_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Enable remote access to this Pi via SSH</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Enable remote access to this Pi via SSH</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label22"/>
                         </accessibility>
@@ -1161,11 +1152,11 @@
                       <object class="GtkRadioButton" id="rb_ssh_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Disable remote access to this Pi via SSH</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Disable remote access to this Pi via SSH</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_ssh_on</property>
                         <accessibility>
                           <relation type="labelled-by" target="label22"/>
@@ -1187,11 +1178,11 @@
                 <child>
                   <object class="GtkBox" id="hbox23">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label23">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">VNC:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -1205,11 +1196,11 @@
                       <object class="GtkRadioButton" id="rb_vnc_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Enable remote access to this Pi using RealVNC</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Enable remote access to this Pi using RealVNC</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label23"/>
                         </accessibility>
@@ -1224,11 +1215,11 @@
                       <object class="GtkRadioButton" id="rb_vnc_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Disable remote access to this Pi using RealVNC</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Disable remote access to this Pi using RealVNC</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_vnc_on</property>
                         <accessibility>
                           <relation type="labelled-by" target="label23"/>
@@ -1250,11 +1241,11 @@
                 <child>
                   <object class="GtkBox" id="hbox24">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label24">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">SPI:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -1268,11 +1259,11 @@
                       <object class="GtkRadioButton" id="rb_spi_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Enable the automatic loading of the SPI kernel module</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Enable the automatic loading of the SPI kernel module</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label24"/>
                         </accessibility>
@@ -1287,11 +1278,11 @@
                       <object class="GtkRadioButton" id="rb_spi_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Disable the automatic loading of the SPI kernel module</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Disable the automatic loading of the SPI kernel module</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_spi_on</property>
                         <accessibility>
                           <relation type="labelled-by" target="label24"/>
@@ -1313,11 +1304,11 @@
                 <child>
                   <object class="GtkBox" id="hbox25">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label25">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">I2C:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -1331,11 +1322,11 @@
                       <object class="GtkRadioButton" id="rb_i2c_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Enable the automatic loading of the I2C kernel module</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Enable the automatic loading of the I2C kernel module</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label25"/>
                         </accessibility>
@@ -1350,11 +1341,11 @@
                       <object class="GtkRadioButton" id="rb_i2c_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Disable the automatic loading of the I2C kernel module</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Disable the automatic loading of the I2C kernel module</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_i2c_on</property>
                         <accessibility>
                           <relation type="labelled-by" target="label25"/>
@@ -1376,11 +1367,11 @@
                 <child>
                   <object class="GtkBox" id="hbox26">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label26">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Serial Port:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -1394,11 +1385,11 @@
                       <object class="GtkRadioButton" id="rb_ser_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Enable the serial port over the GPIO pins</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Enable the serial port over the GPIO pins</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label26"/>
                         </accessibility>
@@ -1413,11 +1404,11 @@
                       <object class="GtkRadioButton" id="rb_ser_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Disable the serial port over the GPIO pins</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Disable the serial port over the GPIO pins</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_ser_on</property>
                         <accessibility>
                           <relation type="labelled-by" target="label26"/>
@@ -1439,11 +1430,11 @@
                 <child>
                   <object class="GtkBox" id="hbox27">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label27">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Serial Console:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -1457,11 +1448,11 @@
                       <object class="GtkRadioButton" id="rb_serc_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Enable shell and kernel messages on the serial connection</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Enable shell and kernel messages on the serial connection</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label27"/>
                         </accessibility>
@@ -1476,11 +1467,11 @@
                       <object class="GtkRadioButton" id="rb_serc_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Disable shell and kernel messages on the serial connection</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Disable shell and kernel messages on the serial connection</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_serc_on</property>
                         <accessibility>
                           <relation type="labelled-by" target="label27"/>
@@ -1502,11 +1493,11 @@
                 <child>
                   <object class="GtkBox" id="hbox28">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label28">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">1-Wire:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -1520,11 +1511,11 @@
                       <object class="GtkRadioButton" id="rb_one_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Enable 1-wire peripheral interface</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Enable 1-wire peripheral interface</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label28"/>
                         </accessibility>
@@ -1539,11 +1530,11 @@
                       <object class="GtkRadioButton" id="rb_one_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Disable 1-wire peripheral interface</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Disable 1-wire peripheral interface</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_one_on</property>
                         <accessibility>
                           <relation type="labelled-by" target="label28"/>
@@ -1565,11 +1556,11 @@
                 <child>
                   <object class="GtkBox" id="hbox29">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label29">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Remote GPIO:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -1583,11 +1574,11 @@
                       <object class="GtkRadioButton" id="rb_rgp_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Enable remote access to GPIO pins</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Enable remote access to GPIO pins</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label29"/>
                         </accessibility>
@@ -1602,11 +1593,11 @@
                       <object class="GtkRadioButton" id="rb_rgp_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Disable remote access to GPIO pins</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Disable remote access to GPIO pins</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_rgp_on</property>
                         <accessibility>
                           <relation type="labelled-by" target="label29"/>
@@ -1633,35 +1624,35 @@
             <child type="tab">
               <object class="GtkLabel" id="tablabel2">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Interfaces</property>
               </object>
               <packing>
                 <property name="position">2</property>
-                <property name="tab_fill">False</property>
+                <property name="tab-fill">False</property>
               </packing>
             </child>
             <child>
               <object class="GtkBox" id="vbox30">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_left">5</property>
-                <property name="margin_right">5</property>
-                <property name="margin_top">5</property>
-                <property name="margin_bottom">5</property>
+                <property name="can-focus">False</property>
+                <property name="margin-left">5</property>
+                <property name="margin-right">5</property>
+                <property name="margin-top">5</property>
+                <property name="margin-bottom">5</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkBox" id="hbox31">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label31">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">O_verclock:</property>
-                        <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">combo_oc</property>
+                        <property name="use-underline">True</property>
+                        <property name="mnemonic-widget">combo_oc</property>
                         <property name="xalign">0</property>
                       </object>
                       <packing>
@@ -1673,8 +1664,8 @@
                     <child>
                       <object class="GtkComboBoxText" id="combo_oc">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="tooltip_text" translatable="yes">Set the level of overclock to control performance</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Set the level of overclock to control performance</property>
                         <accessibility>
                           <relation type="labelled-by" target="label31"/>
                         </accessibility>
@@ -1695,14 +1686,14 @@
                 <child>
                   <object class="GtkBox" id="hbox32">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label32">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">_GPU Memory:</property>
-                        <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">spin_gpu</property>
+                        <property name="use-underline">True</property>
+                        <property name="mnemonic-widget">spin_gpu</property>
                         <property name="xalign">0</property>
                       </object>
                       <packing>
@@ -1714,10 +1705,10 @@
                     <child>
                       <object class="GtkSpinButton" id="spin_gpu">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Enter the amount of memory available to the GPU</property>
-                        <property name="primary_icon_activatable">False</property>
-                        <property name="secondary_icon_activatable">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Enter the amount of memory available to the GPU</property>
+                        <property name="primary-icon-activatable">False</property>
+                        <property name="secondary-icon-activatable">False</property>
                         <accessibility>
                           <relation type="labelled-by" target="label32"/>
                         </accessibility>
@@ -1738,11 +1729,11 @@
                 <child>
                   <object class="GtkBox" id="hbox33">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label33">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Overlay File System:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -1756,9 +1747,9 @@
                       <object class="GtkButton" id="button_ofs">
                         <property name="label" translatable="yes">Configure...</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="tooltip_text" translatable="yes">Configure an overlay file system to protect data from being overwritten or deleted</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="tooltip-text" translatable="yes">Configure an overlay file system to protect data from being overwritten or deleted</property>
                         <accessibility>
                           <relation type="labelled-by" target="label33"/>
                         </accessibility>
@@ -1779,11 +1770,11 @@
                 <child>
                   <object class="GtkBox" id="hbox34">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label34">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Fan:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -1797,11 +1788,11 @@
                       <object class="GtkRadioButton" id="rb_fan_on">
                         <property name="label" translatable="yes">Enable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Enable a temperature-controlled fan on a GPIO pin</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Enable a temperature-controlled fan on a GPIO pin</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label34"/>
                         </accessibility>
@@ -1816,11 +1807,11 @@
                       <object class="GtkRadioButton" id="rb_fan_off">
                         <property name="label" translatable="yes">Disable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Disable GPIO fan</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Disable GPIO fan</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">rb_fan_on</property>
                         <accessibility>
                           <relation type="labelled-by" target="label34"/>
@@ -1842,11 +1833,11 @@
                 <child>
                   <object class="GtkBox" id="hbox35">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label35">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Fan GPIO:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -1859,11 +1850,11 @@
                     <child>
                       <object class="GtkSpinButton" id="sb_fan_gpio">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Set the GPIO to which the fan is connected</property>
-                        <property name="invisible_char">•</property>
-                        <property name="primary_icon_activatable">False</property>
-                        <property name="secondary_icon_activatable">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Set the GPIO to which the fan is connected</property>
+                        <property name="invisible-char">•</property>
+                        <property name="primary-icon-activatable">False</property>
+                        <property name="secondary-icon-activatable">False</property>
                         <accessibility>
                           <relation type="labelled-by" target="label35"/>
                         </accessibility>
@@ -1884,11 +1875,11 @@
                 <child>
                   <object class="GtkBox" id="hbox36">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label36">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Fan Temperature:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -1901,11 +1892,11 @@
                     <child>
                       <object class="GtkSpinButton" id="sb_fan_temp">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Set the temperature in degrees C at which the fan turns on</property>
-                        <property name="invisible_char">•</property>
-                        <property name="primary_icon_activatable">False</property>
-                        <property name="secondary_icon_activatable">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Set the temperature in degrees C at which the fan turns on</property>
+                        <property name="invisible-char">•</property>
+                        <property name="primary-icon-activatable">False</property>
+                        <property name="secondary-icon-activatable">False</property>
                         <accessibility>
                           <relation type="labelled-by" target="label36"/>
                         </accessibility>
@@ -1931,32 +1922,32 @@
             <child type="tab">
               <object class="GtkLabel" id="tablabel3">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Performance</property>
               </object>
               <packing>
                 <property name="position">3</property>
-                <property name="tab_fill">False</property>
+                <property name="tab-fill">False</property>
               </packing>
             </child>
             <child>
               <object class="GtkBox" id="vbox40">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_left">5</property>
-                <property name="margin_right">5</property>
-                <property name="margin_top">5</property>
-                <property name="margin_bottom">5</property>
+                <property name="can-focus">False</property>
+                <property name="margin-left">5</property>
+                <property name="margin-right">5</property>
+                <property name="margin-top">5</property>
+                <property name="margin-bottom">5</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkBox" id="hbox41">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label41">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Locale:</property>
                         <property name="ellipsize">middle</property>
                         <property name="xalign">0</property>
@@ -1971,10 +1962,10 @@
                       <object class="GtkButton" id="button_loc">
                         <property name="label" translatable="yes">Set _Locale...</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="tooltip_text" translatable="yes">Set internationalisation settings for units etc.</property>
-                        <property name="use_underline">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="tooltip-text" translatable="yes">Set internationalisation settings for units etc.</property>
+                        <property name="use-underline">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label41"/>
                         </accessibility>
@@ -1995,11 +1986,11 @@
                 <child>
                   <object class="GtkBox" id="hbox42">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label42">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Timezone:</property>
                         <property name="ellipsize">middle</property>
                         <property name="xalign">0</property>
@@ -2014,10 +2005,10 @@
                       <object class="GtkButton" id="button_tz">
                         <property name="label" translatable="yes">Set _Timezone...</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="tooltip_text" translatable="yes">Set the timezone to be used by the internal clock</property>
-                        <property name="use_underline">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="tooltip-text" translatable="yes">Set the timezone to be used by the internal clock</property>
+                        <property name="use-underline">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label42"/>
                         </accessibility>
@@ -2038,11 +2029,11 @@
                 <child>
                   <object class="GtkBox" id="hbox43">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label43">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Keyboard:</property>
                         <property name="ellipsize">middle</property>
                         <property name="xalign">0</property>
@@ -2057,10 +2048,10 @@
                       <object class="GtkButton" id="button_kb">
                         <property name="label" translatable="yes">Set _Keyboard...</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="tooltip_text" translatable="yes">Set international keyboard options</property>
-                        <property name="use_underline">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="tooltip-text" translatable="yes">Set international keyboard options</property>
+                        <property name="use-underline">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label43"/>
                         </accessibility>
@@ -2081,11 +2072,11 @@
                 <child>
                   <object class="GtkBox" id="hbox44">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label44">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">WiFi Country:</property>
                         <property name="ellipsize">middle</property>
                         <property name="xalign">0</property>
@@ -2100,10 +2091,10 @@
                       <object class="GtkButton" id="button_wifi">
                         <property name="label" translatable="yes">Set _WiFi Country...</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="tooltip_text" translatable="yes">Set WiFi country code</property>
-                        <property name="use_underline">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="tooltip-text" translatable="yes">Set WiFi country code</property>
+                        <property name="use-underline">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label44"/>
                         </accessibility>
@@ -2129,12 +2120,12 @@
             <child type="tab">
               <object class="GtkLabel" id="tablabel4">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Localisation</property>
               </object>
               <packing>
                 <property name="position">4</property>
-                <property name="tab_fill">False</property>
+                <property name="tab-fill">False</property>
               </packing>
             </child>
           </object>
@@ -2147,16 +2138,16 @@
         <child>
           <object class="GtkButtonBox" id="button_box">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">5</property>
-            <property name="layout_style">end</property>
+            <property name="layout-style">end</property>
             <child>
               <object class="GtkButton" id="button_cancel">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2168,9 +2159,9 @@
               <object class="GtkButton" id="button_ok">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2187,6 +2178,41 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkSizeGroup">
+    <property name="mode">vertical</property>
+    <widgets>
+      <widget name="hbox11"/>
+      <widget name="hbox12"/>
+      <widget name="hbox13"/>
+      <widget name="hbox14"/>
+      <widget name="hbox15"/>
+      <widget name="hbox16"/>
+      <widget name="hbox17"/>
+      <widget name="hbox51"/>
+      <widget name="hbox52"/>
+      <widget name="hbox53"/>
+      <widget name="hbox54"/>
+      <widget name="hbox55"/>
+      <widget name="hbox22"/>
+      <widget name="hbox23"/>
+      <widget name="hbox24"/>
+      <widget name="hbox25"/>
+      <widget name="hbox26"/>
+      <widget name="hbox27"/>
+      <widget name="hbox28"/>
+      <widget name="hbox29"/>
+      <widget name="hbox31"/>
+      <widget name="hbox32"/>
+      <widget name="hbox33"/>
+      <widget name="hbox34"/>
+      <widget name="hbox35"/>
+      <widget name="hbox36"/>
+      <widget name="hbox41"/>
+      <widget name="hbox42"/>
+      <widget name="hbox43"/>
+      <widget name="hbox44"/>
+    </widgets>
   </object>
   <object class="GtkSizeGroup">
     <widgets>
@@ -2250,70 +2276,32 @@
       <widget name="sb_fan_gpio"/>
     </widgets>
   </object>
-  <object class="GtkSizeGroup">
-    <property name="mode">vertical</property>
-    <widgets>
-      <widget name="hbox11"/>
-      <widget name="hbox12"/>
-      <widget name="hbox13"/>
-      <widget name="hbox14"/>
-      <widget name="hbox15"/>
-      <widget name="hbox16"/>
-      <widget name="hbox17"/>
-      <widget name="hbox51"/>
-      <widget name="hbox52"/>
-      <widget name="hbox53"/>
-      <widget name="hbox54"/>
-      <widget name="hbox55"/>
-      <widget name="hbox22"/>
-      <widget name="hbox23"/>
-      <widget name="hbox24"/>
-      <widget name="hbox25"/>
-      <widget name="hbox26"/>
-      <widget name="hbox27"/>
-      <widget name="hbox28"/>
-      <widget name="hbox29"/>
-      <widget name="hbox31"/>
-      <widget name="hbox32"/>
-      <widget name="hbox33"/>
-      <widget name="hbox34"/>
-      <widget name="hbox35"/>
-      <widget name="hbox36"/>
-      <widget name="hbox41"/>
-      <widget name="hbox42"/>
-      <widget name="hbox43"/>
-      <widget name="hbox44"/>
-    </widgets>
-  </object>
   <object class="GtkWindow" id="modal">
     <property name="name">pixbox</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="modal">True</property>
-    <property name="window_position">center-on-parent</property>
-    <property name="default_width">340</property>
-    <property name="destroy_with_parent">True</property>
-    <property name="type_hint">dialog</property>
-    <property name="skip_taskbar_hint">True</property>
-    <property name="skip_pager_hint">True</property>
+    <property name="window-position">center-on-parent</property>
+    <property name="default-width">340</property>
+    <property name="destroy-with-parent">True</property>
+    <property name="type-hint">dialog</property>
+    <property name="skip-taskbar-hint">True</property>
+    <property name="skip-pager-hint">True</property>
     <property name="decorated">False</property>
-    <child>
-      <placeholder/>
-    </child>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="margin_left">20</property>
-        <property name="margin_right">20</property>
-        <property name="margin_top">20</property>
-        <property name="margin_bottom">20</property>
+        <property name="can-focus">False</property>
+        <property name="margin-left">20</property>
+        <property name="margin-right">20</property>
+        <property name="margin-top">20</property>
+        <property name="margin-bottom">20</property>
         <property name="orientation">vertical</property>
         <property name="spacing">20</property>
         <child>
           <object class="GtkLabel" id="modal_msg">
-            <property name="width_request">300</property>
+            <property name="width-request">300</property>
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="label" translatable="yes">label</property>
             <property name="wrap">True</property>
           </object>
@@ -2326,7 +2314,7 @@
         <child>
           <object class="GtkProgressBar" id="modal_pb">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -2337,16 +2325,16 @@
         <child>
           <object class="GtkBox" id="modal_buttons">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">20</property>
             <child>
               <object class="GtkButton" id="modal_cancel">
                 <property name="label" translatable="yes">_Cancel</property>
-                <property name="width_request">100</property>
+                <property name="width-request">100</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_underline">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-underline">True</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -2357,11 +2345,11 @@
             <child>
               <object class="GtkButton" id="modal_ok">
                 <property name="label" translatable="yes">_OK</property>
-                <property name="width_request">100</property>
+                <property name="width-request">100</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_underline">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-underline">True</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -2380,32 +2368,29 @@
     </child>
   </object>
   <object class="GtkDialog" id="ofsdlg">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
+    <property name="can-focus">False</property>
+    <property name="border-width">5</property>
     <property name="title" translatable="yes">Overlay File System</property>
-    <property name="icon_name">rpi</property>
-    <property name="type_hint">dialog</property>
-    <child>
-      <placeholder/>
-    </child>
+    <property name="icon-name">rpi</property>
+    <property name="type-hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="ofsdlg-vbox">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="ofsdlg_action_area">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
+            <property name="can-focus">False</property>
+            <property name="layout-style">end</property>
             <child>
               <object class="GtkButton" id="ofscancel">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2417,9 +2402,9 @@
               <object class="GtkButton" id="ofsok">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2437,12 +2422,12 @@
         <child>
           <object class="GtkBox" id="ofshbox1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="ofslabel1">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Overlay:</property>
                 <property name="xalign">0</property>
               </object>
@@ -2456,11 +2441,11 @@
               <object class="GtkRadioButton" id="rb_ofsen">
                 <property name="label" translatable="yes">Enabled</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="tooltip_text" translatable="yes">Enable a file system overlay; all changes will be lost on reboot</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="tooltip-text" translatable="yes">Enable a file system overlay; all changes will be lost on reboot</property>
                 <property name="active">True</property>
-                <property name="draw_indicator">True</property>
+                <property name="draw-indicator">True</property>
                 <accessibility>
                   <relation type="labelled-by" target="ofslabel1"/>
                 </accessibility>
@@ -2475,11 +2460,11 @@
               <object class="GtkRadioButton" id="rb_ofsdis">
                 <property name="label" translatable="yes">Disabled</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="tooltip_text" translatable="yes">Disable a file system overlay; changes will be saved to the SD card</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="tooltip-text" translatable="yes">Disable a file system overlay; changes will be saved to the SD card</property>
                 <property name="active">True</property>
-                <property name="draw_indicator">True</property>
+                <property name="draw-indicator">True</property>
                 <property name="group">rb_ofsen</property>
                 <accessibility>
                   <relation type="labelled-by" target="ofslabel1"/>
@@ -2501,12 +2486,12 @@
         <child>
           <object class="GtkBox" id="ofshbox2">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="ofslabel2">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Boot Partition:</property>
                 <property name="xalign">0</property>
               </object>
@@ -2520,11 +2505,11 @@
               <object class="GtkRadioButton" id="rb_bpro">
                 <property name="label" translatable="yes">Read-only</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="tooltip_text" translatable="yes">Make the boot partition read-only</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="tooltip-text" translatable="yes">Make the boot partition read-only</property>
                 <property name="active">True</property>
-                <property name="draw_indicator">True</property>
+                <property name="draw-indicator">True</property>
                 <accessibility>
                   <relation type="labelled-by" target="ofslabel2"/>
                 </accessibility>
@@ -2539,11 +2524,11 @@
               <object class="GtkRadioButton" id="rb_bprw">
                 <property name="label" translatable="yes">Read-write</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="tooltip_text" translatable="yes">Make the boot partition writable</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="tooltip-text" translatable="yes">Make the boot partition writable</property>
                 <property name="active">True</property>
-                <property name="draw_indicator">True</property>
+                <property name="draw-indicator">True</property>
                 <property name="group">rb_bpro</property>
                 <accessibility>
                   <relation type="labelled-by" target="ofslabel2"/>
@@ -2565,7 +2550,7 @@
         <child>
           <object class="GtkLabel" id="ofslabel3">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="label" translatable="yes">Changes will not take effect until a reboot</property>
             <property name="xalign">0</property>
           </object>
@@ -2591,33 +2576,30 @@
     </widgets>
   </object>
   <object class="GtkDialog" id="passwddlg">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
+    <property name="can-focus">False</property>
+    <property name="border-width">5</property>
     <property name="title" translatable="yes">Change Password</property>
     <property name="resizable">False</property>
-    <property name="icon_name">rpi</property>
-    <property name="type_hint">dialog</property>
-    <child>
-      <placeholder/>
-    </child>
+    <property name="icon-name">rpi</property>
+    <property name="type-hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="pwddlg_vbox">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="pwddlg_action_area">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
+            <property name="can-focus">False</property>
+            <property name="layout-style">end</property>
             <child>
               <object class="GtkButton" id="passwdcancel">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2629,10 +2611,10 @@
               <object class="GtkButton" id="passwdok">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <property name="image_position">bottom</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
+                <property name="image-position">bottom</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2650,12 +2632,12 @@
         <child>
           <object class="GtkBox" id="pwhbox1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="pwlabel1">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Enter new password:</property>
                 <property name="xalign">0</property>
               </object>
@@ -2668,9 +2650,9 @@
             <child>
               <object class="GtkEntry" id="pwentry1">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
+                <property name="can-focus">True</property>
+                <property name="primary-icon-activatable">False</property>
+                <property name="secondary-icon-activatable">False</property>
                 <accessibility>
                   <relation type="labelled-by" target="pwlabel1"/>
                 </accessibility>
@@ -2691,12 +2673,12 @@
         <child>
           <object class="GtkBox" id="pwhbox2">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="pwlabel2">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Confirm new password:</property>
                 <property name="xalign">0</property>
               </object>
@@ -2709,9 +2691,9 @@
             <child>
               <object class="GtkEntry" id="pwentry2">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
+                <property name="can-focus">True</property>
+                <property name="primary-icon-activatable">False</property>
+                <property name="secondary-icon-activatable">False</property>
                 <accessibility>
                   <relation type="labelled-by" target="pwlabel2"/>
                 </accessibility>
@@ -2743,33 +2725,30 @@
     </widgets>
   </object>
   <object class="GtkDialog" id="resdlg">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
+    <property name="can-focus">False</property>
+    <property name="border-width">5</property>
     <property name="title" translatable="yes">Set Resolution</property>
     <property name="resizable">False</property>
-    <property name="icon_name">rpi</property>
-    <property name="type_hint">dialog</property>
-    <child>
-      <placeholder/>
-    </child>
+    <property name="icon-name">rpi</property>
+    <property name="type-hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="resdlg_vbox">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="resdlg_action_area">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
+            <property name="can-focus">False</property>
+            <property name="layout-style">end</property>
             <child>
               <object class="GtkButton" id="rescancel">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2781,9 +2760,9 @@
               <object class="GtkButton" id="resok">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2801,12 +2780,12 @@
         <child>
           <object class="GtkBox" id="reshbox">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="reslabel">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Resolution:</property>
                 <property name="xalign">0</property>
               </object>
@@ -2819,7 +2798,7 @@
             <child>
               <object class="GtkComboBoxText" id="rescb">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <accessibility>
                   <relation type="labelled-by" target="reslabel"/>
                 </accessibility>
@@ -2845,33 +2824,30 @@
     </action-widgets>
   </object>
   <object class="GtkDialog" id="tzdlg">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
+    <property name="can-focus">False</property>
+    <property name="border-width">5</property>
     <property name="title" translatable="yes">Timezone</property>
     <property name="resizable">False</property>
-    <property name="icon_name">rpi</property>
-    <property name="type_hint">dialog</property>
-    <child>
-      <placeholder/>
-    </child>
+    <property name="icon-name">rpi</property>
+    <property name="type-hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="tzdlg_vbox">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="tzdlg_action_area">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
+            <property name="can-focus">False</property>
+            <property name="layout-style">end</property>
             <child>
               <object class="GtkButton" id="tzcancel">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2883,9 +2859,9 @@
               <object class="GtkButton" id="tzok">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2903,12 +2879,12 @@
         <child>
           <object class="GtkBox" id="tzhbox1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="tzarealabel">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Area:</property>
                 <property name="xalign">0</property>
               </object>
@@ -2921,7 +2897,7 @@
             <child>
               <object class="GtkComboBox" id="tzcbarea">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <accessibility>
                   <relation type="labelled-by" target="tzarealabel"/>
                 </accessibility>
@@ -2942,12 +2918,12 @@
         <child>
           <object class="GtkBox" id="tzhbox2">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="tzloclabel">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Location:</property>
                 <property name="xalign">0</property>
               </object>
@@ -2960,7 +2936,7 @@
             <child>
               <object class="GtkComboBox" id="tzcbloc">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <accessibility>
                   <relation type="labelled-by" target="tzloclabel"/>
                 </accessibility>
@@ -2992,33 +2968,30 @@
     </widgets>
   </object>
   <object class="GtkDialog" id="wcdlg">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
+    <property name="can-focus">False</property>
+    <property name="border-width">5</property>
     <property name="title" translatable="yes">WiFi Country Code</property>
     <property name="resizable">False</property>
-    <property name="icon_name">rpi</property>
-    <property name="type_hint">dialog</property>
-    <child>
-      <placeholder/>
-    </child>
+    <property name="icon-name">rpi</property>
+    <property name="type-hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="wcdlg_vbox">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="wcdlg_action_area">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
+            <property name="can-focus">False</property>
+            <property name="layout-style">end</property>
             <child>
               <object class="GtkButton" id="wccancel">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -3030,9 +3003,9 @@
               <object class="GtkButton" id="wcok">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -3050,12 +3023,12 @@
         <child>
           <object class="GtkBox" id="wchbox1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">10</property>
             <child>
               <object class="GtkLabel" id="wccountrylabel">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Country:</property>
                 <property name="xalign">0</property>
               </object>
@@ -3068,7 +3041,7 @@
             <child>
               <object class="GtkComboBoxText" id="wccbcountry">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <accessibility>
                   <relation type="labelled-by" target="wccountrylabel"/>
                 </accessibility>
