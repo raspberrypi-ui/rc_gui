@@ -1918,8 +1918,6 @@ int main (int argc, char *argv[])
     if (has_wifi ()) gtk_widget_set_sensitive (GTK_WIDGET (wifi_btn), TRUE);
     else gtk_widget_set_sensitive (GTK_WIDGET (wifi_btn), FALSE);
 
-//#define CONFIG_SWITCH(wid,name,var,cmd) {wid=gtk_builder_get_object(builder,name);gtk_switch_set_active(GTK_SWITCH(wid),!(var=get_status(cmd)));}
-
     CONFIG_SWITCH (splash_sw, "sw_splash", orig_splash, GET_SPLASH);
     CONFIG_SWITCH (alogin_sw, "sw_alogin", orig_autolog, GET_AUTOLOGIN);
     CONFIG_SWITCH (netwait_sw, "sw_netwait", orig_netwait, GET_BOOT_WAIT);
