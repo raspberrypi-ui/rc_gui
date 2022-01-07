@@ -561,40 +561,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_alogin_on">
-                        <property name="label" translatable="yes">Login as user 'pi'</property>
+                      <object class="GtkSwitch" id="sw_alogin">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Automatically log in the default user (pi)</property>
-                        <property name="draw-indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label14"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_alogin_off">
-                        <property name="label" translatable="yes">Disabled</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Prompt for password at boot</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_alogin_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label14"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -612,7 +587,7 @@
                       <object class="GtkLabel" id="label15">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Network at Boot:</property>
+                        <property name="label" translatable="yes">Wait for Network:</property>
                         <property name="xalign">0</property>
                       </object>
                       <packing>
@@ -622,40 +597,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_netwait_on">
-                        <property name="label" translatable="yes">Wait for network</property>
+                      <object class="GtkSwitch" id="sw_netwait">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Do not complete boot until network connection is established</property>
-                        <property name="draw-indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label15"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_netwait_off">
-                        <property name="label" translatable="yes">Do not wait</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Do not wait for network connection during boot</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_netwait_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label15"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -683,42 +633,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_splash_on">
-                        <property name="label" translatable="yes">Enable</property>
+                      <object class="GtkSwitch" id="sw_splash">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Show graphical splash screen at boot</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label16"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_splash_off">
-                        <property name="label" translatable="yes">Disable</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Show text messages at boot</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_splash_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label16"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -874,42 +797,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_os_on">
-                        <property name="label" translatable="yes">Enable</property>
+                      <object class="GtkSwitch" id="sw_os">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Enable overscan to show the edges of the screen</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label52"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_os_off">
-                        <property name="label" translatable="yes">Disable</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Disable overscan to hide black outline on screen</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_os_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label52"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -937,42 +833,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_pd_on">
-                        <property name="label" translatable="yes">Enable</property>
+                      <object class="GtkSwitch" id="sw_pd">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Enable pixel doubling to improve usability on high-res screens</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label53"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_pd_off">
-                        <property name="label" translatable="yes">Disable</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Disable pixel doubling for standard resolution screens</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_pd_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label53"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -1000,42 +869,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_blank_on">
-                        <property name="label" translatable="yes">Enable</property>
+                      <object class="GtkSwitch" id="sw_blank">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Blank the screen after a period of inactivity</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label54"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_blank_off">
-                        <property name="label" translatable="yes">Disable</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Never blank the screen</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_blank_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label54"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -1130,42 +972,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_ssh_on">
-                        <property name="label" translatable="yes">Enable</property>
+                      <object class="GtkSwitch" id="sw_ssh">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Enable remote access to this Pi via SSH</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label22"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_ssh_off">
-                        <property name="label" translatable="yes">Disable</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Disable remote access to this Pi via SSH</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_ssh_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label22"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -1193,42 +1008,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_vnc_on">
-                        <property name="label" translatable="yes">Enable</property>
+                      <object class="GtkSwitch" id="sw_vnc">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Enable remote access to this Pi using RealVNC</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label23"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_vnc_off">
-                        <property name="label" translatable="yes">Disable</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Disable remote access to this Pi using RealVNC</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_vnc_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label23"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -1256,42 +1044,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_spi_on">
-                        <property name="label" translatable="yes">Enable</property>
+                      <object class="GtkSwitch" id="sw_spi">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Enable the automatic loading of the SPI kernel module</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label24"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_spi_off">
-                        <property name="label" translatable="yes">Disable</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Disable the automatic loading of the SPI kernel module</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_spi_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label24"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -1319,42 +1080,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_i2c_on">
-                        <property name="label" translatable="yes">Enable</property>
+                      <object class="GtkSwitch" id="sw_i2c">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Enable the automatic loading of the I2C kernel module</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label25"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_i2c_off">
-                        <property name="label" translatable="yes">Disable</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Disable the automatic loading of the I2C kernel module</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_i2c_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label25"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -1382,42 +1116,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_ser_on">
-                        <property name="label" translatable="yes">Enable</property>
+                      <object class="GtkSwitch" id="sw_ser">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Enable the serial port over the GPIO pins</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label26"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_ser_off">
-                        <property name="label" translatable="yes">Disable</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Disable the serial port over the GPIO pins</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_ser_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label26"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -1445,42 +1152,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_serc_on">
-                        <property name="label" translatable="yes">Enable</property>
+                      <object class="GtkSwitch" id="sw_serc">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Enable shell and kernel messages on the serial connection</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label27"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_serc_off">
-                        <property name="label" translatable="yes">Disable</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Disable shell and kernel messages on the serial connection</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_serc_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label27"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -1508,42 +1188,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_one_on">
-                        <property name="label" translatable="yes">Enable</property>
+                      <object class="GtkSwitch" id="sw_one">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Enable 1-wire peripheral interface</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label28"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_one_off">
-                        <property name="label" translatable="yes">Disable</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Disable 1-wire peripheral interface</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_one_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label28"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -1571,42 +1224,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_rgp_on">
-                        <property name="label" translatable="yes">Enable</property>
+                      <object class="GtkSwitch" id="sw_rgp">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Enable remote access to GPIO pins</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label29"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_rgp_off">
-                        <property name="label" translatable="yes">Disable</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Disable remote access to GPIO pins</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_rgp_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label29"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -1785,42 +1411,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_fan_on">
-                        <property name="label" translatable="yes">Enable</property>
+                      <object class="GtkSwitch" id="sw_fan">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Enable a temperature-controlled fan on a GPIO pin</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label34"/>
-                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_fan_off">
-                        <property name="label" translatable="yes">Disable</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Disable GPIO fan</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_fan_on</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label34"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -2216,59 +1815,14 @@
   </object>
   <object class="GtkSizeGroup">
     <widgets>
-      <widget name="rb_desktop"/>
-      <widget name="rb_cli"/>
-      <widget name="rb_alogin_on"/>
-      <widget name="rb_alogin_off"/>
-      <widget name="rb_netwait_on"/>
-      <widget name="rb_netwait_off"/>
-      <widget name="rb_splash_on"/>
-      <widget name="rb_splash_off"/>
-      <widget name="rb_led_actpwr"/>
-      <widget name="rb_led_pwr"/>
-      <widget name="rb_fan_on"/>
-      <widget name="rb_fan_off"/>
-      <widget name="rb_os_on"/>
-      <widget name="rb_os_off"/>
-      <widget name="rb_pd_on"/>
-      <widget name="rb_pd_off"/>
-      <widget name="rb_blank_on"/>
-      <widget name="rb_blank_off"/>
-      <widget name="rb_ssh_on"/>
-      <widget name="rb_ssh_off"/>
-      <widget name="rb_vnc_on"/>
-      <widget name="rb_vnc_off"/>
-      <widget name="rb_spi_on"/>
-      <widget name="rb_spi_off"/>
-      <widget name="rb_i2c_on"/>
-      <widget name="rb_i2c_off"/>
-      <widget name="rb_ser_on"/>
-      <widget name="rb_ser_off"/>
-      <widget name="rb_serc_on"/>
-      <widget name="rb_serc_off"/>
-      <widget name="rb_one_on"/>
-      <widget name="rb_one_off"/>
-      <widget name="rb_rgp_on"/>
-      <widget name="rb_rgp_off"/>
-    </widgets>
-  </object>
-  <object class="GtkSizeGroup">
-    <widgets>
-      <widget name="tablabel1"/>
-      <widget name="tablabel2"/>
-      <widget name="tablabel3"/>
-      <widget name="tablabel4"/>
-      <widget name="tablabel5"/>
-    </widgets>
-  </object>
-  <object class="GtkSizeGroup">
-    <widgets>
       <widget name="button_pw"/>
       <widget name="entry_hn"/>
       <widget name="button_loc"/>
       <widget name="button_tz"/>
       <widget name="button_wifi"/>
       <widget name="button_kb"/>
+      <widget name="button_res"/>
+      <widget name="combo_res"/>
       <widget name="combo_oc"/>
       <widget name="button_ofs"/>
       <widget name="spin_gpu"/>
