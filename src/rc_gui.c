@@ -126,14 +126,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define DEFAULT_GPU_MEM "vcgencmd get_mem gpu | cut -d = -f 2 | cut -d M -f 1"
 #define CHANGE_PASSWD   "echo \"$SUDO_USER:%s\" | chpasswd"
 
+#define CONFIG_SWITCH(wid,name,var,cmd) wid = gtk_builder_get_object (builder,name); \
+                                        gtk_switch_set_active (GTK_SWITCH (wid), !(var = get_status(cmd)));
+
+#define READ_SWITCH(wid,var,cmd,reb)    if (var == gtk_switch_get_active (GTK_SWITCH (wid))) \
+                                        { \
+                                            vsystem (cmd, (1 - var)); \
+                                            if(reb) reboot = 1; \
+                                        }
+
 /* Controls */
 
 static GObject *passwd_btn, *res_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
-static GObject *boot_desktop_rb, *boot_cli_rb, *pixdub_on_rb, *pixdub_off_rb;
-static GObject *overscan_on_rb, *overscan_off_rb, *ssh_on_rb, *ssh_off_rb, *rgpio_on_rb, *rgpio_off_rb, *vnc_on_rb, *vnc_off_rb;
-static GObject *spi_on_rb, *spi_off_rb, *i2c_on_rb, *i2c_off_rb, *serial_on_rb, *serial_off_rb, *onewire_on_rb, *onewire_off_rb;
-static GObject *alogin_on_rb, *alogin_off_rb, *netwait_on_rb, *netwait_off_rb, *splash_on_rb, *splash_off_rb, *scons_on_rb, *scons_off_rb;
-static GObject *blank_on_rb, *blank_off_rb, *led_pwr_rb, *led_actpwr_rb, *fan_on_rb, *fan_off_rb;
+static GObject *boot_desktop_rb, *boot_cli_rb, *pixdub_sw;
+static GObject *overscan_sw, *ssh_sw, *rgpio_sw, *vnc_sw;
+static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw;
+static GObject *alogin_sw, *netwait_sw, *splash_sw, *scons_sw;
+static GObject *blank_sw, *led_pwr_rb, *led_actpwr_rb, *fan_sw;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_rb, *ofs_dis_rb, *bp_ro_rb, *bp_rw_rb, *ofs_lbl;
 static GObject *fan_gpio_sb, *fan_temp_sb, *vnc_res_cb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
@@ -1618,44 +1627,38 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
 
 /* Button handlers */
 
-static void on_boot_toggle (GtkButton* btn, gpointer ptr)
+static void on_boot_toggle (GtkButton *btn, gpointer ptr)
 {
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
     {
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (splash_off_rb), TRUE);
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_on_rb), FALSE);
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), FALSE);
+        gtk_switch_set_active (GTK_SWITCH (splash_sw), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
     }
     else
     {
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_on_rb), TRUE);
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), TRUE);
     }
 }
 
-static void on_serial_toggle (GtkButton* btn, gpointer ptr)
+static void on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
+    if (state)
     {
-        gtk_widget_set_sensitive (GTK_WIDGET (scons_on_rb), TRUE);
-        gtk_widget_set_sensitive (GTK_WIDGET (scons_off_rb), TRUE);
-        gtk_widget_set_tooltip_text (GTK_WIDGET (scons_on_rb), _("Enable shell and kernel messages on the serial connection"));
-        gtk_widget_set_tooltip_text (GTK_WIDGET (scons_off_rb), _("Disable shell and kernel messages on the serial connection"));
+        gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), TRUE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("Enable shell and kernel messages on the serial connection"));
     }
     else
     {
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scons_off_rb), TRUE);
-        gtk_widget_set_sensitive (GTK_WIDGET (scons_on_rb), FALSE);
-        gtk_widget_set_sensitive (GTK_WIDGET (scons_off_rb), FALSE);
-        gtk_widget_set_tooltip_text (GTK_WIDGET (scons_on_rb), _("This setting cannot be changed while the serial port is disabled"));
-        gtk_widget_set_tooltip_text (GTK_WIDGET (scons_off_rb), _("This setting cannot be changed while the serial port is disabled"));
+        gtk_switch_set_active (GTK_SWITCH (scons_sw), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), FALSE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("This setting cannot be changed while the serial port is disabled"));
     }
 }
 
-static void on_fan_toggle (GtkButton* btn, gpointer ptr)
+static void on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
-    gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)));
-    gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)));
+    gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), state);
+    gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), state);
 }
 
 /* Write the changes to the system when OK is pressed */
@@ -1665,9 +1668,9 @@ static int process_changes (void)
     int reboot = 0;
 
     if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)) 
-        || orig_autolog == gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (alogin_on_rb)))
+        || orig_autolog == gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
     {
-        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (alogin_on_rb)))
+        if (gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
         {
             if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUIA);
             else vsystem (SET_BOOT_CLIA);
@@ -1678,21 +1681,12 @@ static int process_changes (void)
             else vsystem (SET_BOOT_CLI);
         }
     }
-    
-    if (orig_netwait != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (netwait_off_rb)))
-    {
-        vsystem (SET_BOOT_WAIT, (1 - orig_netwait));
-    }
 
-    if (orig_splash != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (splash_off_rb)))
-    {
-        vsystem (SET_SPLASH, (1 - orig_splash));
-    }
-
-    if (orig_ssh != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ssh_off_rb)))
-    {
-        vsystem (SET_SSH, (1 - orig_ssh));
-    }
+    READ_SWITCH (netwait_sw, orig_netwait, SET_BOOT_WAIT, FALSE);
+    READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
+    READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
+    READ_SWITCH (pixdub_sw, orig_pixdub, SET_PIXDUB, TRUE);
+    READ_SWITCH (blank_sw, orig_blank, SET_BLANK, TRUE);
 
     if (g_strcmp0 (orig_hostname, gtk_entry_get_text (GTK_ENTRY (hostname_tb))))
     {
@@ -1700,65 +1694,28 @@ static int process_changes (void)
         reboot = 1;
     }
 
-    if (orig_pixdub != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pixdub_off_rb)))
-    {
-        vsystem (SET_PIXDUB, (1 - orig_pixdub));
-        reboot = 1;
-    }
-
-    if (orig_blank != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (blank_off_rb)))
-    {
-        vsystem (SET_BLANK, (1 - orig_blank));
-        reboot = 1;
-    }
-
     if (!vsystem (IS_PI))
     {
-        if (orig_overscan != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (overscan_off_rb)))
-        {
-            vsystem (SET_OVERSCAN, (1 - orig_overscan));
-            reboot = 1;
-        }
+        READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, TRUE);
+        READ_SWITCH (vnc_sw, orig_vnc, SET_VNC, FALSE);
+        READ_SWITCH (spi_sw, orig_spi, SET_SPI, FALSE);
+        READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
+        READ_SWITCH (onewire_sw, orig_onewire, SET_1WIRE, TRUE);
+        READ_SWITCH (rgpio_sw, orig_rgpio, SET_RGPIO, FALSE);
 
-        if (orig_vnc != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (vnc_off_rb)))
+        if (orig_serial == gtk_switch_get_active (GTK_SWITCH (serial_sw)) ||
+            orig_scons == gtk_switch_get_active (GTK_SWITCH (scons_sw)))
         {
-            vsystem (SET_VNC, (1 - orig_vnc));
-        }
-
-        if (orig_spi != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (spi_off_rb)))
-        {
-            vsystem (SET_SPI, (1 - orig_spi));
-        }
-
-        if (orig_i2c != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (i2c_off_rb)))
-        {
-            vsystem (SET_I2C, (1 - orig_i2c));
-        }
-
-        if (orig_serial != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (serial_off_rb)) ||
-            orig_scons != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scons_off_rb)))
-        {
-            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (serial_off_rb)))
+            if (!gtk_switch_get_active (GTK_SWITCH (serial_sw)))
                 vsystem (SET_SERIAL, 1);
             else
             {
-                if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scons_off_rb)))
+                if (!gtk_switch_get_active (GTK_SWITCH (scons_sw)))
                     vsystem (SET_SERIAL, 2);
                 else
                     vsystem (SET_SERIAL, 0);
             }
             reboot = 1;
-        }
-
-        if (orig_onewire != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (onewire_off_rb)))
-        {
-            vsystem (SET_1WIRE, (1 - orig_onewire));
-            reboot = 1;
-        }
-
-        if (orig_rgpio != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rgpio_off_rb)))
-        {
-            vsystem (SET_RGPIO, (1 - orig_rgpio));
         }
 
         if (orig_gpumem != gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)))
@@ -1816,7 +1773,7 @@ static int process_changes (void)
 
         int fan_gpio = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_gpio_sb));
         int fan_temp = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_temp_sb));
-        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (fan_off_rb)))
+        if (!gtk_switch_get_active (GTK_SWITCH (fan_sw)))
         {
             if (orig_fan == 0) vsystem (SET_FAN, 1, 0, 0);
         }
@@ -1961,10 +1918,14 @@ int main (int argc, char *argv[])
     if (has_wifi ()) gtk_widget_set_sensitive (GTK_WIDGET (wifi_btn), TRUE);
     else gtk_widget_set_sensitive (GTK_WIDGET (wifi_btn), FALSE);
 
-    splash_on_rb = gtk_builder_get_object (builder, "rb_splash_on");
-    splash_off_rb = gtk_builder_get_object (builder, "rb_splash_off");
-    if (orig_splash = get_status (GET_SPLASH)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (splash_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (splash_on_rb), TRUE);
+//#define CONFIG_SWITCH(wid,name,var,cmd) {wid=gtk_builder_get_object(builder,name);gtk_switch_set_active(GTK_SWITCH(wid),!(var=get_status(cmd)));}
+
+    CONFIG_SWITCH (splash_sw, "sw_splash", orig_splash, GET_SPLASH);
+    CONFIG_SWITCH (alogin_sw, "sw_alogin", orig_autolog, GET_AUTOLOGIN);
+    CONFIG_SWITCH (netwait_sw, "sw_netwait", orig_netwait, GET_BOOT_WAIT);
+    CONFIG_SWITCH (ssh_sw, "sw_ssh", orig_ssh, GET_SSH);
+    CONFIG_SWITCH (pixdub_sw, "sw_pd", orig_pixdub, GET_PIXDUB);
+    CONFIG_SWITCH (blank_sw, "sw_blank", orig_blank, GET_BLANK);
 
     boot_desktop_rb = gtk_builder_get_object (builder, "rb_desktop");
     boot_cli_rb = gtk_builder_get_object (builder, "rb_cli");
@@ -1972,51 +1933,22 @@ int main (int argc, char *argv[])
     if (orig_boot = get_status (GET_BOOT_CLI))
     {
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_on_rb), TRUE);
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), TRUE);
     }
     else
     {
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_on_rb), FALSE);
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
     }
-
-    alogin_on_rb = gtk_builder_get_object (builder, "rb_alogin_on");
-    alogin_off_rb = gtk_builder_get_object (builder, "rb_alogin_off");
-    if (orig_autolog = get_status (GET_AUTOLOGIN)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (alogin_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (alogin_on_rb), TRUE);
-
-    netwait_on_rb = gtk_builder_get_object (builder, "rb_netwait_on");
-    netwait_off_rb = gtk_builder_get_object (builder, "rb_netwait_off");
-    if (orig_netwait = get_status (GET_BOOT_WAIT)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (netwait_on_rb), TRUE);
-
-    ssh_on_rb = gtk_builder_get_object (builder, "rb_ssh_on");
-    ssh_off_rb = gtk_builder_get_object (builder, "rb_ssh_off");
-    if (orig_ssh = get_status (GET_SSH)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssh_on_rb), TRUE);
 
     hostname_tb = gtk_builder_get_object (builder, "entry_hn");
     orig_hostname = get_string (GET_HOSTNAME);
     gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hostname);
 
-    pixdub_on_rb = gtk_builder_get_object (builder, "rb_pd_on");
-    pixdub_off_rb = gtk_builder_get_object (builder, "rb_pd_off");
-    if (orig_pixdub = get_status (GET_PIXDUB)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pixdub_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pixdub_on_rb), TRUE);
-
-    blank_on_rb = gtk_builder_get_object (builder, "rb_blank_on");
-    blank_off_rb = gtk_builder_get_object (builder, "rb_blank_off");
-    if (orig_blank = get_status (GET_BLANK)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (blank_off_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (blank_on_rb), TRUE);
-
     if (!vsystem (XSCR_INSTALLED))
     {
-        gtk_widget_set_sensitive (GTK_WIDGET (blank_on_rb), FALSE);
-        gtk_widget_set_sensitive (GTK_WIDGET (blank_off_rb), FALSE);
-        gtk_widget_set_tooltip_text (GTK_WIDGET (blank_on_rb), _("This setting is overridden when Xscreensaver is installed"));
-        gtk_widget_set_tooltip_text (GTK_WIDGET (blank_off_rb), _("This setting is overridden when Xscreensaver is installed"));
+        gtk_widget_set_sensitive (GTK_WIDGET (blank_sw), FALSE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (blank_sw), _("This setting is overridden when Xscreensaver is installed"));
     }
 
     if (!vsystem (IS_PI))
@@ -2024,68 +1956,34 @@ int main (int argc, char *argv[])
         res_btn = gtk_builder_get_object (builder, "button_res");
         g_signal_connect (res_btn, "clicked", G_CALLBACK (on_set_res), NULL);
 
-        overscan_on_rb = gtk_builder_get_object (builder, "rb_os_on");
-        overscan_off_rb = gtk_builder_get_object (builder, "rb_os_off");
-        if (orig_overscan = get_status (GET_OVERSCAN)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overscan_off_rb), TRUE);
-        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overscan_on_rb), TRUE);
+        CONFIG_SWITCH (overscan_sw, "sw_os", orig_overscan, GET_OVERSCAN);
+        CONFIG_SWITCH (spi_sw, "sw_spi", orig_spi, GET_SPI);
+        CONFIG_SWITCH (i2c_sw, "sw_i2c", orig_i2c, GET_I2C);
+        CONFIG_SWITCH (onewire_sw, "sw_one", orig_onewire, GET_1WIRE);
+        CONFIG_SWITCH (rgpio_sw, "sw_rgp", orig_rgpio, GET_RGPIO);
+        CONFIG_SWITCH (vnc_sw, "sw_vnc", orig_vnc, GET_VNC);
+        CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIAL);
 
-        spi_on_rb = gtk_builder_get_object (builder, "rb_spi_on");
-        spi_off_rb = gtk_builder_get_object (builder, "rb_spi_off");
-        if (orig_spi = get_status (GET_SPI)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_off_rb), TRUE);
-        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spi_on_rb), TRUE);
-
-        i2c_on_rb = gtk_builder_get_object (builder, "rb_i2c_on");
-        i2c_off_rb = gtk_builder_get_object (builder, "rb_i2c_off");
-        if (orig_i2c = get_status (GET_I2C)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_off_rb), TRUE);
-        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (i2c_on_rb), TRUE);
-
-        serial_on_rb = gtk_builder_get_object (builder, "rb_ser_on");
-        serial_off_rb = gtk_builder_get_object (builder, "rb_ser_off");
-        g_signal_connect (serial_on_rb, "toggled", G_CALLBACK (on_serial_toggle), NULL);
-        scons_on_rb = gtk_builder_get_object (builder, "rb_serc_on");
-        scons_off_rb = gtk_builder_get_object (builder, "rb_serc_off");
+        serial_sw = gtk_builder_get_object (builder, "sw_ser");
+        g_signal_connect (serial_sw, "state-set", G_CALLBACK (on_serial_toggle), NULL);
         if (orig_serial = get_status (GET_SERIALHW))
         {
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_off_rb), TRUE);
-            gtk_widget_set_sensitive (GTK_WIDGET (scons_on_rb), FALSE);
-            gtk_widget_set_sensitive (GTK_WIDGET (scons_off_rb), FALSE);
-            gtk_widget_set_tooltip_text (GTK_WIDGET (scons_on_rb), _("This setting cannot be changed while the serial port is disabled"));
-            gtk_widget_set_tooltip_text (GTK_WIDGET (scons_off_rb), _("This setting cannot be changed while the serial port is disabled"));
+            gtk_switch_set_active (GTK_SWITCH (serial_sw), FALSE);
+            gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), FALSE);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("This setting cannot be changed while the serial port is disabled"));
         }
         else
         {
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (serial_on_rb), TRUE);
-            gtk_widget_set_sensitive (GTK_WIDGET (scons_on_rb), TRUE);
-            gtk_widget_set_sensitive (GTK_WIDGET (scons_off_rb), TRUE);
-            gtk_widget_set_tooltip_text (GTK_WIDGET (scons_on_rb), _("Enable shell and kernel messages on the serial connection"));
-            gtk_widget_set_tooltip_text (GTK_WIDGET (scons_off_rb), _("Disable shell and kernel messages on the serial connection"));
+            gtk_switch_set_active (GTK_SWITCH (serial_sw), TRUE);
+            gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), TRUE);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("Enable shell and kernel messages on the serial connection"));
         }
-
-        if (orig_scons = get_status (GET_SERIAL)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scons_off_rb), TRUE);
-        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scons_on_rb), TRUE);
-
-        onewire_on_rb = gtk_builder_get_object (builder, "rb_one_on");
-        onewire_off_rb = gtk_builder_get_object (builder, "rb_one_off");
-        if (orig_onewire = get_status (GET_1WIRE)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (onewire_off_rb), TRUE);
-        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (onewire_on_rb), TRUE);
-
-        rgpio_on_rb = gtk_builder_get_object (builder, "rb_rgp_on");
-        rgpio_off_rb = gtk_builder_get_object (builder, "rb_rgp_off");
-        if (orig_rgpio = get_status (GET_RGPIO)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rgpio_off_rb), TRUE);
-        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rgpio_on_rb), TRUE);
-
-        vnc_on_rb = gtk_builder_get_object (builder, "rb_vnc_on");
-        vnc_off_rb = gtk_builder_get_object (builder, "rb_vnc_off");
-        if (orig_vnc = get_status (GET_VNC)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vnc_off_rb), TRUE);
-        else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vnc_on_rb), TRUE);
 
         // disable the buttons if RealVNC isn't installed
         if (vsystem (VNC_INSTALLED))
         {
-            gtk_widget_set_sensitive (GTK_WIDGET (vnc_on_rb), FALSE);
-            gtk_widget_set_sensitive (GTK_WIDGET (vnc_off_rb), FALSE);
-            gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_on_rb), _("The VNC server is not installed"));
-            gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_off_rb), _("The VNC server is not installed"));
+            gtk_widget_set_sensitive (GTK_WIDGET (vnc_sw), FALSE);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_sw), _("The VNC server is not installed"));
         }
 
         led_pwr_rb = gtk_builder_get_object (builder, "rb_led_pwr");
@@ -2098,23 +1996,22 @@ int main (int argc, char *argv[])
             else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (led_actpwr_rb), TRUE);
         }
 
-        fan_on_rb = gtk_builder_get_object (builder, "rb_fan_on");
-        fan_off_rb = gtk_builder_get_object (builder, "rb_fan_off");
+        fan_sw = gtk_builder_get_object (builder, "sw_fan");
         fan_gpio_sb = gtk_builder_get_object (builder, "sb_fan_gpio");
         fan_temp_sb = gtk_builder_get_object (builder, "sb_fan_temp");
         if (orig_fan = get_status (GET_FAN))
         {
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (fan_off_rb), TRUE);
+            gtk_switch_set_active (GTK_SWITCH (fan_sw), FALSE);
             gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), FALSE);
             gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), FALSE);
         }
         else
         {
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (fan_on_rb), TRUE);
+            gtk_switch_set_active (GTK_SWITCH (fan_sw), TRUE);
             gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), TRUE);
             gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), TRUE);
         }
-        g_signal_connect (fan_on_rb, "toggled", G_CALLBACK (on_fan_toggle), NULL);
+        g_signal_connect (fan_sw, "state-set", G_CALLBACK (on_fan_toggle), NULL);
 
         gadj = gtk_adjustment_new (14, 2, 27, 1, 1, 0);
         gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (fan_gpio_sb), GTK_ADJUSTMENT (gadj));
@@ -2216,8 +2113,7 @@ int main (int argc, char *argv[])
     {
         if (!get_status ("grep -q boot=live /proc/cmdline ; echo $?"))
         {
-            gtk_widget_set_sensitive (GTK_WIDGET (splash_on_rb), FALSE);
-            gtk_widget_set_sensitive (GTK_WIDGET (splash_off_rb), FALSE);
+            gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
         }
 
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "vbox30")));
