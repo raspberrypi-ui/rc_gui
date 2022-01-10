@@ -252,7 +252,7 @@ msgstr "As current user"
 
 #: ../data/rc_gui.ui.h:22
 msgid "Automatically log in the default user (pi)"
-msgstr "Automatically log in the current user"
+msgstr "Enable to automatically log in the current user at boot"
 
 #: ../data/rc_gui.ui.h:23
 msgid "Disabled"
@@ -272,7 +272,7 @@ msgstr "Wait for network"
 
 #: ../data/rc_gui.ui.h:27
 msgid "Do not complete boot until network connection is established"
-msgstr "Do not complete boot until network connection is established"
+msgstr "Enable to prevent boot from completing until network has connected"
 
 #: ../data/rc_gui.ui.h:28
 msgid "Do not wait"
@@ -292,7 +292,7 @@ msgstr "Enabled"
 
 #: ../data/rc_gui.ui.h:32
 msgid "Show graphical splash screen at boot"
-msgstr "Show graphical splash screen at boot"
+msgstr "Enable to show graphical splash screen at boot"
 
 #: ../data/rc_gui.ui.h:33
 msgid "Disable"
@@ -368,7 +368,7 @@ msgstr "Screen Blanking:"
 
 #: ../data/rc_gui.ui.h:51
 msgid "Blank the screen after a period of inactivity"
-msgstr "Blank the screen after a period of inactivity"
+msgstr "Enable to blank the screen after a period of inactivity"
 
 #: ../data/rc_gui.ui.h:52
 msgid "Never blank the screen"
