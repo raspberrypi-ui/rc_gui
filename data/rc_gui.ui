@@ -565,6 +565,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Automatically log in the default user (pi)</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label14"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -601,6 +604,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Do not complete boot until network connection is established</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label15"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -637,6 +643,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Show graphical splash screen at boot</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label16"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -801,6 +810,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Enable overscan to show the edges of the screen</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label52"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -837,6 +849,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Enable pixel doubling to improve usability on high-res screens</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label53"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -873,6 +888,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Blank the screen after a period of inactivity</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label54"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -976,6 +994,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Enable remote access to this Pi via SSH</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label22"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1012,6 +1033,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Enable remote access to this Pi using RealVNC</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label23"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1048,6 +1072,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Enable the automatic loading of the SPI kernel module</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label24"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1084,6 +1111,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Enable the automatic loading of the I2C kernel module</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label25"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1120,6 +1150,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Enable the serial port over the GPIO pins</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label26"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1156,6 +1189,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Enable shell and kernel messages on the serial connection</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label27"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1192,6 +1228,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Enable 1-wire peripheral interface</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label28"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1228,6 +1267,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Enable remote access to GPIO pins</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label29"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1415,6 +1457,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Enable a temperature-controlled fan on a GPIO pin</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label34"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
