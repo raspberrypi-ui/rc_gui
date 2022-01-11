@@ -110,9 +110,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_PI4_ATV     "raspi-config nonint do_pi4video V2"
 #define SET_PI4_NONE    "raspi-config nonint do_pi4video V3"
 #define GET_PI4_VID     "raspi-config nonint get_pi4video"
-#define GET_OVERLAYNOW  "raspi-config nonint get_overlay_now"
-#define GET_OVERLAY     "raspi-config nonint get_overlay_conf"
-#define GET_BOOTRO      "raspi-config nonint get_bootro_conf"
+#define GET_OVERLAYNOW  "raspi-config nonint get_overlay_now; echo $?"
+#define GET_OVERLAY     "raspi-config nonint get_overlay_conf; echo $?"
+#define GET_BOOTRO      "raspi-config nonint get_bootro_conf; echo $?"
 #define SET_OFS_ON      "raspi-config nonint enable_overlayfs"
 #define SET_OFS_OFF     "raspi-config nonint disable_overlayfs"
 #define SET_BOOTP_RO    "raspi-config nonint enable_bootro"
@@ -126,13 +126,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define DEFAULT_GPU_MEM "vcgencmd get_mem gpu | cut -d = -f 2 | cut -d M -f 1"
 #define CHANGE_PASSWD   "echo \"$SUDO_USER:%s\" | chpasswd"
 
-#define CONFIG_SWITCH(wid,name,var,cmd) wid = gtk_builder_get_object (builder,name); \
-                                        gtk_switch_set_active (GTK_SWITCH (wid), !(var = get_status(cmd)));
+#define CONFIG_SWITCH(wid,name,var,cmd) wid = gtk_builder_get_object (builder, name); \
+                                        gtk_switch_set_active (GTK_SWITCH (wid), !(var = get_status (cmd)));
 
 #define READ_SWITCH(wid,var,cmd,reb)    if (var == gtk_switch_get_active (GTK_SWITCH (wid))) \
                                         { \
                                             vsystem (cmd, (1 - var)); \
-                                            if(reb) reboot = 1; \
+                                            if (reb) reboot = 1; \
                                         }
 
 /* Controls */
@@ -143,7 +143,7 @@ static GObject *overscan_sw, *ssh_sw, *rgpio_sw, *vnc_sw;
 static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw;
 static GObject *alogin_sw, *netwait_sw, *splash_sw, *scons_sw;
 static GObject *blank_sw, *led_pwr_rb, *led_actpwr_rb, *fan_sw;
-static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_rb, *ofs_dis_rb, *bp_ro_rb, *bp_rw_rb, *ofs_lbl;
+static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_sw, *bp_ro_sw, *ofs_lbl;
 static GObject *fan_gpio_sb, *fan_temp_sb, *vnc_res_cb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
 static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
@@ -1535,18 +1535,12 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 
 /* Overlay file system setting */
 
-static void on_overlay_fs (GtkButton* btn, gpointer ptr)
+static void on_overlay_fs (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
     ovfs_rb = 0;
-    if (orig_ofs && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ofs_en_rb))) ovfs_rb = 1;
-    if (!orig_ofs && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ofs_dis_rb))) ovfs_rb = 1;
-    if (orig_bpro && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (bp_ro_rb))) ovfs_rb = 1;
-    if (!orig_bpro && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (bp_rw_rb))) ovfs_rb = 1;
-
-    if (ovfs_rb)
-        gtk_label_set_text (GTK_LABEL (ofs_lbl), _("Changes will not take effect until a reboot"));
-    else
-        gtk_label_set_text (GTK_LABEL (ofs_lbl), "");
+    if (orig_ofs == gtk_switch_get_active (GTK_SWITCH (ofs_en_sw))) ovfs_rb = 1;
+    if (orig_bpro == gtk_switch_get_active (GTK_SWITCH (bp_ro_sw))) ovfs_rb = 1;
+    gtk_widget_set_visible (GTK_WIDGET (ofs_lbl), ovfs_rb);
 }
 
 static gpointer initrd_thread (gpointer data)
@@ -1572,48 +1566,39 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "ofsdlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
-    ofs_en_rb = gtk_builder_get_object (builder, "rb_ofsen");
-    ofs_dis_rb = gtk_builder_get_object (builder, "rb_ofsdis");
-    bp_ro_rb = gtk_builder_get_object (builder, "rb_bpro");
-    bp_rw_rb = gtk_builder_get_object (builder, "rb_bprw");
+    CONFIG_SWITCH (ofs_en_sw, "sw_ofsen", orig_ofs, GET_OVERLAY);
+    CONFIG_SWITCH (bp_ro_sw, "sw_bpro", orig_bpro, GET_BOOTRO);
+
     ofs_lbl = gtk_builder_get_object (builder, "ofslabel3");
 
     g_object_unref (builder);
 
-    if (orig_ofs = vsystem (GET_OVERLAY)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ofs_dis_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ofs_en_rb), TRUE);
-
-    if (orig_bpro = vsystem (GET_BOOTRO)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bp_rw_rb), TRUE);
-    else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bp_ro_rb), TRUE);
-
-    if (vsystem (GET_OVERLAYNOW))
+    if (get_status (GET_OVERLAYNOW))
     {
-        gtk_widget_set_sensitive (GTK_WIDGET (bp_rw_rb), TRUE);
-        gtk_widget_set_sensitive (GTK_WIDGET (bp_ro_rb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (bp_ro_sw), TRUE);
     }
     else
     {
-        gtk_widget_set_sensitive (GTK_WIDGET (bp_rw_rb), FALSE);
-        gtk_widget_set_sensitive (GTK_WIDGET (bp_ro_rb), FALSE);
-        gtk_widget_set_tooltip_text (GTK_WIDGET (bp_rw_rb), _("The state of the boot partition cannot be changed while an overlay is active"));
-        gtk_widget_set_tooltip_text (GTK_WIDGET (bp_ro_rb), _("The state of the boot partition cannot be changed while an overlay is active"));
+        gtk_widget_set_sensitive (GTK_WIDGET (bp_ro_sw), FALSE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (bp_ro_sw), _("The state of the boot partition cannot be changed while an overlay is active"));
     }
 
-    g_signal_connect (ofs_en_rb, "toggled", G_CALLBACK (on_overlay_fs), NULL);
-    g_signal_connect (bp_ro_rb, "toggled", G_CALLBACK (on_overlay_fs), NULL);
-    gtk_label_set_text (GTK_LABEL (ofs_lbl), "");
+    g_signal_connect (ofs_en_sw, "state-set", G_CALLBACK (on_overlay_fs), NULL);
+    g_signal_connect (bp_ro_sw, "state-set", G_CALLBACK (on_overlay_fs), NULL);
+    gtk_widget_realize (GTK_WIDGET (ofs_lbl));
+    gtk_widget_hide (GTK_WIDGET (ofs_lbl));
 
     ovfs_rb = 0;
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
         if (ovfs_rb) needs_reboot = 1;
-        if (orig_bpro && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (bp_ro_rb)))
+        if (orig_bpro && gtk_switch_get_active (GTK_SWITCH (bp_ro_sw)))
             vsystem (SET_BOOTP_RO);
-        if (!orig_bpro && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (bp_rw_rb)))
+        if (!orig_bpro && !gtk_switch_get_active (GTK_SWITCH (bp_ro_sw)))
             vsystem (SET_BOOTP_RW);
-        if (!orig_ofs && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ofs_dis_rb)))
+        if (!orig_ofs && gtk_switch_get_active (GTK_SWITCH (ofs_en_sw)))
             vsystem (SET_OFS_OFF);
-        if (orig_ofs && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ofs_en_rb)))
+        if (orig_ofs && gtk_switch_get_active (GTK_SWITCH (ofs_en_sw)))
         {
             // warn about a short delay...
             message (_("Setting up overlay - please wait..."));

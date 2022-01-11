@@ -2037,14 +2037,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkRadioButton" id="rb_ofsen">
-                <property name="label" translatable="yes">Enabled</property>
+              <object class="GtkSwitch" id="sw_ofsen">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
                 <property name="tooltip-text" translatable="yes">Enable a file system overlay; all changes will be lost on reboot</property>
-                <property name="active">True</property>
-                <property name="draw-indicator">True</property>
                 <accessibility>
                   <relation type="labelled-by" target="ofslabel1"/>
                 </accessibility>
@@ -2053,26 +2049,6 @@
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkRadioButton" id="rb_ofsdis">
-                <property name="label" translatable="yes">Disabled</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
-                <property name="tooltip-text" translatable="yes">Disable a file system overlay; changes will be saved to the SD card</property>
-                <property name="active">True</property>
-                <property name="draw-indicator">True</property>
-                <property name="group">rb_ofsen</property>
-                <accessibility>
-                  <relation type="labelled-by" target="ofslabel1"/>
-                </accessibility>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
               </packing>
             </child>
           </object>
@@ -2101,14 +2077,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkRadioButton" id="rb_bpro">
-                <property name="label" translatable="yes">Read-only</property>
+              <object class="GtkSwitch" id="sw_bpro">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
                 <property name="tooltip-text" translatable="yes">Make the boot partition read-only</property>
-                <property name="active">True</property>
-                <property name="draw-indicator">True</property>
                 <accessibility>
                   <relation type="labelled-by" target="ofslabel2"/>
                 </accessibility>
@@ -2119,26 +2091,6 @@
                 <property name="position">1</property>
               </packing>
             </child>
-            <child>
-              <object class="GtkRadioButton" id="rb_bprw">
-                <property name="label" translatable="yes">Read-write</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
-                <property name="tooltip-text" translatable="yes">Make the boot partition writable</property>
-                <property name="active">True</property>
-                <property name="draw-indicator">True</property>
-                <property name="group">rb_bpro</property>
-                <accessibility>
-                  <relation type="labelled-by" target="ofslabel2"/>
-                </accessibility>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
           </object>
           <packing>
             <property name="expand">True</property>
@@ -2147,11 +2099,23 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="ofslabel3">
+          <object class="GtkBox" id="ofshbox3">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Changes will not take effect until a reboot</property>
-            <property name="xalign">0</property>
+            <property name="spacing">10</property>
+            <child>
+              <object class="GtkLabel" id="ofslabel3">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Changes will not take effect until a reboot</property>
+                <property name="xalign">0</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">True</property>
@@ -2168,10 +2132,16 @@
   </object>
   <object class="GtkSizeGroup">
     <widgets>
-      <widget name="rb_ofsen"/>
-      <widget name="rb_ofsdis"/>
-      <widget name="rb_bpro"/>
-      <widget name="rb_bprw"/>
+      <widget name="sw_ofsen"/>
+      <widget name="sw_bpro"/>
+    </widgets>
+  </object>
+  <object class="GtkSizeGroup">
+    <property name="mode">vertical</property>
+    <widgets>
+      <widget name="ofshbox1"/>
+      <widget name="ofshbox2"/>
+      <widget name="ofshbox3"/>
     </widgets>
   </object>
   <object class="GtkDialog" id="passwddlg">

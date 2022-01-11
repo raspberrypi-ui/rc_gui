@@ -612,7 +612,7 @@ msgstr "Overlay File System"
 
 #: ../data/rc_gui.ui.h:113
 msgid "Overlay:"
-msgstr "Overlay:"
+msgstr "Use Overlay:"
 
 #: ../data/rc_gui.ui.h:114
 msgid "Enabled"
@@ -628,7 +628,7 @@ msgstr "Disable a file system overlay; changes will be saved to the SD card"
 
 #: ../data/rc_gui.ui.h:117
 msgid "Boot Partition:"
-msgstr "Boot Partition:"
+msgstr "Write-protect Boot Partition:"
 
 #: ../data/rc_gui.ui.h:118
 msgid "Read-only"
