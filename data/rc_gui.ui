@@ -678,14 +678,10 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="rb_led_actpwr">
-                        <property name="label" translatable="yes">Activity</property>
+                      <object class="GtkSwitch" id="sw_led_actpwr">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
                         <property name="tooltip-text" translatable="yes">Flash the power LED on disk activity</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
                         <accessibility>
                           <relation type="labelled-by" target="label17"/>
                         </accessibility>
@@ -694,26 +690,6 @@
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="rb_led_pwr">
-                        <property name="label" translatable="yes">Constant</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">Do not flash the power LED</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">rb_led_actpwr</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label17"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>

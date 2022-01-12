@@ -304,7 +304,7 @@ msgstr "Show text messages at boot"
 
 #: ../data/rc_gui.ui.h:35
 msgid "Power LED:"
-msgstr "Power LED:"
+msgstr "Show Disk Activity:"
 
 #: ../data/rc_gui.ui.h:36
 msgid "Activity"
@@ -312,7 +312,7 @@ msgstr "Activity"
 
 #: ../data/rc_gui.ui.h:37
 msgid "Flash the power LED on disk activity"
-msgstr "Flash the power LED on disk activity"
+msgstr "Enable to flash the power LED on disk activity"
 
 #: ../data/rc_gui.ui.h:38
 msgid "Constant"

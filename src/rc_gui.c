@@ -142,7 +142,7 @@ static GObject *boot_desktop_rb, *boot_cli_rb, *pixdub_sw;
 static GObject *overscan_sw, *ssh_sw, *rgpio_sw, *vnc_sw;
 static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw;
 static GObject *alogin_sw, *netwait_sw, *splash_sw, *scons_sw;
-static GObject *blank_sw, *led_pwr_rb, *led_actpwr_rb, *fan_sw;
+static GObject *blank_sw, *led_actpwr_sw, *fan_sw;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_sw, *bp_ro_sw, *ofs_lbl;
 static GObject *fan_gpio_sb, *fan_temp_sb, *vnc_res_cb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
@@ -1712,10 +1712,7 @@ static int process_changes (void)
             reboot = 1;
         }
 
-        if (orig_leds != -1 && orig_leds != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (led_pwr_rb)))
-        {
-            vsystem (SET_LEDS, (1 - orig_leds));
-        }
+        if (orig_leds != -1) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
 
         if (orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
         {
@@ -1972,15 +1969,10 @@ int main (int argc, char *argv[])
             gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_sw), _("The VNC server is not installed"));
         }
 
-        led_pwr_rb = gtk_builder_get_object (builder, "rb_led_pwr");
-        led_actpwr_rb = gtk_builder_get_object (builder, "rb_led_actpwr");
+        led_actpwr_sw = gtk_builder_get_object (builder, "sw_led_actpwr");
         orig_leds = get_status (GET_LEDS);
         if (orig_leds == -1) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
-        else
-        {
-            if ((orig_leds = get_status (GET_LEDS))) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (led_pwr_rb), TRUE);
-            else gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (led_actpwr_rb), TRUE);
-        }
+        else gtk_switch_set_active (GTK_SWITCH (led_actpwr_sw), !(orig_leds));
 
         fan_sw = gtk_builder_get_object (builder, "sw_fan");
         fan_gpio_sb = gtk_builder_get_object (builder, "sb_fan_gpio");
