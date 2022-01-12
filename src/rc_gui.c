@@ -1535,12 +1535,13 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 
 /* Overlay file system setting */
 
-static void on_overlay_fs (GtkSwitch *btn, gboolean state, gpointer ptr)
+static gboolean on_overlay_fs (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
     ovfs_rb = 0;
     if (orig_ofs == gtk_switch_get_active (GTK_SWITCH (ofs_en_sw))) ovfs_rb = 1;
     if (orig_bpro == gtk_switch_get_active (GTK_SWITCH (bp_ro_sw))) ovfs_rb = 1;
     gtk_widget_set_visible (GTK_WIDGET (ofs_lbl), ovfs_rb);
+    return FALSE;
 }
 
 static gpointer initrd_thread (gpointer data)
@@ -1625,7 +1626,7 @@ static void on_boot_toggle (GtkButton *btn, gpointer ptr)
     }
 }
 
-static void on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
+static gboolean on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
     if (state)
     {
@@ -1638,12 +1639,14 @@ static void on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
         gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), FALSE);
         gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("This setting cannot be changed while the serial port is disabled"));
     }
+    return FALSE;
 }
 
-static void on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
+static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
     gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), state);
     gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), state);
+    return FALSE;
 }
 
 /* Write the changes to the system when OK is pressed */
