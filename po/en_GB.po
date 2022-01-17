@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rc_gui 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-10 11:20+0000\n"
+"POT-Creation-Date: 2022-01-17 11:28+0000\n"
 "PO-Revision-Date: 2018-04-17 12:41+0100\n"
 "Last-Translator: Simon Long <simon@raspberrypi.org>\n"
 "Language-Team: English (British)\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/rc_gui.c:420
+#: ../src/rc_gui.c:429
 msgid ""
 "The changes you have made require the Raspberry Pi to be rebooted to take "
 "effect.\n"
@@ -29,15 +29,15 @@ msgstr ""
 "\n"
 "Would you like to reboot now? "
 
-#: ../src/rc_gui.c:425
+#: ../src/rc_gui.c:434
 msgid "_No"
 msgstr ""
 
-#: ../src/rc_gui.c:428
+#: ../src/rc_gui.c:437
 msgid "_Yes"
 msgstr ""
 
-#: ../src/rc_gui.c:494
+#: ../src/rc_gui.c:503
 msgid ""
 "The password change failed.\n"
 "\n"
@@ -50,34 +50,30 @@ msgstr ""
 "This could be because the new password was not sufficiently complex or was "
 "too similar to the current password."
 
-#: ../src/rc_gui.c:496
+#: ../src/rc_gui.c:505
 msgid "The password has been changed successfully."
 msgstr "The password has been changed successfully."
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:838
+#: ../src/rc_gui.c:847
 msgid "Setting locale - please wait..."
 msgstr "Setting locale - please wait..."
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:1077
+#: ../src/rc_gui.c:1086
 msgid "Setting timezone - please wait..."
 msgstr "Setting timezone - please wait..."
 
-#: ../src/rc_gui.c:1117 ../src/rc_gui.c:1140
+#: ../src/rc_gui.c:1126 ../src/rc_gui.c:1149
 msgid "<not set>"
 msgstr "<not set>"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:1509
+#: ../src/rc_gui.c:1518
 msgid "Setting keyboard - please wait..."
 msgstr "Setting keyboard - please wait..."
 
-#: ../src/rc_gui.c:1538 ../data/rc_gui.ui.h:122
-msgid "Changes will not take effect until a reboot"
-msgstr "Changes will not take effect until a reboot"
-
-#: ../src/rc_gui.c:1559
+#: ../src/rc_gui.c:1563
 msgid ""
 "Your system has recently been updated. Please reboot to ensure these updates "
 "have loaded before setting up the overlay file system."
@@ -85,31 +81,39 @@ msgstr ""
 "Your system has recently been updated. Please reboot to ensure these updates "
 "have loaded before setting up the overlay file system."
 
-#: ../src/rc_gui.c:1589 ../src/rc_gui.c:1590
+#: ../src/rc_gui.c:1584
 msgid ""
 "The state of the boot partition cannot be changed while an overlay is active"
 msgstr ""
 "The state of the boot partition cannot be changed while an overlay is active"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:1610
+#: ../src/rc_gui.c:1605
 msgid "Setting up overlay - please wait..."
 msgstr "Setting up overlay - please wait..."
 
-#: ../src/rc_gui.c:1642 ../src/rc_gui.c:2060 ../data/rc_gui.ui.h:72
+#: ../src/rc_gui.c:1634 ../src/rc_gui.c:1972 ../data/rc_gui.ui.h:52
 msgid "Enable shell and kernel messages on the serial connection"
 msgstr "Turn on to enable shell and kernel messages over the serial connection"
 
-#: ../src/rc_gui.c:1643 ../src/rc_gui.c:2061 ../data/rc_gui.ui.h:73
-msgid "Disable shell and kernel messages on the serial connection"
-msgstr "Disable shell and kernel messages on the serial connection"
-
-#: ../src/rc_gui.c:1650 ../src/rc_gui.c:1651 ../src/rc_gui.c:2052
-#: ../src/rc_gui.c:2053
+#: ../src/rc_gui.c:1640 ../src/rc_gui.c:1966
 msgid "This setting cannot be changed while the serial port is disabled"
 msgstr "This setting cannot be changed while the serial port is disabled"
 
-#: ../src/rc_gui.c:1943
+#: ../src/rc_gui.c:1651 ../data/rc_gui.ui.h:68
+msgid "Set the GPIO to which the fan is connected"
+msgstr "Set the GPIO pin to which the fan is connected"
+
+#: ../src/rc_gui.c:1652 ../data/rc_gui.ui.h:70
+msgid "Set the temperature in degrees C at which the fan turns on"
+msgstr "Set the temperature in degrees C at which the fan turns on"
+
+#: ../src/rc_gui.c:1656 ../src/rc_gui.c:1657 ../src/rc_gui.c:1995
+#: ../src/rc_gui.c:1996
+msgid "This setting cannot be changed unless the fan is enabled"
+msgstr "This setting cannot be changed unless the fan is enabled"
+
+#: ../src/rc_gui.c:1895
 msgid ""
 "The Raspberry Pi Configuration application can only modify a standard "
 "configuration.\n"
@@ -130,39 +134,39 @@ msgstr ""
 "In order to use this application, you need to have the latest firmware "
 "installed, device tree enabled, and the lightdm application installed. "
 
-#: ../src/rc_gui.c:2018 ../src/rc_gui.c:2019
+#: ../src/rc_gui.c:1944
 msgid "This setting is overridden when Xscreensaver is installed"
 msgstr "This setting is overridden when Xscreensaver is installed"
 
-#: ../src/rc_gui.c:2087 ../src/rc_gui.c:2088
+#: ../src/rc_gui.c:1979
 msgid "The VNC server is not installed"
 msgstr "The VNC server is not installed"
 
-#: ../src/rc_gui.c:2132
+#: ../src/rc_gui.c:2019
 msgid "None (700MHz)"
 msgstr "None (700MHz)"
 
-#: ../src/rc_gui.c:2133
+#: ../src/rc_gui.c:2020
 msgid "Modest (800MHz)"
 msgstr "Modest (800MHz)"
 
-#: ../src/rc_gui.c:2134
+#: ../src/rc_gui.c:2021
 msgid "Medium (900MHz)"
 msgstr "Medium (900MHz)"
 
-#: ../src/rc_gui.c:2135
+#: ../src/rc_gui.c:2022
 msgid "High (950MHz)"
 msgstr "High (950MHz)"
 
-#: ../src/rc_gui.c:2136
+#: ../src/rc_gui.c:2023
 msgid "Turbo (1000MHz)"
 msgstr "Turbo (1000MHz)"
 
-#: ../src/rc_gui.c:2153
+#: ../src/rc_gui.c:2040
 msgid "None (900MHz)"
 msgstr "None (900MHz)"
 
-#: ../src/rc_gui.c:2154
+#: ../src/rc_gui.c:2041
 msgid "High (1000MHz)"
 msgstr "High (1000MHz)"
 
@@ -247,262 +251,174 @@ msgid "Auto login:"
 msgstr "Auto Login:"
 
 #: ../data/rc_gui.ui.h:21
-msgid "Login as user 'pi'"
-msgstr "As current user"
-
-#: ../data/rc_gui.ui.h:22
 msgid "Automatically log in the default user (pi)"
 msgstr "Turn on to automatically log in the current user at boot"
 
-#: ../data/rc_gui.ui.h:23
-msgid "Disabled"
-msgstr "Disabled"
-
-#: ../data/rc_gui.ui.h:24
-msgid "Prompt for password at boot"
-msgstr "Prompt for password at boot"
-
-#: ../data/rc_gui.ui.h:25
+#: ../data/rc_gui.ui.h:22
 msgid "Network at Boot:"
 msgstr "Network at Boot:"
 
-#: ../data/rc_gui.ui.h:26
-msgid "Wait for network"
-msgstr "Wait for network"
-
-#: ../data/rc_gui.ui.h:27
+#: ../data/rc_gui.ui.h:23
 msgid "Do not complete boot until network connection is established"
 msgstr "Turn on to wait for the network to connect at boot"
 
-#: ../data/rc_gui.ui.h:28
-msgid "Do not wait"
-msgstr "Do not wait"
-
-#: ../data/rc_gui.ui.h:29
-msgid "Do not wait for network connection during boot"
-msgstr "Do not wait for network connection during boot"
-
-#: ../data/rc_gui.ui.h:30
+#: ../data/rc_gui.ui.h:24
 msgid "Splash Screen:"
 msgstr "Splash Screen:"
 
-#: ../data/rc_gui.ui.h:31
-msgid "Enable"
-msgstr "Enabled"
-
-#: ../data/rc_gui.ui.h:32
+#: ../data/rc_gui.ui.h:25
 msgid "Show graphical splash screen at boot"
 msgstr "Turn on to show the graphical splash screen at boot"
 
-#: ../data/rc_gui.ui.h:33
-msgid "Disable"
-msgstr "Disabled"
-
-#: ../data/rc_gui.ui.h:34
-msgid "Show text messages at boot"
-msgstr "Show text messages at boot"
-
-#: ../data/rc_gui.ui.h:35
+#: ../data/rc_gui.ui.h:26
 msgid "Power LED:"
 msgstr "Show Disk Activity:"
 
-#: ../data/rc_gui.ui.h:36
-msgid "Activity"
-msgstr "Activity"
-
-#: ../data/rc_gui.ui.h:37
+#: ../data/rc_gui.ui.h:27
 msgid "Flash the power LED on disk activity"
 msgstr "Turn on to flash the power LED on disk activity"
 
-#: ../data/rc_gui.ui.h:38
-msgid "Constant"
-msgstr "Constant"
-
-#: ../data/rc_gui.ui.h:39
-msgid "Do not flash the power LED"
-msgstr "Do not flash the power LED"
-
-#: ../data/rc_gui.ui.h:40
+#: ../data/rc_gui.ui.h:28
 msgid "System"
 msgstr "System"
 
-#: ../data/rc_gui.ui.h:41
+#: ../data/rc_gui.ui.h:29
 msgid "Resolution:"
 msgstr "Resolution:"
 
-#: ../data/rc_gui.ui.h:42
+#: ../data/rc_gui.ui.h:30
 msgid "Set _Resolution..."
 msgstr "Set _Resolution..."
 
-#: ../data/rc_gui.ui.h:43
+#: ../data/rc_gui.ui.h:31
 msgid "Set the resolution for HDMI and VNC"
 msgstr "Set the resolution for HDMI and VNC"
 
-#: ../data/rc_gui.ui.h:44
+#: ../data/rc_gui.ui.h:32
 msgid "Overscan:"
 msgstr "Underscan:"
 
-#: ../data/rc_gui.ui.h:45
+#: ../data/rc_gui.ui.h:33
 msgid "Enable overscan to show the edges of the screen"
-msgstr "Turn on if the desktop does not all fit on screen"
+msgstr "Turn on if the desktop does not all fit onto the screen"
 
-#: ../data/rc_gui.ui.h:46
-msgid "Disable overscan to hide black outline on screen"
-msgstr "Disable underscan if there is a black border around screen"
-
-#: ../data/rc_gui.ui.h:47
+#: ../data/rc_gui.ui.h:34
 msgid "Pixel Doubling:"
 msgstr "Pixel Doubling:"
 
-#: ../data/rc_gui.ui.h:48
+#: ../data/rc_gui.ui.h:35
 msgid "Enable pixel doubling to improve usability on high-res screens"
 msgstr "Turn on to halve resolution to improve usability on high-res screens"
 
-#: ../data/rc_gui.ui.h:49
-msgid "Disable pixel doubling for standard resolution screens"
-msgstr "Disable pixel doubling for standard resolution screens"
-
-#: ../data/rc_gui.ui.h:50
+#: ../data/rc_gui.ui.h:36
 msgid "Screen Blanking:"
 msgstr "Screen Blanking:"
 
-#: ../data/rc_gui.ui.h:51
+#: ../data/rc_gui.ui.h:37
 msgid "Blank the screen after a period of inactivity"
 msgstr "Turn on to blank the screen after a period of inactivity"
 
-#: ../data/rc_gui.ui.h:52
-msgid "Never blank the screen"
-msgstr "Never blank the screen"
-
-#: ../data/rc_gui.ui.h:53
+#: ../data/rc_gui.ui.h:38
 msgid "Headless Resolution:"
 msgstr "Headless Resolution:"
 
-#: ../data/rc_gui.ui.h:54
+#: ../data/rc_gui.ui.h:39
 msgid "Set the resolution for VNC when no monitor is connected"
 msgstr "Set the resolution for VNC when no monitor is connected"
 
-#: ../data/rc_gui.ui.h:55
+#: ../data/rc_gui.ui.h:40
 msgid "Display"
 msgstr "Display"
 
-#: ../data/rc_gui.ui.h:56
+#: ../data/rc_gui.ui.h:41
 msgid "SSH:"
 msgstr "SSH:"
 
-#: ../data/rc_gui.ui.h:57
+#: ../data/rc_gui.ui.h:42
 msgid "Enable remote access to this Pi via SSH"
 msgstr "Turn on to enable remote access via SSH"
 
-#: ../data/rc_gui.ui.h:58
-msgid "Disable remote access to this Pi via SSH"
-msgstr "Disable remote access to this Pi via SSH"
-
-#: ../data/rc_gui.ui.h:59
+#: ../data/rc_gui.ui.h:43
 msgid "VNC:"
 msgstr "VNC:"
 
-#: ../data/rc_gui.ui.h:60
+#: ../data/rc_gui.ui.h:44
 msgid "Enable remote access to this Pi using RealVNC"
 msgstr "Turn on to enable remote access using RealVNC"
 
-#: ../data/rc_gui.ui.h:61
-msgid "Disable remote access to this Pi using RealVNC"
-msgstr "Disable remote access to this Pi using RealVNC"
-
-#: ../data/rc_gui.ui.h:62
+#: ../data/rc_gui.ui.h:45
 msgid "SPI:"
 msgstr "SPI:"
 
-#: ../data/rc_gui.ui.h:63
+#: ../data/rc_gui.ui.h:46
 msgid "Enable the automatic loading of the SPI kernel module"
 msgstr "Turn on to enable the SPI interface on the GPIO pins"
 
-#: ../data/rc_gui.ui.h:64
-msgid "Disable the automatic loading of the SPI kernel module"
-msgstr "Disable the automatic loading of the SPI kernel module"
-
-#: ../data/rc_gui.ui.h:65
+#: ../data/rc_gui.ui.h:47
 msgid "I2C:"
 msgstr "I2C:"
 
-#: ../data/rc_gui.ui.h:66
+#: ../data/rc_gui.ui.h:48
 msgid "Enable the automatic loading of the I2C kernel module"
 msgstr "Turn on to enable the I2C interface on the GPIO pins"
 
-#: ../data/rc_gui.ui.h:67
-msgid "Disable the automatic loading of the I2C kernel module"
-msgstr "Disable the automatic loading of the I2C kernel module"
-
-#: ../data/rc_gui.ui.h:68
+#: ../data/rc_gui.ui.h:49
 msgid "Serial Port:"
 msgstr "Serial Port:"
 
-#: ../data/rc_gui.ui.h:69
+#: ../data/rc_gui.ui.h:50
 msgid "Enable the serial port over the GPIO pins"
 msgstr "Turn on to enable the serial port on the GPIO pins"
 
-#: ../data/rc_gui.ui.h:70
-msgid "Disable the serial port over the GPIO pins"
-msgstr "Disable the serial port over the GPIO pins"
-
-#: ../data/rc_gui.ui.h:71
+#: ../data/rc_gui.ui.h:51
 msgid "Serial Console:"
 msgstr "Serial Console:"
 
-#: ../data/rc_gui.ui.h:74
+#: ../data/rc_gui.ui.h:53
 msgid "1-Wire:"
 msgstr "1-Wire:"
 
-#: ../data/rc_gui.ui.h:75
+#: ../data/rc_gui.ui.h:54
 msgid "Enable 1-wire peripheral interface"
 msgstr "Turn on to enable the 1-wire peripheral interface on the GPIO pins"
 
-#: ../data/rc_gui.ui.h:76
-msgid "Disable 1-wire peripheral interface"
-msgstr "Disable 1-wire peripheral interface"
-
-#: ../data/rc_gui.ui.h:77
+#: ../data/rc_gui.ui.h:55
 msgid "Remote GPIO:"
 msgstr "Remote GPIO:"
 
-#: ../data/rc_gui.ui.h:78
+#: ../data/rc_gui.ui.h:56
 msgid "Enable remote access to GPIO pins"
 msgstr "Turn on to enable remote access to the GPIO pins"
 
-#: ../data/rc_gui.ui.h:79
-msgid "Disable remote access to GPIO pins"
-msgstr "Disable remote access to GPIO pins"
-
-#: ../data/rc_gui.ui.h:80
+#: ../data/rc_gui.ui.h:57
 msgid "Interfaces"
 msgstr "Interfaces"
 
-#: ../data/rc_gui.ui.h:81
+#: ../data/rc_gui.ui.h:58
 msgid "O_verclock:"
 msgstr "Overclock:"
 
-#: ../data/rc_gui.ui.h:82
+#: ../data/rc_gui.ui.h:59
 msgid "Set the level of overclock to control performance"
 msgstr "Set the level of overclock to control performance"
 
-#: ../data/rc_gui.ui.h:83
+#: ../data/rc_gui.ui.h:60
 msgid "_GPU Memory:"
 msgstr "GPU Memory:"
 
-#: ../data/rc_gui.ui.h:84
+#: ../data/rc_gui.ui.h:61
 msgid "Enter the amount of memory available to the GPU"
 msgstr "Enter the amount of memory available to the GPU"
 
-#: ../data/rc_gui.ui.h:85
+#: ../data/rc_gui.ui.h:62
 msgid "Overlay File System:"
 msgstr "Overlay File System:"
 
-#: ../data/rc_gui.ui.h:86
+#: ../data/rc_gui.ui.h:63
 msgid "Configure..."
 msgstr "Configure..."
 
-#: ../data/rc_gui.ui.h:87
+#: ../data/rc_gui.ui.h:64
 msgid ""
 "Configure an overlay file system to protect data from being overwritten or "
 "deleted"
@@ -510,171 +426,139 @@ msgstr ""
 "Configure an overlay file system to protect data from being overwritten or "
 "deleted"
 
-#: ../data/rc_gui.ui.h:88
+#: ../data/rc_gui.ui.h:65
 msgid "Fan:"
 msgstr "Fan:"
 
-#: ../data/rc_gui.ui.h:89
+#: ../data/rc_gui.ui.h:66
 msgid "Enable a temperature-controlled fan on a GPIO pin"
 msgstr "Turn on to use a temperature-controlled fan on a GPIO pin"
 
-#: ../data/rc_gui.ui.h:90
-msgid "Disable GPIO fan"
-msgstr "Disable GPIO fan"
-
-#: ../data/rc_gui.ui.h:91
+#: ../data/rc_gui.ui.h:67
 msgid "Fan GPIO:"
 msgstr "Fan GPIO:"
 
-#: ../data/rc_gui.ui.h:92
-msgid "Set the GPIO to which the fan is connected"
-msgstr "Set the GPIO pin to which the fan is connected"
-
-#: ../data/rc_gui.ui.h:93
+#: ../data/rc_gui.ui.h:69
 msgid "Fan Temperature:"
 msgstr "Fan Temperature:"
 
-#: ../data/rc_gui.ui.h:94
-msgid "Set the temperature in degrees C at which the fan turns on"
-msgstr "Set the temperature in degrees C at which the fan turns on"
-
-#: ../data/rc_gui.ui.h:95
+#: ../data/rc_gui.ui.h:71
 msgid "Performance"
 msgstr "Performance"
 
-#: ../data/rc_gui.ui.h:96
+#: ../data/rc_gui.ui.h:72
 msgid "Locale:"
 msgstr "Locale:"
 
-#: ../data/rc_gui.ui.h:97
+#: ../data/rc_gui.ui.h:73
 msgid "Set _Locale..."
 msgstr "Set _Locale..."
 
-#: ../data/rc_gui.ui.h:98
+#: ../data/rc_gui.ui.h:74
 msgid "Set internationalisation settings for units etc."
 msgstr "Set internationalisation settings for language, units etc."
 
-#: ../data/rc_gui.ui.h:99
+#: ../data/rc_gui.ui.h:75
 msgid "Timezone:"
 msgstr "Timezone:"
 
-#: ../data/rc_gui.ui.h:100
+#: ../data/rc_gui.ui.h:76
 msgid "Set _Timezone..."
 msgstr "Set _Timezone..."
 
-#: ../data/rc_gui.ui.h:101
+#: ../data/rc_gui.ui.h:77
 msgid "Set the timezone to be used by the internal clock"
 msgstr "Set the timezone to be used by the internal clock"
 
-#: ../data/rc_gui.ui.h:102
+#: ../data/rc_gui.ui.h:78
 msgid "Keyboard:"
 msgstr "Keyboard:"
 
-#: ../data/rc_gui.ui.h:103
+#: ../data/rc_gui.ui.h:79
 msgid "Set _Keyboard..."
 msgstr "Set _Keyboard..."
 
-#: ../data/rc_gui.ui.h:104
+#: ../data/rc_gui.ui.h:80
 msgid "Set international keyboard options"
 msgstr "Set international keyboard options"
 
-#: ../data/rc_gui.ui.h:105
+#: ../data/rc_gui.ui.h:81
 msgid "WiFi Country:"
 msgstr "Wireless LAN Country:"
 
-#: ../data/rc_gui.ui.h:106
+#: ../data/rc_gui.ui.h:82
 msgid "Set _WiFi Country..."
 msgstr "Set _WLAN Country..."
 
-#: ../data/rc_gui.ui.h:107
+#: ../data/rc_gui.ui.h:83
 msgid "Set WiFi country code"
 msgstr "Set wireless LAN country code"
 
-#: ../data/rc_gui.ui.h:108
+#: ../data/rc_gui.ui.h:84
 msgid "Localisation"
 msgstr "Localisation"
 
-#: ../data/rc_gui.ui.h:109
-msgid "label"
-msgstr ""
-
-#: ../data/rc_gui.ui.h:110
+#: ../data/rc_gui.ui.h:85
 msgid "_Cancel"
-msgstr ""
+msgstr "_Cancel"
 
-#: ../data/rc_gui.ui.h:111
+#: ../data/rc_gui.ui.h:86
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
-#: ../data/rc_gui.ui.h:112
+#: ../data/rc_gui.ui.h:87
 msgid "Overlay File System"
 msgstr "Overlay File System"
 
-#: ../data/rc_gui.ui.h:113
+#: ../data/rc_gui.ui.h:88
 msgid "Overlay:"
 msgstr "Use Overlay:"
 
-#: ../data/rc_gui.ui.h:114
-msgid "Enabled"
-msgstr "Enabled"
-
-#: ../data/rc_gui.ui.h:115
+#: ../data/rc_gui.ui.h:89
 msgid "Enable a file system overlay; all changes will be lost on reboot"
 msgstr "Turn on to enable a file system overlay; all changes will be lost on reboot"
 
-#: ../data/rc_gui.ui.h:116
-msgid "Disable a file system overlay; changes will be saved to the SD card"
-msgstr "Disable a file system overlay; changes will be saved to the SD card"
-
-#: ../data/rc_gui.ui.h:117
+#: ../data/rc_gui.ui.h:90
 msgid "Boot Partition:"
 msgstr "Write-protect Boot Partition:"
 
-#: ../data/rc_gui.ui.h:118
-msgid "Read-only"
-msgstr "Read-only"
-
-#: ../data/rc_gui.ui.h:119
+#: ../data/rc_gui.ui.h:91
 msgid "Make the boot partition read-only"
 msgstr "Turn on to make the boot partition read-only"
 
-#: ../data/rc_gui.ui.h:120
-msgid "Read-write"
-msgstr "Read-write"
+#: ../data/rc_gui.ui.h:92
+msgid "Changes will not take effect until a reboot"
+msgstr "Changes will not take effect until a reboot"
 
-#: ../data/rc_gui.ui.h:121
-msgid "Make the boot partition writable"
-msgstr "Make the boot partition writable"
-
-#: ../data/rc_gui.ui.h:123
+#: ../data/rc_gui.ui.h:93
 msgid "Change Password"
 msgstr "Change Password"
 
-#: ../data/rc_gui.ui.h:124
+#: ../data/rc_gui.ui.h:94
 msgid "Enter new password:"
 msgstr "Enter new password:"
 
-#: ../data/rc_gui.ui.h:125
+#: ../data/rc_gui.ui.h:95
 msgid "Confirm new password:"
 msgstr "Confirm new password:"
 
-#: ../data/rc_gui.ui.h:126
+#: ../data/rc_gui.ui.h:96
 msgid "Set Resolution"
 msgstr "Set Resolution"
 
-#: ../data/rc_gui.ui.h:127
+#: ../data/rc_gui.ui.h:97
 msgid "Timezone"
 msgstr "Timezone"
 
-#: ../data/rc_gui.ui.h:128
+#: ../data/rc_gui.ui.h:98
 msgid "Area:"
 msgstr "Area:"
 
-#: ../data/rc_gui.ui.h:129
+#: ../data/rc_gui.ui.h:99
 msgid "Location:"
 msgstr "Location:"
 
-#: ../data/rc_gui.ui.h:130
+#: ../data/rc_gui.ui.h:100
 msgid "WiFi Country Code"
 msgstr "Wireless LAN Country"
 
@@ -685,3 +569,90 @@ msgstr "Configure Raspberry Pi system"
 #: ../data/pwdrcg.sh:6
 msgid "Password Required"
 msgstr "Password Required"
+
+#~ msgid "Disable shell and kernel messages on the serial connection"
+#~ msgstr "Disable shell and kernel messages on the serial connection"
+
+#~ msgid "Login as user 'pi'"
+#~ msgstr "As current user"
+
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
+
+#~ msgid "Prompt for password at boot"
+#~ msgstr "Prompt for password at boot"
+
+#~ msgid "Wait for network"
+#~ msgstr "Wait for network"
+
+#~ msgid "Do not wait"
+#~ msgstr "Do not wait"
+
+#~ msgid "Do not wait for network connection during boot"
+#~ msgstr "Do not wait for network connection during boot"
+
+#~ msgid "Enable"
+#~ msgstr "Enabled"
+
+#~ msgid "Disable"
+#~ msgstr "Disabled"
+
+#~ msgid "Show text messages at boot"
+#~ msgstr "Show text messages at boot"
+
+#~ msgid "Activity"
+#~ msgstr "Activity"
+
+#~ msgid "Constant"
+#~ msgstr "Constant"
+
+#~ msgid "Do not flash the power LED"
+#~ msgstr "Do not flash the power LED"
+
+#~ msgid "Disable overscan to hide black outline on screen"
+#~ msgstr "Disable underscan if there is a black border around screen"
+
+#~ msgid "Disable pixel doubling for standard resolution screens"
+#~ msgstr "Disable pixel doubling for standard resolution screens"
+
+#~ msgid "Never blank the screen"
+#~ msgstr "Never blank the screen"
+
+#~ msgid "Disable remote access to this Pi via SSH"
+#~ msgstr "Disable remote access to this Pi via SSH"
+
+#~ msgid "Disable remote access to this Pi using RealVNC"
+#~ msgstr "Disable remote access to this Pi using RealVNC"
+
+#~ msgid "Disable the automatic loading of the SPI kernel module"
+#~ msgstr "Disable the automatic loading of the SPI kernel module"
+
+#~ msgid "Disable the automatic loading of the I2C kernel module"
+#~ msgstr "Disable the automatic loading of the I2C kernel module"
+
+#~ msgid "Disable the serial port over the GPIO pins"
+#~ msgstr "Disable the serial port over the GPIO pins"
+
+#~ msgid "Disable 1-wire peripheral interface"
+#~ msgstr "Disable 1-wire peripheral interface"
+
+#~ msgid "Disable remote access to GPIO pins"
+#~ msgstr "Disable remote access to GPIO pins"
+
+#~ msgid "Disable GPIO fan"
+#~ msgstr "Disable GPIO fan"
+
+#~ msgid "Enabled"
+#~ msgstr "Enabled"
+
+#~ msgid "Disable a file system overlay; changes will be saved to the SD card"
+#~ msgstr "Disable a file system overlay; changes will be saved to the SD card"
+
+#~ msgid "Read-only"
+#~ msgstr "Read-only"
+
+#~ msgid "Read-write"
+#~ msgstr "Read-write"
+
+#~ msgid "Make the boot partition writable"
+#~ msgstr "Make the boot partition writable"
