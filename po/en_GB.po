@@ -98,7 +98,7 @@ msgstr "Setting up overlay - please wait..."
 
 #: ../src/rc_gui.c:1642 ../src/rc_gui.c:2060 ../data/rc_gui.ui.h:72
 msgid "Enable shell and kernel messages on the serial connection"
-msgstr "Enable shell and kernel messages on the serial connection"
+msgstr "Turn on to enable shell and kernel messages over the serial connection"
 
 #: ../src/rc_gui.c:1643 ../src/rc_gui.c:2061 ../data/rc_gui.ui.h:73
 msgid "Disable shell and kernel messages on the serial connection"
@@ -252,7 +252,7 @@ msgstr "As current user"
 
 #: ../data/rc_gui.ui.h:22
 msgid "Automatically log in the default user (pi)"
-msgstr "Enable to automatically log in the current user at boot"
+msgstr "Turn on to automatically log in the current user at boot"
 
 #: ../data/rc_gui.ui.h:23
 msgid "Disabled"
@@ -272,7 +272,7 @@ msgstr "Wait for network"
 
 #: ../data/rc_gui.ui.h:27
 msgid "Do not complete boot until network connection is established"
-msgstr "Enable to prevent boot from completing until network has connected"
+msgstr "Turn on to wait for the network to connect at boot"
 
 #: ../data/rc_gui.ui.h:28
 msgid "Do not wait"
@@ -292,7 +292,7 @@ msgstr "Enabled"
 
 #: ../data/rc_gui.ui.h:32
 msgid "Show graphical splash screen at boot"
-msgstr "Enable to show graphical splash screen at boot"
+msgstr "Turn on to show the graphical splash screen at boot"
 
 #: ../data/rc_gui.ui.h:33
 msgid "Disable"
@@ -312,7 +312,7 @@ msgstr "Activity"
 
 #: ../data/rc_gui.ui.h:37
 msgid "Flash the power LED on disk activity"
-msgstr "Enable to flash the power LED on disk activity"
+msgstr "Turn on to flash the power LED on disk activity"
 
 #: ../data/rc_gui.ui.h:38
 msgid "Constant"
@@ -344,7 +344,7 @@ msgstr "Underscan:"
 
 #: ../data/rc_gui.ui.h:45
 msgid "Enable overscan to show the edges of the screen"
-msgstr "Enable underscan if the desktop does not all fit on screen"
+msgstr "Turn on if the desktop does not all fit on screen"
 
 #: ../data/rc_gui.ui.h:46
 msgid "Disable overscan to hide black outline on screen"
@@ -356,7 +356,7 @@ msgstr "Pixel Doubling:"
 
 #: ../data/rc_gui.ui.h:48
 msgid "Enable pixel doubling to improve usability on high-res screens"
-msgstr "Enable pixel doubling to improve usability on high-res screens"
+msgstr "Turn on to halve resolution to improve usability on high-res screens"
 
 #: ../data/rc_gui.ui.h:49
 msgid "Disable pixel doubling for standard resolution screens"
@@ -368,7 +368,7 @@ msgstr "Screen Blanking:"
 
 #: ../data/rc_gui.ui.h:51
 msgid "Blank the screen after a period of inactivity"
-msgstr "Enable to blank the screen after a period of inactivity"
+msgstr "Turn on to blank the screen after a period of inactivity"
 
 #: ../data/rc_gui.ui.h:52
 msgid "Never blank the screen"
@@ -392,7 +392,7 @@ msgstr "SSH:"
 
 #: ../data/rc_gui.ui.h:57
 msgid "Enable remote access to this Pi via SSH"
-msgstr "Enable remote access to this Pi via SSH"
+msgstr "Turn on to enable remote access via SSH"
 
 #: ../data/rc_gui.ui.h:58
 msgid "Disable remote access to this Pi via SSH"
@@ -404,7 +404,7 @@ msgstr "VNC:"
 
 #: ../data/rc_gui.ui.h:60
 msgid "Enable remote access to this Pi using RealVNC"
-msgstr "Enable remote access to this Pi using RealVNC"
+msgstr "Turn on to enable remote access using RealVNC"
 
 #: ../data/rc_gui.ui.h:61
 msgid "Disable remote access to this Pi using RealVNC"
@@ -416,7 +416,7 @@ msgstr "SPI:"
 
 #: ../data/rc_gui.ui.h:63
 msgid "Enable the automatic loading of the SPI kernel module"
-msgstr "Enable the automatic loading of the SPI kernel module"
+msgstr "Turn on to enable the SPI interface on the GPIO pins"
 
 #: ../data/rc_gui.ui.h:64
 msgid "Disable the automatic loading of the SPI kernel module"
@@ -428,7 +428,7 @@ msgstr "I2C:"
 
 #: ../data/rc_gui.ui.h:66
 msgid "Enable the automatic loading of the I2C kernel module"
-msgstr "Enable the automatic loading of the I2C kernel module"
+msgstr "Turn on to enable the I2C interface on the GPIO pins"
 
 #: ../data/rc_gui.ui.h:67
 msgid "Disable the automatic loading of the I2C kernel module"
@@ -440,7 +440,7 @@ msgstr "Serial Port:"
 
 #: ../data/rc_gui.ui.h:69
 msgid "Enable the serial port over the GPIO pins"
-msgstr "Enable the serial port over the GPIO pins"
+msgstr "Turn on to enable the serial port on the GPIO pins"
 
 #: ../data/rc_gui.ui.h:70
 msgid "Disable the serial port over the GPIO pins"
@@ -456,7 +456,7 @@ msgstr "1-Wire:"
 
 #: ../data/rc_gui.ui.h:75
 msgid "Enable 1-wire peripheral interface"
-msgstr "Enable 1-wire peripheral interface"
+msgstr "Turn on to enable the 1-wire peripheral interface on the GPIO pins"
 
 #: ../data/rc_gui.ui.h:76
 msgid "Disable 1-wire peripheral interface"
@@ -468,7 +468,7 @@ msgstr "Remote GPIO:"
 
 #: ../data/rc_gui.ui.h:78
 msgid "Enable remote access to GPIO pins"
-msgstr "Enable remote access to GPIO pins"
+msgstr "Turn on to enable remote access to the GPIO pins"
 
 #: ../data/rc_gui.ui.h:79
 msgid "Disable remote access to GPIO pins"
@@ -516,7 +516,7 @@ msgstr "Fan:"
 
 #: ../data/rc_gui.ui.h:89
 msgid "Enable a temperature-controlled fan on a GPIO pin"
-msgstr "Enable a temperature-controlled fan on a GPIO pin"
+msgstr "Turn on to use a temperature-controlled fan on a GPIO pin"
 
 #: ../data/rc_gui.ui.h:90
 msgid "Disable GPIO fan"
@@ -620,7 +620,7 @@ msgstr "Enabled"
 
 #: ../data/rc_gui.ui.h:115
 msgid "Enable a file system overlay; all changes will be lost on reboot"
-msgstr "Enable a file system overlay; all changes will be lost on reboot"
+msgstr "Turn on to enable a file system overlay; all changes will be lost on reboot"
 
 #: ../data/rc_gui.ui.h:116
 msgid "Disable a file system overlay; changes will be saved to the SD card"
@@ -636,7 +636,7 @@ msgstr "Read-only"
 
 #: ../data/rc_gui.ui.h:119
 msgid "Make the boot partition read-only"
-msgstr "Make the boot partition read-only"
+msgstr "Turn on to make the boot partition read-only"
 
 #: ../data/rc_gui.ui.h:120
 msgid "Read-write"
