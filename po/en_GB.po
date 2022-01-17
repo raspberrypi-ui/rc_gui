@@ -528,7 +528,7 @@ msgstr "Fan GPIO:"
 
 #: ../data/rc_gui.ui.h:92
 msgid "Set the GPIO to which the fan is connected"
-msgstr "Set the GPIO to which the fan is connected"
+msgstr "Set the GPIO pin to which the fan is connected"
 
 #: ../data/rc_gui.ui.h:93
 msgid "Fan Temperature:"

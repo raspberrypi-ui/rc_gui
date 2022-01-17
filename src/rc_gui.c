@@ -1646,6 +1646,16 @@ static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
     gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), state);
     gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), state);
+    if (state)
+    {
+        gtk_widget_set_tooltip_text (GTK_WIDGET (fan_gpio_sb), _("Set the GPIO to which the fan is connected"));
+        gtk_widget_set_tooltip_text (GTK_WIDGET (fan_temp_sb), _("Set the temperature in degrees C at which the fan turns on"));
+    }
+    else
+    {
+        gtk_widget_set_tooltip_text (GTK_WIDGET (fan_gpio_sb), _("This setting cannot be changed unless the fan is enabled"));
+        gtk_widget_set_tooltip_text (GTK_WIDGET (fan_temp_sb), _("This setting cannot be changed unless the fan is enabled"));
+    }
     return FALSE;
 }
 
@@ -1982,6 +1992,8 @@ int main (int argc, char *argv[])
             gtk_switch_set_active (GTK_SWITCH (fan_sw), FALSE);
             gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), FALSE);
             gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), FALSE);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (fan_gpio_sb), _("This setting cannot be changed unless the fan is enabled"));
+            gtk_widget_set_tooltip_text (GTK_WIDGET (fan_temp_sb), _("This setting cannot be changed unless the fan is enabled"));
         }
         else
         {
