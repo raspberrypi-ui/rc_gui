@@ -461,8 +461,6 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Set the name of your Pi on a local network</property>
-                        <property name="primary-icon-activatable">False</property>
-                        <property name="secondary-icon-activatable">False</property>
                         <accessibility>
                           <relation type="labelled-by" target="label12"/>
                         </accessibility>
@@ -1351,8 +1349,6 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Enter the amount of memory available to the GPU</property>
-                        <property name="primary-icon-activatable">False</property>
-                        <property name="secondary-icon-activatable">False</property>
                         <accessibility>
                           <relation type="labelled-by" target="label32"/>
                         </accessibility>
@@ -1473,8 +1469,6 @@
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Set the GPIO to which the fan is connected</property>
                         <property name="invisible-char">•</property>
-                        <property name="primary-icon-activatable">False</property>
-                        <property name="secondary-icon-activatable">False</property>
                         <accessibility>
                           <relation type="labelled-by" target="label35"/>
                         </accessibility>
@@ -1515,8 +1509,6 @@
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Set the temperature in degrees C at which the fan turns on</property>
                         <property name="invisible-char">•</property>
-                        <property name="primary-icon-activatable">False</property>
-                        <property name="secondary-icon-activatable">False</property>
                         <accessibility>
                           <relation type="labelled-by" target="label36"/>
                         </accessibility>
@@ -2195,8 +2187,6 @@
               <object class="GtkEntry" id="pwentry1">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="primary-icon-activatable">False</property>
-                <property name="secondary-icon-activatable">False</property>
                 <accessibility>
                   <relation type="labelled-by" target="pwlabel1"/>
                 </accessibility>
@@ -2236,8 +2226,6 @@
               <object class="GtkEntry" id="pwentry2">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="primary-icon-activatable">False</property>
-                <property name="secondary-icon-activatable">False</property>
                 <accessibility>
                   <relation type="labelled-by" target="pwlabel2"/>
                 </accessibility>
