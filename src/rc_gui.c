@@ -46,6 +46,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <X11/XKBlib.h>
 
 #include <libintl.h>
+#include <crypt.h>
 
 /* Command strings */
 #define GET_HOSTNAME    "raspi-config nonint get_hostname"
@@ -124,7 +125,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_VNC_RES     "raspi-config nonint get_vnc_resolution"
 #define SET_VNC_RES     "raspi-config nonint do_vnc_resolution %s"
 #define DEFAULT_GPU_MEM "vcgencmd get_mem gpu | cut -d = -f 2 | cut -d M -f 1"
-#define CHANGE_PASSWD   "echo \"$SUDO_USER:%s\" | chpasswd"
+#define CHANGE_PASSWD   "echo $SUDO_USER:'%s' | chpasswd -e"
 
 #define CONFIG_SWITCH(wid,name,var,cmd) wid = gtk_builder_get_object (builder, name); \
                                         gtk_switch_set_active (GTK_SWITCH (wid), !(var = get_status (cmd)));
@@ -476,8 +477,6 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
     GtkBuilder *builder;
     GtkWidget *dlg;
     int res;
-    const char *entry;
-    char *pw1, *pw2;
 
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "passwddlg");
@@ -493,11 +492,7 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
 
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
-        escape_passwd (gtk_entry_get_text (GTK_ENTRY (pwentry1_tb)), &pw1);
-        escape_passwd (gtk_entry_get_text (GTK_ENTRY (pwentry2_tb)), &pw2);
-        res = vsystem (CHANGE_PASSWD, pw1);
-        g_free (pw1);
-        g_free (pw2);
+        res = vsystem (CHANGE_PASSWD, crypt (gtk_entry_get_text (GTK_ENTRY (pwentry1_tb)), crypt_gensalt (NULL, 0, NULL, 0)));
         gtk_widget_destroy (dlg);
         if (res)
             info (_("The password change failed.\n\nThis could be because the current password was incorrect, or because the new password was not sufficiently complex or was too similar to the current password."));

@@ -16,7 +16,7 @@ rc_gui_includedir = $(includedir)/rc-gui
 
 rc_gui_include_HEADERS =
 
-rc_gui_LDFLAGS = $(DYNAMIC_FLAGS)
+rc_gui_LDFLAGS = $(DYNAMIC_FLAGS) -lcrypt
 rc_gui_DEPENDENCIES_EXTRA = $(BUILTIN_PLUGINS)
 
 rc_gui_LDADD = \
