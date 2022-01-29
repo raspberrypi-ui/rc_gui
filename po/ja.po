@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-05 13:09+0900\n"
+"POT-Creation-Date: 2022-01-29 02:32+0900\n"
 "PO-Revision-Date: 2016-06-09 19:12+0900\n"
 "Last-Translator: Akira Ouchi <akkiesoft@marokun.net>\n"
 "Language-Team: \n"
@@ -18,378 +18,472 @@ msgstr ""
 "X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: ../src/rc_gui.c:420
+msgid ""
+"The changes you have made require the Raspberry Pi to be rebooted to take "
+"effect.\n"
+"\n"
+"Would you like to reboot now? "
+msgstr ""
+"あなたの変更した設定を有効にするにはラズベリーパイの再起動が必要です\n"
+"\n"
+"すぐに再起動しますか?"
+
+#: ../src/rc_gui.c:425
+msgid "_No"
+msgstr "いいえ(_N)"
+
+#: ../src/rc_gui.c:428
+msgid "_Yes"
+msgstr "はい(_Y)"
+
+#: ../src/rc_gui.c:494
+msgid ""
+"The password change failed.\n"
+"\n"
+"This could be because the current password was incorrect, or because the new "
+"password was not sufficiently complex or was too similar to the current "
+"password."
+msgstr ""
+"パスワードの変更に失敗しました。\n"
+"\n"
+"現在のパスワードを間違えているか、新しいパスワードが十分に複雑でない、あるい"
+"は現在のパスワードと似ている可能性があります。"
+
+#: ../src/rc_gui.c:496
+msgid "The password has been changed successfully."
+msgstr "パスワードの変更に成功しました。"
+
 #. warn about a short delay...
-#: ../src/rc_gui.c:736
+#: ../src/rc_gui.c:838
 msgid "Setting locale - please wait..."
 msgstr "ロケールを設定しています。少々お待ちください。"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:974
+#: ../src/rc_gui.c:1077
 msgid "Setting timezone - please wait..."
 msgstr "タイムゾーンを設定しています。少々お待ちください。"
 
-#: ../src/rc_gui.c:1018 ../src/rc_gui.c:1041
+#: ../src/rc_gui.c:1117 ../src/rc_gui.c:1140
 msgid "<not set>"
 msgstr "<未設定>"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:1420
+#: ../src/rc_gui.c:1509
 msgid "Setting keyboard - please wait..."
 msgstr "キーボードを設定しています。少々お待ちください。"
 
-#: ../src/rc_gui.c:1449 ../data/rc_gui.ui.h:126
+#: ../src/rc_gui.c:1538 ../data/rc_gui.ui.h:122
 msgid "Changes will not take effect until a reboot"
 msgstr "変更は再起動後に反映されます"
 
-#: ../src/rc_gui.c:1504 ../src/rc_gui.c:1505
+#: ../src/rc_gui.c:1559
+msgid ""
+"Your system has recently been updated. Please reboot to ensure these updates "
+"have loaded before setting up the overlay file system."
+msgstr ""
+"システムがアップデートされました。オーバーレイファイルシステムを設定する前に"
+"再起動してアップデートを適用してください。"
+
+#: ../src/rc_gui.c:1589 ../src/rc_gui.c:1590
 msgid ""
 "The state of the boot partition cannot be changed while an overlay is active"
 msgstr "オーバーレイが有効の間はブートパーティションの状態は変更できません"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:1525
+#: ../src/rc_gui.c:1610
 msgid "Setting up overlay - please wait..."
 msgstr "オーバーレイを設定しています。少々お待ちください。"
 
-#: ../src/rc_gui.c:1578 ../data/rc_gui.ui.h:64
+#: ../src/rc_gui.c:1642 ../src/rc_gui.c:2060 ../data/rc_gui.ui.h:72
 msgid "Enable shell and kernel messages on the serial connection"
-msgstr "シェルとカーネルのメッセージをシリアル接続で有効にする"
+msgstr "シェルとカーネルのメッセージをシリアル接続で有効にします"
 
-#: ../src/rc_gui.c:1579 ../data/rc_gui.ui.h:65
+#: ../src/rc_gui.c:1643 ../src/rc_gui.c:2061 ../data/rc_gui.ui.h:73
 msgid "Disable shell and kernel messages on the serial connection"
-msgstr "シェルとカーネルのメッセージをシリアル接続で無効にする"
+msgstr "シェルとカーネルのメッセージをシリアル接続で無効にします"
 
-#: ../src/rc_gui.c:1590 ../src/rc_gui.c:1591
+#: ../src/rc_gui.c:1650 ../src/rc_gui.c:1651 ../src/rc_gui.c:2052
+#: ../src/rc_gui.c:2053
 msgid "This setting cannot be changed while the serial port is disabled"
 msgstr "シリアルポートが無効の間は設定を変更できません"
 
-#: ../src/rc_gui.c:1928 ../src/rc_gui.c:1929
+#: ../src/rc_gui.c:1943
+msgid ""
+"The Raspberry Pi Configuration application can only modify a standard "
+"configuration.\n"
+"\n"
+"Your configuration appears to have been modified by other tools, and so this "
+"application cannot be used on your system.\n"
+"\n"
+"In order to use this application, you need to have the latest firmware "
+"installed, Device Tree enabled, the default \"pi\" user set up and the "
+"lightdm application installed. "
+msgstr ""
+"ラズベリーパイ設定アプリケーションは標準の設定を変更することが出来ます。\n"
+"\n"
+"あなたの設定は他のツールで変更されているように見えるのでこのアプリケーション"
+"はあなたのシステムでは利用できません。\n"
+"\n"
+"このアプリケーションを利用するには、あなたは最新のファームウェアをインストー"
+"ルする必要があり、デバイスツリーが有効で、lightdm　アプリケーションがインス"
+"トールされている必要があります。"
+
+#: ../src/rc_gui.c:2018 ../src/rc_gui.c:2019
 msgid "This setting is overridden when Xscreensaver is installed"
 msgstr "Xscreensaverがインストールされている場合は設定が上書きされます"
 
-#: ../src/rc_gui.c:1988 ../src/rc_gui.c:1989
+#: ../src/rc_gui.c:2087 ../src/rc_gui.c:2088
 msgid "The VNC server is not installed"
 msgstr "VNCサーバーがインストールされていません"
 
-#: ../data/rc_gui.ui.h:1 ../data/rc_gui.desktop.in.h:1
-msgid "Raspberry Pi Configuration"
-msgstr "Raspberry Pi の設定"
-
-#: ../data/rc_gui.ui.h:2
-msgid "Password:"
-msgstr "パスワード:"
-
-#: ../data/rc_gui.ui.h:3
-msgid "Change _Password..."
-msgstr "パスワードを変更(_P)"
-
-#: ../data/rc_gui.ui.h:4
-msgid "Change password for the default user (pi)"
-msgstr "現在のユーザのパスワードを変更"
-
-#: ../data/rc_gui.ui.h:5
-msgid "Hostname:"
-msgstr "ホスト名:"
-
-#: ../data/rc_gui.ui.h:6
-msgid "Set the name of your Pi on a local network"
-msgstr "あなたのネットワーク上のPiの名前を設定します"
-
-#: ../data/rc_gui.ui.h:7
-msgid "Boot:"
-msgstr "ブート:"
-
-#: ../data/rc_gui.ui.h:8
-msgid "To Desktop"
-msgstr "デスクトップ"
-
-#: ../data/rc_gui.ui.h:9
-msgid "Launch the desktop environment automatically on boot"
-msgstr "起動時に自動的にデスクトップ環境を起動します"
-
-#: ../data/rc_gui.ui.h:10
-msgid "To CLI"
-msgstr "CLI"
-
-#: ../data/rc_gui.ui.h:11
-msgid "Boot into a command line shell rather than the desktop"
-msgstr "起動時にコマンドラインシェルではなくデスクトップを起動します"
-
-#: ../data/rc_gui.ui.h:12
-msgid "Auto login:"
-msgstr "自動ログイン:"
-
-#: ../data/rc_gui.ui.h:13
-msgid "Login as user 'pi'"
-msgstr "現在のユーザとしてログインする"
-
-#: ../data/rc_gui.ui.h:14
-msgid "Automatically log in the default user (pi)"
-msgstr "自動的に現在のユーザでログインします"
-
-#: ../data/rc_gui.ui.h:15
-msgid "Network at Boot:"
-msgstr "ネットワークブート:"
-
-#: ../data/rc_gui.ui.h:16
-msgid "Wait for network"
-msgstr "ネットワークを待つ"
-
-#: ../data/rc_gui.ui.h:17
-msgid "Do not complete boot until network connection is established"
-msgstr "ネットワークが確立するまで起動しない"
-
-#: ../data/rc_gui.ui.h:18
-msgid "Splash Screen:"
-msgstr "スプラッシュ画面:"
-
-#: ../data/rc_gui.ui.h:19
-msgid "Enable"
-msgstr "有効"
-
-#: ../data/rc_gui.ui.h:20
-msgid "Show graphical splash screen at boot"
-msgstr "起動時にスプラッシュ画面を表示する"
-
-#: ../data/rc_gui.ui.h:21
-msgid "Disable"
-msgstr "無効"
-
-#: ../data/rc_gui.ui.h:22
-msgid "Show text messages at boot"
-msgstr "起動時にテキストメッセージを表示する"
-
-#: ../data/rc_gui.ui.h:23
-msgid "Power LED:"
-msgstr "電源のLED:"
-
-#: ../data/rc_gui.ui.h:24
-msgid "Activity"
-msgstr "アクティビティ"
-
-#: ../data/rc_gui.ui.h:25
-msgid "Flash the power LED on disk activity"
-msgstr "ディスクの動作にあわせて電源のLEDを点滅させます"
-
-#: ../data/rc_gui.ui.h:26
-msgid "Constant"
-msgstr "コンスタント"
-
-#: ../data/rc_gui.ui.h:27
-msgid "Do not flash the power LED"
-msgstr "電源のLEDを点滅させません"
-
-#: ../data/rc_gui.ui.h:28
-msgid "System"
-msgstr "システム"
-
-#: ../data/rc_gui.ui.h:29
-msgid "Resolution:"
-msgstr "解像度:"
-
-#: ../data/rc_gui.ui.h:30
-msgid "Set _Resolution..."
-msgstr "解像度を設定(_R)"
-
-#: ../data/rc_gui.ui.h:31
-msgid "Set the resolution for HDMI and VNC"
-msgstr "HDMIとVNCのための解像度を設定します"
-
-#: ../data/rc_gui.ui.h:32
-msgid "Overscan:"
-msgstr "オーバースキャン:"
-
-#: ../data/rc_gui.ui.h:33
-msgid "Enable overscan to show the edges of the screen"
-msgstr "画面の端を表示するためにオーバースキャンを有効にします"
-
-#: ../data/rc_gui.ui.h:34
-msgid "Disable overscan to hide black outline on screen"
-msgstr "画面に黒いアウトラインを表示するためにオーバースキャンを無効にします"
-
-#: ../data/rc_gui.ui.h:35
-msgid "Pixel Doubling:"
-msgstr "ピクセルダブリング:"
-
-#: ../data/rc_gui.ui.h:36
-msgid "Enable pixel doubling to improve usability on high-res screens"
-msgstr "ピクセルダブリングを有効にして高解像度の画面で使いやすくします"
-
-#: ../data/rc_gui.ui.h:37
-msgid "Disable pixel doubling for standard resolution screens"
-msgstr "標準の解像度の画面向けにピクセルダブリングを無効にします"
-
-#: ../data/rc_gui.ui.h:38
-msgid "Composite Video:"
-msgstr "コンポジット映像"
-
-#: ../data/rc_gui.ui.h:39
-msgid "Enable analogue composite video on the 3.5mm socket"
-msgstr "3.5mmソケットのアナログコンポジット映像出力を有効にします"
-
-#: ../data/rc_gui.ui.h:40
-msgid "Disable analogue composite video"
-msgstr "アナログコンポジット映像出力を無効にします"
-
-#: ../data/rc_gui.ui.h:41
-msgid "Screen Blanking:"
-msgstr "画面のブランク:"
-
-#: ../data/rc_gui.ui.h:42
-msgid "Blank the screen after a period of inactivity"
-msgstr "しばらく操作されなかった場合に画面をブランクにします"
-
-#: ../data/rc_gui.ui.h:43
-msgid "Never blank the screen"
-msgstr "画面をブランクにしません"
-
-#: ../data/rc_gui.ui.h:44
-msgid "Display"
-msgstr "ディスプレイ"
-
-#: ../data/rc_gui.ui.h:45
-msgid "Camera:"
-msgstr "カメラ:"
-
-#: ../data/rc_gui.ui.h:46
-msgid "Enable the Raspberry Pi Camera Board"
-msgstr "ラズベリーパイカメラボードを有効にする"
-
-#: ../data/rc_gui.ui.h:47
-msgid "Disable the Raspberry Pi Camera Board"
-msgstr "ラズベリーパイカメラボードを無効にする"
-
-#: ../data/rc_gui.ui.h:48
-msgid "SSH:"
-msgstr "SSH:"
-
-#: ../data/rc_gui.ui.h:49
-msgid "Enable remote access to this Pi via SSH"
-msgstr "このPiへのSSHでのリモートアクセスを有効にする"
-
-#: ../data/rc_gui.ui.h:50
-msgid "Disable remote access to this Pi via SSH"
-msgstr "このPiへのSSHでのリモートアクセスを無効にする"
-
-#: ../data/rc_gui.ui.h:51
-msgid "VNC:"
-msgstr "VNC:"
-
-#: ../data/rc_gui.ui.h:52
-msgid "Enable remote access to this Pi using RealVNC"
-msgstr "このPiへのRealVNCでのリモートアクセスを有効にする"
-
-#: ../data/rc_gui.ui.h:53
-msgid "Disable remote access to this Pi using RealVNC"
-msgstr "このPiへのRealVNCでのリモートアクセスを無効にする"
-
-#: ../data/rc_gui.ui.h:54
-msgid "SPI:"
-msgstr "SPI:"
-
-#: ../data/rc_gui.ui.h:55
-msgid "Enable the automatic loading of the SPI kernel module"
-msgstr "SPIカーネルモジュールの自動読み込みを有効にする"
-
-#: ../data/rc_gui.ui.h:56
-msgid "Disable the automatic loading of the SPI kernel module"
-msgstr "SPIカーネルモジュールの自動読み込みを無効にする"
-
-#: ../data/rc_gui.ui.h:57
-msgid "I2C:"
-msgstr "I2C:"
-
-#: ../data/rc_gui.ui.h:58
-msgid "Enable the automatic loading of the I2C kernel module"
-msgstr "I2Cカーネルモジュールの自動読み込みを有効にする"
-
-#: ../data/rc_gui.ui.h:59
-msgid "Disable the automatic loading of the I2C kernel module"
-msgstr "I2Cカーネルモジュールの自動読み込みを無効にする"
-
-#: ../data/rc_gui.ui.h:60
-msgid "Serial Port:"
-msgstr "シリアルポート:"
-
-#: ../data/rc_gui.ui.h:61
-msgid "Enable the serial port over the GPIO pins"
-msgstr "GPIOピンのシリアルポートを有効にする"
-
-#: ../data/rc_gui.ui.h:62
-msgid "Disable the serial port over the GPIO pins"
-msgstr "GPIOピンのシリアルポートを無効にする"
-
-#: ../data/rc_gui.ui.h:63
-msgid "Serial Console:"
-msgstr "シリアルコンソール:"
-
-#: ../data/rc_gui.ui.h:66
-msgid "1-Wire:"
-msgstr "1-Wire:"
-
-#: ../data/rc_gui.ui.h:67
-msgid "Enable 1-wire peripheral interface"
-msgstr "1-wireインターフェイスを有効にする"
-
-#: ../data/rc_gui.ui.h:68
-msgid "Disable 1-wire peripheral interface"
-msgstr "1-wireインターフェイスを無効にする"
-
-#: ../data/rc_gui.ui.h:69
-msgid "Remote GPIO:"
-msgstr "リモートGPIO:"
-
-#: ../data/rc_gui.ui.h:70
-msgid "Enable remote access to GPIO pins"
-msgstr "GPIOピンへのリモートアクセスを有効にする"
-
-#: ../data/rc_gui.ui.h:71
-msgid "Disable remote access to GPIO pins"
-msgstr "GPIOピンへのリモートアクセスを無効にする"
-
-#: ../data/rc_gui.ui.h:72
-msgid "Interfaces"
-msgstr "インターフェイス"
-
-#: ../data/rc_gui.ui.h:73
-msgid "O_verclock:"
-msgstr "オーバークロック(_O):"
-
-#: ../data/rc_gui.ui.h:74
-msgid "Set the level of overclock to control performance"
-msgstr "パフォーマンスの制御のためにオーバークロックのレベルを設定します"
-
-#: ../data/rc_gui.ui.h:75
+#: ../src/rc_gui.c:2132
 msgid "None (700MHz)"
 msgstr "無し (700MHz)"
 
-#: ../data/rc_gui.ui.h:76
+#: ../src/rc_gui.c:2133
 msgid "Modest (800MHz)"
 msgstr "控えめ (800MHz)"
 
-#: ../data/rc_gui.ui.h:77
+#: ../src/rc_gui.c:2134
 msgid "Medium (900MHz)"
 msgstr "中間 (900MHz)"
 
-#: ../data/rc_gui.ui.h:78
+#: ../src/rc_gui.c:2135
 msgid "High (950MHz)"
 msgstr "高 (950MHz)"
 
-#: ../data/rc_gui.ui.h:79
+#: ../src/rc_gui.c:2136
 msgid "Turbo (1000MHz)"
 msgstr "ターボ (1000MHz)"
 
-#: ../data/rc_gui.ui.h:80
+#: ../src/rc_gui.c:2153
 msgid "None (900MHz)"
 msgstr "無し (900MHz)"
 
-#: ../data/rc_gui.ui.h:81
+#: ../src/rc_gui.c:2154
 msgid "High (1000MHz)"
 msgstr "高 (1000MHz)"
 
+#: ../data/rc_gui.ui.h:1
+msgid "Keyboard"
+msgstr "キーボード"
+
+#: ../data/rc_gui.ui.h:2
+msgid "Model:"
+msgstr "モデル:"
+
+#: ../data/rc_gui.ui.h:3
+msgid "Layout:"
+msgstr "配列:"
+
+#: ../data/rc_gui.ui.h:4
+msgid "Variant:"
+msgstr "種類:"
+
+#: ../data/rc_gui.ui.h:5
+msgid "Locale"
+msgstr "ロケール"
+
+#: ../data/rc_gui.ui.h:6
+msgid "Language:"
+msgstr "言語:"
+
+#: ../data/rc_gui.ui.h:7
+msgid "Country:"
+msgstr "国:"
+
+#: ../data/rc_gui.ui.h:8
+msgid "Character Set:"
+msgstr "文字セット:"
+
+#: ../data/rc_gui.ui.h:9 ../data/rc_gui.desktop.in.h:1
+msgid "Raspberry Pi Configuration"
+msgstr "Raspberry Pi の設定"
+
+#: ../data/rc_gui.ui.h:10
+msgid "Password:"
+msgstr "パスワード:"
+
+#: ../data/rc_gui.ui.h:11
+msgid "Change _Password..."
+msgstr "パスワードを変更(_P)"
+
+#: ../data/rc_gui.ui.h:12
+msgid "Change password for the default user (pi)"
+msgstr "現在のユーザのパスワードを変更"
+
+#: ../data/rc_gui.ui.h:13
+msgid "Hostname:"
+msgstr "ホスト名:"
+
+#: ../data/rc_gui.ui.h:14
+msgid "Set the name of your Pi on a local network"
+msgstr "あなたのネットワーク上のPiの名前を設定します"
+
+#: ../data/rc_gui.ui.h:15
+msgid "Boot:"
+msgstr "ブート:"
+
+#: ../data/rc_gui.ui.h:16
+msgid "To Desktop"
+msgstr "デスクトップ"
+
+#: ../data/rc_gui.ui.h:17
+msgid "Launch the desktop environment automatically on boot"
+msgstr "起動時に自動的にデスクトップ環境を起動します"
+
+#: ../data/rc_gui.ui.h:18
+msgid "To CLI"
+msgstr "CLI"
+
+#: ../data/rc_gui.ui.h:19
+msgid "Boot into a command line shell rather than the desktop"
+msgstr "起動時にコマンドラインシェルではなくデスクトップを起動します"
+
+#: ../data/rc_gui.ui.h:20
+msgid "Auto login:"
+msgstr "自動ログイン:"
+
+#: ../data/rc_gui.ui.h:21
+msgid "Login as user 'pi'"
+msgstr "'pi'ユーザとしてログインします"
+
+#: ../data/rc_gui.ui.h:22
+msgid "Automatically log in the default user (pi)"
+msgstr "自動的にデフォルトのユーザ(pi)でログインします"
+
+#: ../data/rc_gui.ui.h:23
+msgid "Disabled"
+msgstr "無効"
+
+#: ../data/rc_gui.ui.h:24
+msgid "Prompt for password at boot"
+msgstr "起動時にパスワードを求めます"
+
+#: ../data/rc_gui.ui.h:25
+msgid "Network at Boot:"
+msgstr "ネットワークブート:"
+
+#: ../data/rc_gui.ui.h:26
+msgid "Wait for network"
+msgstr "ネットワークを待つ"
+
+#: ../data/rc_gui.ui.h:27
+msgid "Do not complete boot until network connection is established"
+msgstr "ネットワークが確立するまで起動を完了しません"
+
+#: ../data/rc_gui.ui.h:28
+msgid "Do not wait"
+msgstr "待たない"
+
+#: ../data/rc_gui.ui.h:29
+msgid "Do not wait for network connection during boot"
+msgstr "起動中にネットワークが接続されるのを待ちません"
+
+#: ../data/rc_gui.ui.h:30
+msgid "Splash Screen:"
+msgstr "スプラッシュ画面:"
+
+#: ../data/rc_gui.ui.h:31
+msgid "Enable"
+msgstr "有効"
+
+#: ../data/rc_gui.ui.h:32
+msgid "Show graphical splash screen at boot"
+msgstr "起動時にスプラッシュ画面を表示します"
+
+#: ../data/rc_gui.ui.h:33
+msgid "Disable"
+msgstr "無効"
+
+#: ../data/rc_gui.ui.h:34
+msgid "Show text messages at boot"
+msgstr "起動時にテキストメッセージを表示します"
+
+#: ../data/rc_gui.ui.h:35
+msgid "Power LED:"
+msgstr "電源のLED:"
+
+#: ../data/rc_gui.ui.h:36
+msgid "Activity"
+msgstr "アクティビティ"
+
+#: ../data/rc_gui.ui.h:37
+msgid "Flash the power LED on disk activity"
+msgstr "ディスクの動作にあわせて電源のLEDを点滅させます"
+
+#: ../data/rc_gui.ui.h:38
+msgid "Constant"
+msgstr "コンスタント"
+
+#: ../data/rc_gui.ui.h:39
+msgid "Do not flash the power LED"
+msgstr "電源のLEDを点滅させません"
+
+#: ../data/rc_gui.ui.h:40
+msgid "System"
+msgstr "システム"
+
+#: ../data/rc_gui.ui.h:41
+msgid "Resolution:"
+msgstr "解像度:"
+
+#: ../data/rc_gui.ui.h:42
+msgid "Set _Resolution..."
+msgstr "解像度を設定(_R)"
+
+#: ../data/rc_gui.ui.h:43
+msgid "Set the resolution for HDMI and VNC"
+msgstr "HDMIとVNCのための解像度を設定します"
+
+#: ../data/rc_gui.ui.h:44
+msgid "Overscan:"
+msgstr "オーバースキャン:"
+
+#: ../data/rc_gui.ui.h:45
+msgid "Enable overscan to show the edges of the screen"
+msgstr "画面の端を表示するためにオーバースキャンを有効にします"
+
+#: ../data/rc_gui.ui.h:46
+msgid "Disable overscan to hide black outline on screen"
+msgstr "画面に黒いアウトラインを表示するためにオーバースキャンを無効にします"
+
+#: ../data/rc_gui.ui.h:47
+msgid "Pixel Doubling:"
+msgstr "ピクセルダブリング:"
+
+#: ../data/rc_gui.ui.h:48
+msgid "Enable pixel doubling to improve usability on high-res screens"
+msgstr "ピクセルダブリングを有効にして高解像度の画面で使いやすくします"
+
+#: ../data/rc_gui.ui.h:49
+msgid "Disable pixel doubling for standard resolution screens"
+msgstr "標準の解像度の画面向けにピクセルダブリングを無効にします"
+
+#: ../data/rc_gui.ui.h:50
+msgid "Screen Blanking:"
+msgstr "画面のブランク:"
+
+#: ../data/rc_gui.ui.h:51
+msgid "Blank the screen after a period of inactivity"
+msgstr "しばらく操作されなかった場合に画面をブランクにします"
+
+#: ../data/rc_gui.ui.h:52
+msgid "Never blank the screen"
+msgstr "画面をブランクにしません"
+
+#: ../data/rc_gui.ui.h:53
+msgid "Headless Resolution:"
+msgstr "ヘッドレス解像度:"
+
+#: ../data/rc_gui.ui.h:54
+msgid "Set the resolution for VNC when no monitor is connected"
+msgstr "モニターが接続されていない場合のVNCの解像度を設定します"
+
+#: ../data/rc_gui.ui.h:55
+msgid "Display"
+msgstr "ディスプレイ"
+
+#: ../data/rc_gui.ui.h:56
+msgid "SSH:"
+msgstr "SSH:"
+
+#: ../data/rc_gui.ui.h:57
+msgid "Enable remote access to this Pi via SSH"
+msgstr "このPiへのSSHでのリモートアクセスを有効にします"
+
+#: ../data/rc_gui.ui.h:58
+msgid "Disable remote access to this Pi via SSH"
+msgstr "このPiへのSSHでのリモートアクセスを無効にします"
+
+#: ../data/rc_gui.ui.h:59
+msgid "VNC:"
+msgstr "VNC:"
+
+#: ../data/rc_gui.ui.h:60
+msgid "Enable remote access to this Pi using RealVNC"
+msgstr "このPiへのRealVNCでのリモートアクセスを有効にします"
+
+#: ../data/rc_gui.ui.h:61
+msgid "Disable remote access to this Pi using RealVNC"
+msgstr "このPiへのRealVNCでのリモートアクセスを無効にします"
+
+#: ../data/rc_gui.ui.h:62
+msgid "SPI:"
+msgstr "SPI:"
+
+#: ../data/rc_gui.ui.h:63
+msgid "Enable the automatic loading of the SPI kernel module"
+msgstr "SPIカーネルモジュールの自動読み込みを有効にします"
+
+#: ../data/rc_gui.ui.h:64
+msgid "Disable the automatic loading of the SPI kernel module"
+msgstr "SPIカーネルモジュールの自動読み込みを無効にします"
+
+#: ../data/rc_gui.ui.h:65
+msgid "I2C:"
+msgstr "I2C:"
+
+#: ../data/rc_gui.ui.h:66
+msgid "Enable the automatic loading of the I2C kernel module"
+msgstr "I2Cカーネルモジュールの自動読み込みを有効にします"
+
+#: ../data/rc_gui.ui.h:67
+msgid "Disable the automatic loading of the I2C kernel module"
+msgstr "I2Cカーネルモジュールの自動読み込みを無効にします"
+
+#: ../data/rc_gui.ui.h:68
+msgid "Serial Port:"
+msgstr "シリアルポート:"
+
+#: ../data/rc_gui.ui.h:69
+msgid "Enable the serial port over the GPIO pins"
+msgstr "GPIOピンのシリアルポートを有効にします"
+
+#: ../data/rc_gui.ui.h:70
+msgid "Disable the serial port over the GPIO pins"
+msgstr "GPIOピンのシリアルポートを無効にします"
+
+#: ../data/rc_gui.ui.h:71
+msgid "Serial Console:"
+msgstr "シリアルコンソール:"
+
+#: ../data/rc_gui.ui.h:74
+msgid "1-Wire:"
+msgstr "1-Wire:"
+
+#: ../data/rc_gui.ui.h:75
+msgid "Enable 1-wire peripheral interface"
+msgstr "1-wireインターフェイスを有効にします"
+
+#: ../data/rc_gui.ui.h:76
+msgid "Disable 1-wire peripheral interface"
+msgstr "1-wireインターフェイスを無効にします"
+
+#: ../data/rc_gui.ui.h:77
+msgid "Remote GPIO:"
+msgstr "リモートGPIO:"
+
+#: ../data/rc_gui.ui.h:78
+msgid "Enable remote access to GPIO pins"
+msgstr "GPIOピンへのリモートアクセスを有効にします"
+
+#: ../data/rc_gui.ui.h:79
+msgid "Disable remote access to GPIO pins"
+msgstr "GPIOピンへのリモートアクセスを無効にします"
+
+#: ../data/rc_gui.ui.h:80
+msgid "Interfaces"
+msgstr "インターフェイス"
+
+#: ../data/rc_gui.ui.h:81
+msgid "O_verclock:"
+msgstr "オーバークロック(_O):"
+
 #: ../data/rc_gui.ui.h:82
-msgid "Not available"
-msgstr "利用できません"
+msgid "Set the level of overclock to control performance"
+msgstr "パフォーマンスの制御のためにオーバークロックのレベルを設定します"
 
 #: ../data/rc_gui.ui.h:83
 msgid "_GPU Memory:"
@@ -416,259 +510,176 @@ msgstr ""
 "めの構成をします"
 
 #: ../data/rc_gui.ui.h:88
+msgid "Fan:"
+msgstr "ファン:"
+
+#: ../data/rc_gui.ui.h:89
+msgid "Enable a temperature-controlled fan on a GPIO pin"
+msgstr "GPIOピン上のファンによる温度コントロールを有効にします"
+
+#: ../data/rc_gui.ui.h:90
+msgid "Disable GPIO fan"
+msgstr "GPIOファンを無効にします"
+
+#: ../data/rc_gui.ui.h:91
+msgid "Fan GPIO:"
+msgstr "ファン GPIO:"
+
+#: ../data/rc_gui.ui.h:92
+msgid "Set the GPIO to which the fan is connected"
+msgstr "ファンが接続されているGPIOを設定します"
+
+#: ../data/rc_gui.ui.h:93
+msgid "Fan Temperature:"
+msgstr "ファン温度:"
+
+#: ../data/rc_gui.ui.h:94
+msgid "Set the temperature in degrees C at which the fan turns on"
+msgstr "ファンの回転をオンにする温度を摂氏で指定します"
+
+#: ../data/rc_gui.ui.h:95
 msgid "Performance"
 msgstr "パフォーマンス"
 
-#: ../data/rc_gui.ui.h:89
+#: ../data/rc_gui.ui.h:96
 msgid "Locale:"
 msgstr "ロケール:"
 
-#: ../data/rc_gui.ui.h:90
+#: ../data/rc_gui.ui.h:97
 msgid "Set _Locale..."
 msgstr "ロケールの設定(_L)"
 
-#: ../data/rc_gui.ui.h:91
+#: ../data/rc_gui.ui.h:98
 msgid "Set internationalisation settings for units etc."
-msgstr "単位などの国際化設定を設定。"
+msgstr "単位などの国際化設定を設定します。"
 
-#: ../data/rc_gui.ui.h:92
+#: ../data/rc_gui.ui.h:99
 msgid "Timezone:"
 msgstr "タイムゾーン:"
 
-#: ../data/rc_gui.ui.h:93
+#: ../data/rc_gui.ui.h:100
 msgid "Set _Timezone..."
 msgstr "タイムゾーンの設定(_T)"
 
-#: ../data/rc_gui.ui.h:94
+#: ../data/rc_gui.ui.h:101
 msgid "Set the timezone to be used by the internal clock"
 msgstr "内部クロックで利用するタイムゾーンを設定します"
 
-#: ../data/rc_gui.ui.h:95
+#: ../data/rc_gui.ui.h:102
 msgid "Keyboard:"
 msgstr "キーボード:"
 
-#: ../data/rc_gui.ui.h:96
+#: ../data/rc_gui.ui.h:103
 msgid "Set _Keyboard..."
 msgstr "キーボードの設定(_K)"
 
-#: ../data/rc_gui.ui.h:97
+#: ../data/rc_gui.ui.h:104
 msgid "Set international keyboard options"
-msgstr "国際キーボードの設定"
+msgstr "国際キーボードの設定をします"
 
-#: ../data/rc_gui.ui.h:98
+#: ../data/rc_gui.ui.h:105
 msgid "WiFi Country:"
 msgstr "無線LANの国:"
 
-#: ../data/rc_gui.ui.h:99
+#: ../data/rc_gui.ui.h:106
 msgid "Set _WiFi Country..."
 msgstr "無線LANの国設定(_W)"
 
-#: ../data/rc_gui.ui.h:100
+#: ../data/rc_gui.ui.h:107
 msgid "Set WiFi country code"
-msgstr "無線LANの国コードを設定"
+msgstr "無線LANの国コードを設定します"
 
-#: ../data/rc_gui.ui.h:101
+#: ../data/rc_gui.ui.h:108
 msgid "Localisation"
 msgstr "ローカライゼーション"
 
-#: ../data/rc_gui.ui.h:102
-msgid ""
-"The Raspberry Pi Configuration application can only modify a standard "
-"configuration.\n"
-"\n"
-"Your configuration appears to have been modified by other tools, and so this "
-"application cannot be used on your system.\n"
-"\n"
-"In order to use this application, you need to have the latest firmware "
-"installed, Device Tree enabled, the default \"pi\" user set up and the "
-"lightdm application installed. "
-msgstr ""
-"ラズベリーパイ設定アプリケーションは標準の設定を変更することが出来ます。\n"
-"\n"
-"あなたの設定は他のツールで変更されているように見えるのでこのアプリケーション"
-"はあなたのシステムでは利用できません。\n"
-"\n"
-"このアプリケーションを利用するには、あなたは最新のファームウェアをインストー"
-"ルする必要があり、デバイスツリーが有効で、lightdm　アプリケーションがインス"
-"トールされている必要があります。"
+#: ../data/rc_gui.ui.h:109
+msgid "label"
+msgstr "ラベル"
 
-#: ../data/rc_gui.ui.h:107
-msgid "Filesystem Expanded"
-msgstr "ファイルシステムの拡張"
-
-#: ../data/rc_gui.ui.h:108
-msgid ""
-"The filesystem has been expanded.\n"
-"\n"
-"The new space will not be available until you reboot your Raspberry Pi."
-msgstr ""
-"ファイルシステムを拡張しました。\n"
-"\n"
-"新しい領域はあなたのラズベリーパイを再起動するまで利用できません。"
+#: ../data/rc_gui.ui.h:110
+msgid "_Cancel"
+msgstr "キャンセル(_C)"
 
 #: ../data/rc_gui.ui.h:111
-msgid "Locale"
-msgstr "ロケール"
+msgid "_OK"
+msgstr "OK(_O)"
 
 #: ../data/rc_gui.ui.h:112
-msgid "Language:"
-msgstr "言語:"
-
-#: ../data/rc_gui.ui.h:113
-msgid "Country:"
-msgstr "国:"
-
-#: ../data/rc_gui.ui.h:114
-msgid "Character Set:"
-msgstr "文字セット:"
-
-#: ../data/rc_gui.ui.h:115
 msgid "Overlay File System"
 msgstr "オーバーレイファイルシステム"
 
-#: ../data/rc_gui.ui.h:116
+#: ../data/rc_gui.ui.h:113
 msgid "Overlay:"
 msgstr "オーバーレイ:"
 
-#: ../data/rc_gui.ui.h:117
+#: ../data/rc_gui.ui.h:114
 msgid "Enabled"
 msgstr "有効"
 
-#: ../data/rc_gui.ui.h:118
+#: ../data/rc_gui.ui.h:115
 msgid "Enable a file system overlay; all changes will be lost on reboot"
 msgstr ""
 "ファイルシステムのオーバーレイを有効にします。再起動をすると全ての変更が失わ"
 "れます"
 
-#: ../data/rc_gui.ui.h:119
-msgid "Disabled"
-msgstr "無効"
-
-#: ../data/rc_gui.ui.h:120
+#: ../data/rc_gui.ui.h:116
 msgid "Disable a file system overlay; changes will be saved to the SD card"
 msgstr ""
 "ファイルシステムのオーバーレイを無効にします。全ての変更はSDカードに保存され"
 "ます"
 
-#: ../data/rc_gui.ui.h:121
+#: ../data/rc_gui.ui.h:117
 msgid "Boot Partition:"
 msgstr "起動パーティション:"
 
-#: ../data/rc_gui.ui.h:122
+#: ../data/rc_gui.ui.h:118
 msgid "Read-only"
 msgstr "読み込みのみ"
 
-#: ../data/rc_gui.ui.h:123
+#: ../data/rc_gui.ui.h:119
 msgid "Make the boot partition read-only"
 msgstr "起動パーティションを読み込みのみにします"
 
-#: ../data/rc_gui.ui.h:124
+#: ../data/rc_gui.ui.h:120
 msgid "Read-write"
 msgstr "読み書き"
 
-#: ../data/rc_gui.ui.h:125
+#: ../data/rc_gui.ui.h:121
 msgid "Make the boot partition writable"
 msgstr "起動パーティションを書き込み可能できるようにします"
 
-#: ../data/rc_gui.ui.h:127
+#: ../data/rc_gui.ui.h:123
 msgid "Change Password"
 msgstr "パスワードの変更"
 
-#: ../data/rc_gui.ui.h:128
+#: ../data/rc_gui.ui.h:124
 msgid "Enter new password:"
 msgstr "新しいパスワードの入力:"
 
-#: ../data/rc_gui.ui.h:129
+#: ../data/rc_gui.ui.h:125
 msgid "Confirm new password:"
 msgstr "新しいパスワードを再入力:"
 
-#: ../data/rc_gui.ui.h:130
-msgid "Password Not Changed"
-msgstr "パスワードは変更されませんでした"
-
-#: ../data/rc_gui.ui.h:131
-msgid ""
-"The password change failed.\n"
-"\n"
-"This could be because the current password was incorrect, or because the new "
-"password was not sufficiently complex or was too similar to the current "
-"password."
-msgstr ""
-"パスワードの変更に失敗しました。\n"
-"\n"
-"現在のパスワードを間違えているか、新しいパスワードが十分に複雑でない、あるい"
-"は現在のパスワードと似ている可能性があります。"
-
-#: ../data/rc_gui.ui.h:134
-msgid "Password Changed"
-msgstr "パスワードが変更されました"
-
-#: ../data/rc_gui.ui.h:135
-msgid "The password has been changed successfully."
-msgstr "パスワードの変更に成功しました。"
-
-#: ../data/rc_gui.ui.h:136
-msgid "Reboot needed"
-msgstr "再起動が必要です"
-
-#: ../data/rc_gui.ui.h:137
-msgid ""
-"The changes you have made require the Raspberry Pi to be rebooted to take "
-"effect.\n"
-"\n"
-"Would you like to reboot now? "
-msgstr ""
-"あなたの変更した設定を有効にするにはラズベリーパイの再起動が必要です\n"
-"\n"
-"すぐに再起動しますか?"
-
-#: ../data/rc_gui.ui.h:140
+#: ../data/rc_gui.ui.h:126
 msgid "Set Resolution"
 msgstr "解像度の設定"
 
-#: ../data/rc_gui.ui.h:141
+#: ../data/rc_gui.ui.h:127
 msgid "Timezone"
 msgstr "タイムゾーン"
 
-#: ../data/rc_gui.ui.h:142
+#: ../data/rc_gui.ui.h:128
 msgid "Area:"
 msgstr "地域:"
 
-#: ../data/rc_gui.ui.h:143
+#: ../data/rc_gui.ui.h:129
 msgid "Location:"
 msgstr "位置:"
 
-#: ../data/rc_gui.ui.h:144
+#: ../data/rc_gui.ui.h:130
 msgid "WiFi Country Code"
 msgstr "無線LANの国コード"
-
-#: ../data/rc_gui.ui.h:145
-msgid "Keyboard"
-msgstr "キーボード"
-
-#: ../data/rc_gui.ui.h:146
-msgid "Model:"
-msgstr "モデル:"
-
-#: ../data/rc_gui.ui.h:147
-msgid "Layout:"
-msgstr "配列:"
-
-#: ../data/rc_gui.ui.h:148
-msgid "Variant:"
-msgstr "種類:"
-
-#: ../data/rc_gui.ui.h:149
-msgid "Reboot Needed"
-msgstr "再起動が必要です"
-
-#: ../data/rc_gui.ui.h:150
-msgid ""
-"Your system has recently been updated. Please reboot to ensure these updates "
-"have loaded before setting up the overlay file system."
-msgstr ""
-"システムがアップデートされました。オーバーレイファイルシステムを設定する前に"
-"再起動してアップデートを適用してください。"
 
 #: ../data/rc_gui.desktop.in.h:2
 msgid "Configure Raspberry Pi system"
@@ -677,6 +688,51 @@ msgstr "ラズベリーパイシステムの設定"
 #: ../data/pwdrcg.sh:6
 msgid "Password Required"
 msgstr "パスワードが必要です"
+
+#~ msgid "Composite Video:"
+#~ msgstr "コンポジット映像"
+
+#~ msgid "Enable analogue composite video on the 3.5mm socket"
+#~ msgstr "3.5mmソケットのアナログコンポジット映像出力を有効にします"
+
+#~ msgid "Disable analogue composite video"
+#~ msgstr "アナログコンポジット映像出力を無効にします"
+
+#~ msgid "Camera:"
+#~ msgstr "カメラ:"
+
+#~ msgid "Enable the Raspberry Pi Camera Board"
+#~ msgstr "ラズベリーパイカメラボードを有効にする"
+
+#~ msgid "Disable the Raspberry Pi Camera Board"
+#~ msgstr "ラズベリーパイカメラボードを無効にする"
+
+#~ msgid "Not available"
+#~ msgstr "利用できません"
+
+#~ msgid "Filesystem Expanded"
+#~ msgstr "ファイルシステムの拡張"
+
+#~ msgid ""
+#~ "The filesystem has been expanded.\n"
+#~ "\n"
+#~ "The new space will not be available until you reboot your Raspberry Pi."
+#~ msgstr ""
+#~ "ファイルシステムを拡張しました。\n"
+#~ "\n"
+#~ "新しい領域はあなたのラズベリーパイを再起動するまで利用できません。"
+
+#~ msgid "Password Not Changed"
+#~ msgstr "パスワードは変更されませんでした"
+
+#~ msgid "Password Changed"
+#~ msgstr "パスワードが変更されました"
+
+#~ msgid "Reboot needed"
+#~ msgstr "再起動が必要です"
+
+#~ msgid "Reboot Needed"
+#~ msgstr "再起動が必要です"
 
 #~ msgid "Expand _Filesystem"
 #~ msgstr "ファイルシステムの拡張"
