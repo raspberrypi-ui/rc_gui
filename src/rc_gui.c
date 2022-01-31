@@ -1592,7 +1592,7 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
             vsystem (SET_BOOTP_RO);
         if (!orig_bpro && !gtk_switch_get_active (GTK_SWITCH (bp_ro_sw)))
             vsystem (SET_BOOTP_RW);
-        if (!orig_ofs && gtk_switch_get_active (GTK_SWITCH (ofs_en_sw)))
+        if (!orig_ofs && !gtk_switch_get_active (GTK_SWITCH (ofs_en_sw)))
             vsystem (SET_OFS_OFF);
         if (orig_ofs && gtk_switch_get_active (GTK_SWITCH (ofs_en_sw)))
         {
