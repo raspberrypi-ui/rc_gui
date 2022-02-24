@@ -61,8 +61,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_BOOT_WAIT   "raspi-config nonint do_boot_wait %d"
 #define GET_SPLASH      "raspi-config nonint get_boot_splash"
 #define SET_SPLASH      "raspi-config nonint do_boot_splash %d"
-#define GET_OVERSCAN    "raspi-config nonint get_overscan"
-#define SET_OVERSCAN    "raspi-config nonint do_overscan %d"
+#define GET_OVERSCAN    "raspi-config nonint get_overscan_kms 1"
+#define GET_OVERSCAN2   "raspi-config nonint get_overscan_kms 2"
+#define SET_OVERSCAN    "raspi-config nonint do_overscan_kms 1 %d"
+#define SET_OVERSCAN2   "raspi-config nonint do_overscan_kms 2 %d"
 #define GET_PIXDUB      "raspi-config nonint get_pixdub"
 #define SET_PIXDUB      "raspi-config nonint do_pixdub %d"
 #define GET_CAMERA      "raspi-config nonint get_camera"
@@ -140,7 +142,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 static GObject *passwd_btn, *res_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
 static GObject *boot_desktop_rb, *boot_cli_rb, *pixdub_sw;
-static GObject *overscan_sw, *ssh_sw, *rgpio_sw, *vnc_sw;
+static GObject *overscan_sw, *overscan2_sw, *ssh_sw, *rgpio_sw, *vnc_sw;
 static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw;
 static GObject *alogin_sw, *netwait_sw, *splash_sw, *scons_sw;
 static GObject *blank_sw, *led_actpwr_sw, *fan_sw;
@@ -156,7 +158,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 /* Initial values */
 
 static char *orig_hostname;
-static int orig_boot, orig_overscan, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
+static int orig_boot, orig_overscan, orig_overscan2, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
 static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub, orig_pi4v;
 static int orig_ofs, orig_bpro, orig_blank, orig_leds, orig_fan, orig_fan_gpio, orig_fan_temp, orig_vnc_res;
 static char *vres;
@@ -1689,7 +1691,8 @@ static int process_changes (void)
 
     if (!vsystem (IS_PI))
     {
-        READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, TRUE);
+        READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
+        READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
         READ_SWITCH (vnc_sw, orig_vnc, SET_VNC, FALSE);
         READ_SWITCH (spi_sw, orig_spi, SET_SPI, FALSE);
         READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
@@ -1944,7 +1947,8 @@ int main (int argc, char *argv[])
         res_btn = gtk_builder_get_object (builder, "button_res");
         g_signal_connect (res_btn, "clicked", G_CALLBACK (on_set_res), NULL);
 
-        CONFIG_SWITCH (overscan_sw, "sw_os", orig_overscan, GET_OVERSCAN);
+        CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN);
+        CONFIG_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2);
         CONFIG_SWITCH (spi_sw, "sw_spi", orig_spi, GET_SPI);
         CONFIG_SWITCH (i2c_sw, "sw_i2c", orig_i2c, GET_I2C);
         CONFIG_SWITCH (onewire_sw, "sw_one", orig_onewire, GET_1WIRE);
@@ -2058,11 +2062,13 @@ int main (int argc, char *argv[])
          *                              FKMS,Pi4    FKMS,Pi3    Leg,Pi4     Leg,Pi3     x86
          * hbox51 - set resolution          -           -           Y           Y        -
          * hbox52 - overscan                Y           Y           Y           Y        -
-         * hbox53 - pixel doubling          Y           Y           Y           Y        Y
-         * hbox54 - blanking                Y           Y           Y           Y        Y
+         * hbox54 - pixel doubling          Y           Y           Y           Y        Y
+         * hbox55 - blanking                Y           Y           Y           Y        Y
          */
 
         if (!vsystem (GET_FKMS)) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox51")));
+        if (get_status ("xrandr -q | grep -cw connected") != 2) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
+        else gtk_label_set_text (gtk_builder_get_object (builder, "label52"), _("Overscan (HDMI-1):"));
 
         madj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);
         memsplit_sb = gtk_builder_get_object (builder, "spin_gpu");
@@ -2115,7 +2121,7 @@ int main (int argc, char *argv[])
 
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox51")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox52")));
-        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox55")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
     }
 
     g_object_unref (builder);

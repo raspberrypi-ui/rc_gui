@@ -780,7 +780,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSwitch" id="sw_os">
+                      <object class="GtkSwitch" id="sw_os1">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Enable overscan to show the edges of the screen</property>
@@ -809,7 +809,7 @@
                       <object class="GtkLabel" id="label53">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Pixel Doubling:</property>
+                        <property name="label" translatable="yes">Overscan (HDMI-2):</property>
                         <property name="xalign">0</property>
                       </object>
                       <packing>
@@ -819,10 +819,10 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSwitch" id="sw_pd">
+                      <object class="GtkSwitch" id="sw_os2">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="tooltip-text" translatable="yes">Enable pixel doubling to improve usability on high-res screens</property>
+                        <property name="tooltip-text" translatable="yes">Enable overscan to show the edges of the second screen</property>
                         <accessibility>
                           <relation type="labelled-by" target="label53"/>
                         </accessibility>
@@ -848,7 +848,7 @@
                       <object class="GtkLabel" id="label54">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Screen Blanking:</property>
+                        <property name="label" translatable="yes">Pixel Doubling:</property>
                         <property name="xalign">0</property>
                       </object>
                       <packing>
@@ -858,10 +858,10 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSwitch" id="sw_blank">
+                      <object class="GtkSwitch" id="sw_pd">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="tooltip-text" translatable="yes">Blank the screen after a period of inactivity</property>
+                        <property name="tooltip-text" translatable="yes">Enable pixel doubling to improve usability on high-res screens</property>
                         <accessibility>
                           <relation type="labelled-by" target="label54"/>
                         </accessibility>
@@ -887,6 +887,45 @@
                       <object class="GtkLabel" id="label55">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">Screen Blanking:</property>
+                        <property name="xalign">0</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="sw_blank">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Blank the screen after a period of inactivity</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label55"/>
+                        </accessibility>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="hbox56">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="label56">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Headless Resolution:</property>
                         <property name="use-underline">True</property>
                         <property name="mnemonic-widget">combo_res</property>
@@ -904,7 +943,7 @@
                         <property name="can-focus">False</property>
                         <property name="tooltip-text" translatable="yes">Set the resolution for VNC when no monitor is connected</property>
                         <accessibility>
-                          <relation type="labelled-by" target="label55"/>
+                          <relation type="labelled-by" target="label56"/>
                         </accessibility>
                       </object>
                       <packing>
@@ -917,7 +956,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                   </packing>
                 </child>
               </object>
@@ -1806,6 +1845,7 @@
       <widget name="hbox53"/>
       <widget name="hbox54"/>
       <widget name="hbox55"/>
+      <widget name="hbox56"/>
       <widget name="hbox22"/>
       <widget name="hbox23"/>
       <widget name="hbox24"/>
