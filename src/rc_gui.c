@@ -65,6 +65,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_OVERSCAN2   "raspi-config nonint get_overscan_kms 2"
 #define SET_OVERSCAN    "raspi-config nonint do_overscan_kms 1 %d"
 #define SET_OVERSCAN2   "raspi-config nonint do_overscan_kms 2 %d"
+#define GET_OVERSCANL   "raspi-config nonint get_overscan"
+#define SET_OVERSCANL   "raspi-config nonint do_overscan %d"
 #define GET_PIXDUB      "raspi-config nonint get_pixdub"
 #define SET_PIXDUB      "raspi-config nonint do_pixdub %d"
 #define GET_CAMERA      "raspi-config nonint get_camera"
@@ -92,7 +94,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define IS_PI           "raspi-config nonint is_pi"
 #define IS_PI4          "raspi-config nonint is_pifour"
 #define HAS_ANALOG      "raspi-config nonint has_analog"
-#define GET_FKMS        "raspi-config nonint is_fkms"
+#define GET_KMS         "raspi-config nonint is_fkms"
 #define GET_OVERCLOCK   "raspi-config nonint get_config_var arm_freq /boot/config.txt"
 #define SET_OVERCLOCK   "raspi-config nonint do_overclock %s"
 #define GET_GPU_MEM     "raspi-config nonint get_config_var gpu_mem /boot/config.txt"
@@ -455,23 +457,6 @@ static void set_passwd (GtkEntry *entry, gpointer ptr)
         gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), FALSE);
     else
         gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), TRUE);
-}
-
-static void escape_passwd (const char *in, char **out)
-{
-    const char *ip;
-    char *op;
-
-    ip = in;
-    *out = malloc (2 * strlen (in) + 1);    // allocate for worst case...
-    op = *out;
-    while (*ip)
-    {
-        if (*ip == '$' || *ip == '"' || *ip == '\\' || *ip == '`')
-            *op++ = '\\';
-        *op++ = *ip++;
-    }
-    *op = 0;
 }
 
 static void on_change_passwd (GtkButton* btn, gpointer ptr)
@@ -1691,8 +1676,16 @@ static int process_changes (void)
 
     if (!vsystem (IS_PI))
     {
-        READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
-        READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
+        if (!vsystem (GET_KMS))
+        {
+            READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
+            READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
+        }
+        else
+        {
+            READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCANL, TRUE);
+        }
+
         READ_SWITCH (vnc_sw, orig_vnc, SET_VNC, FALSE);
         READ_SWITCH (spi_sw, orig_spi, SET_SPI, FALSE);
         READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
@@ -1774,6 +1767,11 @@ static int process_changes (void)
         {
             if (orig_fan == 1 || orig_fan_gpio != fan_gpio || orig_fan_temp != fan_temp) vsystem (SET_FAN, 0, fan_gpio, fan_temp);
         }
+    }
+    else
+    {
+        READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
+        READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
     }
 
     return reboot;
@@ -1942,13 +1940,24 @@ int main (int argc, char *argv[])
         gtk_widget_set_tooltip_text (GTK_WIDGET (blank_sw), _("This setting is overridden when Xscreensaver is installed"));
     }
 
+    if (get_status ("xrandr -q | grep -cw connected") != 2) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
+    else gtk_label_set_text (GTK_LABEL (gtk_builder_get_object (builder, "label52")), _("Overscan (HDMI-1):"));
+
     if (!vsystem (IS_PI))
     {
         res_btn = gtk_builder_get_object (builder, "button_res");
         g_signal_connect (res_btn, "clicked", G_CALLBACK (on_set_res), NULL);
 
-        CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN);
-        CONFIG_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2);
+        if (!vsystem (GET_KMS))
+        {
+            CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN);
+            CONFIG_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2);
+        }
+        else
+        {
+            CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCANL);
+        }
+
         CONFIG_SWITCH (spi_sw, "sw_spi", orig_spi, GET_SPI);
         CONFIG_SWITCH (i2c_sw, "sw_i2c", orig_i2c, GET_I2C);
         CONFIG_SWITCH (onewire_sw, "sw_one", orig_onewire, GET_1WIRE);
@@ -2061,14 +2070,19 @@ int main (int argc, char *argv[])
          *
          *                              FKMS,Pi4    FKMS,Pi3    Leg,Pi4     Leg,Pi3     x86
          * hbox51 - set resolution          -           -           Y           Y        -
-         * hbox52 - overscan                Y           Y           Y           Y        -
-         * hbox54 - pixel doubling          Y           Y           Y           Y        Y
+         * hbox52 - overscan 1              Y           Y           Y           Y        Y
+         * hbox53 - overscan 2              Y           Y           -           -        Y
+         * hbox54 - pixel doubling          -           -           Y           Y        -
          * hbox55 - blanking                Y           Y           Y           Y        Y
+         * hbox55 - headless res            Y           Y           Y           Y        -
          */
 
-        if (!vsystem (GET_FKMS)) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox51")));
-        if (get_status ("xrandr -q | grep -cw connected") != 2) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
-        else gtk_label_set_text (gtk_builder_get_object (builder, "label52"), _("Overscan (HDMI-1):"));
+        if (!vsystem (GET_KMS))
+        {
+            // if on a KMS system, hide resolution setting and pixel doubling - handled by arandr
+            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox51")));
+            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox54")));
+        }
 
         madj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);
         memsplit_sb = gtk_builder_get_object (builder, "spin_gpu");
@@ -2102,6 +2116,9 @@ int main (int argc, char *argv[])
     }
     else
     {
+        CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN);
+        CONFIG_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2);
+
         if (!get_status ("grep -q boot=live /proc/cmdline ; echo $?"))
         {
             gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
@@ -2120,7 +2137,7 @@ int main (int argc, char *argv[])
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox29")));
 
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox51")));
-        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox52")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox54")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
     }
 
