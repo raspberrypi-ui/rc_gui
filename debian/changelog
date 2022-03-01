@@ -1,3 +1,10 @@
+rc-gui (1.55) bullseye; urgency=medium
+
+  * Add on-the-fly overscan setting under KMS
+  * Remove pixel doubling under KMS
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 01 Mar 2022 11:59:27 +0000
+
 rc-gui (1.54) bullseye; urgency=medium
 
   * Use switches instead of radio buttons
