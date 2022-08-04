@@ -1501,7 +1501,6 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 
             // launch a thread with the system call to update the keyboard
             pthread = g_thread_new (NULL, keyboard_thread, NULL);
-            if (ptr != NULL) gtk_dialog_run (GTK_DIALOG (msg_dlg));
         }
     }
 
@@ -1860,19 +1859,6 @@ int main (int argc, char *argv[])
     if (argc == 2 && !g_strcmp0 (argv[1], "-w"))
     {
         on_set_wifi (NULL, NULL);
-        return 0;
-    }
-
-    if (argc == 2 && !g_strcmp0 (argv[1], "-k"))
-    {
-        // set up list stores for keyboard layouts
-        model_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
-        layout_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
-        variant_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
-
-        pthread = 0;
-        on_set_keyboard (NULL, (gpointer) 1);
-        if (pthread) g_thread_join (pthread);
         return 0;
     }
 
