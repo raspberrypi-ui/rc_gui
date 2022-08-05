@@ -1538,6 +1538,7 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
     g_signal_connect (ofs_en_sw, "state-set", G_CALLBACK (on_overlay_fs), NULL);
     g_signal_connect (bp_ro_sw, "state-set", G_CALLBACK (on_overlay_fs), NULL);
     gtk_widget_realize (GTK_WIDGET (ofs_lbl));
+    gtk_widget_set_size_request (dlg, gtk_widget_get_allocated_width (dlg), gtk_widget_get_allocated_height (dlg));
     gtk_widget_hide (GTK_WIDGET (ofs_lbl));
 
     ovfs_rb = 0;
