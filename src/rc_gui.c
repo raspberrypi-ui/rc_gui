@@ -740,7 +740,6 @@ static gpointer locale_thread (gpointer data)
 
 static void on_set_locale (GtkButton* btn, gpointer ptr)
 {
-    FILE *fp;
     GtkBuilder *builder;
     GtkWidget *dlg, *tab;
     GtkCellRenderer *col;
@@ -748,8 +747,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     GtkTreeModelSort *slang;
     GtkTreeModelFilter *flang;
     GtkTreeIter iter;
-    char *str, *buffer, *init_locale = NULL;
-    int len;
+    char *buffer, *init_locale = NULL;
 
     // create and populate the locale database
     locale_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
@@ -790,14 +788,10 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     // set up the language combo box from the sorted and filtered language list
     gtk_combo_box_set_model (GTK_COMBO_BOX (loclang_cb), GTK_TREE_MODEL (flang));
 
-    if (init_locale == NULL) gtk_combo_box_set_active (GTK_COMBO_BOX (loclang_cb), 0);
-    else
-    {
-        str = g_strdup (init_locale);
-        strtok (str, "_");
-        set_init (GTK_TREE_MODEL (flang), loclang_cb, LOC_LCODE, str);
-        g_free (str);
-    }
+    buffer = g_strdup (init_locale);
+    strtok (buffer, "_");
+    set_init (GTK_TREE_MODEL (flang), loclang_cb, LOC_LCODE, buffer);
+    g_free (buffer);
 
     // set the other combo boxes accordingly
     language_changed (GTK_COMBO_BOX (loclang_cb), init_locale);
@@ -811,19 +805,19 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
         // get the current charset code from the combo box
         model = gtk_combo_box_get_model (GTK_COMBO_BOX (locchar_cb));
         gtk_combo_box_get_active_iter (GTK_COMBO_BOX (locchar_cb), &iter);
-        gtk_tree_model_get (model, &iter, LOC_LCCODE, &str, -1);
-        strcpy (gbuffer, str);
-        g_free (str);
+        gtk_tree_model_get (model, &iter, LOC_LCCODE, &buffer, -1);
 
-        if (gbuffer[0] && g_strcmp0 (gbuffer, init_locale))
+        gtk_widget_destroy (dlg);
+
+        if (g_strcmp0 (buffer, init_locale))
         {
             // use sed to comment current setting if uncommented
-            if (init_locale)
-                vsystem ("sed -i 's/^\\(%s\\s\\)/# \\1/g' /etc/locale.gen", init_locale);
+            vsystem ("sed -i 's/^\\(%s\\s\\)/# \\1/g' /etc/locale.gen", init_locale);
 
             // use sed to uncomment new setting if commented
-            if (gbuffer)
-                vsystem ("sed -i 's/^# \\(%s\\s\\)/\\1/g' /etc/locale.gen", gbuffer);
+            vsystem ("sed -i 's/^# \\(%s\\s\\)/\\1/g' /etc/locale.gen", buffer);
+
+            strcpy (gbuffer, buffer);
 
             // warn about a short delay...
             message (_("Setting locale - please wait..."));
@@ -834,14 +828,16 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
             // set reboot flag
             needs_reboot = 1;
         }
+        g_free (buffer);
     }
+    else gtk_widget_destroy (dlg);
 
     g_free (init_locale);
     g_object_unref (locale_list);
+    g_object_unref (country_list);
+    g_object_unref (charset_list);
     g_object_unref (flang);
     g_object_unref (slang);
-
-    gtk_widget_destroy (dlg);
 }
 
 /* Timezone setting */
@@ -1020,25 +1016,21 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
     // set up the area combo box from the sorted and filtered timezone list
     gtk_combo_box_set_model (GTK_COMBO_BOX (tzarea_cb), GTK_TREE_MODEL (ftz));
 
-    if (!init_tz) gtk_combo_box_set_active (GTK_COMBO_BOX (tzarea_cb), 0);
-    else
+    buffer = g_strdup (init_tz);
+    cptr = buffer;
+    while (*cptr++);
+    while (cptr-- > buffer)
     {
-        buffer = g_strdup (init_tz);
-        char *cptr = buffer;
-        while (*cptr++);
-        while (cptr-- > buffer)
+        if (*cptr == '/')
         {
-            if (*cptr == '/')
-            {
-                *cptr = 0;
-                break;
-            }
+            *cptr = 0;
+            break;
         }
-        cptr = buffer;
-        while (*cptr++) if (*cptr == '_') *cptr = ' ';
-        set_init (GTK_TREE_MODEL (ftz), tzarea_cb, TZ_NAME, buffer);
-        g_free (buffer);
     }
+    cptr = buffer;
+    while (*cptr++) if (*cptr == '_') *cptr = ' ';
+    set_init (GTK_TREE_MODEL (ftz), tzarea_cb, TZ_NAME, buffer);
+    g_free (buffer);
 
     // populate the location list and set the current location
     area_changed (GTK_COMBO_BOX (tzarea_cb), init_tz);
@@ -1049,10 +1041,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
         model = gtk_combo_box_get_model (GTK_COMBO_BOX (tzloc_cb));
-        if (gtk_tree_model_iter_n_children (model, NULL) > 1)
-        {
-            gtk_combo_box_get_active_iter (GTK_COMBO_BOX (tzloc_cb), &iter);
-        }
+        if (gtk_tree_model_iter_n_children (model, NULL) > 1) gtk_combo_box_get_active_iter (GTK_COMBO_BOX (tzloc_cb), &iter);
         else
         {
             model = gtk_combo_box_get_model (GTK_COMBO_BOX (tzarea_cb));
@@ -1060,7 +1049,9 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
         }
         gtk_tree_model_get (model, &iter, TZ_PATH, &buffer, -1);
 
-        if (g_strcmp0 (init_tz, buffer))
+        gtk_widget_destroy (dlg);
+
+        if (g_strcmp0 (buffer, init_tz))
         {
             vsystem ("echo '%s' | tee /etc/timezone", buffer);
 
@@ -1070,15 +1061,16 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
             // launch a thread with the system call to update the timezone
             g_thread_new (NULL, timezone_thread, NULL);
         }
+
         g_free (buffer);
     }
+    else gtk_widget_destroy (dlg);
 
     g_free (init_tz);
     g_object_unref (timezone_list);
+    g_object_unref (tzcity_list);
     g_object_unref (ftz);
     g_object_unref (stz);
-
-    gtk_widget_destroy (dlg);
 }
 
 /* Wifi country setting */
@@ -1410,13 +1402,12 @@ static void read_keyboards (void)
 
 static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 {
-    FILE *fp;
     GtkBuilder *builder;
     GtkWidget *dlg;
     GtkCellRenderer *col;
     GtkTreeIter iter;
     char *buffer, *init_model = NULL, *init_layout = NULL, *init_variant = NULL, *new_mod, *new_lay, *new_var;
-    int n;
+    gboolean update = FALSE;
 
     // set up list stores for keyboard layouts
     model_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
@@ -1452,6 +1443,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     if (init_layout == NULL) init_layout = g_strdup ("gb");
 
     init_variant = get_string ("grep XKBVARIANT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev");
+    if (init_variant == NULL) init_variant = g_strdup ("");
 
     set_init (GTK_TREE_MODEL (model_list), keymodel_cb, 1, init_model);
     set_init (GTK_TREE_MODEL (layout_list), keylayout_cb, 1, init_layout);
@@ -1463,46 +1455,48 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     // run the dialog
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
-        n = 0;
         gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keymodel_cb), &iter);
         gtk_tree_model_get (GTK_TREE_MODEL (model_list), &iter, 1, &new_mod, -1);
+        gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keylayout_cb), &iter);
+        gtk_tree_model_get (GTK_TREE_MODEL (layout_list), &iter, 1, &new_lay, -1);
+        gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keyvar_cb), &iter);
+        gtk_tree_model_get (GTK_TREE_MODEL (variant_list), &iter, 1, &new_var, -1);
+
+        gtk_widget_destroy (dlg);
+
         if (g_strcmp0 (new_mod, init_model))
         {
             vsystem ("grep -q XKBMODEL /etc/default/keyboard && sed -i 's/XKBMODEL=.*/XKBMODEL=%s/g' /etc/default/keyboard || echo 'XKBMODEL=%s' >> /etc/default/keyboard", new_mod, new_mod);
-            n = 1;
+            update = TRUE;
         }
-
-        gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keylayout_cb), &iter);
-        gtk_tree_model_get (GTK_TREE_MODEL (layout_list), &iter, 1, &new_lay, -1);
         if (g_strcmp0 (new_lay, init_layout))
         {
             vsystem ("grep -q XKBLAYOUT /etc/default/keyboard && sed -i 's/XKBLAYOUT=.*/XKBLAYOUT=%s/g' /etc/default/keyboard || echo 'XKBLAYOUT=%s' >> /etc/default/keyboard", new_lay, new_lay);
-            n = 1;
+            update = TRUE;
         }
-
-        gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keyvar_cb), &iter);
-        gtk_tree_model_get (GTK_TREE_MODEL (variant_list), &iter, 1, &new_var, -1);
         if (g_strcmp0 (new_var, init_variant))
         {
             vsystem ("grep -q XKBVARIANT /etc/default/keyboard && sed -i 's/XKBVARIANT=.*/XKBVARIANT=%s/g' /etc/default/keyboard || echo 'XKBVARIANT=%s' >> /etc/default/keyboard", new_var, new_var);
-            n = 1;
+            update = TRUE;
         }
 
-        // this updates the current session when invoked after the udev update
-        sprintf (gbuffer, "setxkbmap %s%s%s%s%s", new_lay, new_mod[0] ? " -model " : "", new_mod, new_var[0] ? " -variant " : "", new_var);
-        g_free (new_mod);
-        g_free (new_lay);
-        g_free (new_var);
-
-        if (n)
+        if (update)
         {
+            // this updates the current session when invoked after the udev update
+            sprintf (gbuffer, "setxkbmap %s%s%s%s%s", new_lay, new_mod[0] ? " -model " : "", new_mod, new_var[0] ? " -variant " : "", new_var);
+
             // warn about a short delay...
             message (_("Setting keyboard - please wait..."));
 
             // launch a thread with the system call to update the keyboard
             pthread = g_thread_new (NULL, keyboard_thread, NULL);
         }
+
+        g_free (new_mod);
+        g_free (new_lay);
+        g_free (new_var);
     }
+    else gtk_widget_destroy (dlg);
 
     g_free (init_model);
     g_free (init_layout);
@@ -1510,8 +1504,6 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     g_object_unref (model_list);
     g_object_unref (layout_list);
     g_object_unref (variant_list);
-
-    gtk_widget_destroy (dlg);
 }
 
 /* Overlay file system setting */
