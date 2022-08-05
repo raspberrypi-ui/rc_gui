@@ -151,7 +151,6 @@ static GObject *blank_sw, *led_actpwr_sw, *fan_sw;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_sw, *bp_ro_sw, *ofs_lbl;
 static GObject *fan_gpio_sb, *fan_temp_sb, *vnc_res_cb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
-static GObject *rtname_tb, *rtemail_tb, *rtok_btn;
 static GObject *tzarea_cb, *tzloc_cb, *wccountry_cb, *resolution_cb;
 static GObject *loclang_cb, *loccount_cb, *locchar_cb, *keymodel_cb, *keylayout_cb, *keyvar_cb;
 
@@ -160,18 +159,14 @@ static GtkWidget *main_dlg, *msg_dlg;
 /* Initial values */
 
 static char *orig_hostname;
-static int orig_boot, orig_overscan, orig_overscan2, orig_camera, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
-static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub, orig_pi4v;
+static int orig_boot, orig_overscan, orig_overscan2, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
+static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub;
 static int orig_ofs, orig_bpro, orig_blank, orig_leds, orig_fan, orig_fan_gpio, orig_fan_temp, orig_vnc_res;
 static char *vres;
 
 /* Reboot flag set after locale change */
 
 static int needs_reboot, ovfs_rb;
-
-/* Number of items in comboboxes */
-
-static int loc_count;
 
 /* Globals accessed from multiple threads */
 
@@ -209,20 +204,6 @@ static int vsystem (const char *fmt, ...)
     g_vasprintf (&cmdline, fmt, arg);
     va_end (arg);
     res = system (cmdline);
-    g_free (cmdline);
-    return res;
-}
-
-static FILE *vpopen (const char *fmt, ...)
-{
-    char *cmdline;
-    FILE *res;
-
-    va_list arg;
-    va_start (arg, fmt);
-    g_vasprintf (&cmdline, fmt, arg);
-    va_end (arg);
-    res = popen (cmdline, "r");
     g_free (cmdline);
     return res;
 }
@@ -741,7 +722,7 @@ static gpointer locale_thread (gpointer data)
 static void on_set_locale (GtkButton* btn, gpointer ptr)
 {
     GtkBuilder *builder;
-    GtkWidget *dlg, *tab;
+    GtkWidget *dlg;
     GtkCellRenderer *col;
     GtkTreeModel *model;
     GtkTreeModelSort *slang;
@@ -759,7 +740,6 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "localedlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
-    tab = (GtkWidget *) gtk_builder_get_object (builder, "loctable");
 
     // create the combo boxes
     loclang_cb = (GObject *) gtk_builder_get_object (builder, "loccblang");
@@ -907,10 +887,8 @@ static void read_timezones (void)
 {
     char *buffer, *path, *area, *zone, *cptr;
     GtkTreeIter iter;
-    FILE *fp;
     struct dirent **filelist, *dp, **sfilelist, *sdp, **ssfilelist, *ssdp;
-    struct stat st_buf;
-    int len, entries, entry, sentries, sentry, ssentries, ssentry;
+    int entries, entry, sentries, sentry, ssentries, ssentry;
 
     entries = scandir ("/usr/share/zoneinfo", &filelist, tzfilter, alphasort);
     for (entry = 0; entry < entries; entry++)
@@ -1406,7 +1384,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     GtkWidget *dlg;
     GtkCellRenderer *col;
     GtkTreeIter iter;
-    char *buffer, *init_model = NULL, *init_layout = NULL, *init_variant = NULL, *new_mod, *new_lay, *new_var;
+    char *init_model = NULL, *init_layout = NULL, *init_variant = NULL, *new_mod, *new_lay, *new_var;
     gboolean update = FALSE;
 
     // set up list stores for keyboard layouts
@@ -1897,7 +1875,7 @@ int main (int argc, char *argv[])
     boot_desktop_rb = gtk_builder_get_object (builder, "rb_desktop");
     boot_cli_rb = gtk_builder_get_object (builder, "rb_cli");
     g_signal_connect (boot_cli_rb, "toggled", G_CALLBACK (on_boot_toggle), NULL);
-    if (orig_boot = get_status (GET_BOOT_CLI))
+    if ((orig_boot = get_status (GET_BOOT_CLI)))
     {
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
         gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), TRUE);
@@ -1945,7 +1923,7 @@ int main (int argc, char *argv[])
 
         serial_sw = gtk_builder_get_object (builder, "sw_ser");
         g_signal_connect (serial_sw, "state-set", G_CALLBACK (on_serial_toggle), NULL);
-        if (orig_serial = get_status (GET_SERIALHW))
+        if ((orig_serial = get_status (GET_SERIALHW)))
         {
             gtk_switch_set_active (GTK_SWITCH (serial_sw), FALSE);
             gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), FALSE);
@@ -1973,7 +1951,7 @@ int main (int argc, char *argv[])
         fan_sw = gtk_builder_get_object (builder, "sw_fan");
         fan_gpio_sb = gtk_builder_get_object (builder, "sb_fan_gpio");
         fan_temp_sb = gtk_builder_get_object (builder, "sb_fan_temp");
-        if (orig_fan = get_status (GET_FAN))
+        if ((orig_fan = get_status (GET_FAN)))
         {
             gtk_switch_set_active (GTK_SWITCH (fan_sw), FALSE);
             gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), FALSE);
