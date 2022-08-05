@@ -1,3 +1,9 @@
+rc-gui (1.57) bullseye; urgency=medium
+
+  * Correctly centre message boxes in all cases
+
+ -- Simon Long <simon@raspberrypi.com>  Fri, 05 Aug 2022 16:00:09 +0500
+
 rc-gui (1.56) bullseye; urgency=medium
 
   * Fix size of modal dialog
