@@ -142,7 +142,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /* Controls */
 
-static GObject *passwd_btn, *res_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
+static GObject *passwd_btn, *hostname_btn, *res_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
 static GObject *boot_desktop_rb, *boot_cli_rb, *pixdub_sw;
 static GObject *overscan_sw, *overscan2_sw, *ssh_sw, *rgpio_sw, *vnc_sw;
 static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw;
@@ -151,6 +151,7 @@ static GObject *blank_sw, *led_actpwr_sw, *fan_sw;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_sw, *bp_ro_sw, *ofs_lbl;
 static GObject *fan_gpio_sb, *fan_temp_sb, *vnc_res_cb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
+static GObject *hostname_tb;
 static GObject *tzarea_cb, *tzloc_cb, *wccountry_cb, *resolution_cb;
 static GObject *loclang_cb, *loccount_cb, *locchar_cb, *keymodel_cb, *keylayout_cb, *keyvar_cb;
 
@@ -158,7 +159,6 @@ static GtkWidget *main_dlg, *msg_dlg;
 
 /* Initial values */
 
-static char *orig_hostname;
 static int orig_boot, orig_overscan, orig_overscan2, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
 static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub;
 static int orig_ofs, orig_bpro, orig_blank, orig_leds, orig_fan, orig_fan_gpio, orig_fan_temp, orig_vnc_res;
@@ -468,6 +468,62 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
             info (_("The password has been changed successfully."));
     }
     else gtk_widget_destroy (dlg);
+    g_object_unref (builder);
+}
+
+/* Hostname setting */
+
+static void on_change_hostname (GtkButton* btn, gpointer ptr)
+{
+    GtkBuilder *builder;
+    GtkWidget *dlg;
+    int res;
+    const char *new_hn, *cptr;
+    char *orig_hn;
+
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+    dlg = (GtkWidget *) gtk_builder_get_object (builder, "hostnamedlg");
+    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    hostname_tb = gtk_builder_get_object (builder, "hnentry1");
+    orig_hn = get_string (GET_HOSTNAME);
+    gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hn);
+
+    if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
+    {
+        new_hn = gtk_entry_get_text (GTK_ENTRY (hostname_tb));
+        if (g_strcmp0 (orig_hn, new_hn))
+        {
+            res = 1;
+            cptr = new_hn;
+            if (*cptr == 0 || *cptr == '-') res = 0;
+            else while (*cptr)
+            {
+                if (!(*cptr >= '0' && *cptr <= '9') && !(*cptr >= 'a' && *cptr <= 'z') && !(*cptr >= 'A' && *cptr <= 'Z') && *cptr != '-')
+                {
+                    res = 0;
+                    break;
+                }
+                cptr++;
+            }
+            if (res && *(cptr - 1) == '-') res = 0;
+
+            if (res)
+            {
+                vsystem (SET_HOSTNAME, new_hn);
+                gtk_widget_destroy (dlg);
+                info (_("The hostname has been changed successfully and will take effect on the next reboot."));
+                needs_reboot = 1;
+            }
+            else
+            {
+                gtk_widget_destroy (dlg);
+                info (_("The hostname change failed.\n\nThe hostname must only contain the characters A-Z, a-z, 0-9 and hyphen.\nThe first and last character may not be the hyphen."));
+            }
+        }
+        else gtk_widget_destroy (dlg);
+    }
+    else gtk_widget_destroy (dlg);
+    g_free (orig_hn);
     g_object_unref (builder);
 }
 
@@ -1638,12 +1694,6 @@ static int process_changes (void)
     READ_SWITCH (pixdub_sw, orig_pixdub, SET_PIXDUB, TRUE);
     READ_SWITCH (blank_sw, orig_blank, SET_BLANK, TRUE);
 
-    if (g_strcmp0 (orig_hostname, gtk_entry_get_text (GTK_ENTRY (hostname_tb))))
-    {
-        vsystem (SET_HOSTNAME, gtk_entry_get_text (GTK_ENTRY (hostname_tb)));
-        reboot = 1;
-    }
-
     if (!vsystem (IS_PI))
     {
         if (!vsystem (GET_KMS))
@@ -1852,6 +1902,9 @@ int main (int argc, char *argv[])
     passwd_btn = gtk_builder_get_object (builder, "button_pw");
     g_signal_connect (passwd_btn, "clicked", G_CALLBACK (on_change_passwd), NULL);
 
+    hostname_btn = gtk_builder_get_object (builder, "button_hn");
+    g_signal_connect (hostname_btn, "clicked", G_CALLBACK (on_change_hostname), NULL);
+
     locale_btn = gtk_builder_get_object (builder, "button_loc");
     g_signal_connect (locale_btn, "clicked", G_CALLBACK (on_set_locale), NULL);
 
@@ -1886,10 +1939,6 @@ int main (int argc, char *argv[])
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
         gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
     }
-
-    hostname_tb = gtk_builder_get_object (builder, "entry_hn");
-    orig_hostname = get_string (GET_HOSTNAME);
-    gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hostname);
 
     if (!vsystem (XSCR_INSTALLED))
     {

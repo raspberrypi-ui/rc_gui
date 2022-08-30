@@ -1,3 +1,9 @@
+rc-gui (1.58) bullseye; urgency=medium
+
+  * Check hostnames for validity
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 30 Aug 2022 10:39:41 +0100
+
 rc-gui (1.57) bullseye; urgency=medium
 
   * Correctly centre message boxes in all cases
