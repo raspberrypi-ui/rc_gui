@@ -168,6 +168,10 @@ static char *vres;
 
 static int needs_reboot, ovfs_rb;
 
+/* Window manager in use */
+
+static gboolean wayfire = FALSE;
+
 /* Globals accessed from multiple threads */
 
 static char gbuffer[512];
@@ -1442,11 +1446,8 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     GtkTreeIter iter;
     char *init_model = NULL, *init_layout = NULL, *init_variant = NULL, *new_mod, *new_lay, *new_var;
     gboolean update = FALSE;
-    gboolean wayland = FALSE;
     char *user_config_file;
     GKeyFile *kf;
-
-    if (!g_strcmp0 (getenv ("XDG_SESSION_TYPE"), "wayland")) wayland = TRUE;
 
     // set up list stores for keyboard layouts
     model_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
@@ -1475,7 +1476,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (keyvar_cb), col, "text", 0);
 
     // get the current keyboard settings
-    if (wayland)
+    if (wayfire)
     {
         /* read user config first */
         user_config_file = g_build_filename (g_get_user_config_dir (), "wayfire.ini", NULL);
@@ -1530,7 +1531,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 
         gtk_widget_destroy (dlg);
 
-        if (wayland)
+        if (wayfire)
         {
             char *str;
             gsize len;
@@ -1941,6 +1942,8 @@ int main (int argc, char *argv[])
     bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
     textdomain (GETTEXT_PACKAGE);
 #endif
+
+    if (!system ("ps ax | grep wayfire | grep -qv grep")) wayfire = TRUE;
 
     // GTK setup
     gtk_init (&argc, &argv);
