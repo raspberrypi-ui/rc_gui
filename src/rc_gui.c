@@ -1379,11 +1379,14 @@ static void layout_changed (GtkComboBox *cb, char *init_variant)
 static gpointer keyboard_thread (gpointer ptr)
 {
     //system ("dpkg-reconfigure -f noninteractive keyboard-configuration");
-    vsystem ("invoke-rc.d keyboard-setup start");
+    if (!wayfire) vsystem ("invoke-rc.d keyboard-setup start");
     vsystem ("setsid sh -c 'exec setupcon -k --force <> /dev/tty1 >&0 2>&1'");
-    vsystem ("udevadm trigger --subsystem-match=input --action=change");
-    vsystem ("udevadm settle");
-    vsystem (gbuffer);
+    if (!wayfire)
+    {
+        vsystem ("udevadm trigger --subsystem-match=input --action=change");
+        vsystem ("udevadm settle");
+        vsystem (gbuffer);
+    }
     g_idle_add (close_msg, NULL);
     return NULL;
 }
@@ -1565,35 +1568,33 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
             g_key_file_free (kf);
             g_free (user_config_file);
         }
-        else
+
+        if (g_strcmp0 (new_mod, init_model))
         {
-            if (g_strcmp0 (new_mod, init_model))
-            {
-                vsystem ("grep -q XKBMODEL /etc/default/keyboard && sed -i 's/XKBMODEL=.*/XKBMODEL=%s/g' /etc/default/keyboard || echo 'XKBMODEL=%s' >> /etc/default/keyboard", new_mod, new_mod);
-                update = TRUE;
-            }
-            if (g_strcmp0 (new_lay, init_layout))
-            {
-                vsystem ("grep -q XKBLAYOUT /etc/default/keyboard && sed -i 's/XKBLAYOUT=.*/XKBLAYOUT=%s/g' /etc/default/keyboard || echo 'XKBLAYOUT=%s' >> /etc/default/keyboard", new_lay, new_lay);
-                update = TRUE;
-            }
-            if (g_strcmp0 (new_var, init_variant))
-            {
-                vsystem ("grep -q XKBVARIANT /etc/default/keyboard && sed -i 's/XKBVARIANT=.*/XKBVARIANT=%s/g' /etc/default/keyboard || echo 'XKBVARIANT=%s' >> /etc/default/keyboard", new_var, new_var);
-                update = TRUE;
-            }
+            vsystem ("grep -q XKBMODEL /etc/default/keyboard && sed -i 's/XKBMODEL=.*/XKBMODEL=%s/g' /etc/default/keyboard || echo 'XKBMODEL=%s' >> /etc/default/keyboard", new_mod, new_mod);
+            update = TRUE;
+        }
+        if (g_strcmp0 (new_lay, init_layout))
+        {
+            vsystem ("grep -q XKBLAYOUT /etc/default/keyboard && sed -i 's/XKBLAYOUT=.*/XKBLAYOUT=%s/g' /etc/default/keyboard || echo 'XKBLAYOUT=%s' >> /etc/default/keyboard", new_lay, new_lay);
+            update = TRUE;
+        }
+        if (g_strcmp0 (new_var, init_variant))
+        {
+            vsystem ("grep -q XKBVARIANT /etc/default/keyboard && sed -i 's/XKBVARIANT=.*/XKBVARIANT=%s/g' /etc/default/keyboard || echo 'XKBVARIANT=%s' >> /etc/default/keyboard", new_var, new_var);
+            update = TRUE;
+        }
 
-            if (update)
-            {
-                // this updates the current session when invoked after the udev update
-                sprintf (gbuffer, "setxkbmap %s%s%s%s%s", new_lay, new_mod[0] ? " -model " : "", new_mod, new_var[0] ? " -variant " : "", new_var);
+        if (update)
+        {
+            // this updates the current session when invoked after the udev update
+            sprintf (gbuffer, "setxkbmap %s%s%s%s%s", new_lay, new_mod[0] ? " -model " : "", new_mod, new_var[0] ? " -variant " : "", new_var);
 
-                // warn about a short delay...
-                message (_("Setting keyboard - please wait..."));
+            // warn about a short delay...
+            message (_("Setting keyboard - please wait..."));
 
-                // launch a thread with the system call to update the keyboard
-                pthread = g_thread_new (NULL, keyboard_thread, NULL);
-            }
+            // launch a thread with the system call to update the keyboard
+            pthread = g_thread_new (NULL, keyboard_thread, NULL);
         }
 
         g_free (new_mod);
