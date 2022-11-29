@@ -359,6 +359,7 @@ static void message (char *msg)
     gtk_widget_hide (wid);
 
     gtk_widget_show (msg_dlg);
+    gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
 
     g_object_unref (builder);
 }
