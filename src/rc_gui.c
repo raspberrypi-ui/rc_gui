@@ -389,6 +389,7 @@ static void info (char *msg)
     g_signal_connect (wid, "clicked", G_CALLBACK (ok_clicked), NULL);
 
     gtk_widget_show (msg_dlg);
+    gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
 
     g_object_unref (builder);
 }
@@ -429,6 +430,7 @@ static void reboot (void)
     g_signal_connect (wid, "clicked", G_CALLBACK (close_app_reboot), NULL);
 
     gtk_widget_show (msg_dlg);
+    gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
 
     g_object_unref (builder);
 }
