@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rc_gui 1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-24 15:22+0000\n"
-"PO-Revision-Date: 2023-03-14 16:18+0900\n"
+"PO-Revision-Date: 2023-03-14 16:23+0900\n"
 "Language-Team: English (British)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -184,7 +184,7 @@ msgstr "레이아웃:"
 
 #: ../data/rc_gui.ui.h:4
 msgid "Variant:"
-msgstr "여러 지판:"
+msgstr "지판 종류:"
 
 #: ../data/rc_gui.ui.h:5
 msgid "Locale"
