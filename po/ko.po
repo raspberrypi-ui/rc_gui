@@ -1,0 +1,664 @@
+# Raspberry Pi Configuration utility
+# Copyright (C) 2018 Raspberry Pi
+# This file is distributed under the same license as the rc_gui package.
+# Simon Long <simon@raspberrypi.org>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: rc_gui 1.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-24 15:22+0000\n"
+"PO-Revision-Date: 2023-03-14 16:18+0900\n"
+"Language-Team: English (British)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 2.4.2\n"
+"Last-Translator: Yi Yunseok <ironyunseok@protonmail.com>\n"
+"Language: ko\n"
+
+#: ../src/rc_gui.c:432
+msgid ""
+"The changes you have made require the Raspberry Pi to be rebooted to take "
+"effect.\n"
+"\n"
+"Would you like to reboot now? "
+msgstr ""
+"변경된 사항을 적용하려면 라즈베리 파이를 재시작해야 합니다.\n"
+"\n"
+"지금 재시작하겠습니까? "
+
+#: ../src/rc_gui.c:437
+msgid "_No"
+msgstr "아니오(_N)"
+
+#: ../src/rc_gui.c:440
+msgid "_Yes"
+msgstr "네(_Y)"
+
+#: ../src/rc_gui.c:500
+msgid ""
+"The password change failed.\n"
+"\n"
+"This could be because the current password was incorrect, or because the new "
+"password was not sufficiently complex or was too similar to the current "
+"password."
+msgstr ""
+"비밀번호 변경에 실패했습니다.\n"
+"\n"
+"현재 암호와 너무 유사하거나 암호가 올바르지 않은 경우, 또는 새 암호가 충분히 "
+"복잡하지 않기 때문일 수 있습니다."
+
+#: ../src/rc_gui.c:502
+msgid "The password has been changed successfully."
+msgstr "비밀번호가 성공적으로 변경됐습니다."
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:844
+msgid "Setting locale - please wait..."
+msgstr "언어 설정 중 - 잠시만 기다려주세요..."
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:1083
+msgid "Setting timezone - please wait..."
+msgstr "시간대 설정 중 - 잠시만 기다려주세요..."
+
+#: ../src/rc_gui.c:1123 ../src/rc_gui.c:1146
+msgid "<not set>"
+msgstr "<설정되지 않음>"
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:1515
+msgid "Setting keyboard - please wait..."
+msgstr "자판 설정 중 - 잠시만 기다려주세요..."
+
+#: ../src/rc_gui.c:1560
+msgid ""
+"Your system has recently been updated. Please reboot to ensure these updates "
+"have loaded before setting up the overlay file system."
+msgstr "시스템이 업데이트됐습니다. 재부팅을 권장합니다."
+
+#: ../src/rc_gui.c:1581
+msgid ""
+"The state of the boot partition cannot be changed while an overlay is active"
+msgstr "오버레이가 활성화된 동안에는 부팅 파티션의 상태를 변경할 수 없음"
+
+#. warn about a short delay...
+#: ../src/rc_gui.c:1602
+msgid "Setting up overlay - please wait..."
+msgstr "오버레이 설정 중 - 잠시만 기다려주세요..."
+
+#: ../src/rc_gui.c:1631 ../src/rc_gui.c:1971 ../data/rc_gui.ui.h:54
+msgid "Enable shell and kernel messages on the serial connection"
+msgstr "시리얼 연결에서 쉘 및 커널 메시지 활성화"
+
+#: ../src/rc_gui.c:1637 ../src/rc_gui.c:1965
+msgid "This setting cannot be changed while the serial port is disabled"
+msgstr "시리얼 포트가 비활성화된 동안에는 이 설정을 변경할 수 없음"
+
+#: ../src/rc_gui.c:1648 ../data/rc_gui.ui.h:70
+msgid "Set the GPIO to which the fan is connected"
+msgstr "팬이 연결된 GPIO 설정"
+
+#: ../src/rc_gui.c:1649 ../data/rc_gui.ui.h:72
+msgid "Set the temperature in degrees C at which the fan turns on"
+msgstr "팬이 작동하는 온도를 C 단위로 설정"
+
+#: ../src/rc_gui.c:1653 ../src/rc_gui.c:1654 ../src/rc_gui.c:1994
+#: ../src/rc_gui.c:1995
+msgid "This setting cannot be changed unless the fan is enabled"
+msgstr "팬이 활성화되지 않으면 이 설정을 변경할 수 없음"
+
+#: ../src/rc_gui.c:1893
+msgid ""
+"The Raspberry Pi Configuration application can only modify a standard "
+"configuration.\n"
+"\n"
+"Your configuration appears to have been modified by other tools, and so this "
+"application cannot be used on your system.\n"
+"\n"
+"In order to use this application, you need to have the latest firmware "
+"installed, Device Tree enabled, the default \"pi\" user set up and the "
+"lightdm application installed. "
+msgstr ""
+"라즈베리 파이 설정 애플리케이션은 표준 구성만 수정할 수 있습니다.\n"
+"\n"
+"사용자의 설정이 다른 도구에 의해 수정돼 시스템에서 이 응용 프로그램을 사용할 "
+"수 없습니다.\n"
+"\n"
+"이 응용 프로그램을 사용하려면 최신 펌웨어를 설치, 장치 트리 활성화, 기본 사용"
+"자 \"pi\" 설정 및 lightdm 응용 프로그램을 설치해야 합니다. "
+
+#: ../src/rc_gui.c:1942
+msgid "This setting is overridden when Xscreensaver is installed"
+msgstr "이 설정은 X스크린세이버 설치로 덮어씌워짐"
+
+#: ../src/rc_gui.c:1978
+msgid "The VNC server is not installed"
+msgstr "VNC 서버가 설치되지 않음"
+
+#: ../src/rc_gui.c:2018
+msgid "None (700MHz)"
+msgstr "기본 (700MHz)"
+
+#: ../src/rc_gui.c:2019
+msgid "Modest (800MHz)"
+msgstr "보통 (800MHz)"
+
+#: ../src/rc_gui.c:2020
+msgid "Medium (900MHz)"
+msgstr "중간 (900MHz)"
+
+#: ../src/rc_gui.c:2021
+msgid "High (950MHz)"
+msgstr "높음 (950MHz)"
+
+#: ../src/rc_gui.c:2022
+msgid "Turbo (1000MHz)"
+msgstr "터보 (1000MHz)"
+
+#: ../src/rc_gui.c:2039
+msgid "None (900MHz)"
+msgstr "기본 (900MHz)"
+
+#: ../src/rc_gui.c:2040
+msgid "High (1000MHz)"
+msgstr "높음 (1000MHz)"
+
+#: ../src/rc_gui.c:2071
+msgid "Overscan (HDMI-1):"
+msgstr "오버스캔 (HDMI-1):"
+
+#: ../data/rc_gui.ui.h:1
+msgid "Keyboard"
+msgstr "자판"
+
+#: ../data/rc_gui.ui.h:2
+msgid "Model:"
+msgstr "모델:"
+
+#: ../data/rc_gui.ui.h:3
+msgid "Layout:"
+msgstr "레이아웃:"
+
+#: ../data/rc_gui.ui.h:4
+msgid "Variant:"
+msgstr "여러 지판:"
+
+#: ../data/rc_gui.ui.h:5
+msgid "Locale"
+msgstr "지역"
+
+#: ../data/rc_gui.ui.h:6
+msgid "Language:"
+msgstr "언어:"
+
+#: ../data/rc_gui.ui.h:7
+msgid "Country:"
+msgstr "국가:"
+
+#: ../data/rc_gui.ui.h:8
+msgid "Character Set:"
+msgstr "문자열 세트:"
+
+#: ../data/rc_gui.ui.h:9 ../data/rc_gui.desktop.in.h:1
+msgid "Raspberry Pi Configuration"
+msgstr "라즈베리 파이 환경설정"
+
+#: ../data/rc_gui.ui.h:10
+msgid "Password:"
+msgstr "비밀번호:"
+
+#: ../data/rc_gui.ui.h:11
+msgid "Change _Password..."
+msgstr "비밀번호 변경(_P)..."
+
+#: ../data/rc_gui.ui.h:12
+msgid "Change password for the default user (pi)"
+msgstr "기본 사용자 (pi) 비밀번호 변경"
+
+#: ../data/rc_gui.ui.h:13
+msgid "Hostname:"
+msgstr "호스트이름:"
+
+#: ../data/rc_gui.ui.h:14
+msgid "Set the name of your Pi on a local network"
+msgstr "로컬 네트워크에서 사용할 이름 설정"
+
+#: ../data/rc_gui.ui.h:15
+msgid "Boot:"
+msgstr "부트:"
+
+#: ../data/rc_gui.ui.h:16
+msgid "To Desktop"
+msgstr "데스크톱 전환"
+
+#: ../data/rc_gui.ui.h:17
+msgid "Launch the desktop environment automatically on boot"
+msgstr "부팅 시 자동으로 데스크톱 환경 실행"
+
+#: ../data/rc_gui.ui.h:18
+msgid "To CLI"
+msgstr "CLI 전환"
+
+#: ../data/rc_gui.ui.h:19
+msgid "Boot into a command line shell rather than the desktop"
+msgstr "명령줄 쉘로 부팅"
+
+#: ../data/rc_gui.ui.h:20
+msgid "Auto login:"
+msgstr "자동 로그인:"
+
+#: ../data/rc_gui.ui.h:21
+msgid "Automatically log in the default user (pi)"
+msgstr "기본 사용자 (pi)로 자동 로그인"
+
+#: ../data/rc_gui.ui.h:22
+msgid "Network at Boot:"
+msgstr "네트워크 부팅:"
+
+#: ../data/rc_gui.ui.h:23
+msgid "Do not complete boot until network connection is established"
+msgstr "네트워크 연결이 완료될 때까지 부팅하지 않음"
+
+#: ../data/rc_gui.ui.h:24
+msgid "Splash Screen:"
+msgstr "시작 화면:"
+
+#: ../data/rc_gui.ui.h:25
+msgid "Show graphical splash screen at boot"
+msgstr "부팅할 때 그래픽 시작 화면을 표시"
+
+#: ../data/rc_gui.ui.h:26
+msgid "Power LED:"
+msgstr "전원 LED:"
+
+#: ../data/rc_gui.ui.h:27
+msgid "Flash the power LED on disk activity"
+msgstr "디스크 작동 시 전원 LED 깜빡임"
+
+#: ../data/rc_gui.ui.h:28
+msgid "System"
+msgstr "시스템"
+
+#: ../data/rc_gui.ui.h:29
+msgid "Resolution:"
+msgstr "해상도:"
+
+#: ../data/rc_gui.ui.h:30
+msgid "Set _Resolution..."
+msgstr "해상도 설정(_R)..."
+
+#: ../data/rc_gui.ui.h:31
+msgid "Set the resolution for HDMI and VNC"
+msgstr "HDMI 및 VNC 해상도 설정"
+
+#: ../data/rc_gui.ui.h:32
+msgid "Overscan:"
+msgstr "오버스캔:"
+
+#: ../data/rc_gui.ui.h:33
+msgid "Enable overscan to show the edges of the screen"
+msgstr "오버스캔을 활성화하여 화면 가장자리 표시"
+
+#: ../data/rc_gui.ui.h:34
+msgid "Overscan (HDMI-2):"
+msgstr "오버스캔 (HDMI-2):"
+
+#: ../data/rc_gui.ui.h:35
+msgid "Enable overscan to show the edges of the second screen"
+msgstr "오버스캔을 활성화하여 두 번째 스크린의 가장자리 표시"
+
+#: ../data/rc_gui.ui.h:36
+msgid "Pixel Doubling:"
+msgstr "픽셀 더블링:"
+
+#: ../data/rc_gui.ui.h:37
+msgid "Enable pixel doubling to improve usability on high-res screens"
+msgstr "고해상도 화면에서 사용자 편의를 위해 픽셀 더블링 활성화"
+
+#: ../data/rc_gui.ui.h:38
+msgid "Screen Blanking:"
+msgstr "스크린 깜빡임:"
+
+#: ../data/rc_gui.ui.h:39
+msgid "Blank the screen after a period of inactivity"
+msgstr "비활성 기간 후 화면 비우기"
+
+#: ../data/rc_gui.ui.h:40
+msgid "Headless Resolution:"
+msgstr "헤드리스 해상도:"
+
+#: ../data/rc_gui.ui.h:41
+msgid "Set the resolution for VNC when no monitor is connected"
+msgstr "모니터가 연결되지 않았을 때 VNC의 해상도 설정"
+
+#: ../data/rc_gui.ui.h:42
+msgid "Display"
+msgstr "디스플레이"
+
+#: ../data/rc_gui.ui.h:43
+msgid "SSH:"
+msgstr "SSH:"
+
+#: ../data/rc_gui.ui.h:44
+msgid "Enable remote access to this Pi via SSH"
+msgstr "SSH 원격 액세스 활성화"
+
+#: ../data/rc_gui.ui.h:45
+msgid "VNC:"
+msgstr "VNC:"
+
+#: ../data/rc_gui.ui.h:46
+msgid "Enable remote access to this Pi using RealVNC"
+msgstr "RealVNC 원격 액세스 활성화"
+
+#: ../data/rc_gui.ui.h:47
+msgid "SPI:"
+msgstr "SPI:"
+
+#: ../data/rc_gui.ui.h:48
+msgid "Enable the automatic loading of the SPI kernel module"
+msgstr "SPI 커널 모듈 자동 로드 활성화"
+
+#: ../data/rc_gui.ui.h:49
+msgid "I2C:"
+msgstr "I2C:"
+
+#: ../data/rc_gui.ui.h:50
+msgid "Enable the automatic loading of the I2C kernel module"
+msgstr "I2C 커널 모듈 자동 로드 활성화"
+
+#: ../data/rc_gui.ui.h:51
+msgid "Serial Port:"
+msgstr "시리얼 포트:"
+
+#: ../data/rc_gui.ui.h:52
+msgid "Enable the serial port over the GPIO pins"
+msgstr "GPIO 핀을 통한 시리얼 포트 활성화"
+
+#: ../data/rc_gui.ui.h:53
+msgid "Serial Console:"
+msgstr "시리얼 콘솔:"
+
+#: ../data/rc_gui.ui.h:55
+msgid "1-Wire:"
+msgstr "1-와이어:"
+
+#: ../data/rc_gui.ui.h:56
+msgid "Enable 1-wire peripheral interface"
+msgstr "1-와이어 주변 장치 인터페이스 활성화"
+
+#: ../data/rc_gui.ui.h:57
+msgid "Remote GPIO:"
+msgstr "원격 GPIO:"
+
+#: ../data/rc_gui.ui.h:58
+msgid "Enable remote access to GPIO pins"
+msgstr "GPIO 핀 원격 액세스 활성화"
+
+#: ../data/rc_gui.ui.h:59
+msgid "Interfaces"
+msgstr "인터페이스"
+
+#: ../data/rc_gui.ui.h:60
+msgid "O_verclock:"
+msgstr "오버클록(_V)"
+
+#: ../data/rc_gui.ui.h:61
+msgid "Set the level of overclock to control performance"
+msgstr "오버클록 수준을 설정하여 성능 제어"
+
+#: ../data/rc_gui.ui.h:62
+msgid "_GPU Memory:"
+msgstr "_GPU 메모리:"
+
+#: ../data/rc_gui.ui.h:63
+msgid "Enter the amount of memory available to the GPU"
+msgstr "GPU 사용할 메모리 값 입력"
+
+#: ../data/rc_gui.ui.h:64
+msgid "Overlay File System:"
+msgstr "파일 시스템 오버레이:"
+
+#: ../data/rc_gui.ui.h:65
+msgid "Configure..."
+msgstr "설정..."
+
+#: ../data/rc_gui.ui.h:66
+msgid ""
+"Configure an overlay file system to protect data from being overwritten or "
+"deleted"
+msgstr "데이터를 덮어쓰거나 삭제하지 않도록 파일 시스템 오버레이 구성"
+
+#: ../data/rc_gui.ui.h:67
+msgid "Fan:"
+msgstr "팬:"
+
+#: ../data/rc_gui.ui.h:68
+msgid "Enable a temperature-controlled fan on a GPIO pin"
+msgstr "GPIO 핀에서 온도 제어 팬 활성화"
+
+#: ../data/rc_gui.ui.h:69
+msgid "Fan GPIO:"
+msgstr "팬 GPIO:"
+
+#: ../data/rc_gui.ui.h:71
+msgid "Fan Temperature:"
+msgstr "팬 온도:"
+
+#: ../data/rc_gui.ui.h:73
+msgid "Performance"
+msgstr "퍼포먼스"
+
+#: ../data/rc_gui.ui.h:74
+msgid "Locale:"
+msgstr "지역:"
+
+#: ../data/rc_gui.ui.h:75
+msgid "Set _Locale..."
+msgstr "지역 설정(_L)..."
+
+#: ../data/rc_gui.ui.h:76
+msgid "Set internationalisation settings for units etc."
+msgstr "국제화 설정을 지정합니다."
+
+#: ../data/rc_gui.ui.h:77
+msgid "Timezone:"
+msgstr "시간대:"
+
+#: ../data/rc_gui.ui.h:78
+msgid "Set _Timezone..."
+msgstr "시간대 설정(_T)..."
+
+#: ../data/rc_gui.ui.h:79
+msgid "Set the timezone to be used by the internal clock"
+msgstr "시계에서 사용할 시간대 설정"
+
+#: ../data/rc_gui.ui.h:80
+msgid "Keyboard:"
+msgstr "자판:"
+
+#: ../data/rc_gui.ui.h:81
+msgid "Set _Keyboard..."
+msgstr "자판 설정(_K)..."
+
+#: ../data/rc_gui.ui.h:82
+msgid "Set international keyboard options"
+msgstr "국제 자판 옵션 설정"
+
+#: ../data/rc_gui.ui.h:83
+msgid "WiFi Country:"
+msgstr "WiFi 국가:"
+
+#: ../data/rc_gui.ui.h:84
+msgid "Set _WiFi Country..."
+msgstr "_WiFi 국가를 설정..."
+
+#: ../data/rc_gui.ui.h:85
+msgid "Set WiFi country code"
+msgstr "WiFi 국가 코드 설정"
+
+#: ../data/rc_gui.ui.h:86
+msgid "Localisation"
+msgstr "현지화"
+
+#: ../data/rc_gui.ui.h:87
+msgid "_Cancel"
+msgstr "취소(_C)"
+
+#: ../data/rc_gui.ui.h:88
+msgid "_OK"
+msgstr "확인(_O)"
+
+#: ../data/rc_gui.ui.h:89
+msgid "Overlay File System"
+msgstr "파일 시스템 오버레이"
+
+#: ../data/rc_gui.ui.h:90
+msgid "Overlay:"
+msgstr "오버레이:"
+
+#: ../data/rc_gui.ui.h:91
+msgid "Enable a file system overlay; all changes will be lost on reboot"
+msgstr "파일 시스템 오버레이 활성화; 재부팅 시 모든 변경 사항은 손실됨"
+
+#: ../data/rc_gui.ui.h:92
+msgid "Boot Partition:"
+msgstr "부트 파티션:"
+
+#: ../data/rc_gui.ui.h:93
+msgid "Make the boot partition read-only"
+msgstr "부트 파티션을 읽기 전용으로 만들기"
+
+#: ../data/rc_gui.ui.h:94
+msgid "Changes will not take effect until a reboot"
+msgstr "변경 사항은 재부팅해야 적용됨"
+
+#: ../data/rc_gui.ui.h:95
+msgid "Change Password"
+msgstr "비밀번호 변경"
+
+#: ../data/rc_gui.ui.h:96
+msgid "Enter new password:"
+msgstr "새 비밀번호 입력:"
+
+#: ../data/rc_gui.ui.h:97
+msgid "Confirm new password:"
+msgstr "새 비밀번호 확인:"
+
+#: ../data/rc_gui.ui.h:98
+msgid "Set Resolution"
+msgstr "해상도 설정"
+
+#: ../data/rc_gui.ui.h:99
+msgid "Timezone"
+msgstr "시간대"
+
+#: ../data/rc_gui.ui.h:100
+msgid "Area:"
+msgstr "지역:"
+
+#: ../data/rc_gui.ui.h:101
+msgid "Location:"
+msgstr "위치:"
+
+#: ../data/rc_gui.ui.h:102
+msgid "WiFi Country Code"
+msgstr "WiFi 국가 코드"
+
+#: ../data/rc_gui.desktop.in.h:2
+msgid "Configure Raspberry Pi system"
+msgstr "라즈베리 파이 시스템 설정"
+
+#: ../data/pwdrcg.sh:6
+msgid "Password Required"
+msgstr "비밀번호 필요"
+
+msgid "Disable shell and kernel messages on the serial connection"
+msgstr "시리얼 연결에서 쉘과 커널 메시지 비활성화"
+
+msgid "Login as user 'pi'"
+msgstr "사용자 'pi'로 로그인"
+
+msgid "Disabled"
+msgstr "비활성됨"
+
+msgid "Prompt for password at boot"
+msgstr "부팅 시 비밀번호 입력"
+
+msgid "Wait for network"
+msgstr "네트워크 대기"
+
+msgid "Do not wait"
+msgstr "대기하지 않음"
+
+msgid "Do not wait for network connection during boot"
+msgstr "부팅할 때는 대기하지 않음"
+
+msgid "Enable"
+msgstr "활성화"
+
+msgid "Disable"
+msgstr "비활성화"
+
+msgid "Show text messages at boot"
+msgstr "부팅할 때 텍스트 메시지 표시"
+
+msgid "Activity"
+msgstr "활동"
+
+msgid "Constant"
+msgstr "지속"
+
+msgid "Do not flash the power LED"
+msgstr "전원 LED 끄기"
+
+msgid "Disable overscan to hide black outline on screen"
+msgstr "오버스캔을 비활성화하여 화면의 검은색 테두리 숨기기"
+
+msgid "Disable pixel doubling for standard resolution screens"
+msgstr "표준 해상도에서 픽셀 더블링 비활성화"
+
+msgid "Never blank the screen"
+msgstr "스크린을 비우지 않음"
+
+msgid "Disable remote access to this Pi via SSH"
+msgstr "SSH 원격 액세스 비활성화"
+
+msgid "Disable remote access to this Pi using RealVNC"
+msgstr "RealVNC 원격 액세스 비활성화"
+
+msgid "Disable the automatic loading of the SPI kernel module"
+msgstr "SPI 커널 모듈 자동 로드 비활성화"
+
+msgid "Disable the automatic loading of the I2C kernel module"
+msgstr "I2C 커널 모듈 자동 로드 비활성화"
+
+msgid "Disable the serial port over the GPIO pins"
+msgstr "GPIO 핀을 통한 시리얼 포트 활성화"
+
+msgid "Disable 1-wire peripheral interface"
+msgstr "1-와이어 주변 장치 인터페이스 비활성화"
+
+msgid "Disable remote access to GPIO pins"
+msgstr "GPIO 핀 원격 액세스 비활성화"
+
+msgid "Disable GPIO fan"
+msgstr "GPIO 팬 비활성화"
+
+msgid "Enabled"
+msgstr "활성됨"
+
+msgid "Disable a file system overlay; changes will be saved to the SD card"
+msgstr "파일 시스템 오버레이 비활성화; 변경 사항은 SD 카드에 저장됨"
+
+msgid "Read-only"
+msgstr "읽기 전용"
+
+msgid "Read-write"
+msgstr "읽기 및 쓰기"
+
+msgid "Make the boot partition writable"
+msgstr "부트 파티션을 쓰기 가능으로 만들기"
