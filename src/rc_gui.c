@@ -1451,9 +1451,11 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     GtkCellRenderer *col;
     GtkTreeIter iter;
     char *init_model = NULL, *init_layout = NULL, *init_variant = NULL, *new_mod, *new_lay, *new_var;
-    gboolean update = FALSE;
-    char *user_config_file;
+    gboolean update;
+    char *user_config_file, *str;
     GKeyFile *kf;
+    gsize len;
+    int i;
 
     // set up list stores for keyboard layouts
     model_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
@@ -1537,13 +1539,12 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 
         gtk_widget_destroy (dlg);
 
-        if (wayfire)
+        // Wayfire settings, desktop and greeter
+        for (i = 0; i < 2; i++)
         {
-            char *str;
-            gsize len;
-
+            update = FALSE;
             kf = g_key_file_new ();
-            g_key_file_load_from_file (kf, user_config_file, G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL);
+            g_key_file_load_from_file (kf, i ? "/etc/wayfire/greeter.ini" : user_config_file, G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL);
 
             if (g_strcmp0 (new_mod, init_model))
             {
@@ -1564,14 +1565,16 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
             if (update)
             {
                 str = g_key_file_to_data (kf, &len, NULL);
-                g_file_set_contents (user_config_file, str, len, NULL);
+                g_file_set_contents (i ? "/etc/wayfire/greeter.ini" : user_config_file, str, len, NULL);
                 g_free (str);
             }
 
             g_key_file_free (kf);
-            g_free (user_config_file);
         }
+        g_free (user_config_file);
 
+        update = FALSE;
+        // X settings
         if (g_strcmp0 (new_mod, init_model))
         {
             vsystem ("grep -q XKBMODEL /etc/default/keyboard && sed -i 's/XKBMODEL=.*/XKBMODEL=%s/g' /etc/default/keyboard || echo 'XKBMODEL=%s' >> /etc/default/keyboard", new_mod, new_mod);
@@ -1588,7 +1591,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
             update = TRUE;
         }
 
-        if (update)
+        if (update && !wayfire)
         {
             // this updates the current session when invoked after the udev update
             sprintf (gbuffer, "setxkbmap %s%s%s%s%s", new_lay, new_mod[0] ? " -model " : "", new_mod, new_var[0] ? " -variant " : "", new_var);

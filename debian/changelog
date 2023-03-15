@@ -1,3 +1,9 @@
+rc-gui (1.61) bullseye; urgency=medium
+
+  * Update greeter keyboard settings as well as desktop
+
+ -- Simon Long <simon@raspberrypi.com>  Wed, 15 Mar 2023 08:10:29 +0000
+
 rc-gui (1.60) bullseye; urgency=medium
 
   * Fix undecorated dialogs
