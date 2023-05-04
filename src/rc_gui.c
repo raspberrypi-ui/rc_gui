@@ -1934,6 +1934,13 @@ static gboolean close_prog (GtkWidget *widget, GdkEvent *event, gpointer data)
     return TRUE;
 }
 
+static int num_screens (void)
+{
+    if (wayfire)
+        return get_status ("wlr-randr | grep -cv '^ '");
+    else
+        return get_status ("xrandr -q | grep -cw connected");
+}
 
 /* The dialog... */
 
@@ -2025,7 +2032,7 @@ int main (int argc, char *argv[])
         gtk_widget_set_tooltip_text (GTK_WIDGET (blank_sw), _("This setting is overridden when Xscreensaver is installed"));
     }
 
-    if (get_status ("xrandr -q | grep -cw connected") != 2) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
+    if (num_screens () != 2) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
     else gtk_label_set_text (GTK_LABEL (gtk_builder_get_object (builder, "label52")), _("Overscan (HDMI-1):"));
 
     if (!vsystem (IS_PI))

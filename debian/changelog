@@ -1,3 +1,9 @@
+rc-gui (1.63) bookworm; urgency=medium
+
+  * Remove usage of xrandr
+
+ -- Simon Long <simon@raspberrypi.com>  Thu, 04 May 2023 11:19:04 +0100
+
 rc-gui (1.62) bookworm; urgency=medium
 
   * Add Korean translation
