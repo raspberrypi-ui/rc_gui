@@ -1769,7 +1769,7 @@ static int process_changes (void)
     READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
     READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
     READ_SWITCH (pixdub_sw, orig_pixdub, SET_PIXDUB, TRUE);
-    READ_SWITCH (blank_sw, orig_blank, SET_BLANK, TRUE);
+    READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wayfire ? FALSE : TRUE);
 
     if (!vsystem (IS_PI))
     {
@@ -1846,7 +1846,7 @@ static int process_changes (void)
             }
         }
 
-        if (orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)))
+        if (!wayfire && orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)))
         {
             vres = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (vnc_res_cb));
             vsystem (SET_VNC_RES, vres);
@@ -2166,7 +2166,7 @@ int main (int argc, char *argv[])
          * hbox53 - overscan 2              Y           Y           -           -        Y
          * hbox54 - pixel doubling          -           -           Y           Y        -
          * hbox55 - blanking                Y           Y           Y           Y        Y
-         * hbox55 - headless res            Y           Y           Y           Y        -
+         * hbox56 - headless res            Y           Y           Y           Y        -
          */
 
         if (!vsystem (GET_KMS))
@@ -2182,29 +2182,33 @@ int main (int argc, char *argv[])
         orig_gpumem = get_gpu_mem ();
         gtk_spin_button_set_value (GTK_SPIN_BUTTON (memsplit_sb), orig_gpumem);
 
-        vnc_res_cb = gtk_builder_get_object (builder, "combo_res");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "640x480");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "720x480");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "800x600");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1024x768");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1280x720");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1280x1024");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1600x1200");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1920x1080");
+		if (wayfire) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
+		else
+		{
+	        vnc_res_cb = gtk_builder_get_object (builder, "combo_res");
+	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "640x480");
+	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "720x480");
+	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "800x600");
+	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1024x768");
+	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1280x720");
+	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1280x1024");
+	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1600x1200");
+	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1920x1080");
 
-        orig_vnc_res = -1;
-        vres = get_string (GET_VNC_RES);
-        if (!strcmp (vres, "640x480")) orig_vnc_res = 0;
-        if (!strcmp (vres, "720x480")) orig_vnc_res = 1;
-        if (!strcmp (vres, "800x600")) orig_vnc_res = 2;
-        if (!strcmp (vres, "1024x768")) orig_vnc_res = 3;
-        if (!strcmp (vres, "1280x720")) orig_vnc_res = 4;
-        if (!strcmp (vres, "1280x1024")) orig_vnc_res = 5;
-        if (!strcmp (vres, "1600x1200")) orig_vnc_res = 6;
-        if (!strcmp (vres, "1920x1080")) orig_vnc_res = 7;
-        g_free (vres);
+	        orig_vnc_res = -1;
+	        vres = get_string (GET_VNC_RES);
+	        if (!strcmp (vres, "640x480")) orig_vnc_res = 0;
+	        if (!strcmp (vres, "720x480")) orig_vnc_res = 1;
+	        if (!strcmp (vres, "800x600")) orig_vnc_res = 2;
+	        if (!strcmp (vres, "1024x768")) orig_vnc_res = 3;
+	        if (!strcmp (vres, "1280x720")) orig_vnc_res = 4;
+	        if (!strcmp (vres, "1280x1024")) orig_vnc_res = 5;
+	        if (!strcmp (vres, "1600x1200")) orig_vnc_res = 6;
+	        if (!strcmp (vres, "1920x1080")) orig_vnc_res = 7;
+	        g_free (vres);
 
-        gtk_combo_box_set_active (GTK_COMBO_BOX (vnc_res_cb), orig_vnc_res);
+	        gtk_combo_box_set_active (GTK_COMBO_BOX (vnc_res_cb), orig_vnc_res);
+		}
     }
     else
     {
