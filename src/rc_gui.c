@@ -176,6 +176,7 @@ static gboolean wayfire = FALSE;
 
 static char gbuffer[512];
 GThread *pthread;
+gulong draw_id;
 
 /* Lists for keyboard setting */
 
@@ -222,7 +223,7 @@ static int get_status (char *cmd)
     if (fp == NULL) return 0;
     if (getline (&buf, &res, fp) > 0)
     {
-        if (sscanf (buf, "%d", &res) == 1)
+        if (sscanf (buf, "%zu", &res) == 1)
         {
             val = res;
         }
@@ -346,17 +347,10 @@ static void message (char *msg)
     GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
 
     msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal");
-    gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
+    if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
 
     wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_msg");
     gtk_label_set_text (GTK_LABEL (wid), msg);
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_pb");
-    gtk_widget_hide (wid);
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_cancel");
-    gtk_widget_hide (wid);
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_ok");
-    gtk_widget_hide (wid);
 
     gtk_widget_show (msg_dlg);
     gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
@@ -367,6 +361,7 @@ static void message (char *msg)
 static gboolean ok_clicked (GtkButton *button, gpointer data)
 {
     gtk_widget_destroy (msg_dlg);
+    if (!main_dlg) gtk_main_quit ();
     return FALSE;
 }
 
@@ -376,17 +371,17 @@ static void info (char *msg)
     GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
 
     msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal");
-    gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
+    if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
 
     wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_msg");
     gtk_label_set_text (GTK_LABEL (wid), msg);
 
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_pb");
-    gtk_widget_hide (wid);
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_cancel");
-    gtk_widget_hide (wid);
     wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_ok");
     g_signal_connect (wid, "clicked", G_CALLBACK (ok_clicked), NULL);
+    gtk_widget_show (wid);
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_buttons");
+    gtk_widget_show (wid);
 
     gtk_widget_show (msg_dlg);
     gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
@@ -420,14 +415,18 @@ static void reboot (void)
     wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_msg");
     gtk_label_set_text (GTK_LABEL (wid), _("The changes you have made require the Raspberry Pi to be rebooted to take effect.\n\nWould you like to reboot now? "));
 
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_pb");
-    gtk_widget_hide (wid);
     wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_cancel");
     gtk_button_set_label (GTK_BUTTON (wid), _("_No"));
     g_signal_connect (wid, "clicked", G_CALLBACK (close_app), NULL);
+    gtk_widget_show (wid);
+
     wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_ok");
     gtk_button_set_label (GTK_BUTTON (wid), _("_Yes"));
     g_signal_connect (wid, "clicked", G_CALLBACK (close_app_reboot), NULL);
+    gtk_widget_show (wid);
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_buttons");
+    gtk_widget_show (wid);
 
     gtk_widget_show (msg_dlg);
     gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
@@ -1484,10 +1483,10 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (keyvar_cb), col, "text", 0);
 
     // get the current keyboard settings
+    user_config_file = g_build_filename (g_get_user_config_dir (), "wayfire.ini", NULL);
     if (wayfire)
     {
         /* read user config first */
-        user_config_file = g_build_filename (g_get_user_config_dir (), "wayfire.ini", NULL);
         kf = g_key_file_new ();
         g_key_file_load_from_file (kf, user_config_file, G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL);
         init_model = g_key_file_get_string (kf, "input", "xkb_model", NULL);
@@ -1571,7 +1570,6 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 
             g_key_file_free (kf);
         }
-        g_free (user_config_file);
 
         update = FALSE;
         // X settings
@@ -1609,6 +1607,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     }
     else gtk_widget_destroy (dlg);
 
+    g_free (user_config_file);
     g_free (init_model);
     g_free (init_layout);
     g_free (init_variant);
@@ -1942,48 +1941,21 @@ static int num_screens (void)
         return get_status ("xrandr -q | grep -cw connected");
 }
 
-/* The dialog... */
-
-int main (int argc, char *argv[])
+static gboolean init_config (gpointer data)
 {
     GtkBuilder *builder;
     GtkAdjustment *madj, *gadj, *tadj;
     GtkWidget *wid;
 
-#ifdef ENABLE_NLS
-    setlocale (LC_ALL, "");
-    bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
-    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-    textdomain (GETTEXT_PACKAGE);
-#endif
-
-    if (!system ("ps ax | grep wayfire | grep -qv grep")) wayfire = TRUE;
-
-    // GTK setup
-    gtk_init (&argc, &argv);
-    gtk_icon_theme_prepend_search_path (gtk_icon_theme_get_default(), PACKAGE_DATA_DIR);
-
-    if (argc == 2 && !g_strcmp0 (argv[1], "-w"))
-    {
-        on_set_wifi (NULL, NULL);
-        return 0;
-    }
-
-    // build the UI
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
     main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
     g_signal_connect (main_dlg, "delete_event", G_CALLBACK (close_prog), NULL);
 
     wid = (GtkWidget *) gtk_builder_get_object (builder, "button_ok");
     g_signal_connect (wid, "clicked", G_CALLBACK (ok_main), NULL);
+
     wid = (GtkWidget *) gtk_builder_get_object (builder, "button_cancel");
     g_signal_connect (wid, "clicked", G_CALLBACK (cancel_main), NULL);
-
-    if (!can_configure ())
-    {
-        info (_("The Raspberry Pi Configuration application can only modify a standard configuration.\n\nYour configuration appears to have been modified by other tools, and so this application cannot be used on your system.\n\nIn order to use this application, you need to have the latest firmware installed, Device Tree enabled, the default \"pi\" user set up and the lightdm application installed. "));
-        return 0;
-    }
 
     passwd_btn = gtk_builder_get_object (builder, "button_pw");
     g_signal_connect (passwd_btn, "clicked", G_CALLBACK (on_change_passwd), NULL);
@@ -2002,6 +1974,7 @@ int main (int argc, char *argv[])
 
     wifi_btn = gtk_builder_get_object (builder, "button_wifi");
     g_signal_connect (wifi_btn, "clicked", G_CALLBACK (on_set_wifi), NULL);
+
     if (has_wifi ()) gtk_widget_set_sensitive (GTK_WIDGET (wifi_btn), TRUE);
     else gtk_widget_set_sensitive (GTK_WIDGET (wifi_btn), FALSE);
 
@@ -2182,33 +2155,33 @@ int main (int argc, char *argv[])
         orig_gpumem = get_gpu_mem ();
         gtk_spin_button_set_value (GTK_SPIN_BUTTON (memsplit_sb), orig_gpumem);
 
-		if (wayfire) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
-		else
-		{
-	        vnc_res_cb = gtk_builder_get_object (builder, "combo_res");
-	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "640x480");
-	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "720x480");
-	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "800x600");
-	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1024x768");
-	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1280x720");
-	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1280x1024");
-	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1600x1200");
-	        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1920x1080");
+        if (wayfire) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
+        else
+        {
+            vnc_res_cb = gtk_builder_get_object (builder, "combo_res");
+            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "640x480");
+            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "720x480");
+            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "800x600");
+            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1024x768");
+            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1280x720");
+            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1280x1024");
+            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1600x1200");
+            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1920x1080");
 
-	        orig_vnc_res = -1;
-	        vres = get_string (GET_VNC_RES);
-	        if (!strcmp (vres, "640x480")) orig_vnc_res = 0;
-	        if (!strcmp (vres, "720x480")) orig_vnc_res = 1;
-	        if (!strcmp (vres, "800x600")) orig_vnc_res = 2;
-	        if (!strcmp (vres, "1024x768")) orig_vnc_res = 3;
-	        if (!strcmp (vres, "1280x720")) orig_vnc_res = 4;
-	        if (!strcmp (vres, "1280x1024")) orig_vnc_res = 5;
-	        if (!strcmp (vres, "1600x1200")) orig_vnc_res = 6;
-	        if (!strcmp (vres, "1920x1080")) orig_vnc_res = 7;
-	        g_free (vres);
+            orig_vnc_res = -1;
+            vres = get_string (GET_VNC_RES);
+            if (!strcmp (vres, "640x480")) orig_vnc_res = 0;
+            if (!strcmp (vres, "720x480")) orig_vnc_res = 1;
+            if (!strcmp (vres, "800x600")) orig_vnc_res = 2;
+            if (!strcmp (vres, "1024x768")) orig_vnc_res = 3;
+            if (!strcmp (vres, "1280x720")) orig_vnc_res = 4;
+            if (!strcmp (vres, "1280x1024")) orig_vnc_res = 5;
+            if (!strcmp (vres, "1600x1200")) orig_vnc_res = 6;
+            if (!strcmp (vres, "1920x1080")) orig_vnc_res = 7;
+            g_free (vres);
 
-	        gtk_combo_box_set_active (GTK_COMBO_BOX (vnc_res_cb), orig_vnc_res);
-		}
+            gtk_combo_box_set_active (GTK_COMBO_BOX (vnc_res_cb), orig_vnc_res);
+        }
     }
     else
     {
@@ -2236,14 +2209,78 @@ int main (int argc, char *argv[])
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox54")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
     }
-
     g_object_unref (builder);
 
-    needs_reboot = 0;
     gtk_widget_show (main_dlg);
+    gtk_widget_destroy (msg_dlg);
+
+    return FALSE;
+}
+
+/* Bleagh...
+ * We need to start loading config once the message window is properly drawn,
+ * which requires it to have focus. So the only way to do this is to hang off
+ * the window state event and look for when it indicates that the window has
+ * focus. I cannot believe this is actually necessary, but hanging off "show"
+ * or "draw" doesn't indicate that the window has fully drawn under Wayland. ..
+ */
+
+static gboolean event (GtkWidget *wid, GdkEventWindowState *ev, gpointer data)
+{
+    if (ev->type == GDK_WINDOW_STATE)
+    {
+        if (ev->changed_mask == GDK_WINDOW_STATE_FOCUSED
+            && ev->new_window_state & GDK_WINDOW_STATE_FOCUSED)
+                g_idle_add (init_config, NULL);
+    }
+    return FALSE;
+}
+
+static gboolean draw (GtkWidget *wid, cairo_t *cr, gpointer data)
+{
+    g_signal_handler_disconnect (wid, draw_id);
+    g_idle_add (init_config, NULL);
+    return FALSE;
+}
+
+/* The dialog... */
+
+int main (int argc, char *argv[])
+{
+#ifdef ENABLE_NLS
+    setlocale (LC_ALL, "");
+    bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
+    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+    textdomain (GETTEXT_PACKAGE);
+#endif
+
+    // GTK setup
+    gtk_init (&argc, &argv);
+    gtk_icon_theme_prepend_search_path (gtk_icon_theme_get_default(), PACKAGE_DATA_DIR);
+
+    if (argc == 2 && !g_strcmp0 (argv[1], "-w"))
+    {
+        on_set_wifi (NULL, NULL);
+        return 0;
+    }
+
+    if (!system ("ps ax | grep wayfire | grep -qv grep")) wayfire = TRUE;
+    needs_reboot = 0;
+    main_dlg = NULL;
+    if (!can_configure ())
+    {
+        info (_("The Raspberry Pi Configuration application can only modify a standard configuration.\n\nYour configuration appears to have been modified by other tools, and so this application cannot be used on your system.\n\nIn order to use this application, you need to have the latest firmware installed, Device Tree enabled, the default \"pi\" user set up and the lightdm application installed. "));
+    }
+    else
+    {
+        message (_("Loading configuration - please wait..."));
+        if (wayfire) g_signal_connect (msg_dlg, "event", G_CALLBACK (event), NULL);
+        else draw_id = g_signal_connect (msg_dlg, "draw", G_CALLBACK (draw), NULL);
+    }
+
     gtk_main ();
 
-    gtk_widget_destroy (main_dlg);
+    if (main_dlg) gtk_widget_destroy (main_dlg);
 
     return 0;
 }
