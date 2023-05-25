@@ -355,6 +355,14 @@ static void message (char *msg)
     gtk_widget_show (msg_dlg);
     gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
 
+    // hack to fix dialog sometimes being too small...
+    if (wayfire)
+    {
+        gtk_widget_hide (msg_dlg);
+        gtk_widget_unrealize (msg_dlg);
+        gtk_widget_show (msg_dlg);
+    }
+
     g_object_unref (builder);
 }
 
@@ -404,7 +412,7 @@ static gboolean close_app_reboot (GtkButton *button, gpointer data)
     return FALSE;
 }
 
-static void reboot (void)
+static gboolean reboot_prompt (gpointer data)
 {
     GtkWidget *wid;
     GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
@@ -432,6 +440,7 @@ static void reboot (void)
     gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
 
     g_object_unref (builder);
+    return FALSE;
 }
 
 
@@ -1745,9 +1754,9 @@ static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 
 /* Write the changes to the system when OK is pressed */
 
-static int process_changes (void)
+static gpointer process_changes_thread (gpointer ptr)
 {
-    int reboot = 0;
+    int reboot = (int) ptr;
 
     if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)) 
         || orig_autolog == gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
@@ -1870,7 +1879,10 @@ static int process_changes (void)
         READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
     }
 
-    return reboot;
+    if (reboot) g_idle_add (reboot_prompt, NULL);
+    else gtk_main_quit ();
+
+    return NULL;
 }
 
 /* Status checks */
@@ -1914,16 +1926,15 @@ static int has_wifi (void)
 
 static gboolean cancel_main (GtkButton *button, gpointer data)
 {
-    if (needs_reboot) reboot ();
+    if (needs_reboot) reboot_prompt (NULL);
     else gtk_main_quit ();
     return FALSE;
 }
 
 static gboolean ok_main (GtkButton *button, gpointer data)
 {
-    if (process_changes ()) needs_reboot = 1;
-    if (needs_reboot) reboot ();
-    else gtk_main_quit ();
+    message (_("Updating configuration - please wait..."));
+    pthread = g_thread_new (NULL, process_changes_thread, (gpointer) needs_reboot);
     return FALSE;
 }
 
