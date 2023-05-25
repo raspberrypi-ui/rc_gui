@@ -355,14 +355,6 @@ static void message (char *msg)
     gtk_widget_show (msg_dlg);
     gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
 
-    // hack to fix dialog sometimes being too small...
-    if (wayfire)
-    {
-        gtk_widget_hide (msg_dlg);
-        gtk_widget_unrealize (msg_dlg);
-        gtk_widget_show (msg_dlg);
-    }
-
     g_object_unref (builder);
 }
 
