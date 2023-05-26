@@ -1,3 +1,9 @@
+rc-gui (1.65) bookworm; urgency=medium
+
+  * Add please wait prompts
+
+ -- Simon Long <simon@raspberrypi.com>  Fri, 26 May 2023 11:10:56 +0100
+
 rc-gui (1.64) bookworm; urgency=medium
 
   * Remove headless resolution setting on wayfire
