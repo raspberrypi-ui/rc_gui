@@ -128,6 +128,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define XSCR_INSTALLED  "raspi-config nonint is_installed xscreensaver"
 #define GET_VNC_RES     "raspi-config nonint get_vnc_resolution"
 #define SET_VNC_RES     "raspi-config nonint do_vnc_resolution %s"
+#define CAN_CONFIGURE   "raspi-config nonint can_configure"
 #define DEFAULT_GPU_MEM "vcgencmd get_mem gpu | cut -d = -f 2 | cut -d M -f 1"
 #define CHANGE_PASSWD   "echo $SUDO_USER:'%s' | chpasswd -e"
 
@@ -1879,32 +1880,6 @@ static gpointer process_changes_thread (gpointer ptr)
 
 /* Status checks */
 
-static int can_configure (void)
-{
-    struct stat buf;
-    FILE *fp;
-
-    // check lightdm is installed
-    if (stat ("/etc/init.d/lightdm", &buf)) return 0;
-
-    if (vsystem (IS_PI)) return 1;
-
-    // check startx.elf is present
-    if (stat ("/boot/start_x.elf", &buf)) return 0;
-
-    // check device tree is enabled
-    if (!get_status ("cat /boot/config.txt | grep -q ^device_tree=$ ; echo $?")) return 0;
-
-    // check /boot is mounted
-    fp = popen ("mountpoint /boot", "r");
-    if (pclose (fp) != 0) return 0;
-
-    // create /boot/config.txt if it doesn't exist
-    vsystem ("[ -e /boot/config.txt ] || touch /boot/config.txt");
-
-    return 1;
-}
-
 static int has_wifi (void)
 {
     char *res;
@@ -2267,10 +2242,10 @@ int main (int argc, char *argv[])
         return 0;
     }
 
-    if (!system ("ps ax | grep wayfire | grep -qv grep")) wayfire = TRUE;
+    if (getenv ("WAYFIRE_CONFIG_FILE")) wayfire = TRUE;
     needs_reboot = 0;
     main_dlg = NULL;
-    if (!can_configure ())
+    if (vsystem (CAN_CONFIGURE))
     {
         info (_("The Raspberry Pi Configuration application can only modify a standard configuration.\n\nYour configuration appears to have been modified by other tools, and so this application cannot be used on your system.\n\nIn order to use this application, you need to have the latest firmware installed, Device Tree enabled, the default \"pi\" user set up and the lightdm application installed. "));
     }
