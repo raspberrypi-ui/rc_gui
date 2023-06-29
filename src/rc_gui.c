@@ -1545,7 +1545,12 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
         {
             update = FALSE;
             kf = g_key_file_new ();
-            g_key_file_load_from_file (kf, i ? "/usr/share/greeter.ini" : user_config_file, G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL);
+            if (i)
+            {
+                if (!g_key_file_load_from_file (kf, "/usr/share/greeter.ini", G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL))
+                    g_key_file_load_from_file (kf, "/etc/wayfire/gtemplate.ini", G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL);
+            }
+            else g_key_file_load_from_file (kf, user_config_file, G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL);
 
             if (g_strcmp0 (new_mod, init_model))
             {
