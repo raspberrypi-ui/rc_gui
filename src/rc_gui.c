@@ -1548,21 +1548,31 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
             if (i)
             {
                 if (!g_key_file_load_from_file (kf, "/usr/share/greeter.ini", G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL))
+                {
                     g_key_file_load_from_file (kf, "/etc/wayfire/gtemplate.ini", G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL);
+                    update = TRUE;
+                }
             }
             else g_key_file_load_from_file (kf, user_config_file, G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL);
 
-            if (g_strcmp0 (new_mod, init_model))
+            str = g_key_file_get_string (kf, "input", "xkb_model", NULL);
+            if (g_strcmp0 (new_mod, str))
             {
                 g_key_file_set_string (kf, "input", "xkb_model", new_mod);
                 update = TRUE;
             }
-            if (g_strcmp0 (new_lay, init_layout))
+            g_free (str);
+
+            str = g_key_file_get_string (kf, "input", "xkb_layout", NULL);
+            if (g_strcmp0 (new_lay, str))
             {
                 g_key_file_set_string (kf, "input", "xkb_layout", new_lay);
                 update = TRUE;
             }
-            if (g_strcmp0 (new_var, init_variant))
+            g_free (str);
+
+            str = g_key_file_get_string (kf, "input", "xkb_variant", NULL);
+            if (g_strcmp0 (new_var, str))
             {
                 g_key_file_set_string (kf, "input", "xkb_variant", new_var);
                 update = TRUE;
