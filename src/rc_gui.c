@@ -1545,7 +1545,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
         {
             update = FALSE;
             kf = g_key_file_new ();
-            g_key_file_load_from_file (kf, i ? "/etc/wayfire/greeter.ini" : user_config_file, G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL);
+            g_key_file_load_from_file (kf, i ? "/usr/share/greeter.ini" : user_config_file, G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL);
 
             if (g_strcmp0 (new_mod, init_model))
             {
@@ -1566,7 +1566,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
             if (update)
             {
                 str = g_key_file_to_data (kf, &len, NULL);
-                g_file_set_contents (i ? "/etc/wayfire/greeter.ini" : user_config_file, str, len, NULL);
+                g_file_set_contents (i ? "/usr/share/greeter.ini" : user_config_file, str, len, NULL);
                 g_free (str);
             }
 
