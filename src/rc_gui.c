@@ -1608,14 +1608,32 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 
         if (update && !wayfire)
         {
-            // this updates the current session when invoked after the udev update
-            sprintf (gbuffer, "setxkbmap %s%s%s%s%s", new_lay, new_mod[0] ? " -model " : "", new_mod, new_var[0] ? " -variant " : "", new_var);
+            if (wayfire) vsystem ("setsid sh -c 'exec setupcon -k --force <> /dev/tty1 >&0 2>&1'");
+            else
+            {
+                // this updates the current session when invoked after the udev update
+                sprintf (gbuffer, "setxkbmap %s%s%s%s%s", new_lay, new_mod[0] ? " -model " : "", new_mod, new_var[0] ? " -variant " : "", new_var);
 
-            // warn about a short delay...
-            message (_("Setting keyboard - please wait..."));
+                // warn about a short delay...
+                if (ptr == NULL) message (_("Setting keyboard - please wait..."));
 
-            // launch a thread with the system call to update the keyboard
-            pthread = g_thread_new (NULL, keyboard_thread, NULL);
+                // launch a thread with the system call to update the keyboard
+                pthread = g_thread_new (NULL, keyboard_thread, NULL);
+
+                if (ptr != NULL)
+                {
+                    // if running the standalone keyboard dialog, need a dialog for the message
+                    GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+                    msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal_dlg");
+                    GtkWidget *lbl = (GtkWidget *) gtk_builder_get_object (builder, "modald_msg");
+                    g_object_unref (builder);
+
+                    gtk_label_set_text (GTK_LABEL (lbl), _("Setting keyboard - please wait..."));
+                    gtk_widget_show (msg_dlg);
+                    gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
+                    gtk_dialog_run (GTK_DIALOG (msg_dlg));
+                }
+            }
         }
 
         g_free (new_mod);
@@ -2247,13 +2265,22 @@ int main (int argc, char *argv[])
     gtk_init (&argc, &argv);
     gtk_icon_theme_prepend_search_path (gtk_icon_theme_get_default(), PACKAGE_DATA_DIR);
 
+    if (getenv ("WAYFIRE_CONFIG_FILE")) wayfire = TRUE;
+
     if (argc == 2 && !g_strcmp0 (argv[1], "-w"))
     {
         on_set_wifi (NULL, NULL);
         return 0;
     }
 
-    if (getenv ("WAYFIRE_CONFIG_FILE")) wayfire = TRUE;
+    if (argc == 2 && !strcmp (argv[1], "-k"))
+    {
+        pthread = 0;
+        on_set_keyboard (NULL, (gpointer) 1);
+        if (pthread) g_thread_join (pthread);
+        return 0;
+    }
+
     needs_reboot = 0;
     main_dlg = NULL;
     if (vsystem (CAN_CONFIGURE))
