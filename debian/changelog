@@ -1,9 +1,3 @@
-rc-gui (1.68) bookworm; urgency=medium
-
-  * Check for WAYLAND_DISPLAY instead of WAYFIRE_CONFIG_FILE
-
- -- Simon Long <simon@raspberrypi.com>  Thu, 13 Jul 2023 11:48:21 +0100
-
 rc-gui (1.67) bookworm; urgency=medium
 
   * Reinstate external keyboard layout dialog
