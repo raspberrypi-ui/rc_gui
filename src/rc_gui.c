@@ -129,6 +129,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_VNC_RES     "raspi-config nonint get_vnc_resolution"
 #define SET_VNC_RES     "raspi-config nonint do_vnc_resolution %s"
 #define CAN_CONFIGURE   "raspi-config nonint can_configure"
+#define SET_LOCALE      "raspi-config nonint do_change_locale_rc_gui %s"
+#define SET_TIMEZONE    "raspi-config nonint do_change_timezone_rc_gui %s"
+#define SET_KEYBOARD    "raspi-config nonint do_change_keyboard_rc_gui %s"
 #define DEFAULT_GPU_MEM "vcgencmd get_mem gpu | cut -d = -f 2 | cut -d M -f 1"
 #define CHANGE_PASSWD   "echo $SUDO_USER:'%s' | chpasswd -e"
 
@@ -777,8 +780,7 @@ static gboolean close_msg (gpointer data)
 
 static gpointer locale_thread (gpointer data)
 {
-    vsystem ("locale-gen");
-    vsystem ("LC_ALL=%s LANG=%s LANGUAGE=%s update-locale LANG=%s LC_ALL=%s LANGUAGE=%s", gbuffer, gbuffer, gbuffer, gbuffer, gbuffer, gbuffer);
+    vsystem (SET_LOCALE, gbuffer);
     g_idle_add (close_msg, NULL);
     return NULL;
 }
@@ -855,16 +857,10 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
 
         if (g_strcmp0 (buffer, init_locale))
         {
-            // use sed to comment current setting if uncommented
-            vsystem ("sed -i 's/^\\(%s\\s\\)/# \\1/g' /etc/locale.gen", init_locale);
-
-            // use sed to uncomment new setting if commented
-            vsystem ("sed -i 's/^# \\(%s\\s\\)/\\1/g' /etc/locale.gen", buffer);
-
-            strcpy (gbuffer, buffer);
-
             // warn about a short delay...
             message (_("Setting locale - please wait..."));
+
+            strcpy (gbuffer, buffer);
 
             // launch a thread with the system call to update the generated locales
             g_thread_new (NULL, locale_thread, NULL);
@@ -941,8 +937,7 @@ static void area_changed (GtkComboBox *cb, gpointer ptr)
 
 static gpointer timezone_thread (gpointer data)
 {
-    vsystem ("rm /etc/localtime");
-    vsystem ("dpkg-reconfigure --frontend noninteractive tzdata");
+    vsystem (SET_TIMEZONE, gbuffer);
     g_idle_add (close_msg, NULL);
     return NULL;
 }
@@ -1095,10 +1090,10 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
 
         if (g_strcmp0 (buffer, init_tz))
         {
-            vsystem ("echo '%s' | tee /etc/timezone", buffer);
-
             // warn about a short delay...
             message (_("Setting timezone - please wait..."));
+
+            strcpy (gbuffer, buffer);
 
             // launch a thread with the system call to update the timezone
             g_thread_new (NULL, timezone_thread, NULL);
@@ -1382,15 +1377,7 @@ static void layout_changed (GtkComboBox *cb, char *init_variant)
 
 static gpointer keyboard_thread (gpointer ptr)
 {
-    //system ("dpkg-reconfigure -f noninteractive keyboard-configuration");
-    if (!wayfire) vsystem ("invoke-rc.d keyboard-setup start");
-    vsystem ("setsid sh -c 'exec setupcon -k --force <> /dev/tty1 >&0 2>&1'");
-    if (!wayfire)
-    {
-        vsystem ("udevadm trigger --subsystem-match=input --action=change");
-        vsystem ("udevadm settle");
-        vsystem (gbuffer);
-    }
+    vsystem (SET_KEYBOARD, gbuffer);
     g_idle_add (close_msg, NULL);
     return NULL;
 }
@@ -1540,99 +1527,28 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 
         gtk_widget_destroy (dlg);
 
-        // Wayfire settings, desktop and greeter
-        for (i = 0; i < 2; i++)
+        if (g_strcmp0 (init_model, new_mod) || g_strcmp0 (init_layout, new_lay) || g_strcmp0 (init_variant, new_var))
         {
-            update = FALSE;
-            kf = g_key_file_new ();
-            if (i)
+            // warn about a short delay...
+            if (ptr == NULL) message (_("Setting keyboard - please wait..."));
+
+            sprintf (gbuffer, "%s %s %s", new_mod, new_lay, new_var);
+
+            // launch a thread with the system call to update the keyboard
+            pthread = g_thread_new (NULL, keyboard_thread, NULL);
+
+            if (ptr != NULL)
             {
-                if (!g_key_file_load_from_file (kf, "/usr/share/greeter.ini", G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL))
-                {
-                    g_key_file_load_from_file (kf, "/etc/wayfire/gtemplate.ini", G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL);
-                    update = TRUE;
-                }
-            }
-            else g_key_file_load_from_file (kf, user_config_file, G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL);
+                // if running the standalone keyboard dialog, need a dialog for the message
+                GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+                msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal_dlg");
+                GtkWidget *lbl = (GtkWidget *) gtk_builder_get_object (builder, "modald_msg");
+                g_object_unref (builder);
 
-            str = g_key_file_get_string (kf, "input", "xkb_model", NULL);
-            if (g_strcmp0 (new_mod, str))
-            {
-                g_key_file_set_string (kf, "input", "xkb_model", new_mod);
-                update = TRUE;
-            }
-            g_free (str);
-
-            str = g_key_file_get_string (kf, "input", "xkb_layout", NULL);
-            if (g_strcmp0 (new_lay, str))
-            {
-                g_key_file_set_string (kf, "input", "xkb_layout", new_lay);
-                update = TRUE;
-            }
-            g_free (str);
-
-            str = g_key_file_get_string (kf, "input", "xkb_variant", NULL);
-            if (g_strcmp0 (new_var, str))
-            {
-                g_key_file_set_string (kf, "input", "xkb_variant", new_var);
-                update = TRUE;
-            }
-
-            if (update)
-            {
-                str = g_key_file_to_data (kf, &len, NULL);
-                g_file_set_contents (i ? "/usr/share/greeter.ini" : user_config_file, str, len, NULL);
-                g_free (str);
-            }
-
-            g_key_file_free (kf);
-        }
-
-        update = FALSE;
-        // X settings
-        if (g_strcmp0 (new_mod, init_model))
-        {
-            vsystem ("grep -q XKBMODEL /etc/default/keyboard && sed -i 's/XKBMODEL=.*/XKBMODEL=%s/g' /etc/default/keyboard || echo 'XKBMODEL=%s' >> /etc/default/keyboard", new_mod, new_mod);
-            update = TRUE;
-        }
-        if (g_strcmp0 (new_lay, init_layout))
-        {
-            vsystem ("grep -q XKBLAYOUT /etc/default/keyboard && sed -i 's/XKBLAYOUT=.*/XKBLAYOUT=%s/g' /etc/default/keyboard || echo 'XKBLAYOUT=%s' >> /etc/default/keyboard", new_lay, new_lay);
-            update = TRUE;
-        }
-        if (g_strcmp0 (new_var, init_variant))
-        {
-            vsystem ("grep -q XKBVARIANT /etc/default/keyboard && sed -i 's/XKBVARIANT=.*/XKBVARIANT=%s/g' /etc/default/keyboard || echo 'XKBVARIANT=%s' >> /etc/default/keyboard", new_var, new_var);
-            update = TRUE;
-        }
-
-        if (update && !wayfire)
-        {
-            if (wayfire) vsystem ("setsid sh -c 'exec setupcon -k --force <> /dev/tty1 >&0 2>&1'");
-            else
-            {
-                // this updates the current session when invoked after the udev update
-                sprintf (gbuffer, "setxkbmap %s%s%s%s%s", new_lay, new_mod[0] ? " -model " : "", new_mod, new_var[0] ? " -variant " : "", new_var);
-
-                // warn about a short delay...
-                if (ptr == NULL) message (_("Setting keyboard - please wait..."));
-
-                // launch a thread with the system call to update the keyboard
-                pthread = g_thread_new (NULL, keyboard_thread, NULL);
-
-                if (ptr != NULL)
-                {
-                    // if running the standalone keyboard dialog, need a dialog for the message
-                    GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
-                    msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal_dlg");
-                    GtkWidget *lbl = (GtkWidget *) gtk_builder_get_object (builder, "modald_msg");
-                    g_object_unref (builder);
-
-                    gtk_label_set_text (GTK_LABEL (lbl), _("Setting keyboard - please wait..."));
-                    gtk_widget_show (msg_dlg);
-                    gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
-                    gtk_dialog_run (GTK_DIALOG (msg_dlg));
-                }
+                gtk_label_set_text (GTK_LABEL (lbl), _("Setting keyboard - please wait..."));
+                gtk_widget_show (msg_dlg);
+                gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
+                gtk_dialog_run (GTK_DIALOG (msg_dlg));
             }
         }
 
