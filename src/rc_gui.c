@@ -49,8 +49,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <crypt.h>
 
 /* Command strings */
-#define SET_PREFIX      "SUDO_ASKPASS=/usr/lib/rc-gui/pwdrcg.sh sudo -A raspi-config nonint "
 #define GET_PREFIX      "raspi-config nonint "
+#define SET_PREFIX      "SUDO_ASKPASS=/usr/lib/rc-gui/pwdrcg.sh sudo -A " GET_PREFIX
 #define GET_HOSTNAME    GET_PREFIX "get_hostname"
 #define SET_HOSTNAME    SET_PREFIX "do_hostname %s"
 #define GET_BOOT_CLI    GET_PREFIX "get_boot_cli"
