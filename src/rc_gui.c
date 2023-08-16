@@ -653,6 +653,23 @@ static void read_locales (void)
                 }
             }
 
+            // deal with Bokmal
+            if (lname && strchr (lname, '<'))
+            {
+                int val;
+                char *tmp = g_strdup (lname);
+                char *pos = strchr (tmp, '<');
+
+                if (sscanf (pos, "<U00%X>", &val) == 1)
+                {
+                    *pos++ = val >= 0xC0 ? 0xC3 : 0xC2;
+                    *pos++ = val >= 0xC0 ? val - 0x40 : val;
+                    sprintf (pos, "%s", strchr (lname, '>') + 1);
+                    g_free (lname);
+                    lname = tmp;
+                }
+            }
+
             // now split to language and country codes
             strtok (lang, "_");
             country = strtok (NULL, " \t\n\r");
