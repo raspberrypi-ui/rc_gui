@@ -610,6 +610,25 @@ static void set_init (GtkTreeModel *model, GObject *cb, int pos, char *init)
     gtk_combo_box_set_active_iter (GTK_COMBO_BOX (cb), &iter);
 }
 
+static void deunicode (char **str)
+{
+    if (*str && strchr (*str, '<'))
+    {
+        int val;
+        char *tmp = g_strdup (*str);
+        char *pos = strchr (tmp, '<');
+
+        if (sscanf (pos, "<U00%X>", &val) == 1)
+        {
+            *pos++ = val >= 0xC0 ? 0xC3 : 0xC2;
+            *pos++ = val >= 0xC0 ? val - 0x40 : val;
+            sprintf (pos, "%s", strchr (*str, '>') + 1);
+            g_free (*str);
+            *str = tmp;
+        }
+    }
+}
+
 static void read_locales (void)
 {
     char *cname, *lname, *buffer, *lang, *country, *charset, *loccode, *flname, *fcname;
@@ -636,27 +655,19 @@ static void read_locales (void)
             // lang now holds locale file name - read names from locale file
             cname = get_quoted_param ("/usr/share/i18n/locales", lang, "territory");
             lname = get_quoted_param ("/usr/share/i18n/locales", lang, "language");
+            if (!lname && !cname)
+            {
+                g_free (lang);
+                continue;
+            }
 
             // deal with the likes of "malta"...
             if (cname) cname[0] = g_ascii_toupper (cname[0]);
             if (lname) lname[0] = g_ascii_toupper (lname[0]);
 
-            // deal with Curacao
-            if (cname && strchr (cname, '<'))
-            {
-                int val;
-                char *tmp = g_strdup (cname);
-                char *pos = strchr (tmp, '<');
-
-                if (sscanf (pos, "<U00%X>", &val) == 1)
-                {
-                    *pos++ = val >= 0xC0 ? 0xC3 : 0xC2;
-                    *pos++ = val >= 0xC0 ? val - 0x40 : val;
-                    sprintf (pos, "%s", strchr (cname, '>') + 1);
-                    g_free (cname);
-                    cname = tmp;
-                }
-            }
+            // deal with Curacao and Bokmal
+            deunicode (&cname);
+            deunicode (&lname);
 
             // now split to language and country codes
             strtok (lang, "_");
@@ -680,6 +691,7 @@ static void read_locales (void)
             g_free (lname);
             g_free (lang);
             g_free (flname);
+            g_free (fcname);
         }
     }
     fclose (fp);
