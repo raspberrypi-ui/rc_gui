@@ -631,6 +631,11 @@ static void read_locales (void)
             // lang now holds locale file name - read names from locale file
             cname = get_quoted_param ("/usr/share/i18n/locales", lang, "territory");
             lname = get_quoted_param ("/usr/share/i18n/locales", lang, "language");
+            if (!lname && !cname)
+            {
+                g_free (lang);
+                continue;
+            }
 
             // deal with the likes of "malta"...
             if (cname) cname[0] = g_ascii_toupper (cname[0]);
@@ -692,6 +697,7 @@ static void read_locales (void)
             g_free (lname);
             g_free (lang);
             g_free (flname);
+            g_free (fcname);
         }
     }
     fclose (fp);
