@@ -134,6 +134,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_LOCALE      SET_PREFIX "do_change_locale_rc_gui %s"
 #define SET_TIMEZONE    SET_PREFIX "do_change_timezone_rc_gui %s"
 #define SET_KEYBOARD    SET_PREFIX "do_change_keyboard_rc_gui %s"
+#define GET_BROWSER     GET_PREFIX "get_browser"
+#define SET_BROWSER     SET_PREFIX "do_browser %s"
+#define FF_INSTALLED    GET_PREFIX "is_installed firefox"
+#define CR_INSTALLED    GET_PREFIX "is_installed chromium-browser"
 #define DEFAULT_GPU_MEM "vcgencmd get_mem gpu | cut -d = -f 2 | cut -d M -f 1"
 #define CHANGE_PASSWD   "echo $USER:'%s' | SUDO_ASKPASS=/usr/lib/rc-gui/pwdrcg.sh sudo -A chpasswd -e"
 
@@ -149,7 +153,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Controls */
 
 static GObject *passwd_btn, *hostname_btn, *res_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
-static GObject *boot_desktop_rb, *boot_cli_rb, *pixdub_sw;
+static GObject *boot_desktop_rb, *boot_cli_rb, *pixdub_sw, *chromium_rb, *firefox_rb;
 static GObject *overscan_sw, *overscan2_sw, *ssh_sw, *rgpio_sw, *vnc_sw;
 static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw;
 static GObject *alogin_sw, *netwait_sw, *splash_sw, *scons_sw;
@@ -168,7 +172,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 static int orig_boot, orig_overscan, orig_overscan2, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
 static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub;
 static int orig_ofs, orig_bpro, orig_blank, orig_leds, orig_fan, orig_fan_gpio, orig_fan_temp, orig_vnc_res;
-static char *vres;
+static char *vres, *orig_browser;
 
 /* Reboot flag set after locale change */
 
@@ -1732,6 +1736,11 @@ static gpointer process_changes_thread (gpointer ptr)
     READ_SWITCH (pixdub_sw, orig_pixdub, SET_PIXDUB, TRUE);
     READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wayfire ? FALSE : TRUE);
 
+    if (strcmp (orig_browser, "chromium-browser") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
+        vsystem (SET_BROWSER, "chromium-browser");
+    if (strcmp (orig_browser, "firefox") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (firefox_rb)))
+        vsystem (SET_BROWSER, "firefox");
+
     if (!vsystem (IS_PI))
     {
         if (!vsystem (GET_KMS))
@@ -1935,6 +1944,19 @@ static gboolean init_config (gpointer data)
     {
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
         gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
+    }
+
+    orig_browser = get_string (GET_BROWSER);
+    chromium_rb = gtk_builder_get_object (builder, "rb_chromium");
+    firefox_rb = gtk_builder_get_object (builder, "rb_firefox");
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (firefox_rb), !strcmp (orig_browser, "firefox"));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chromium_rb), !strcmp (orig_browser, "chromium-browser"));
+    if (vsystem (CR_INSTALLED) || vsystem (FF_INSTALLED))
+    {
+        gtk_widget_set_sensitive (GTK_WIDGET (chromium_rb), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (firefox_rb), FALSE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (chromium_rb), _("Multiple browsers are not installed"));
+        gtk_widget_set_tooltip_text (GTK_WIDGET (firefox_rb), _("Multiple browsers are not installed"));
     }
 
     if (!vsystem (XSCR_INSTALLED))
