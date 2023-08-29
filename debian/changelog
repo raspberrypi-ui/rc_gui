@@ -1,3 +1,9 @@
+rc-gui (1.70) bookworm; urgency=medium
+
+  * Remove overscan for Wayland
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 29 Aug 2023 11:14:58 +0100
+
 rc-gui (1.69) bookworm; urgency=medium
 
   * Fix accented character in language name

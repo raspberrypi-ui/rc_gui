@@ -1965,8 +1965,16 @@ static gboolean init_config (gpointer data)
         gtk_widget_set_tooltip_text (GTK_WIDGET (blank_sw), _("This setting is overridden when Xscreensaver is installed"));
     }
 
-    if (num_screens () != 2) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
-    else gtk_label_set_text (GTK_LABEL (gtk_builder_get_object (builder, "label52")), _("Overscan (HDMI-1):"));
+    if (wayfire)
+    {
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox52")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
+    }
+    else
+    {
+        if (num_screens () != 2) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
+        else gtk_label_set_text (GTK_LABEL (gtk_builder_get_object (builder, "label52")), _("Overscan (HDMI-1):"));
+    }
 
     if (!vsystem (IS_PI))
     {
