@@ -90,7 +90,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_LEDS        SET_PREFIX "do_leds %d"
 #define GET_PI_TYPE     GET_PREFIX "get_pi_type"
 #define IS_PI           GET_PREFIX "is_pi"
-#define IS_PI4          GET_PREFIX "is_pifour"
 #define HAS_ANALOG      GET_PREFIX "has_analog"
 #define GET_OVERCLOCK   GET_PREFIX "get_config_var arm_freq /boot/config.txt"
 #define SET_OVERCLOCK   SET_PREFIX "do_overclock %s"
