@@ -90,6 +90,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_LEDS        SET_PREFIX "do_leds %d"
 #define GET_PI_TYPE     GET_PREFIX "get_pi_type"
 #define IS_PI           GET_PREFIX "is_pi"
+#define IS_PI4          GET_PREFIX "is_pifour"
 #define HAS_ANALOG      GET_PREFIX "has_analog"
 #define GET_OVERCLOCK   GET_PREFIX "get_config_var arm_freq /boot/config.txt"
 #define SET_OVERCLOCK   SET_PREFIX "do_overclock %s"
@@ -1578,6 +1579,8 @@ static gpointer process_changes_thread (gpointer ptr)
     READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
     READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
     READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wayfire ? FALSE : TRUE);
+    READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
+    READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
 
     if (strcmp (orig_browser, "chromium-browser") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
         vsystem (SET_BROWSER, "chromium-browser");
@@ -1586,8 +1589,6 @@ static gpointer process_changes_thread (gpointer ptr)
 
     if (!vsystem (IS_PI))
     {
-        READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
-        READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
         READ_SWITCH (vnc_sw, orig_vnc, SET_VNC, FALSE);
         READ_SWITCH (spi_sw, orig_spi, SET_SPI, FALSE);
         READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
@@ -1659,21 +1660,19 @@ static gpointer process_changes_thread (gpointer ptr)
             reboot = 1;
         }
 
-        int fan_gpio = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_gpio_sb));
-        int fan_temp = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_temp_sb));
-        if (!gtk_switch_get_active (GTK_SWITCH (fan_sw)))
+        if (!vsystem (IS_PI4))
         {
-            if (orig_fan == 0) vsystem (SET_FAN, 1, 0, 0);
+            int fan_gpio = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_gpio_sb));
+            int fan_temp = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_temp_sb));
+            if (!gtk_switch_get_active (GTK_SWITCH (fan_sw)))
+            {
+                if (orig_fan == 0) vsystem (SET_FAN, 1, 0, 0);
+            }
+            else
+            {
+                if (orig_fan == 1 || orig_fan_gpio != fan_gpio || orig_fan_temp != fan_temp) vsystem (SET_FAN, 0, fan_gpio, fan_temp);
+            }
         }
-        else
-        {
-            if (orig_fan == 1 || orig_fan_gpio != fan_gpio || orig_fan_temp != fan_temp) vsystem (SET_FAN, 0, fan_gpio, fan_temp);
-        }
-    }
-    else
-    {
-        READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
-        READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
     }
 
     if (reboot) g_idle_add (reboot_prompt, NULL);
@@ -1848,34 +1847,43 @@ static gboolean init_config (gpointer data)
         if (orig_leds == -1) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
         else gtk_switch_set_active (GTK_SWITCH (led_actpwr_sw), !(orig_leds));
 
-        fan_sw = gtk_builder_get_object (builder, "sw_fan");
-        fan_gpio_sb = gtk_builder_get_object (builder, "sb_fan_gpio");
-        fan_temp_sb = gtk_builder_get_object (builder, "sb_fan_temp");
-        if ((orig_fan = get_status (GET_FAN)))
+        if (vsystem (IS_PI4))
         {
-            gtk_switch_set_active (GTK_SWITCH (fan_sw), FALSE);
-            gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), FALSE);
-            gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), FALSE);
-            gtk_widget_set_tooltip_text (GTK_WIDGET (fan_gpio_sb), _("This setting cannot be changed unless the fan is enabled"));
-            gtk_widget_set_tooltip_text (GTK_WIDGET (fan_temp_sb), _("This setting cannot be changed unless the fan is enabled"));
+            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox34")));
+            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox35")));
+            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox36")));
         }
         else
         {
-            gtk_switch_set_active (GTK_SWITCH (fan_sw), TRUE);
-            gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), TRUE);
-            gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), TRUE);
+            fan_sw = gtk_builder_get_object (builder, "sw_fan");
+            fan_gpio_sb = gtk_builder_get_object (builder, "sb_fan_gpio");
+            fan_temp_sb = gtk_builder_get_object (builder, "sb_fan_temp");
+            if ((orig_fan = get_status (GET_FAN)))
+            {
+                gtk_switch_set_active (GTK_SWITCH (fan_sw), FALSE);
+                gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), FALSE);
+                gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), FALSE);
+                gtk_widget_set_tooltip_text (GTK_WIDGET (fan_gpio_sb), _("This setting cannot be changed unless the fan is enabled"));
+                gtk_widget_set_tooltip_text (GTK_WIDGET (fan_temp_sb), _("This setting cannot be changed unless the fan is enabled"));
+            }
+            else
+            {
+                gtk_switch_set_active (GTK_SWITCH (fan_sw), TRUE);
+                gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), TRUE);
+                gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), TRUE);
+            }
+            g_signal_connect (fan_sw, "state-set", G_CALLBACK (on_fan_toggle), NULL);
+
+            gadj = gtk_adjustment_new (14, 2, 27, 1, 1, 0);
+            gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (fan_gpio_sb), GTK_ADJUSTMENT (gadj));
+            orig_fan_gpio = get_status (GET_FAN_GPIO);
+            gtk_spin_button_set_value (GTK_SPIN_BUTTON (fan_gpio_sb), orig_fan_gpio);
+
+            tadj = gtk_adjustment_new (80, 60, 120, 5, 10, 0);
+            gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (fan_temp_sb), GTK_ADJUSTMENT (tadj));
+            orig_fan_temp = get_status (GET_FAN_TEMP);
+            gtk_spin_button_set_value (GTK_SPIN_BUTTON (fan_temp_sb), orig_fan_temp);
         }
-        g_signal_connect (fan_sw, "state-set", G_CALLBACK (on_fan_toggle), NULL);
-
-        gadj = gtk_adjustment_new (14, 2, 27, 1, 1, 0);
-        gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (fan_gpio_sb), GTK_ADJUSTMENT (gadj));
-        orig_fan_gpio = get_status (GET_FAN_GPIO);
-        gtk_spin_button_set_value (GTK_SPIN_BUTTON (fan_gpio_sb), orig_fan_gpio);
-
-        tadj = gtk_adjustment_new (80, 60, 120, 5, 10, 0);
-        gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (fan_temp_sb), GTK_ADJUSTMENT (tadj));
-        orig_fan_temp = get_status (GET_FAN_TEMP);
-        gtk_spin_button_set_value (GTK_SPIN_BUTTON (fan_temp_sb), orig_fan_temp);
 
         overclock_cb = gtk_builder_get_object (builder, "combo_oc");
         switch (get_status (GET_PI_TYPE))

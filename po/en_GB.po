@@ -440,7 +440,7 @@ msgstr ""
 
 #: ../data/rc_gui.ui.h:67
 msgid "Fan:"
-msgstr "Fan:"
+msgstr "Case Fan:"
 
 #: ../data/rc_gui.ui.h:68
 msgid "Enable a temperature-controlled fan on a GPIO pin"
