@@ -67,10 +67,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_OVERSCAN2   GET_PREFIX "get_overscan_kms 2"
 #define SET_OVERSCAN    SET_PREFIX "do_overscan_kms 1 %d"
 #define SET_OVERSCAN2   SET_PREFIX "do_overscan_kms 2 %d"
-#define GET_OVERSCANL   GET_PREFIX "get_overscan"
-#define SET_OVERSCANL   SET_PREFIX "do_overscan %d"
-#define GET_PIXDUB      GET_PREFIX "get_pixdub"
-#define SET_PIXDUB      SET_PREFIX "do_pixdub %d"
 #define GET_CAMERA      GET_PREFIX "get_camera"
 #define SET_CAMERA      SET_PREFIX "do_camera %d"
 #define GET_SSH         GET_PREFIX "get_ssh"
@@ -96,7 +92,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define IS_PI           GET_PREFIX "is_pi"
 #define IS_PI4          GET_PREFIX "is_pifour"
 #define HAS_ANALOG      GET_PREFIX "has_analog"
-#define GET_KMS         GET_PREFIX "is_kms"
 #define GET_OVERCLOCK   GET_PREFIX "get_config_var arm_freq /boot/config.txt"
 #define SET_OVERCLOCK   SET_PREFIX "do_overclock %s"
 #define GET_GPU_MEM     GET_PREFIX "get_config_var gpu_mem /boot/config.txt"
@@ -152,8 +147,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /* Controls */
 
-static GObject *passwd_btn, *hostname_btn, *res_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
-static GObject *boot_desktop_rb, *boot_cli_rb, *pixdub_sw, *chromium_rb, *firefox_rb;
+static GObject *passwd_btn, *hostname_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
+static GObject *boot_desktop_rb, *boot_cli_rb, *chromium_rb, *firefox_rb;
 static GObject *overscan_sw, *overscan2_sw, *ssh_sw, *rgpio_sw, *vnc_sw;
 static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw;
 static GObject *alogin_sw, *netwait_sw, *splash_sw, *scons_sw;
@@ -162,7 +157,7 @@ static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_sw, *bp_ro_sw,
 static GObject *fan_gpio_sb, *fan_temp_sb, *vnc_res_cb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
 static GObject *hostname_tb;
-static GObject *tzarea_cb, *tzloc_cb, *wccountry_cb, *resolution_cb;
+static GObject *tzarea_cb, *tzloc_cb, *wccountry_cb;
 static GObject *loclang_cb, *loccount_cb, *locchar_cb, *keymodel_cb, *keylayout_cb, *keyvar_cb;
 
 static GtkWidget *main_dlg, *msg_dlg;
@@ -170,7 +165,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 /* Initial values */
 
 static int orig_boot, orig_overscan, orig_overscan2, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
-static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc, orig_pixdub;
+static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc;
 static int orig_ofs, orig_bpro, orig_blank, orig_leds, orig_fan, orig_fan_gpio, orig_fan_temp, orig_vnc_res;
 static char *vres, *orig_browser;
 
@@ -1189,156 +1184,6 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
     gtk_widget_destroy (dlg);
 }
 
-/* Resolution setting */
-
-static void on_set_res (GtkButton* btn, gpointer ptr)
-{
-    GtkBuilder *builder;
-    GtkWidget *dlg;
-    char *buffer, *cptr, *entry, group;
-    FILE *fp;
-    int n, found, hmode, hgroup, mode, x, y, freq, ax, ay, conn;
-    size_t len;
-
-    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
-    dlg = (GtkWidget *) gtk_builder_get_object (builder, "resdlg");
-    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
-
-    resolution_cb = (GObject *) gtk_builder_get_object (builder, "rescb");
-
-    // get the current HDMI group and mode
-    hgroup = get_status (GET_HDMI_GROUP);
-    hmode = get_status (GET_HDMI_MODE);
-
-    // is there a monitor connected?
-    conn = 1;
-    fp = popen ("tvservice -d /dev/null", "r");
-    buffer = NULL;
-    len = 0;
-    while (getline (&buffer, &len, fp) > 0)
-    {
-        if (!strncmp (buffer, "Nothing", 7)) conn = 0;
-    }
-    pclose (fp);
-    g_free (buffer);
-
-    // populate the combobox
-    if (conn)
-    {
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "Default - preferred monitor settings");
-        found = 0;
-        n = 1;
-
-        // get valid CEA modes
-        fp = popen ("tvservice -m CEA", "r");
-        buffer = NULL;
-        len = 0;
-        while (getline (&buffer, &len, fp) > 0)
-        {
-            if (buffer[0] != 0x0A && strstr (buffer, "progressive"))
-            {
-                sscanf (buffer + 11, "mode %d: %dx%d @ %dHz %d:%d,", &mode, &x, &y, &freq, &ax, &ay);
-                if (x <= 1920 && y <= 1200)
-                {
-                    entry = g_strdup_printf ("CEA mode %d %dx%d %dHz %d:%d", mode, x, y, freq, ax, ay);
-                    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), entry);
-                    g_free (entry);
-                    if (hgroup == 1 && hmode == mode) found = n;
-                    n++;
-                }
-            }
-        }
-        pclose (fp);
-        g_free (buffer);
-
-        // get valid DMT modes
-        fp = popen ("tvservice -m DMT", "r");
-        buffer = NULL;
-        len = 0;
-        while (getline (&buffer, &len, fp) > 0)
-        {
-            if (buffer[0] != 0x0A && strstr (buffer, "progressive"))
-            {
-                sscanf (buffer + 11, "mode %d: %dx%d @ %dHz %d:%d,", &mode, &x, &y, &freq, &ax, &ay);
-                if (x <= 1920 && y <= 1200)
-                {
-                    entry = g_strdup_printf ("DMT mode %d %dx%d %dHz %d:%d", mode, x, y, freq, ax, ay);
-                    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), entry);
-                    g_free (entry);
-                    if (hgroup == 2 && hmode == mode) found = n;
-                    n++;
-                }
-            }
-        }
-        pclose (fp);
-        g_free (buffer);
-    }
-    else
-    {
-        // no connected monitor - offer default modes for VNC
-        found = 0;
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "Default 720x480");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "DMT mode 4 640x480 60Hz 4:3");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "DMT mode 9 800x600 60Hz 4:3");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "DMT mode 16 1024x768 60Hz 4:3");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "DMT mode 85 1280x720 60Hz 16:9");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "DMT mode 35 1280x1024 60Hz 5:4");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "DMT mode 51 1600x1200 60Hz 4:3");
-        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (resolution_cb), "DMT mode 82 1920x1080 60Hz 16:9");
-        if (hgroup == 2)
-        {
-            switch (hmode)
-            {
-                case 4 :    found = 1;
-                            break;
-                case 9 :    found = 2;
-                            break;
-                case 16 :   found = 3;
-                            break;
-                case 85 :   found = 4;
-                            break;
-                case 35 :   found = 5;
-                            break;
-                case 51 :   found = 6;
-                            break;
-                case 82 :   found = 7;
-                            break;
-            }
-        }
-    }
-
-    gtk_combo_box_set_active (GTK_COMBO_BOX (resolution_cb), found);
-
-    g_object_unref (builder);
-
-    if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
-    {
-        // set the HDMI variables
-        cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (resolution_cb));
-        if (!strncmp (cptr, "Default", 7))
-        {
-            // clear setting
-            if (hmode != 0)
-            {
-                vsystem (SET_HDMI_GP_MOD, 0, 0);
-                needs_reboot = 1;
-            }
-        }
-        else
-        {
-            // set config vars
-            sscanf (cptr, "%c%*s mode %d", &group, &mode);
-            if (hgroup != group - 'B' || hmode != mode)
-            {
-                vsystem (SET_HDMI_GP_MOD, group - 'B', mode);
-                needs_reboot = 1;
-            }
-        }
-        g_free (cptr);
-    }
-    gtk_widget_destroy (dlg);
-}
-
 /* Keyboard setting */
 
 static void layout_changed (GtkComboBox *cb, char *init_variant)
@@ -1733,7 +1578,6 @@ static gpointer process_changes_thread (gpointer ptr)
     READ_SWITCH (netwait_sw, orig_netwait, SET_BOOT_WAIT, FALSE);
     READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
     READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
-    READ_SWITCH (pixdub_sw, orig_pixdub, SET_PIXDUB, TRUE);
     READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wayfire ? FALSE : TRUE);
 
     if (strcmp (orig_browser, "chromium-browser") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
@@ -1743,16 +1587,8 @@ static gpointer process_changes_thread (gpointer ptr)
 
     if (!vsystem (IS_PI))
     {
-        if (!vsystem (GET_KMS))
-        {
-            READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
-            READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
-        }
-        else
-        {
-            READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCANL, TRUE);
-        }
-
+        READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
+        READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
         READ_SWITCH (vnc_sw, orig_vnc, SET_VNC, FALSE);
         READ_SWITCH (spi_sw, orig_spi, SET_SPI, FALSE);
         READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
@@ -1929,7 +1765,6 @@ static gboolean init_config (gpointer data)
     CONFIG_SWITCH (alogin_sw, "sw_alogin", orig_autolog, GET_AUTOLOGIN);
     CONFIG_SWITCH (netwait_sw, "sw_netwait", orig_netwait, GET_BOOT_WAIT);
     CONFIG_SWITCH (ssh_sw, "sw_ssh", orig_ssh, GET_SSH);
-    CONFIG_SWITCH (pixdub_sw, "sw_pd", orig_pixdub, GET_PIXDUB);
     CONFIG_SWITCH (blank_sw, "sw_blank", orig_blank, GET_BLANK);
 
     boot_desktop_rb = gtk_builder_get_object (builder, "rb_desktop");
@@ -1978,19 +1813,8 @@ static gboolean init_config (gpointer data)
 
     if (!vsystem (IS_PI))
     {
-        res_btn = gtk_builder_get_object (builder, "button_res");
-        g_signal_connect (res_btn, "clicked", G_CALLBACK (on_set_res), NULL);
-
-        if (!vsystem (GET_KMS))
-        {
-            CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN);
-            CONFIG_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2);
-        }
-        else
-        {
-            CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCANL);
-        }
-
+        CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN);
+        CONFIG_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2);
         CONFIG_SWITCH (spi_sw, "sw_spi", orig_spi, GET_SPI);
         CONFIG_SWITCH (i2c_sw, "sw_i2c", orig_i2c, GET_I2C);
         CONFIG_SWITCH (onewire_sw, "sw_one", orig_onewire, GET_1WIRE);
@@ -2102,20 +1926,11 @@ static gboolean init_config (gpointer data)
         /*  Video options for various platforms
          *
          *                              FKMS,Pi4    FKMS,Pi3    Leg,Pi4     Leg,Pi3     x86
-         * hbox51 - set resolution          -           -           Y           Y        -
          * hbox52 - overscan 1              Y           Y           Y           Y        Y
          * hbox53 - overscan 2              Y           Y           -           -        Y
-         * hbox54 - pixel doubling          -           -           Y           Y        -
          * hbox55 - blanking                Y           Y           Y           Y        Y
          * hbox56 - headless res            Y           Y           Y           Y        -
          */
-
-        if (!vsystem (GET_KMS))
-        {
-            // if on a KMS system, hide resolution setting and pixel doubling - handled by arandr
-            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox51")));
-            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox54")));
-        }
 
         madj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);
         memsplit_sb = gtk_builder_get_object (builder, "spin_gpu");
@@ -2169,8 +1984,6 @@ static gboolean init_config (gpointer data)
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox28")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox29")));
 
-        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox51")));
-        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox54")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
     }
     g_object_unref (builder);
