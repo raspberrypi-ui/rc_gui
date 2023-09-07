@@ -59,8 +59,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_BOOT_CLIA   SET_PREFIX "do_boot_behaviour B2"
 #define SET_BOOT_GUI    SET_PREFIX "do_boot_behaviour B3"
 #define SET_BOOT_GUIA   SET_PREFIX "do_boot_behaviour B4"
-#define GET_BOOT_WAIT   GET_PREFIX "get_boot_wait"
-#define SET_BOOT_WAIT   SET_PREFIX "do_boot_wait %d"
 #define GET_SPLASH      GET_PREFIX "get_boot_splash"
 #define SET_SPLASH      SET_PREFIX "do_boot_splash %d"
 #define GET_OVERSCAN    GET_PREFIX "get_overscan_kms 1"
@@ -151,7 +149,7 @@ static GObject *passwd_btn, *hostname_btn, *locale_btn, *timezone_btn, *keyboard
 static GObject *boot_desktop_rb, *boot_cli_rb, *chromium_rb, *firefox_rb;
 static GObject *overscan_sw, *overscan2_sw, *ssh_sw, *rgpio_sw, *vnc_sw;
 static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw;
-static GObject *alogin_sw, *netwait_sw, *splash_sw, *scons_sw;
+static GObject *alogin_sw, *splash_sw, *scons_sw;
 static GObject *blank_sw, *led_actpwr_sw, *fan_sw;
 static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_sw, *bp_ro_sw, *ofs_lbl;
 static GObject *fan_gpio_sb, *fan_temp_sb, *vnc_res_cb;
@@ -165,7 +163,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 /* Initial values */
 
 static int orig_boot, orig_overscan, orig_overscan2, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
-static int orig_clock, orig_gpumem, orig_autolog, orig_netwait, orig_onewire, orig_rgpio, orig_vnc;
+static int orig_clock, orig_gpumem, orig_autolog, orig_onewire, orig_rgpio, orig_vnc;
 static int orig_ofs, orig_bpro, orig_blank, orig_leds, orig_fan, orig_fan_gpio, orig_fan_temp, orig_vnc_res;
 static char *vres, *orig_browser;
 
@@ -1575,7 +1573,6 @@ static gpointer process_changes_thread (gpointer ptr)
         }
     }
 
-    READ_SWITCH (netwait_sw, orig_netwait, SET_BOOT_WAIT, FALSE);
     READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
     READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
     READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wayfire ? FALSE : TRUE);
@@ -1761,7 +1758,6 @@ static gboolean init_config (gpointer data)
 
     CONFIG_SWITCH (splash_sw, "sw_splash", orig_splash, GET_SPLASH);
     CONFIG_SWITCH (alogin_sw, "sw_alogin", orig_autolog, GET_AUTOLOGIN);
-    CONFIG_SWITCH (netwait_sw, "sw_netwait", orig_netwait, GET_BOOT_WAIT);
     CONFIG_SWITCH (ssh_sw, "sw_ssh", orig_ssh, GET_SSH);
     CONFIG_SWITCH (blank_sw, "sw_blank", orig_blank, GET_BLANK);
 
