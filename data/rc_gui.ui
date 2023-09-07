@@ -1326,47 +1326,6 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="hbox32">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="label32">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">_GPU Memory:</property>
-                        <property name="use-underline">True</property>
-                        <property name="mnemonic-widget">spin_gpu</property>
-                        <property name="xalign">0</property>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSpinButton" id="spin_gpu">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="tooltip-text" translatable="yes">Enter the amount of memory available to the GPU</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label32"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkBox" id="hbox33">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
@@ -1813,7 +1772,6 @@
       <widget name="hbox28"/>
       <widget name="hbox29"/>
       <widget name="hbox31"/>
-      <widget name="hbox32"/>
       <widget name="hbox33"/>
       <widget name="hbox34"/>
       <widget name="hbox35"/>
@@ -1835,7 +1793,6 @@
       <widget name="combo_res"/>
       <widget name="combo_oc"/>
       <widget name="button_ofs"/>
-      <widget name="spin_gpu"/>
       <widget name="sb_fan_temp"/>
       <widget name="sb_fan_gpio"/>
     </widgets>

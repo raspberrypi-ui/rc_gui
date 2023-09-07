@@ -92,11 +92,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define HAS_ANALOG      GET_PREFIX "has_analog"
 #define GET_OVERCLOCK   GET_PREFIX "get_config_var arm_freq /boot/config.txt"
 #define SET_OVERCLOCK   SET_PREFIX "do_overclock %s"
-#define GET_GPU_MEM     GET_PREFIX "get_config_var gpu_mem /boot/config.txt"
-#define GET_GPU_MEM_256 GET_PREFIX "get_config_var gpu_mem_256 /boot/config.txt"
-#define GET_GPU_MEM_512 GET_PREFIX "get_config_var gpu_mem_512 /boot/config.txt"
-#define GET_GPU_MEM_1K  GET_PREFIX "get_config_var gpu_mem_1024 /boot/config.txt"
-#define SET_GPU_MEM     SET_PREFIX "do_memory_split %d"
 #define GET_FAN         GET_PREFIX "get_fan"
 #define GET_FAN_GPIO    GET_PREFIX "get_fan_gpio"
 #define GET_FAN_TEMP    GET_PREFIX "get_fan_temp"
@@ -151,7 +146,7 @@ static GObject *overscan_sw, *overscan2_sw, *ssh_sw, *rgpio_sw, *vnc_sw;
 static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw;
 static GObject *alogin_sw, *splash_sw, *scons_sw;
 static GObject *blank_sw, *led_actpwr_sw, *fan_sw;
-static GObject *overclock_cb, *memsplit_sb, *hostname_tb, *ofs_en_sw, *bp_ro_sw, *ofs_lbl;
+static GObject *overclock_cb, *hostname_tb, *ofs_en_sw, *bp_ro_sw, *ofs_lbl;
 static GObject *fan_gpio_sb, *fan_temp_sb, *vnc_res_cb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
 static GObject *hostname_tb;
@@ -163,7 +158,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 /* Initial values */
 
 static int orig_boot, orig_overscan, orig_overscan2, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
-static int orig_clock, orig_gpumem, orig_autolog, orig_onewire, orig_rgpio, orig_vnc;
+static int orig_clock, orig_autolog, orig_onewire, orig_rgpio, orig_vnc;
 static int orig_ofs, orig_bpro, orig_blank, orig_leds, orig_fan, orig_fan_gpio, orig_fan_temp, orig_vnc_res;
 static char *vres, *orig_browser;
 
@@ -256,50 +251,6 @@ static char *get_string (char *cmd)
     pclose (fp);
     g_free (line);
     return res;
-}
-
-static int get_total_mem (void)
-{
-    FILE *fp;
-    char *buf;
-    int arm, gpu;
-    size_t len;
-
-    fp = popen ("vcgencmd get_mem arm", "r");
-    if (fp == NULL) return 0;
-    buf = NULL;
-    len = 0;
-    while (getline (&buf, &len, fp) > 0)
-        sscanf (buf, "arm=%dM", &arm);
-    pclose (fp);
-    g_free (buf);
-
-    fp = popen ("vcgencmd get_mem gpu", "r");
-    if (fp == NULL) return 0;
-    buf = NULL;
-    len = 0;
-    while (getline (&buf, &len, fp) > 0)
-        sscanf (buf, "gpu=%dM", &gpu);
-    pclose (fp);
-    g_free (buf);
-
-    return arm + gpu;    
-}
-
-static int get_gpu_mem (void)
-{
-    int mem, tmem = get_total_mem ();
-    if (tmem > 512)
-        mem = get_status (GET_GPU_MEM_1K);
-    else if (tmem > 256)
-        mem = get_status (GET_GPU_MEM_512);
-    else
-        mem = get_status (GET_GPU_MEM_256);
-
-    if (mem == 0) mem = get_status (GET_GPU_MEM);
-    if (mem == 0) mem = get_status (DEFAULT_GPU_MEM);
-    if (mem == 0) mem = 64;
-    return mem;
 }
 
 static char *get_quoted_param (char *path, char *fname, char *toseek)
@@ -1607,15 +1558,9 @@ static gpointer process_changes_thread (gpointer ptr)
             reboot = 1;
         }
 
-        if (orig_gpumem != gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)))
-        {
-            vsystem (SET_GPU_MEM, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (memsplit_sb)));
-            reboot = 1;
-        }
-
         if (orig_leds != -1) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
 
-        if (orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
+        if (orig_clock != -1 && orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
         {
             switch (get_status (GET_PI_TYPE))
             {
@@ -1722,7 +1667,7 @@ static int num_screens (void)
 static gboolean init_config (gpointer data)
 {
     GtkBuilder *builder;
-    GtkAdjustment *madj, *gadj, *tadj;
+    GtkAdjustment *gadj, *tadj;
     GtkWidget *wid;
 
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
@@ -1921,25 +1866,10 @@ static gboolean init_config (gpointer data)
                         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31")));
                         break;
         }
-        gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
+        if (orig_clock != -1) gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
 
         ofs_btn = gtk_builder_get_object (builder, "button_ofs");
         g_signal_connect (ofs_btn, "clicked", G_CALLBACK (on_set_ofs), NULL);
-
-        /*  Video options for various platforms
-         *
-         *                              FKMS,Pi4    FKMS,Pi3    Leg,Pi4     Leg,Pi3     x86
-         * hbox52 - overscan 1              Y           Y           Y           Y        Y
-         * hbox53 - overscan 2              Y           Y           -           -        Y
-         * hbox55 - blanking                Y           Y           Y           Y        Y
-         * hbox56 - headless res            Y           Y           Y           Y        -
-         */
-
-        madj = gtk_adjustment_new (64.0, 16.0, get_total_mem () - 128, 8.0, 64.0, 0);
-        memsplit_sb = gtk_builder_get_object (builder, "spin_gpu");
-        gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (memsplit_sb), GTK_ADJUSTMENT (madj));
-        orig_gpumem = get_gpu_mem ();
-        gtk_spin_button_set_value (GTK_SPIN_BUTTON (memsplit_sb), orig_gpumem);
 
         vnc_res_cb = gtk_builder_get_object (builder, "combo_res");
         gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "640x480");
