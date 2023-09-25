@@ -356,7 +356,7 @@ msgstr "VNC:"
 
 #: ../data/rc_gui.ui.h:46
 msgid "Enable remote access to this Pi using RealVNC"
-msgstr "Turn on to enable remote access using RealVNC"
+msgstr "Turn on to enable remote access using VNC"
 
 #: ../data/rc_gui.ui.h:47
 msgid "SPI:"
