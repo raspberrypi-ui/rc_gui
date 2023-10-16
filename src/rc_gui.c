@@ -115,7 +115,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_BOOTP_RW    SET_PREFIX "disable_bootro"
 #define CHECK_UNAME     GET_PREFIX "is_uname_current"
 #define WLAN_INTERFACES GET_PREFIX "list_wlan_interfaces"
-#define VNC_INSTALLED   GET_PREFIX "is_installed realvnc-vnc-server"
+#define RVNC_INSTALLED  GET_PREFIX "is_installed realvnc-vnc-server"
+#define WVNC_INSTALLED  GET_PREFIX "is_installed wayvnc"
 #define XSCR_INSTALLED  GET_PREFIX "is_installed xscreensaver"
 #define GET_VNC_RES     GET_PREFIX "get_vnc_resolution"
 #define SET_VNC_RES     SET_PREFIX "do_vnc_resolution %s"
@@ -1792,8 +1793,8 @@ static gboolean init_config (gpointer data)
             }
         }
 
-        // disable the buttons if RealVNC isn't installed
-        if (vsystem (VNC_INSTALLED))
+        // disable the buttons if VNC isn't installed
+        if (vsystem (RVNC_INSTALLED) && vsystem (WVNC_INSTALLED))
         {
             gtk_widget_set_sensitive (GTK_WIDGET (vnc_sw), FALSE);
             gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_sw), _("The VNC server is not installed"));
