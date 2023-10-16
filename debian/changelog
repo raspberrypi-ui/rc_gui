@@ -1,3 +1,9 @@
+rc-gui (1.72) bookworm; urgency=medium
+
+  * Relax VNC test; Pi 5 serial port preparations
+
+ -- Simon Long <simon@raspberrypi.com>  Mon, 16 Oct 2023 13:59:54 +0100
+
 rc-gui (1.71) bookworm; urgency=medium
 
   * Remove all options which are not relevant to KMS
