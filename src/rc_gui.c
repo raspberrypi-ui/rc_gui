@@ -89,6 +89,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_PI_TYPE     GET_PREFIX "get_pi_type"
 #define IS_PI           GET_PREFIX "is_pi"
 #define IS_PI4          GET_PREFIX "is_pifour"
+#define IS_PI5          GET_PREFIX "is_pifive"
 #define HAS_ANALOG      GET_PREFIX "has_analog"
 #define GET_OVERCLOCK   GET_PREFIX "get_config_var arm_freq /boot/config.txt"
 #define SET_OVERCLOCK   SET_PREFIX "do_overclock %s"
@@ -1546,16 +1547,23 @@ static gpointer process_changes_thread (gpointer ptr)
         if (orig_serial == gtk_switch_get_active (GTK_SWITCH (serial_sw)) ||
             orig_scons == gtk_switch_get_active (GTK_SWITCH (scons_sw)))
         {
-            if (!gtk_switch_get_active (GTK_SWITCH (serial_sw)))
-                vsystem (SET_SERIAL, 1);
+            if (!vsystem (IS_PI5))
+            {
+                // !!!!!
+            }
             else
             {
-                if (!gtk_switch_get_active (GTK_SWITCH (scons_sw)))
-                    vsystem (SET_SERIAL, 2);
+                if (!gtk_switch_get_active (GTK_SWITCH (serial_sw)))
+                    vsystem (SET_SERIAL, 1);
                 else
-                    vsystem (SET_SERIAL, 0);
+                {
+                    if (!gtk_switch_get_active (GTK_SWITCH (scons_sw)))
+                        vsystem (SET_SERIAL, 2);
+                    else
+                        vsystem (SET_SERIAL, 0);
+                }
+                reboot = 1;
             }
-            reboot = 1;
         }
 
         if (orig_leds != -1) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
@@ -1759,21 +1767,29 @@ static gboolean init_config (gpointer data)
         CONFIG_SWITCH (onewire_sw, "sw_one", orig_onewire, GET_1WIRE);
         CONFIG_SWITCH (rgpio_sw, "sw_rgp", orig_rgpio, GET_RGPIO);
         CONFIG_SWITCH (vnc_sw, "sw_vnc", orig_vnc, GET_VNC);
-        CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIAL);
 
-        serial_sw = gtk_builder_get_object (builder, "sw_ser");
-        g_signal_connect (serial_sw, "state-set", G_CALLBACK (on_serial_toggle), NULL);
-        if ((orig_serial = get_status (GET_SERIALHW)))
+        if (!vsystem (IS_PI5))
         {
-            gtk_switch_set_active (GTK_SWITCH (serial_sw), FALSE);
-            gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), FALSE);
-            gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("This setting cannot be changed while the serial port is disabled"));
+            CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIAL); //!!!!!
+            CONFIG_SWITCH (serial_sw, "sw_ser", orig_serial, GET_SERIALHW); //!!!!!
         }
         else
         {
-            gtk_switch_set_active (GTK_SWITCH (serial_sw), TRUE);
-            gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), TRUE);
-            gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("Enable shell and kernel messages on the serial connection"));
+            CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIAL);
+            serial_sw = gtk_builder_get_object (builder, "sw_ser");
+            g_signal_connect (serial_sw, "state-set", G_CALLBACK (on_serial_toggle), NULL);
+            if ((orig_serial = get_status (GET_SERIALHW)))
+            {
+                gtk_switch_set_active (GTK_SWITCH (serial_sw), FALSE);
+                gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), FALSE);
+                gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("This setting cannot be changed while the serial port is disabled"));
+            }
+            else
+            {
+                gtk_switch_set_active (GTK_SWITCH (serial_sw), TRUE);
+                gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), TRUE);
+                gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("Enable shell and kernel messages on the serial connection"));
+            }
         }
 
         // disable the buttons if RealVNC isn't installed
