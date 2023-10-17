@@ -86,6 +86,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_BLANK       SET_PREFIX "do_blanking %d"
 #define GET_LEDS        GET_PREFIX "get_leds"
 #define SET_LEDS        SET_PREFIX "do_leds %d"
+#define GET_USBI        GET_PREFIX "get_usb_current"
+#define SET_USBI        SET_PREFIX "do_usb_current %d"
 #define GET_PI_TYPE     GET_PREFIX "get_pi_type"
 #define IS_PI           GET_PREFIX "is_pi"
 #define IS_PI4          GET_PREFIX "is_pifour"
@@ -145,7 +147,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 static GObject *passwd_btn, *hostname_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
 static GObject *boot_desktop_rb, *boot_cli_rb, *chromium_rb, *firefox_rb;
 static GObject *overscan_sw, *overscan2_sw, *ssh_sw, *rgpio_sw, *vnc_sw;
-static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw;
+static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw, *usb_sw;
 static GObject *alogin_sw, *splash_sw, *scons_sw;
 static GObject *blank_sw, *led_actpwr_sw, *fan_sw;
 static GObject *overclock_cb, *hostname_tb, *ofs_en_sw, *bp_ro_sw, *ofs_lbl;
@@ -160,7 +162,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 /* Initial values */
 
 static int orig_boot, orig_overscan, orig_overscan2, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
-static int orig_clock, orig_autolog, orig_onewire, orig_rgpio, orig_vnc;
+static int orig_clock, orig_autolog, orig_onewire, orig_rgpio, orig_vnc, orig_usbi;
 static int orig_ofs, orig_bpro, orig_blank, orig_leds, orig_fan, orig_fan_gpio, orig_fan_temp, orig_vnc_res;
 static char *vres, *orig_browser;
 
@@ -1544,6 +1546,7 @@ static gpointer process_changes_thread (gpointer ptr)
         READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
         READ_SWITCH (onewire_sw, orig_onewire, SET_1WIRE, TRUE);
         READ_SWITCH (rgpio_sw, orig_rgpio, SET_RGPIO, FALSE);
+        READ_SWITCH (usb_sw, orig_usbi, SET_USBI, TRUE);
 
         if (orig_serial == gtk_switch_get_active (GTK_SWITCH (serial_sw)) ||
             orig_scons == gtk_switch_get_active (GTK_SWITCH (scons_sw)))
@@ -1768,6 +1771,7 @@ static gboolean init_config (gpointer data)
         CONFIG_SWITCH (onewire_sw, "sw_one", orig_onewire, GET_1WIRE);
         CONFIG_SWITCH (rgpio_sw, "sw_rgp", orig_rgpio, GET_RGPIO);
         CONFIG_SWITCH (vnc_sw, "sw_vnc", orig_vnc, GET_VNC);
+        CONFIG_SWITCH (usb_sw, "sw_usb", orig_usbi, GET_USBI);
 
         if (!vsystem (IS_PI5))
         {
@@ -1791,6 +1795,8 @@ static gboolean init_config (gpointer data)
                 gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), TRUE);
                 gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("Enable shell and kernel messages on the serial connection"));
             }
+
+            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox37")));
         }
 
         // disable the buttons if VNC isn't installed

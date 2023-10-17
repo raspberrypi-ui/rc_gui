@@ -1485,6 +1485,41 @@
                     <property name="position">5</property>
                   </packing>
                 </child>
+                <child>
+                  <object class="GtkBox" id="hbox37">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="label37">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">USB Current Limit:</property>
+                        <property name="xalign">0</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="sw_usb">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">6</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="position">3</property>
@@ -1776,6 +1811,7 @@
       <widget name="hbox34"/>
       <widget name="hbox35"/>
       <widget name="hbox36"/>
+      <widget name="hbox37"/>
       <widget name="hbox41"/>
       <widget name="hbox42"/>
       <widget name="hbox43"/>
