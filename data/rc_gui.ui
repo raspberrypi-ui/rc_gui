@@ -1506,7 +1506,7 @@
                       <object class="GtkSwitch" id="sw_usb">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="tooltip-text" translatable="yes">Allow higher currents to USB peripherals</property>
+                        <property name="tooltip-text" translatable="yes">Turn on to allow higher currents to USB peripherals</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
