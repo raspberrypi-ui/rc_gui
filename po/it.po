@@ -445,13 +445,13 @@ msgstr "VNC:"
 
 # tooltip
 #: ../data/rc_gui.ui.h:60
-msgid "Enable remote access to this Pi using RealVNC"
-msgstr "Abilita l'accesso remoto a questo Pi usando RealVNC"
+msgid "Enable remote access to this Pi using VNC"
+msgstr "Abilita l'accesso remoto a questo Pi usando VNC"
 
 # tooltip
 #: ../data/rc_gui.ui.h:61
-msgid "Disable remote access to this Pi using RealVNC"
-msgstr "Disabilita l'accesso remoto a questo Pi usando RealVNC"
+msgid "Disable remote access to this Pi using VNC"
+msgstr "Disabilita l'accesso remoto a questo Pi usando VNC"
 
 #: ../data/rc_gui.ui.h:62
 msgid "SPI:"

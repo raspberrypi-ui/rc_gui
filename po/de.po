@@ -310,12 +310,12 @@ msgid "VNC:"
 msgstr "VNC:"
 
 #: data/rc_gui.ui:1075
-msgid "Enable remote access to this Pi using RealVNC"
-msgstr "Fernzugriff zu diesem Pi über RealVNC aktivieren"
+msgid "Enable remote access to this Pi using VNC"
+msgstr "Fernzugriff zu diesem Pi über VNC aktivieren"
 
 #: data/rc_gui.ui:1094
-msgid "Disable remote access to this Pi using RealVNC"
-msgstr "Fernzugriff zu diesem Pi über RealVNC deaktivieren"
+msgid "Disable remote access to this Pi using VNC"
+msgstr "Fernzugriff zu diesem Pi über VNC deaktivieren"
 
 #: data/rc_gui.ui:1125
 msgid "SPI:"

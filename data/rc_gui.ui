@@ -1006,7 +1006,7 @@
                       <object class="GtkSwitch" id="sw_vnc">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="tooltip-text" translatable="yes">Enable remote access to this Pi using RealVNC</property>
+                        <property name="tooltip-text" translatable="yes">Enable remote access to this Pi using VNC</property>
                         <accessibility>
                           <relation type="labelled-by" target="label23"/>
                         </accessibility>

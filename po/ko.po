@@ -351,8 +351,8 @@ msgid "VNC:"
 msgstr "VNC:"
 
 #: ../data/rc_gui.ui.h:46
-msgid "Enable remote access to this Pi using RealVNC"
-msgstr "RealVNC 원격 액세스 활성화"
+msgid "Enable remote access to this Pi using VNC"
+msgstr "VNC 원격 액세스 활성화"
 
 #: ../data/rc_gui.ui.h:47
 msgid "SPI:"
@@ -627,8 +627,8 @@ msgstr "스크린을 비우지 않음"
 msgid "Disable remote access to this Pi via SSH"
 msgstr "SSH 원격 액세스 비활성화"
 
-msgid "Disable remote access to this Pi using RealVNC"
-msgstr "RealVNC 원격 액세스 비활성화"
+msgid "Disable remote access to this Pi using VNC"
+msgstr "VNC 원격 액세스 비활성화"
 
 msgid "Disable the automatic loading of the SPI kernel module"
 msgstr "SPI 커널 모듈 자동 로드 비활성화"

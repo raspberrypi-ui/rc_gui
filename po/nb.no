@@ -280,12 +280,12 @@ msgid "VNC:"
 msgstr "VNC:"
 
 #: ../data/rc_gui.ui.h:52
-msgid "Enable remote access to this Pi using RealVNC"
-msgstr "Skru på ekstern tilgang til denne Pi-en gjennom RealVNC"
+msgid "Enable remote access to this Pi using VNC"
+msgstr "Skru på ekstern tilgang til denne Pi-en gjennom VNC"
 
 #: ../data/rc_gui.ui.h:53
-msgid "Disable remote access to this Pi using RealVNC"
-msgstr "Skru av ekstern tilgang til denne Pi-en gjennom RealVNC"
+msgid "Disable remote access to this Pi using VNC"
+msgstr "Skru av ekstern tilgang til denne Pi-en gjennom VNC"
 
 #: ../data/rc_gui.ui.h:54
 msgid "SPI:"

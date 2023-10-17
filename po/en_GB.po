@@ -355,7 +355,7 @@ msgid "VNC:"
 msgstr "VNC:"
 
 #: ../data/rc_gui.ui.h:46
-msgid "Enable remote access to this Pi using RealVNC"
+msgid "Enable remote access to this Pi using VNC"
 msgstr "Turn on to enable remote access using VNC"
 
 #: ../data/rc_gui.ui.h:47
@@ -633,8 +633,8 @@ msgstr "Password Required"
 #~ msgid "Disable remote access to this Pi via SSH"
 #~ msgstr "Disable remote access to this Pi via SSH"
 
-#~ msgid "Disable remote access to this Pi using RealVNC"
-#~ msgstr "Disable remote access to this Pi using RealVNC"
+#~ msgid "Disable remote access to this Pi using VNC"
+#~ msgstr "Disable remote access to this Pi using VNC"
 
 #~ msgid "Disable the automatic loading of the SPI kernel module"
 #~ msgstr "Disable the automatic loading of the SPI kernel module"
