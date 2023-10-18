@@ -78,6 +78,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_SERIAL      GET_PREFIX "get_serial"
 #define GET_SERIALHW    GET_PREFIX "get_serial_hw"
 #define SET_SERIAL      SET_PREFIX "do_serial %d"
+#define SET_SERIALCON   SET_PREFIX "do_serial_console %d"
+#define SET_SERIALHW    SET_PREFIX "do_serial_hardware %d"
 #define GET_1WIRE       GET_PREFIX "get_onewire"
 #define SET_1WIRE       SET_PREFIX "do_onewire %d"
 #define GET_RGPIO       GET_PREFIX "get_rgpio"
@@ -1553,7 +1555,8 @@ static gpointer process_changes_thread (gpointer ptr)
         {
             if (!vsystem (IS_PI5))
             {
-                // !!!!!
+                READ_SWITCH (serial_sw, orig_serial, SET_SERIALHW, TRUE);
+                READ_SWITCH (scons_sw, orig_scons, SET_SERIALCON, TRUE);
             }
             else
             {
