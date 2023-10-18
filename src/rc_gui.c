@@ -75,11 +75,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_SPI         SET_PREFIX "do_spi %d"
 #define GET_I2C         GET_PREFIX "get_i2c"
 #define SET_I2C         SET_PREFIX "do_i2c %d"
-#define GET_SERIAL      GET_PREFIX "get_serial"
+#define GET_SERIALCON   GET_PREFIX "get_serial_cons"
 #define GET_SERIALHW    GET_PREFIX "get_serial_hw"
-#define SET_SERIAL      SET_PREFIX "do_serial %d"
-#define SET_SERIALCON   SET_PREFIX "do_serial_console %d"
-#define SET_SERIALHW    SET_PREFIX "do_serial_hardware %d"
+#define SET_SERIALCON   SET_PREFIX "do_serial_cons %d"
+#define SET_SERIALHW    SET_PREFIX "do_serial_hw %d"
 #define GET_1WIRE       GET_PREFIX "get_onewire"
 #define SET_1WIRE       SET_PREFIX "do_onewire %d"
 #define GET_RGPIO       GET_PREFIX "get_rgpio"
@@ -1549,29 +1548,8 @@ static gpointer process_changes_thread (gpointer ptr)
         READ_SWITCH (onewire_sw, orig_onewire, SET_1WIRE, TRUE);
         READ_SWITCH (rgpio_sw, orig_rgpio, SET_RGPIO, FALSE);
         READ_SWITCH (usb_sw, orig_usbi, SET_USBI, TRUE);
-
-        if (orig_serial == gtk_switch_get_active (GTK_SWITCH (serial_sw)) ||
-            orig_scons == gtk_switch_get_active (GTK_SWITCH (scons_sw)))
-        {
-            if (!vsystem (IS_PI5))
-            {
-                READ_SWITCH (serial_sw, orig_serial, SET_SERIALHW, TRUE);
-                READ_SWITCH (scons_sw, orig_scons, SET_SERIALCON, TRUE);
-            }
-            else
-            {
-                if (!gtk_switch_get_active (GTK_SWITCH (serial_sw)))
-                    vsystem (SET_SERIAL, 1);
-                else
-                {
-                    if (!gtk_switch_get_active (GTK_SWITCH (scons_sw)))
-                        vsystem (SET_SERIAL, 2);
-                    else
-                        vsystem (SET_SERIAL, 0);
-                }
-                reboot = 1;
-            }
-        }
+        READ_SWITCH (serial_sw, orig_serial, SET_SERIALHW, TRUE);
+        READ_SWITCH (scons_sw, orig_scons, SET_SERIALCON, TRUE);
 
         if (orig_leds != -1) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
 
@@ -1778,12 +1756,12 @@ static gboolean init_config (gpointer data)
 
         if (!vsystem (IS_PI5))
         {
-            CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIAL); //!!!!!
-            CONFIG_SWITCH (serial_sw, "sw_ser", orig_serial, GET_SERIALHW); //!!!!!
+            CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIALCON);
+            CONFIG_SWITCH (serial_sw, "sw_ser", orig_serial, GET_SERIALHW);
         }
         else
         {
-            CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIAL);
+            CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIALCON);
             serial_sw = gtk_builder_get_object (builder, "sw_ser");
             g_signal_connect (serial_sw, "state-set", G_CALLBACK (on_serial_toggle), NULL);
             if ((orig_serial = get_status (GET_SERIALHW)))
