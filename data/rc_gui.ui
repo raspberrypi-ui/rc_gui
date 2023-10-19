@@ -1507,6 +1507,9 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">Turn on to allow higher currents to USB peripherals</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label37"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
