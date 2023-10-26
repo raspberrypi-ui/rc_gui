@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-12 21:41+0900\n"
+"POT-Creation-Date: 2023-10-26 23:41+0900\n"
 "PO-Revision-Date: 2016-06-09 19:12+0900\n"
 "Last-Translator: Akira Ouchi <akkiesoft@marokun.net>\n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../src/rc_gui.c:415
+#: ../src/rc_gui.c:375
 msgid ""
 "The changes you have made require the Raspberry Pi to be rebooted to take "
 "effect.\n"
@@ -29,15 +29,15 @@ msgstr ""
 "\n"
 "すぐに再起動しますか?"
 
-#: ../src/rc_gui.c:420
+#: ../src/rc_gui.c:378
 msgid "_No"
 msgstr "いいえ(_N)"
 
-#: ../src/rc_gui.c:423
+#: ../src/rc_gui.c:383
 msgid "_Yes"
 msgstr "はい(_Y)"
 
-#: ../src/rc_gui.c:466
+#: ../src/rc_gui.c:432
 msgid ""
 "The password change failed.\n"
 "\n"
@@ -50,47 +50,48 @@ msgstr ""
 "現在のパスワードを間違えているか、新しいパスワードが十分に複雑でない、あるい"
 "は現在のパスワードと似ている可能性があります。"
 
-#: ../src/rc_gui.c:468
+#: ../src/rc_gui.c:434
 msgid "The password has been changed successfully."
 msgstr "パスワードの変更に成功しました。"
 
-#: ../src/rc_gui.c:514
+#: ../src/rc_gui.c:480
 msgid ""
 "The hostname has been changed successfully and will take effect on the next "
 "reboot."
 msgstr "ホスト名が正常に変更されました。再起動後に有効になります。"
 
-#: ../src/rc_gui.c:520
+#: ../src/rc_gui.c:486
 msgid ""
 "The hostname change failed.\n"
 "\n"
 "The hostname must only contain the characters A-Z, a-z, 0-9 and hyphen.\n"
 "The first and last character may not be the hyphen."
-msgstr "ホスト名の変更が失敗しました。\n"
+msgstr ""
+"ホスト名の変更が失敗しました。\n"
 "\n"
-"ホスト名は、A-Z、a-z、0-9、ハイフンのみ含める必要があります。"
-"最初と最後の文字にハイフンは使用できません。"
+"ホスト名は、A-Z、a-z、0-9、ハイフンのみ含める必要があります。最初と最後の文字"
+"にハイフンは使用できません。"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:859
+#: ../src/rc_gui.c:828
 msgid "Setting locale - please wait..."
 msgstr "ロケールを設定しています。少々お待ちください。"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:1093
+#: ../src/rc_gui.c:1061
 msgid "Setting timezone - please wait..."
 msgstr "タイムゾーンを設定しています。少々お待ちください。"
 
-#: ../src/rc_gui.c:1134 ../src/rc_gui.c:1157
+#: ../src/rc_gui.c:1104 ../src/rc_gui.c:1127
 msgid "<not set>"
 msgstr "<未設定>"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:1523
+#: ../src/rc_gui.c:1347 ../src/rc_gui.c:1362
 msgid "Setting keyboard - please wait..."
 msgstr "キーボードを設定しています。少々お待ちください。"
 
-#: ../src/rc_gui.c:1570
+#: ../src/rc_gui.c:1411
 msgid ""
 "Your system has recently been updated. Please reboot to ensure these updates "
 "have loaded before setting up the overlay file system."
@@ -98,38 +99,86 @@ msgstr ""
 "システムがアップデートされました。オーバーレイファイルシステムを設定する前に"
 "再起動してアップデートを適用してください。"
 
-#: ../src/rc_gui.c:1591
+#: ../src/rc_gui.c:1432
 msgid ""
 "The state of the boot partition cannot be changed while an overlay is active"
 msgstr "オーバーレイが有効の間はブートパーティションの状態は変更できません"
 
 #. warn about a short delay...
-#: ../src/rc_gui.c:1613
+#: ../src/rc_gui.c:1454
 msgid "Setting up overlay - please wait..."
 msgstr "オーバーレイを設定しています。少々お待ちください。"
 
-#: ../src/rc_gui.c:1642 ../src/rc_gui.c:1986 ../data/rc_gui.ui.h:55
+#: ../src/rc_gui.c:1483 ../src/rc_gui.c:1777 ../data/rc_gui.ui.h:53
 msgid "Enable shell and kernel messages on the serial connection"
 msgstr "シェルとカーネルのメッセージをシリアル接続で有効にします"
 
-#: ../src/rc_gui.c:1648 ../src/rc_gui.c:1980
+#: ../src/rc_gui.c:1489 ../src/rc_gui.c:1771
 msgid "This setting cannot be changed while the serial port is disabled"
 msgstr "シリアルポートが無効の間は設定を変更できません"
 
-#: ../src/rc_gui.c:1659 ../data/rc_gui.ui.h:71
+#: ../src/rc_gui.c:1500 ../data/rc_gui.ui.h:67
 msgid "Set the GPIO to which the fan is connected"
 msgstr "ファンが接続されているGPIOを設定します"
 
-#: ../src/rc_gui.c:1660 ../data/rc_gui.ui.h:73
+#: ../src/rc_gui.c:1501 ../data/rc_gui.ui.h:69
 msgid "Set the temperature in degrees C at which the fan turns on"
 msgstr "ファンの回転をオンにする温度を摂氏で指定します"
 
-#: ../src/rc_gui.c:1664 ../src/rc_gui.c:1665 ../src/rc_gui.c:2009
-#: ../src/rc_gui.c:2010
+#: ../src/rc_gui.c:1505 ../src/rc_gui.c:1506 ../src/rc_gui.c:1811
+#: ../src/rc_gui.c:1812
 msgid "This setting cannot be changed unless the fan is enabled"
 msgstr "ファンを有効にしなければ、この設定は変更できません。"
 
-#: ../src/rc_gui.c:1898
+#: ../src/rc_gui.c:1641
+msgid "Updating configuration - please wait..."
+msgstr "構成を更新しています。少々お待ちください。"
+
+#: ../src/rc_gui.c:1725 ../src/rc_gui.c:1726
+msgid "Multiple browsers are not installed"
+msgstr "複数のブラウザーがインストールされていません"
+
+#: ../src/rc_gui.c:1732
+msgid "This setting is overridden when Xscreensaver is installed"
+msgstr "Xscreensaverがインストールされている場合は設定が上書きされます"
+
+#: ../src/rc_gui.c:1743
+msgid "Overscan (HDMI-1):"
+msgstr "オーバースキャン (HDMI-1):"
+
+#: ../src/rc_gui.c:1787
+msgid "The VNC server is not installed"
+msgstr "VNCサーバーがインストールされていません"
+
+#: ../src/rc_gui.c:1836
+msgid "None (700MHz)"
+msgstr "無し (700MHz)"
+
+#: ../src/rc_gui.c:1837
+msgid "Modest (800MHz)"
+msgstr "控えめ (800MHz)"
+
+#: ../src/rc_gui.c:1838
+msgid "Medium (900MHz)"
+msgstr "中間 (900MHz)"
+
+#: ../src/rc_gui.c:1839
+msgid "High (950MHz)"
+msgstr "高 (950MHz)"
+
+#: ../src/rc_gui.c:1840
+msgid "Turbo (1000MHz)"
+msgstr "ターボ (1000MHz)"
+
+#: ../src/rc_gui.c:1857
+msgid "None (900MHz)"
+msgstr "無し (900MHz)"
+
+#: ../src/rc_gui.c:1858
+msgid "High (1000MHz)"
+msgstr "高 (1000MHz)"
+
+#: ../src/rc_gui.c:1995
 msgid ""
 "The Raspberry Pi Configuration application can only modify a standard "
 "configuration.\n"
@@ -150,45 +199,9 @@ msgstr ""
 "ルする必要があり、デバイスツリーが有効で、lightdm　アプリケーションがインス"
 "トールされている必要があります。"
 
-#: ../src/rc_gui.c:1946
-msgid "This setting is overridden when Xscreensaver is installed"
-msgstr "Xscreensaverがインストールされている場合は設定が上書きされます"
-
-#: ../src/rc_gui.c:1950
-msgid "Overscan (HDMI-1):"
-msgstr "オーバースキャン (HDMI-1):"
-
-#: ../src/rc_gui.c:1993
-msgid "The VNC server is not installed"
-msgstr "VNCサーバーがインストールされていません"
-
-#: ../src/rc_gui.c:2033
-msgid "None (700MHz)"
-msgstr "無し (700MHz)"
-
-#: ../src/rc_gui.c:2034
-msgid "Modest (800MHz)"
-msgstr "控えめ (800MHz)"
-
-#: ../src/rc_gui.c:2035
-msgid "Medium (900MHz)"
-msgstr "中間 (900MHz)"
-
-#: ../src/rc_gui.c:2036
-msgid "High (950MHz)"
-msgstr "高 (950MHz)"
-
-#: ../src/rc_gui.c:2037
-msgid "Turbo (1000MHz)"
-msgstr "ターボ (1000MHz)"
-
-#: ../src/rc_gui.c:2054
-msgid "None (900MHz)"
-msgstr "無し (900MHz)"
-
-#: ../src/rc_gui.c:2055
-msgid "High (1000MHz)"
-msgstr "高 (1000MHz)"
+#: ../src/rc_gui.c:1999
+msgid "Loading configuration - please wait..."
+msgstr "構成を読み込んでいます。少々お待ちください。"
 
 #: ../data/rc_gui.ui.h:1
 msgid "Keyboard"
@@ -279,44 +292,44 @@ msgid "Automatically log in the default user (pi)"
 msgstr "自動的にデフォルトのユーザ(pi)でログインします"
 
 #: ../data/rc_gui.ui.h:23
-msgid "Network at Boot:"
-msgstr "ネットワークブート:"
-
-#: ../data/rc_gui.ui.h:24
-msgid "Do not complete boot until network connection is established"
-msgstr "ネットワークが確立するまで起動を完了しません"
-
-#: ../data/rc_gui.ui.h:25
 msgid "Splash Screen:"
 msgstr "スプラッシュ画面:"
 
-#: ../data/rc_gui.ui.h:26
+#: ../data/rc_gui.ui.h:24
 msgid "Show graphical splash screen at boot"
 msgstr "起動時にスプラッシュ画面を表示します"
 
-#: ../data/rc_gui.ui.h:27
+#: ../data/rc_gui.ui.h:25
 msgid "Power LED:"
 msgstr "電源のLED:"
 
-#: ../data/rc_gui.ui.h:28
+#: ../data/rc_gui.ui.h:26
 msgid "Flash the power LED on disk activity"
 msgstr "ディスクの動作にあわせて電源のLEDを点滅させます"
 
+#: ../data/rc_gui.ui.h:27
+msgid "Browser:"
+msgstr "ブラウザー:"
+
+#: ../data/rc_gui.ui.h:28
+msgid "Chromium"
+msgstr "Chromium"
+
 #: ../data/rc_gui.ui.h:29
-msgid "System"
-msgstr "システム"
+msgid "Select Chromium as the default browser"
+msgstr "Chromiumをデフォルトのブラウザーとして選択します"
 
 #: ../data/rc_gui.ui.h:30
-msgid "Resolution:"
-msgstr "解像度:"
+msgid "Firefox"
+msgstr "Firefox"
 
 #: ../data/rc_gui.ui.h:31
-msgid "Set _Resolution..."
-msgstr "解像度を設定(_R)"
+msgid "Select Firefox as the default browser"
+msgstr "Firefoxをデフォルトのブラウザーとして選択します"
 
 #: ../data/rc_gui.ui.h:32
-msgid "Set the resolution for HDMI and VNC"
-msgstr "HDMIとVNCのための解像度を設定します"
+msgid "System"
+msgstr "システム"
 
 #: ../data/rc_gui.ui.h:33
 msgid "Overscan:"
@@ -335,122 +348,106 @@ msgid "Enable overscan to show the edges of the second screen"
 msgstr "2つ目の画面の端を表示するためにオーバースキャンを有効にします"
 
 #: ../data/rc_gui.ui.h:37
-msgid "Pixel Doubling:"
-msgstr "ピクセルダブリング:"
-
-#: ../data/rc_gui.ui.h:38
-msgid "Enable pixel doubling to improve usability on high-res screens"
-msgstr "ピクセルダブリングを有効にして高解像度の画面で使いやすくします"
-
-#: ../data/rc_gui.ui.h:39
 msgid "Screen Blanking:"
 msgstr "画面のブランク:"
 
-#: ../data/rc_gui.ui.h:40
+#: ../data/rc_gui.ui.h:38
 msgid "Blank the screen after a period of inactivity"
 msgstr "しばらく操作されなかった場合に画面をブランクにします"
 
-#: ../data/rc_gui.ui.h:41
+#: ../data/rc_gui.ui.h:39
 msgid "Headless Resolution:"
 msgstr "ヘッドレス解像度:"
 
-#: ../data/rc_gui.ui.h:42
+#: ../data/rc_gui.ui.h:40
 msgid "Set the resolution for VNC when no monitor is connected"
 msgstr "モニターが接続されていない場合のVNCの解像度を設定します"
 
-#: ../data/rc_gui.ui.h:43
+#: ../data/rc_gui.ui.h:41
 msgid "Display"
 msgstr "ディスプレイ"
 
-#: ../data/rc_gui.ui.h:44
+#: ../data/rc_gui.ui.h:42
 msgid "SSH:"
 msgstr "SSH:"
 
-#: ../data/rc_gui.ui.h:45
+#: ../data/rc_gui.ui.h:43
 msgid "Enable remote access to this Pi via SSH"
 msgstr "このPiへのSSHでのリモートアクセスを有効にします"
 
-#: ../data/rc_gui.ui.h:46
+#: ../data/rc_gui.ui.h:44
 msgid "VNC:"
 msgstr "VNC:"
 
-#: ../data/rc_gui.ui.h:47
+#: ../data/rc_gui.ui.h:45
 msgid "Enable remote access to this Pi using RealVNC"
 msgstr "このPiへのRealVNCでのリモートアクセスを有効にします"
 
-#: ../data/rc_gui.ui.h:48
+#: ../data/rc_gui.ui.h:46
 msgid "SPI:"
 msgstr "SPI:"
 
-#: ../data/rc_gui.ui.h:49
+#: ../data/rc_gui.ui.h:47
 msgid "Enable the automatic loading of the SPI kernel module"
 msgstr "SPIカーネルモジュールの自動読み込みを有効にします"
 
-#: ../data/rc_gui.ui.h:50
+#: ../data/rc_gui.ui.h:48
 msgid "I2C:"
 msgstr "I2C:"
 
-#: ../data/rc_gui.ui.h:51
+#: ../data/rc_gui.ui.h:49
 msgid "Enable the automatic loading of the I2C kernel module"
 msgstr "I2Cカーネルモジュールの自動読み込みを有効にします"
 
-#: ../data/rc_gui.ui.h:52
+#: ../data/rc_gui.ui.h:50
 msgid "Serial Port:"
 msgstr "シリアルポート:"
 
-#: ../data/rc_gui.ui.h:53
+#: ../data/rc_gui.ui.h:51
 msgid "Enable the serial port over the GPIO pins"
 msgstr "GPIOピンのシリアルポートを有効にします"
 
-#: ../data/rc_gui.ui.h:54
+#: ../data/rc_gui.ui.h:52
 msgid "Serial Console:"
 msgstr "シリアルコンソール:"
 
-#: ../data/rc_gui.ui.h:56
+#: ../data/rc_gui.ui.h:54
 msgid "1-Wire:"
 msgstr "1-Wire:"
 
-#: ../data/rc_gui.ui.h:57
+#: ../data/rc_gui.ui.h:55
 msgid "Enable 1-wire peripheral interface"
 msgstr "1-wireインターフェイスを有効にします"
 
-#: ../data/rc_gui.ui.h:58
+#: ../data/rc_gui.ui.h:56
 msgid "Remote GPIO:"
 msgstr "リモートGPIO:"
 
-#: ../data/rc_gui.ui.h:59
+#: ../data/rc_gui.ui.h:57
 msgid "Enable remote access to GPIO pins"
 msgstr "GPIOピンへのリモートアクセスを有効にします"
 
-#: ../data/rc_gui.ui.h:60
+#: ../data/rc_gui.ui.h:58
 msgid "Interfaces"
 msgstr "インターフェイス"
 
-#: ../data/rc_gui.ui.h:61
+#: ../data/rc_gui.ui.h:59
 msgid "O_verclock:"
 msgstr "オーバークロック(_O):"
 
-#: ../data/rc_gui.ui.h:62
+#: ../data/rc_gui.ui.h:60
 msgid "Set the level of overclock to control performance"
 msgstr "パフォーマンスの制御のためにオーバークロックのレベルを設定します"
 
-#: ../data/rc_gui.ui.h:63
-msgid "_GPU Memory:"
-msgstr "GPUメモリ(_G):"
-
-#: ../data/rc_gui.ui.h:64
-msgid "Enter the amount of memory available to the GPU"
-msgstr "GPUが利用できるメモリ量を入力して下さい"
-
-#: ../data/rc_gui.ui.h:65
+#: ../data/rc_gui.ui.h:61
 msgid "Overlay File System:"
 msgstr "オーバーレイファイルシステム:"
 
-#: ../data/rc_gui.ui.h:66
+#: ../data/rc_gui.ui.h:62
 msgid "Configure..."
 msgstr "設定"
 
-#: ../data/rc_gui.ui.h:67
+#: ../data/rc_gui.ui.h:63
 msgid ""
 "Configure an overlay file system to protect data from being overwritten or "
 "deleted"
@@ -458,149 +455,153 @@ msgstr ""
 "データが上書きや削除をされないようにオーバーレイファイルシステムで保護するた"
 "めの構成をします"
 
-#: ../data/rc_gui.ui.h:68
+#: ../data/rc_gui.ui.h:64
 msgid "Fan:"
 msgstr "ファン:"
 
-#: ../data/rc_gui.ui.h:69
+#: ../data/rc_gui.ui.h:65
 msgid "Enable a temperature-controlled fan on a GPIO pin"
 msgstr "GPIOピン上のファンによる温度コントロールを有効にします"
 
-#: ../data/rc_gui.ui.h:70
+#: ../data/rc_gui.ui.h:66
 msgid "Fan GPIO:"
 msgstr "ファン GPIO:"
 
-#: ../data/rc_gui.ui.h:72
+#: ../data/rc_gui.ui.h:68
 msgid "Fan Temperature:"
 msgstr "ファン温度:"
 
-#: ../data/rc_gui.ui.h:74
+#: ../data/rc_gui.ui.h:70
+msgid "Disable USB Current Limit:"
+msgstr "USBの電流制限を無効化する:"
+
+#: ../data/rc_gui.ui.h:71
+msgid "Turn on to allow higher currents to USB peripherals"
+msgstr "USB周辺機器に大きな電流を供給可能にするにはオンにします"
+
+#: ../data/rc_gui.ui.h:72
 msgid "Performance"
 msgstr "パフォーマンス"
 
-#: ../data/rc_gui.ui.h:75
+#: ../data/rc_gui.ui.h:73
 msgid "Locale:"
 msgstr "ロケール:"
 
-#: ../data/rc_gui.ui.h:76
+#: ../data/rc_gui.ui.h:74
 msgid "Set _Locale..."
 msgstr "ロケールの設定(_L)"
 
-#: ../data/rc_gui.ui.h:77
+#: ../data/rc_gui.ui.h:75
 msgid "Set internationalisation settings for units etc."
 msgstr "単位などの国際化設定を設定します。"
 
-#: ../data/rc_gui.ui.h:78
+#: ../data/rc_gui.ui.h:76
 msgid "Timezone:"
 msgstr "タイムゾーン:"
 
-#: ../data/rc_gui.ui.h:79
+#: ../data/rc_gui.ui.h:77
 msgid "Set _Timezone..."
 msgstr "タイムゾーンの設定(_T)"
 
-#: ../data/rc_gui.ui.h:80
+#: ../data/rc_gui.ui.h:78
 msgid "Set the timezone to be used by the internal clock"
 msgstr "内部クロックで利用するタイムゾーンを設定します"
 
-#: ../data/rc_gui.ui.h:81
+#: ../data/rc_gui.ui.h:79
 msgid "Keyboard:"
 msgstr "キーボード:"
 
-#: ../data/rc_gui.ui.h:82
+#: ../data/rc_gui.ui.h:80
 msgid "Set _Keyboard..."
 msgstr "キーボードの設定(_K)"
 
-#: ../data/rc_gui.ui.h:83
+#: ../data/rc_gui.ui.h:81
 msgid "Set international keyboard options"
 msgstr "国際キーボードの設定をします"
 
-#: ../data/rc_gui.ui.h:84
+#: ../data/rc_gui.ui.h:82
 msgid "WiFi Country:"
 msgstr "無線LANの国:"
 
-#: ../data/rc_gui.ui.h:85
+#: ../data/rc_gui.ui.h:83
 msgid "Set _WiFi Country..."
 msgstr "無線LANの国設定(_W)"
 
-#: ../data/rc_gui.ui.h:86
+#: ../data/rc_gui.ui.h:84
 msgid "Set WiFi country code"
 msgstr "無線LANの国コードを設定します"
 
-#: ../data/rc_gui.ui.h:87
+#: ../data/rc_gui.ui.h:85
 msgid "Localisation"
 msgstr "ローカライゼーション"
 
-#: ../data/rc_gui.ui.h:88
+#: ../data/rc_gui.ui.h:86
 msgid "_Cancel"
 msgstr "キャンセル(_C)"
 
-#: ../data/rc_gui.ui.h:89
+#: ../data/rc_gui.ui.h:87
 msgid "_OK"
 msgstr "OK(_O)"
 
-#: ../data/rc_gui.ui.h:90
+#: ../data/rc_gui.ui.h:88
 msgid "Overlay File System"
 msgstr "オーバーレイファイルシステム"
 
-#: ../data/rc_gui.ui.h:91
+#: ../data/rc_gui.ui.h:89
 msgid "Overlay:"
 msgstr "オーバーレイ:"
 
-#: ../data/rc_gui.ui.h:92
+#: ../data/rc_gui.ui.h:90
 msgid "Enable a file system overlay; all changes will be lost on reboot"
 msgstr ""
 "ファイルシステムのオーバーレイを有効にします。再起動をすると全ての変更が失わ"
 "れます"
 
-#: ../data/rc_gui.ui.h:93
+#: ../data/rc_gui.ui.h:91
 msgid "Boot Partition:"
 msgstr "起動パーティション:"
 
-#: ../data/rc_gui.ui.h:94
+#: ../data/rc_gui.ui.h:92
 msgid "Make the boot partition read-only"
 msgstr "起動パーティションを読み込みのみにします"
 
-#: ../data/rc_gui.ui.h:95
+#: ../data/rc_gui.ui.h:93
 msgid "Changes will not take effect until a reboot"
 msgstr "変更は再起動後に反映されます"
 
-#: ../data/rc_gui.ui.h:96
+#: ../data/rc_gui.ui.h:94
 msgid "Change Password"
 msgstr "パスワードの変更"
 
-#: ../data/rc_gui.ui.h:97
+#: ../data/rc_gui.ui.h:95
 msgid "Enter new password:"
 msgstr "新しいパスワードの入力:"
 
-#: ../data/rc_gui.ui.h:98
+#: ../data/rc_gui.ui.h:96
 msgid "Confirm new password:"
 msgstr "新しいパスワードを再入力:"
 
-#: ../data/rc_gui.ui.h:99
-msgid "Set Resolution"
-msgstr "解像度の設定"
-
-#: ../data/rc_gui.ui.h:100
+#: ../data/rc_gui.ui.h:97
 msgid "Timezone"
 msgstr "タイムゾーン"
 
-#: ../data/rc_gui.ui.h:101
+#: ../data/rc_gui.ui.h:98
 msgid "Area:"
 msgstr "地域:"
 
-#: ../data/rc_gui.ui.h:102
+#: ../data/rc_gui.ui.h:99
 msgid "Location:"
 msgstr "位置:"
 
-#: ../data/rc_gui.ui.h:103
+#: ../data/rc_gui.ui.h:100
 msgid "Change Hostname"
 msgstr "ホスト名を変更する"
 
-#: ../data/rc_gui.ui.h:104
+#: ../data/rc_gui.ui.h:101
 msgid "Enter new hostname:"
 msgstr "新しいホスト名の入力:"
 
-#: ../data/rc_gui.ui.h:105
+#: ../data/rc_gui.ui.h:102
 msgid "WiFi Country Code"
 msgstr "無線LANの国コード"
 
@@ -611,6 +612,36 @@ msgstr "ラズベリーパイシステムの設定"
 #: ../data/pwdrcg.sh:6
 msgid "Password Required"
 msgstr "パスワードが必要です"
+
+#~ msgid "Network at Boot:"
+#~ msgstr "ネットワークブート:"
+
+#~ msgid "Do not complete boot until network connection is established"
+#~ msgstr "ネットワークが確立するまで起動を完了しません"
+
+#~ msgid "Resolution:"
+#~ msgstr "解像度:"
+
+#~ msgid "Set _Resolution..."
+#~ msgstr "解像度を設定(_R)"
+
+#~ msgid "Set the resolution for HDMI and VNC"
+#~ msgstr "HDMIとVNCのための解像度を設定します"
+
+#~ msgid "Pixel Doubling:"
+#~ msgstr "ピクセルダブリング:"
+
+#~ msgid "Enable pixel doubling to improve usability on high-res screens"
+#~ msgstr "ピクセルダブリングを有効にして高解像度の画面で使いやすくします"
+
+#~ msgid "_GPU Memory:"
+#~ msgstr "GPUメモリ(_G):"
+
+#~ msgid "Enter the amount of memory available to the GPU"
+#~ msgstr "GPUが利用できるメモリ量を入力して下さい"
+
+#~ msgid "Set Resolution"
+#~ msgstr "解像度の設定"
 
 #~ msgid "Disable shell and kernel messages on the serial connection"
 #~ msgstr "シェルとカーネルのメッセージをシリアル接続で無効にします"
