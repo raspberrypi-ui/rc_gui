@@ -1,3 +1,9 @@
+rc-gui (1.75) bookworm; urgency=medium
+
+  * Update Japanese translation
+
+ -- Simon Long <simon@raspberrypi.com>  Fri, 03 Nov 2023 11:18:30 +0000
+
 rc-gui (1.74) bookworm; urgency=medium
 
   * Add serial port switching for Pi 5
