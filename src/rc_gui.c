@@ -173,7 +173,11 @@ static int needs_reboot, ovfs_rb;
 
 /* Window manager in use */
 
-static gboolean wayfire = FALSE;
+typedef enum {
+    WM_OPENBOX,
+    WM_WAYFIRE,
+    WM_LABWC } wm_type;
+static wm_type wm;
 
 /* Globals accessed from multiple threads */
 
@@ -1256,7 +1260,6 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     GtkCellRenderer *col;
     GtkTreeIter iter;
     char *init_model = NULL, *init_layout = NULL, *init_variant = NULL, *new_mod, *new_lay, *new_var;
-    char *user_config_file;
     GKeyFile *kf;
 
     // set up list stores for keyboard layouts
@@ -1286,41 +1289,14 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (keyvar_cb), col, "text", 0);
 
     // get the current keyboard settings
-    user_config_file = g_build_filename (g_get_user_config_dir (), "wayfire.ini", NULL);
-    if (wayfire)
-    {
-        /* read user config first */
-        kf = g_key_file_new ();
-        g_key_file_load_from_file (kf, user_config_file, G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL);
-        init_model = g_key_file_get_string (kf, "input", "xkb_model", NULL);
-        init_layout = g_key_file_get_string (kf, "input", "xkb_layout", NULL);
-        init_variant = g_key_file_get_string (kf, "input", "xkb_variant", NULL);
-        g_key_file_free (kf);
+    init_model = get_string ("grep XKBMODEL /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev");
+    if (init_model == NULL) init_model = g_strdup ("pc105");
 
-        /* read system config */
-        kf = g_key_file_new ();
-        g_key_file_load_from_file (kf, "/etc/wayfire/defaults.ini", G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS, NULL);
-        if (init_model == NULL) init_model = g_key_file_get_string (kf, "input", "xkb_model", NULL);
-        if (init_layout == NULL) init_layout = g_key_file_get_string (kf, "input", "xkb_layout", NULL);
-        if (init_variant == NULL) init_variant = g_key_file_get_string (kf, "input", "xkb_variant", NULL);
-        g_key_file_free (kf);
+    init_layout = get_string ("grep XKBLAYOUT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev");
+    if (init_layout == NULL) init_layout = g_strdup ("gb"); // !!!! might need a different default here on Wayland?
 
-        /* defaults */
-        if (init_model == NULL) init_model = g_strdup ("pc105");
-        if (init_layout == NULL) init_layout = g_strdup ("us");
-        if (init_variant == NULL) init_variant = g_strdup ("");
-    }
-    else
-    {
-        init_model = get_string ("grep XKBMODEL /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev");
-        if (init_model == NULL) init_model = g_strdup ("pc105");
-
-        init_layout = get_string ("grep XKBLAYOUT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev");
-        if (init_layout == NULL) init_layout = g_strdup ("gb");
-
-        init_variant = get_string ("grep XKBVARIANT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev");
-        if (init_variant == NULL) init_variant = g_strdup ("");
-    }
+    init_variant = get_string ("grep XKBVARIANT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev");
+    if (init_variant == NULL) init_variant = g_strdup ("");
 
     set_init (GTK_TREE_MODEL (model_list), keymodel_cb, 1, init_model);
     set_init (GTK_TREE_MODEL (layout_list), keylayout_cb, 1, init_layout);
@@ -1372,7 +1348,6 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     }
     else gtk_widget_destroy (dlg);
 
-    g_free (user_config_file);
     g_free (init_model);
     g_free (init_layout);
     g_free (init_variant);
@@ -1531,7 +1506,7 @@ static gpointer process_changes_thread (gpointer ptr)
 
     READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
     READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
-    READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wayfire ? FALSE : TRUE);
+    READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wm == WM_OPENBOX ? TRUE : FALSE);
     READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
     READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
 
@@ -1651,7 +1626,7 @@ static gboolean close_prog (GtkWidget *widget, GdkEvent *event, gpointer data)
 
 static int num_screens (void)
 {
-    if (wayfire)
+    if (wm != WM_OPENBOX)
         return get_status ("wlr-randr | grep -cv '^ '");
     else
         return get_status ("xrandr -q | grep -cw connected");
@@ -1732,7 +1707,7 @@ static gboolean init_config (gpointer data)
         gtk_widget_set_tooltip_text (GTK_WIDGET (blank_sw), _("This setting is overridden when Xscreensaver is installed"));
     }
 
-    if (wayfire)
+    if (wm != WM_OPENBOX)
     {
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox52")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
@@ -1972,7 +1947,12 @@ int main (int argc, char *argv[])
     gtk_init (&argc, &argv);
     gtk_icon_theme_prepend_search_path (gtk_icon_theme_get_default(), PACKAGE_DATA_DIR);
 
-    if (getenv ("WAYFIRE_CONFIG_FILE")) wayfire = TRUE;
+    if (getenv ("WAYLAND_DISPLAY"))
+    {
+        if (getenv ("WAYFIRE_CONFIG_FILE")) wm = WM_WAYFIRE;
+        else wm = WM_LABWC;
+    }
+    else wm = WM_OPENBOX;
 
     if (argc == 2 && !g_strcmp0 (argv[1], "-w"))
     {
@@ -1997,7 +1977,7 @@ int main (int argc, char *argv[])
     else
     {
         message (_("Loading configuration - please wait..."));
-        if (wayfire) g_signal_connect (msg_dlg, "event", G_CALLBACK (event), NULL);
+        if (wm != WM_OPENBOX) g_signal_connect (msg_dlg, "event", G_CALLBACK (event), NULL);
         else draw_id = g_signal_connect (msg_dlg, "draw", G_CALLBACK (draw), NULL);
     }
 
