@@ -316,7 +316,6 @@ static void message (char *msg)
     gtk_label_set_text (GTK_LABEL (wid), msg);
 
     gtk_widget_show (msg_dlg);
-    gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
 
     g_object_unref (builder);
 }
@@ -347,7 +346,6 @@ static void info (char *msg)
     gtk_widget_show (wid);
 
     gtk_widget_show (msg_dlg);
-    gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
 
     g_object_unref (builder);
 }
@@ -392,7 +390,6 @@ static gboolean reboot_prompt (gpointer data)
     gtk_widget_show (wid);
 
     gtk_widget_show (msg_dlg);
-    gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
 
     g_object_unref (builder);
     return FALSE;
@@ -1337,7 +1334,6 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 
                 gtk_label_set_text (GTK_LABEL (lbl), _("Setting keyboard - please wait..."));
                 gtk_widget_show (msg_dlg);
-                gtk_window_set_decorated (GTK_WINDOW (msg_dlg), FALSE);
                 gtk_dialog_run (GTK_DIALOG (msg_dlg));
             }
         }
