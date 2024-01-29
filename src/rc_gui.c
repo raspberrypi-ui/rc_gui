@@ -1502,7 +1502,7 @@ static gpointer process_changes_thread (gpointer ptr)
 
     READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
     READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
-    READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wm == WM_OPENBOX ? TRUE : FALSE);
+    READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wm == WM_WAYFIRE ? FALSE : TRUE);
     READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
     READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
 
