@@ -1,3 +1,9 @@
+rc-gui (1.77) bookworm; urgency=medium
+
+  * Add labwc screen blanking support
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 30 Jan 2024 07:46:04 +0000
+
 rc-gui (1.76) bookworm; urgency=medium
 
   * Add labwc compatibility
