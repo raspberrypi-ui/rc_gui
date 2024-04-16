@@ -156,7 +156,9 @@ static GObject *fan_gpio_sb, *fan_temp_sb, *vnc_res_cb;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
 static GObject *hostname_tb;
 static GObject *tzarea_cb, *tzloc_cb, *wccountry_cb;
-static GObject *loclang_cb, *loccount_cb, *locchar_cb, *keymodel_cb, *keylayout_cb, *keyvar_cb;
+static GObject *loclang_cb, *loccount_cb, *locchar_cb;
+static GObject *keymodel_cb, *keylayout_cb, *keyvar_cb, *keyalayout_cb, *keyavar_cb, *keyshort_cb, *keyalt_btn;
+static GObject *keybox5, *keybox6, *keybox7;
 
 static GtkWidget *main_dlg, *msg_dlg;
 
@@ -187,7 +189,7 @@ gulong draw_id;
 
 /* Lists for keyboard setting */
 
-GtkListStore *model_list, *layout_list, *variant_list;
+GtkListStore *model_list, *layout_list, *variant_list, *avariant_list;
 
 /* List for locale setting */
 
@@ -1141,19 +1143,21 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
 
 /* Keyboard setting */
 
-static void layout_changed (GtkComboBox *cb, char *init_variant)
+static void layout_changed (GtkComboBox *cb, GtkComboBox *cb2)
 {
     FILE *fp;
     GtkTreeIter iter;
+    GtkListStore *variant_list;
     char *buffer, *cptr, *t1, *t2;
     size_t siz;
     int in_list;
 
     // get the currently-set layout from the combo box
-    gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keylayout_cb), &iter);
-    gtk_tree_model_get (GTK_TREE_MODEL (layout_list), &iter, 0, &t1, 1, &t2, -1);
+    gtk_combo_box_get_active_iter (cb, &iter);
+    gtk_tree_model_get (gtk_combo_box_get_model (cb), &iter, 0, &t1, 1, &t2, -1);
 
     // reset the list of variants and add the layout name as a default
+    variant_list = gtk_combo_box_get_model (cb2);
     gtk_list_store_clear (variant_list);
     gtk_list_store_append (variant_list, &iter);
     gtk_list_store_set (variant_list, &iter, 0, t1, 1, "", -1);
@@ -1190,7 +1194,7 @@ static void layout_changed (GtkComboBox *cb, char *init_variant)
     g_free (cptr);
     g_free (buffer);
 
-    set_init (GTK_TREE_MODEL (variant_list), keyvar_cb, 1, init_variant);
+    set_init (variant_list, cb2, 1, NULL);
 }
 
 static gpointer keyboard_thread (gpointer ptr)
@@ -1250,19 +1254,36 @@ static void read_keyboards (void)
     g_free (cptr);
 }
 
+static void on_keyalt_toggle (GtkButton *btn, gpointer ptr)
+{
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
+    {
+        gtk_widget_show (keybox5);
+        gtk_widget_show (keybox6);
+        gtk_widget_show (keybox7);
+    }
+    else
+    {
+        gtk_widget_hide (keybox5);
+        gtk_widget_hide (keybox6);
+        gtk_widget_hide (keybox7);
+    }
+}
+
 static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 {
     GtkBuilder *builder;
     GtkWidget *dlg;
     GtkCellRenderer *col;
     GtkTreeIter iter;
-    char *init_model = NULL, *init_layout = NULL, *init_variant = NULL, *new_mod, *new_lay, *new_var;
+    char *init_model = NULL, *init_layout = NULL, *init_variant = NULL, *init_alayout = NULL, *init_avariant = NULL, *new_mod, *new_lay, *new_var;
     GKeyFile *kf;
 
     // set up list stores for keyboard layouts
     model_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
     layout_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
     variant_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+    avariant_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
     read_keyboards ();
 
     // build the dialog and attach the combo boxes
@@ -1273,9 +1294,17 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     keymodel_cb = (GObject *) gtk_builder_get_object (builder, "keycbmodel");
     keylayout_cb = (GObject *) gtk_builder_get_object (builder, "keycblayout");
     keyvar_cb = (GObject *) gtk_builder_get_object (builder, "keycbvar");
+    keyalayout_cb = (GObject *) gtk_builder_get_object (builder, "keycbalayout");
+    keyavar_cb = (GObject *) gtk_builder_get_object (builder, "keycbavar");
+    keyalt_btn = (GObject *) gtk_builder_get_object (builder, "keybtnalt");
     gtk_combo_box_set_model (GTK_COMBO_BOX (keymodel_cb), GTK_TREE_MODEL (model_list));
     gtk_combo_box_set_model (GTK_COMBO_BOX (keylayout_cb), GTK_TREE_MODEL (layout_list));
     gtk_combo_box_set_model (GTK_COMBO_BOX (keyvar_cb), GTK_TREE_MODEL (variant_list));
+    gtk_combo_box_set_model (GTK_COMBO_BOX (keyalayout_cb), GTK_TREE_MODEL (layout_list));
+    gtk_combo_box_set_model (GTK_COMBO_BOX (keyavar_cb), GTK_TREE_MODEL (avariant_list));
+    keybox5 = (GObject *) gtk_builder_get_object (builder, "keyhbox5");
+    keybox6 = (GObject *) gtk_builder_get_object (builder, "keyhbox6");
+    keybox7 = (GObject *) gtk_builder_get_object (builder, "keyhbox7");
 
     col = gtk_cell_renderer_text_new ();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (keymodel_cb), col, FALSE);
@@ -1284,6 +1313,10 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (keylayout_cb), col, "text", 0);
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (keyvar_cb), col, FALSE);
     gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (keyvar_cb), col, "text", 0);
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (keyalayout_cb), col, FALSE);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (keyalayout_cb), col, "text", 0);
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (keyavar_cb), col, FALSE);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (keyavar_cb), col, "text", 0);
 
     // get the current keyboard settings
     init_model = get_string ("grep XKBMODEL /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev");
@@ -1295,10 +1328,20 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     init_variant = get_string ("grep XKBVARIANT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev");
     if (init_variant == NULL) init_variant = g_strdup ("");
 
+    init_alayout = g_strdup (init_layout); //!!!!!
+    init_avariant = g_strdup (init_variant); //!!!!!
+
     set_init (GTK_TREE_MODEL (model_list), keymodel_cb, 1, init_model);
+
+    g_signal_connect (keylayout_cb, "changed", G_CALLBACK (layout_changed), keyvar_cb);
     set_init (GTK_TREE_MODEL (layout_list), keylayout_cb, 1, init_layout);
-    g_signal_connect (keylayout_cb, "changed", G_CALLBACK (layout_changed), NULL);
-    layout_changed (GTK_COMBO_BOX (keyvar_cb), init_variant);
+    set_init (GTK_TREE_MODEL (variant_list), keyvar_cb, 1, init_variant);
+
+    g_signal_connect (keyalayout_cb, "changed", G_CALLBACK (layout_changed), keyavar_cb);
+    set_init (GTK_TREE_MODEL (layout_list), keyalayout_cb, 1, init_alayout);
+    set_init (GTK_TREE_MODEL (avariant_list), keyavar_cb, 1, init_avariant);
+
+    g_signal_connect (keyalt_btn, "toggled", G_CALLBACK (on_keyalt_toggle), NULL);
 
     g_object_unref (builder);
 
@@ -1350,6 +1393,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     g_object_unref (model_list);
     g_object_unref (layout_list);
     g_object_unref (variant_list);
+    g_object_unref (avariant_list);
 }
 
 /* Overlay file system setting */
