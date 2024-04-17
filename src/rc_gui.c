@@ -173,6 +173,8 @@ static char *vres, *orig_browser;
 
 static int needs_reboot, ovfs_rb;
 
+static int alt_keys;
+
 /* Window manager in use */
 
 typedef enum {
@@ -1258,12 +1260,14 @@ static void on_keyalt_toggle (GtkButton *btn, gpointer ptr)
 {
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
     {
+        alt_keys = TRUE;
         gtk_widget_show (keybox5);
         gtk_widget_show (keybox6);
         gtk_widget_show (keybox7);
     }
     else
     {
+        alt_keys = FALSE;
         gtk_widget_hide (keybox5);
         gtk_widget_hide (keybox6);
         gtk_widget_hide (keybox7);
@@ -1276,8 +1280,16 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     GtkWidget *dlg;
     GtkCellRenderer *col;
     GtkTreeIter iter;
-    char *init_model = NULL, *init_layout = NULL, *init_variant = NULL, *init_alayout = NULL, *init_avariant = NULL, *new_mod, *new_lay, *new_var;
+    char *init_model, *init_layout, *init_variant, *init_alayout, *init_avariant, *new_mod, *new_lay, *new_var, *new_alay, *new_avar;
+    char *cptr;
     GKeyFile *kf;
+    int init_alt;
+
+    init_model = NULL;
+    init_layout = NULL;
+    init_variant = NULL;
+    init_alayout = NULL;
+    init_avariant = NULL;
 
     // set up list stores for keyboard layouts
     model_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
@@ -1296,6 +1308,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     keyvar_cb = (GObject *) gtk_builder_get_object (builder, "keycbvar");
     keyalayout_cb = (GObject *) gtk_builder_get_object (builder, "keycbalayout");
     keyavar_cb = (GObject *) gtk_builder_get_object (builder, "keycbavar");
+    keyshort_cb = (GObject *) gtk_builder_get_object (builder, "keycbshortcut");
     keyalt_btn = (GObject *) gtk_builder_get_object (builder, "keybtnalt");
     gtk_combo_box_set_model (GTK_COMBO_BOX (keymodel_cb), GTK_TREE_MODEL (model_list));
     gtk_combo_box_set_model (GTK_COMBO_BOX (keylayout_cb), GTK_TREE_MODEL (layout_list));
@@ -1319,17 +1332,39 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (keyavar_cb), col, "text", 0);
 
     // get the current keyboard settings
-    init_model = get_string ("grep XKBMODEL /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev");
+    init_model = get_string ("grep XKBMODEL /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
     if (init_model == NULL) init_model = g_strdup ("pc105");
 
-    init_layout = get_string ("grep XKBLAYOUT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev");
+    init_layout = get_string ("grep XKBLAYOUT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
     if (init_layout == NULL) init_layout = g_strdup ("gb"); // !!!! might need a different default here on Wayland?
 
-    init_variant = get_string ("grep XKBVARIANT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"' | rev | cut -d , -f 1 | rev");
+    init_variant = get_string ("grep XKBVARIANT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
     if (init_variant == NULL) init_variant = g_strdup ("");
 
-    init_alayout = g_strdup (init_layout); //!!!!!
-    init_avariant = g_strdup (init_variant); //!!!!!
+    alt_keys = FALSE;
+    cptr = strstr (init_layout, ",");
+    if (cptr)
+    {
+        init_alayout = cptr + 1;
+        *cptr = 0;
+        alt_keys = TRUE;
+    }
+    else init_alayout = g_strdup (init_layout);
+
+    cptr = strstr (init_variant, ",");
+    if (cptr)
+    {
+        init_avariant = cptr + 1;
+        *cptr = 0;
+        alt_keys = TRUE;
+    }
+    else init_avariant = g_strdup (init_variant);
+    init_alt = alt_keys;
+
+    gtk_toggle_button_set_active (keyalt_btn, alt_keys);
+    gtk_widget_set_visible (keybox5, alt_keys);
+    gtk_widget_set_visible (keybox6, alt_keys);
+    gtk_widget_set_visible (keybox7, alt_keys);
 
     set_init (GTK_TREE_MODEL (model_list), keymodel_cb, 1, init_model);
 
@@ -1354,15 +1389,23 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
         gtk_tree_model_get (GTK_TREE_MODEL (layout_list), &iter, 1, &new_lay, -1);
         gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keyvar_cb), &iter);
         gtk_tree_model_get (GTK_TREE_MODEL (variant_list), &iter, 1, &new_var, -1);
+        gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keyalayout_cb), &iter);
+        gtk_tree_model_get (GTK_TREE_MODEL (layout_list), &iter, 1, &new_alay, -1);
+        gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keyavar_cb), &iter);
+        gtk_tree_model_get (GTK_TREE_MODEL (avariant_list), &iter, 1, &new_avar, -1);
 
         gtk_widget_destroy (dlg);
 
-        if (g_strcmp0 (init_model, new_mod) || g_strcmp0 (init_layout, new_lay) || g_strcmp0 (init_variant, new_var))
+        if (g_strcmp0 (init_model, new_mod) || g_strcmp0 (init_layout, new_lay) || g_strcmp0 (init_variant, new_var)
+            || init_alt != alt_keys || g_strcmp0 (init_alayout, new_alay) || g_strcmp0 (init_avariant, new_avar))
         {
             // warn about a short delay...
             if (ptr == NULL) message (_("Setting keyboard - please wait..."));
 
-            sprintf (gbuffer, "%s %s %s", new_mod, new_lay, new_var);
+            if (alt_keys)
+                sprintf (gbuffer, "%s %s,%s %s,%s", new_mod, new_lay, new_alay, new_var, new_avar);
+            else
+                sprintf (gbuffer, "%s %s %s", new_mod, new_lay, new_var);
 
             // launch a thread with the system call to update the keyboard
             pthread = g_thread_new (NULL, keyboard_thread, NULL);
@@ -1390,6 +1433,8 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     g_free (init_model);
     g_free (init_layout);
     g_free (init_variant);
+    //g_free (init_alayout);
+    //g_free (init_avariant);
     g_object_unref (model_list);
     g_object_unref (layout_list);
     g_object_unref (variant_list);
