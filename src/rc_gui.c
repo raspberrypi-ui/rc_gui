@@ -1503,9 +1503,9 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
             if (ptr == NULL) message (_("Setting keyboard - please wait..."));
 
             if (alt_keys)
-                sprintf (gbuffer, "%s %s,%s %s,%s", new_mod, new_lay, new_alay, new_var, new_avar);
+                sprintf (gbuffer, "\"%s\" \"%s,%s\" \"%s,%s\" \"%s\"", new_mod, new_lay, new_alay, new_var, new_avar, new_toggle);
             else
-                sprintf (gbuffer, "%s %s %s", new_mod, new_lay, new_var);
+                sprintf (gbuffer, "\"%s\" \"%s\" \"%s\" \"\"", new_mod, new_lay, new_var);
 
             // launch a thread with the system call to update the keyboard
             pthread = g_thread_new (NULL, keyboard_thread, NULL);
