@@ -1512,9 +1512,8 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     g_signal_connect (keyalayout_cb, "changed", G_CALLBACK (layout_changed), keyavar_cb);
     set_init (GTK_TREE_MODEL (layout_list), keyalayout_cb, 1, init_alayout);
     set_init (GTK_TREE_MODEL (avariant_list), keyavar_cb, 1, init_avariant);
-    printf ("short\n");
+
     set_init_sub (GTK_TREE_MODEL (toggle_list), keyshort_cb, 1, init_toggle);
-    printf ("led\n");
     set_init_sub (GTK_TREE_MODEL (led_list), keyled_cb, 1, init_toggle);
 
     g_signal_connect (keyalt_btn, "toggled", G_CALLBACK (on_keyalt_toggle), NULL);
@@ -1579,6 +1578,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     g_free (init_model);
     g_free (init_layout);
     g_free (init_variant);
+    g_free (init_toggle);
     //g_free (init_alayout);
     //g_free (init_avariant);
     g_object_unref (model_list);
@@ -1586,6 +1586,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     g_object_unref (variant_list);
     g_object_unref (avariant_list);
     g_object_unref (toggle_list);
+    g_object_unref (led_list);
 }
 
 /* Overlay file system setting */
