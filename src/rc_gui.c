@@ -191,7 +191,7 @@ gulong draw_id;
 
 /* Lists for keyboard setting */
 
-GtkListStore *model_list, *layout_list, *variant_list, *avariant_list;
+GtkListStore *model_list, *layout_list, *variant_list, *avariant_list, *toggle_list;
 
 /* List for locale setting */
 
@@ -1145,7 +1145,7 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
 
 /* Keyboard setting */
 
-static void layout_changed (GtkComboBox *cb, GtkComboBox *cb2)
+static void layout_changed (GtkComboBox *cb, GObject *cb2)
 {
     FILE *fp;
     GtkTreeIter iter;
@@ -1159,7 +1159,7 @@ static void layout_changed (GtkComboBox *cb, GtkComboBox *cb2)
     gtk_tree_model_get (gtk_combo_box_get_model (cb), &iter, 0, &t1, 1, &t2, -1);
 
     // reset the list of variants and add the layout name as a default
-    variant_list = gtk_combo_box_get_model (cb2);
+    variant_list = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (cb2)));
     gtk_list_store_clear (variant_list);
     gtk_list_store_append (variant_list, &iter);
     gtk_list_store_set (variant_list, &iter, 0, t1, 1, "", -1);
@@ -1196,7 +1196,7 @@ static void layout_changed (GtkComboBox *cb, GtkComboBox *cb2)
     g_free (cptr);
     g_free (buffer);
 
-    set_init (variant_list, cb2, 1, NULL);
+    set_init (GTK_TREE_MODEL (variant_list), cb2, 1, NULL);
 }
 
 static gpointer keyboard_thread (gpointer ptr)
@@ -1261,17 +1261,103 @@ static void on_keyalt_toggle (GtkButton *btn, gpointer ptr)
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
     {
         alt_keys = TRUE;
-        gtk_widget_show (keybox5);
-        gtk_widget_show (keybox6);
-        gtk_widget_show (keybox7);
+        gtk_widget_show (GTK_WIDGET (keybox5));
+        gtk_widget_show (GTK_WIDGET (keybox6));
+        gtk_widget_show (GTK_WIDGET (keybox7));
     }
     else
     {
         alt_keys = FALSE;
-        gtk_widget_hide (keybox5);
-        gtk_widget_hide (keybox6);
-        gtk_widget_hide (keybox7);
+        gtk_widget_hide (GTK_WIDGET (keybox5));
+        gtk_widget_hide (GTK_WIDGET (keybox6));
+        gtk_widget_hide (GTK_WIDGET (keybox7));
     }
+}
+
+static void populate_toggles (void)
+{
+    GtkTreeIter iter;
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Alt"), 1, "grp:toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Alt + Caps"), 1, "grp:alt_caps_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Alt + Shift"), 1, "grp:alt_shift_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Alt + Space"), 1, "grp:alt_space_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Ctrl + Alt"), 1, "grp:ctrl_alt_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Ctrl + Shift"), 1, "grp:ctrl_shift_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Left Alt"), 1, "grp:lalt_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Left Alt + Left Shift"), 1, "grp:lalt_lshift_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Left Alt + Right Alt"), 1, "grp:alts_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Left Ctrl"), 1, "grp:lctrl_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Left Ctrl + Left Alt"), 1, "grp:lctrl_lalt_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Left Ctrl + Left Shift"), 1, "grp:lctrl_lshift_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Left Ctrl + Left Win"), 1, "grp:lctrl_lwin_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Left Ctrl + Right Ctrl"), 1, "grp:ctrls_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Left Shift"), 1, "grp:lshift_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Left Shift + Right Shift"), 1, "grp:shifts_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Left Win"), 1, "grp:lwin_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Menu"), 1, "grp:menu_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Right Alt + Right Shift"), 1, "grp:ralt_rshift_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Right Ctrl"), 1, "grp:rctrl_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Right Ctrl + Right Alt"), 1, "grp:rctrl_ralt_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Right Ctrl + Right Shift"), 1, "grp:rctrl_rshift_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Right Shift"), 1, "grp:rshift_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Right Win"), 1, "grp:rwin_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Scroll Lock"), 1, "grp:sclk_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Shift + Caps"), 1, "grp:shift_caps_toggle", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Win + Space"), 1, "grp:win_space_toggle", -1);
 }
 
 static void on_set_keyboard (GtkButton* btn, gpointer ptr)
@@ -1280,9 +1366,9 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     GtkWidget *dlg;
     GtkCellRenderer *col;
     GtkTreeIter iter;
-    char *init_model, *init_layout, *init_variant, *init_alayout, *init_avariant, *new_mod, *new_lay, *new_var, *new_alay, *new_avar;
+    char *init_model, *init_layout, *init_variant, *init_alayout, *init_avariant, *init_toggle;
+    char *new_mod, *new_lay, *new_var, *new_alay, *new_avar, *new_toggle;
     char *cptr;
-    GKeyFile *kf;
     int init_alt;
 
     init_model = NULL;
@@ -1290,13 +1376,16 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     init_variant = NULL;
     init_alayout = NULL;
     init_avariant = NULL;
+    init_toggle = NULL;
 
     // set up list stores for keyboard layouts
     model_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
     layout_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
     variant_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
     avariant_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+    toggle_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
     read_keyboards ();
+    populate_toggles ();
 
     // build the dialog and attach the combo boxes
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
@@ -1315,6 +1404,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     gtk_combo_box_set_model (GTK_COMBO_BOX (keyvar_cb), GTK_TREE_MODEL (variant_list));
     gtk_combo_box_set_model (GTK_COMBO_BOX (keyalayout_cb), GTK_TREE_MODEL (layout_list));
     gtk_combo_box_set_model (GTK_COMBO_BOX (keyavar_cb), GTK_TREE_MODEL (avariant_list));
+    gtk_combo_box_set_model (GTK_COMBO_BOX (keyshort_cb), GTK_TREE_MODEL (toggle_list));
     keybox5 = (GObject *) gtk_builder_get_object (builder, "keyhbox5");
     keybox6 = (GObject *) gtk_builder_get_object (builder, "keyhbox6");
     keybox7 = (GObject *) gtk_builder_get_object (builder, "keyhbox7");
@@ -1330,6 +1420,8 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (keyalayout_cb), col, "text", 0);
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (keyavar_cb), col, FALSE);
     gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (keyavar_cb), col, "text", 0);
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (keyshort_cb), col, FALSE);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (keyshort_cb), col, "text", 0);
 
     // get the current keyboard settings
     init_model = get_string ("grep XKBMODEL /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
@@ -1340,6 +1432,9 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 
     init_variant = get_string ("grep XKBVARIANT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
     if (init_variant == NULL) init_variant = g_strdup ("");
+
+    init_toggle = get_string ("grep XKBOPTIONS /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
+    if (init_toggle == NULL) init_toggle = g_strdup ("");
 
     alt_keys = FALSE;
     cptr = strstr (init_layout, ",");
@@ -1361,10 +1456,10 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     else init_avariant = g_strdup (init_variant);
     init_alt = alt_keys;
 
-    gtk_toggle_button_set_active (keyalt_btn, alt_keys);
-    gtk_widget_set_visible (keybox5, alt_keys);
-    gtk_widget_set_visible (keybox6, alt_keys);
-    gtk_widget_set_visible (keybox7, alt_keys);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (keyalt_btn), alt_keys);
+    gtk_widget_set_visible (GTK_WIDGET (keybox5), alt_keys);
+    gtk_widget_set_visible (GTK_WIDGET (keybox6), alt_keys);
+    gtk_widget_set_visible (GTK_WIDGET (keybox7), alt_keys);
 
     set_init (GTK_TREE_MODEL (model_list), keymodel_cb, 1, init_model);
 
@@ -1375,6 +1470,8 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     g_signal_connect (keyalayout_cb, "changed", G_CALLBACK (layout_changed), keyavar_cb);
     set_init (GTK_TREE_MODEL (layout_list), keyalayout_cb, 1, init_alayout);
     set_init (GTK_TREE_MODEL (avariant_list), keyavar_cb, 1, init_avariant);
+
+    set_init (GTK_TREE_MODEL (toggle_list), keyshort_cb, 1, init_toggle);
 
     g_signal_connect (keyalt_btn, "toggled", G_CALLBACK (on_keyalt_toggle), NULL);
 
@@ -1393,11 +1490,14 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
         gtk_tree_model_get (GTK_TREE_MODEL (layout_list), &iter, 1, &new_alay, -1);
         gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keyavar_cb), &iter);
         gtk_tree_model_get (GTK_TREE_MODEL (avariant_list), &iter, 1, &new_avar, -1);
+        gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keyshort_cb), &iter);
+        gtk_tree_model_get (GTK_TREE_MODEL (toggle_list), &iter, 1, &new_toggle, -1);
 
         gtk_widget_destroy (dlg);
 
         if (g_strcmp0 (init_model, new_mod) || g_strcmp0 (init_layout, new_lay) || g_strcmp0 (init_variant, new_var)
-            || init_alt != alt_keys || g_strcmp0 (init_alayout, new_alay) || g_strcmp0 (init_avariant, new_avar))
+            || init_alt != alt_keys || g_strcmp0 (init_alayout, new_alay) || g_strcmp0 (init_avariant, new_avar)
+            || g_strcmp0 (init_toggle, new_toggle))
         {
             // warn about a short delay...
             if (ptr == NULL) message (_("Setting keyboard - please wait..."));
@@ -1439,6 +1539,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     g_object_unref (layout_list);
     g_object_unref (variant_list);
     g_object_unref (avariant_list);
+    g_object_unref (toggle_list);
 }
 
 /* Overlay file system setting */
