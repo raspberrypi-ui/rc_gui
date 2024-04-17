@@ -157,8 +157,8 @@ static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
 static GObject *hostname_tb;
 static GObject *tzarea_cb, *tzloc_cb, *wccountry_cb;
 static GObject *loclang_cb, *loccount_cb, *locchar_cb;
-static GObject *keymodel_cb, *keylayout_cb, *keyvar_cb, *keyalayout_cb, *keyavar_cb, *keyshort_cb, *keyalt_btn;
-static GObject *keybox5, *keybox6, *keybox7;
+static GObject *keymodel_cb, *keylayout_cb, *keyvar_cb, *keyalayout_cb, *keyavar_cb, *keyshort_cb, *keyled_cb, *keyalt_btn;
+static GObject *keybox5, *keybox6, *keybox7, *keybox8;
 
 static GtkWidget *main_dlg, *msg_dlg;
 
@@ -191,7 +191,7 @@ gulong draw_id;
 
 /* Lists for keyboard setting */
 
-GtkListStore *model_list, *layout_list, *variant_list, *avariant_list, *toggle_list;
+GtkListStore *model_list, *layout_list, *variant_list, *avariant_list, *toggle_list, *led_list;
 
 /* List for locale setting */
 
@@ -553,6 +553,34 @@ static void set_init (GtkTreeModel *model, GObject *cb, int pos, char *init)
         {
             gtk_tree_model_get (model, &iter, pos, &val, -1);
             if (!g_strcmp0 (init, val))
+            {
+                gtk_combo_box_set_active_iter (GTK_COMBO_BOX (cb), &iter);
+                g_free (val);
+                return;
+            }
+            g_free (val);
+            if (!gtk_tree_model_iter_next (model, &iter)) break;
+        }
+    }
+
+    // couldn't match - just choose the first option - should never happen, but...
+    gtk_tree_model_get_iter_first (model, &iter);
+    gtk_combo_box_set_active_iter (GTK_COMBO_BOX (cb), &iter);
+}
+
+static void set_init_sub (GtkTreeModel *model, GObject *cb, int pos, char *init)
+{
+    GtkTreeIter iter;
+    char *val;
+
+    gtk_tree_model_get_iter_first (model, &iter);
+    if (!init) gtk_combo_box_set_active_iter (GTK_COMBO_BOX (cb), &iter);
+    else
+    {
+        while (1)
+        {
+            gtk_tree_model_get (model, &iter, pos, &val, -1);
+            if (strstr (init, val))
             {
                 gtk_combo_box_set_active_iter (GTK_COMBO_BOX (cb), &iter);
                 g_free (val);
@@ -1259,19 +1287,14 @@ static void read_keyboards (void)
 static void on_keyalt_toggle (GtkButton *btn, gpointer ptr)
 {
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
-    {
         alt_keys = TRUE;
-        gtk_widget_show (GTK_WIDGET (keybox5));
-        gtk_widget_show (GTK_WIDGET (keybox6));
-        gtk_widget_show (GTK_WIDGET (keybox7));
-    }
     else
-    {
         alt_keys = FALSE;
-        gtk_widget_hide (GTK_WIDGET (keybox5));
-        gtk_widget_hide (GTK_WIDGET (keybox6));
-        gtk_widget_hide (GTK_WIDGET (keybox7));
-    }
+
+    gtk_widget_set_visible (GTK_WIDGET (keybox5), alt_keys);
+    gtk_widget_set_visible (GTK_WIDGET (keybox6), alt_keys);
+    gtk_widget_set_visible (GTK_WIDGET (keybox7), alt_keys);
+    gtk_widget_set_visible (GTK_WIDGET (keybox8), alt_keys);
 }
 
 static void populate_toggles (void)
@@ -1358,6 +1381,18 @@ static void populate_toggles (void)
 
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Win + Space"), 1, "grp:win_space_toggle", -1);
+
+    gtk_list_store_append (led_list, &iter);
+    gtk_list_store_set (led_list, &iter, 0, _("Caps"), 1, ",grp_led:caps", -1);
+
+    gtk_list_store_append (led_list, &iter);
+    gtk_list_store_set (led_list, &iter, 0, _("Num"), 1, ",grp_led:num", -1);
+
+    gtk_list_store_append (led_list, &iter);
+    gtk_list_store_set (led_list, &iter, 0, _("Scroll"), 1, ",grp_led:scroll", -1);
+
+    gtk_list_store_append (led_list, &iter);
+    gtk_list_store_set (led_list, &iter, 0, _("None"), 1, "", -1);
 }
 
 static void on_set_keyboard (GtkButton* btn, gpointer ptr)
@@ -1367,7 +1402,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     GtkCellRenderer *col;
     GtkTreeIter iter;
     char *init_model, *init_layout, *init_variant, *init_alayout, *init_avariant, *init_toggle;
-    char *new_mod, *new_lay, *new_var, *new_alay, *new_avar, *new_toggle;
+    char *new_mod, *new_lay, *new_var, *new_alay, *new_avar, *new_toggle, *new_led;
     char *cptr;
     int init_alt;
 
@@ -1384,6 +1419,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     variant_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
     avariant_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
     toggle_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+    led_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
     read_keyboards ();
     populate_toggles ();
 
@@ -1398,6 +1434,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     keyalayout_cb = (GObject *) gtk_builder_get_object (builder, "keycbalayout");
     keyavar_cb = (GObject *) gtk_builder_get_object (builder, "keycbavar");
     keyshort_cb = (GObject *) gtk_builder_get_object (builder, "keycbshortcut");
+    keyled_cb = (GObject *) gtk_builder_get_object (builder, "keycbled");
     keyalt_btn = (GObject *) gtk_builder_get_object (builder, "keybtnalt");
     gtk_combo_box_set_model (GTK_COMBO_BOX (keymodel_cb), GTK_TREE_MODEL (model_list));
     gtk_combo_box_set_model (GTK_COMBO_BOX (keylayout_cb), GTK_TREE_MODEL (layout_list));
@@ -1405,9 +1442,11 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     gtk_combo_box_set_model (GTK_COMBO_BOX (keyalayout_cb), GTK_TREE_MODEL (layout_list));
     gtk_combo_box_set_model (GTK_COMBO_BOX (keyavar_cb), GTK_TREE_MODEL (avariant_list));
     gtk_combo_box_set_model (GTK_COMBO_BOX (keyshort_cb), GTK_TREE_MODEL (toggle_list));
+    gtk_combo_box_set_model (GTK_COMBO_BOX (keyled_cb), GTK_TREE_MODEL (led_list));
     keybox5 = (GObject *) gtk_builder_get_object (builder, "keyhbox5");
     keybox6 = (GObject *) gtk_builder_get_object (builder, "keyhbox6");
     keybox7 = (GObject *) gtk_builder_get_object (builder, "keyhbox7");
+    keybox8 = (GObject *) gtk_builder_get_object (builder, "keyhbox8");
 
     col = gtk_cell_renderer_text_new ();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (keymodel_cb), col, FALSE);
@@ -1422,6 +1461,8 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (keyavar_cb), col, "text", 0);
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (keyshort_cb), col, FALSE);
     gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (keyshort_cb), col, "text", 0);
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (keyled_cb), col, FALSE);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (keyled_cb), col, "text", 0);
 
     // get the current keyboard settings
     init_model = get_string ("grep XKBMODEL /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
@@ -1460,6 +1501,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     gtk_widget_set_visible (GTK_WIDGET (keybox5), alt_keys);
     gtk_widget_set_visible (GTK_WIDGET (keybox6), alt_keys);
     gtk_widget_set_visible (GTK_WIDGET (keybox7), alt_keys);
+    gtk_widget_set_visible (GTK_WIDGET (keybox8), alt_keys);
 
     set_init (GTK_TREE_MODEL (model_list), keymodel_cb, 1, init_model);
 
@@ -1470,8 +1512,10 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     g_signal_connect (keyalayout_cb, "changed", G_CALLBACK (layout_changed), keyavar_cb);
     set_init (GTK_TREE_MODEL (layout_list), keyalayout_cb, 1, init_alayout);
     set_init (GTK_TREE_MODEL (avariant_list), keyavar_cb, 1, init_avariant);
-
-    set_init (GTK_TREE_MODEL (toggle_list), keyshort_cb, 1, init_toggle);
+    printf ("short\n");
+    set_init_sub (GTK_TREE_MODEL (toggle_list), keyshort_cb, 1, init_toggle);
+    printf ("led\n");
+    set_init_sub (GTK_TREE_MODEL (led_list), keyled_cb, 1, init_toggle);
 
     g_signal_connect (keyalt_btn, "toggled", G_CALLBACK (on_keyalt_toggle), NULL);
 
@@ -1492,18 +1536,20 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
         gtk_tree_model_get (GTK_TREE_MODEL (avariant_list), &iter, 1, &new_avar, -1);
         gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keyshort_cb), &iter);
         gtk_tree_model_get (GTK_TREE_MODEL (toggle_list), &iter, 1, &new_toggle, -1);
+        gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keyled_cb), &iter);
+        gtk_tree_model_get (GTK_TREE_MODEL (led_list), &iter, 1, &new_led, -1);
 
         gtk_widget_destroy (dlg);
 
         if (g_strcmp0 (init_model, new_mod) || g_strcmp0 (init_layout, new_lay) || g_strcmp0 (init_variant, new_var)
             || init_alt != alt_keys || g_strcmp0 (init_alayout, new_alay) || g_strcmp0 (init_avariant, new_avar)
-            || g_strcmp0 (init_toggle, new_toggle))
+            || g_strcmp0 (init_toggle, new_toggle)/* || g_strcmp0 (init_led, new_led)*/)
         {
             // warn about a short delay...
             if (ptr == NULL) message (_("Setting keyboard - please wait..."));
 
             if (alt_keys)
-                sprintf (gbuffer, "\"%s\" \"%s,%s\" \"%s,%s\" \"%s\"", new_mod, new_lay, new_alay, new_var, new_avar, new_toggle);
+                sprintf (gbuffer, "\"%s\" \"%s,%s\" \"%s,%s\" \"%s%s\"", new_mod, new_lay, new_alay, new_var, new_avar, new_toggle, new_led);
             else
                 sprintf (gbuffer, "\"%s\" \"%s\" \"%s\" \"\"", new_mod, new_lay, new_var);
 
