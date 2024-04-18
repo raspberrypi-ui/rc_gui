@@ -574,11 +574,12 @@ static void set_init_sub (GtkTreeModel *model, GObject *cb, int pos, char *init)
     char *val;
 
     gtk_tree_model_get_iter_first (model, &iter);
-    if (!init) gtk_combo_box_set_active_iter (GTK_COMBO_BOX (cb), &iter);
+    if (!init || *init == 0) gtk_combo_box_set_active_iter (GTK_COMBO_BOX (cb), &iter);
     else
     {
         while (1)
         {
+            if (!gtk_tree_model_iter_next (model, &iter)) break;
             gtk_tree_model_get (model, &iter, pos, &val, -1);
             if (strstr (init, val))
             {
@@ -587,7 +588,6 @@ static void set_init_sub (GtkTreeModel *model, GObject *cb, int pos, char *init)
                 return;
             }
             g_free (val);
-            if (!gtk_tree_model_iter_next (model, &iter)) break;
         }
     }
 
@@ -1302,6 +1302,9 @@ static void populate_toggles (void)
     GtkTreeIter iter;
 
     gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("None"), 1, "", -1);
+
+    gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Alt"), 1, "grp:toggle", -1);
 
     gtk_list_store_append (toggle_list, &iter);
@@ -1383,6 +1386,9 @@ static void populate_toggles (void)
     gtk_list_store_set (toggle_list, &iter, 0, _("Win + Space"), 1, "grp:win_space_toggle", -1);
 
     gtk_list_store_append (led_list, &iter);
+    gtk_list_store_set (led_list, &iter, 0, _("None"), 1, "", -1);
+
+    gtk_list_store_append (led_list, &iter);
     gtk_list_store_set (led_list, &iter, 0, _("Caps"), 1, ",grp_led:caps", -1);
 
     gtk_list_store_append (led_list, &iter);
@@ -1390,9 +1396,6 @@ static void populate_toggles (void)
 
     gtk_list_store_append (led_list, &iter);
     gtk_list_store_set (led_list, &iter, 0, _("Scroll"), 1, ",grp_led:scroll", -1);
-
-    gtk_list_store_append (led_list, &iter);
-    gtk_list_store_set (led_list, &iter, 0, _("None"), 1, "", -1);
 }
 
 static void on_set_keyboard (GtkButton* btn, gpointer ptr)
@@ -1401,8 +1404,8 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     GtkWidget *dlg;
     GtkCellRenderer *col;
     GtkTreeIter iter;
-    char *init_model, *init_layout, *init_variant, *init_alayout, *init_avariant, *init_toggle;
-    char *new_mod, *new_lay, *new_var, *new_alay, *new_avar, *new_toggle, *new_led;
+    char *init_model, *init_layout, *init_variant, *init_alayout, *init_avariant, *init_options;
+    char *new_mod, *new_lay, *new_var, *new_alay, *new_avar, *new_opt, *new_led;
     char *cptr;
     int init_alt;
 
@@ -1411,7 +1414,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     init_variant = NULL;
     init_alayout = NULL;
     init_avariant = NULL;
-    init_toggle = NULL;
+    init_options = NULL;
 
     // set up list stores for keyboard layouts
     model_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
@@ -1474,8 +1477,8 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     init_variant = get_string ("grep XKBVARIANT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
     if (init_variant == NULL) init_variant = g_strdup ("");
 
-    init_toggle = get_string ("grep XKBOPTIONS /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
-    if (init_toggle == NULL) init_toggle = g_strdup ("");
+    init_options = get_string ("grep XKBOPTIONS /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
+    if (init_options == NULL) init_options = g_strdup ("");
 
     alt_keys = FALSE;
     cptr = strstr (init_layout, ",");
@@ -1513,8 +1516,8 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     set_init (GTK_TREE_MODEL (layout_list), keyalayout_cb, 1, init_alayout);
     set_init (GTK_TREE_MODEL (avariant_list), keyavar_cb, 1, init_avariant);
 
-    set_init_sub (GTK_TREE_MODEL (toggle_list), keyshort_cb, 1, init_toggle);
-    set_init_sub (GTK_TREE_MODEL (led_list), keyled_cb, 1, init_toggle);
+    set_init_sub (GTK_TREE_MODEL (toggle_list), keyshort_cb, 1, init_options);
+    set_init_sub (GTK_TREE_MODEL (led_list), keyled_cb, 1, init_options);
 
     g_signal_connect (keyalt_btn, "toggled", G_CALLBACK (on_keyalt_toggle), NULL);
 
@@ -1534,7 +1537,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
         gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keyavar_cb), &iter);
         gtk_tree_model_get (GTK_TREE_MODEL (avariant_list), &iter, 1, &new_avar, -1);
         gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keyshort_cb), &iter);
-        gtk_tree_model_get (GTK_TREE_MODEL (toggle_list), &iter, 1, &new_toggle, -1);
+        gtk_tree_model_get (GTK_TREE_MODEL (toggle_list), &iter, 1, &new_opt, -1);
         gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keyled_cb), &iter);
         gtk_tree_model_get (GTK_TREE_MODEL (led_list), &iter, 1, &new_led, -1);
 
@@ -1542,13 +1545,13 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 
         if (g_strcmp0 (init_model, new_mod) || g_strcmp0 (init_layout, new_lay) || g_strcmp0 (init_variant, new_var)
             || init_alt != alt_keys || g_strcmp0 (init_alayout, new_alay) || g_strcmp0 (init_avariant, new_avar)
-            || g_strcmp0 (init_toggle, new_toggle)/* || g_strcmp0 (init_led, new_led)*/)
+            || g_strcmp0 (init_options, new_opt))
         {
             // warn about a short delay...
             if (ptr == NULL) message (_("Setting keyboard - please wait..."));
 
             if (alt_keys)
-                sprintf (gbuffer, "\"%s\" \"%s,%s\" \"%s,%s\" \"%s%s\"", new_mod, new_lay, new_alay, new_var, new_avar, new_toggle, new_led);
+                sprintf (gbuffer, "\"%s\" \"%s,%s\" \"%s,%s\" \"%s%s\"", new_mod, new_lay, new_alay, new_var, new_avar, new_opt, new_led);
             else
                 sprintf (gbuffer, "\"%s\" \"%s\" \"%s\" \"\"", new_mod, new_lay, new_var);
 
@@ -1578,7 +1581,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     g_free (init_model);
     g_free (init_layout);
     g_free (init_variant);
-    g_free (init_toggle);
+    g_free (init_options);
     //g_free (init_alayout);
     //g_free (init_avariant);
     g_object_unref (model_list);
