@@ -1405,7 +1405,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     GtkCellRenderer *col;
     GtkTreeIter iter;
     char *init_model, *init_layout, *init_variant, *init_alayout, *init_avariant, *init_options;
-    char *new_mod, *new_lay, *new_var, *new_alay, *new_avar, *new_tog, *new_led, *new_opts;
+    char *new_mod, *new_lay, *new_var, *new_alay, *new_avar, *new_opts, *new_opt[2];
     char *cptr;
     int init_alt;
 
@@ -1537,13 +1537,13 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
         gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keyavar_cb), &iter);
         gtk_tree_model_get (GTK_TREE_MODEL (avariant_list), &iter, 1, &new_avar, -1);
         gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keyshort_cb), &iter);
-        gtk_tree_model_get (GTK_TREE_MODEL (toggle_list), &iter, 1, &new_tog, -1);
+        gtk_tree_model_get (GTK_TREE_MODEL (toggle_list), &iter, 1, &new_opt[0], -1);
         gtk_combo_box_get_active_iter (GTK_COMBO_BOX (keyled_cb), &iter);
-        gtk_tree_model_get (GTK_TREE_MODEL (led_list), &iter, 1, &new_led, -1);
+        gtk_tree_model_get (GTK_TREE_MODEL (led_list), &iter, 1, &new_opt[1], -1);
 
         gtk_widget_destroy (dlg);
 
-        char **options = malloc (sizeof (char *));
+        char **options = (char **) malloc (sizeof (char *));
         int i, n_opts = 0;
 
         new_opts = g_strdup (init_options);
@@ -1552,7 +1552,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
         {
             if (!strstr (cptr, "grp:") && !strstr (cptr, "grp_led:"))
             {
-                options = realloc (options, (n_opts + 1) * sizeof (char *));
+                options = (char **) realloc (options, (n_opts + 2) * sizeof (char *));
                 options[n_opts] = g_strdup (cptr);
                 n_opts++;
             }
@@ -1560,24 +1560,20 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
         }
         g_free (new_opts);
 
-        if (*new_tog)
+        for (i = 0; i < 2; i++)
         {
-            options = realloc (options, (n_opts + 1) * sizeof (char *));
-            options[n_opts] = g_strdup (new_tog);
-            n_opts++;
-        }
-
-        if (*new_led)
-        {
-            options = realloc (options, (n_opts + 1) * sizeof (char *));
-            options[n_opts] = g_strdup (new_led);
-            n_opts++;
+            if (*new_opt[i])
+            {
+                options = (char **) realloc (options, (n_opts + 2) * sizeof (char *));
+                options[n_opts] = g_strdup (new_opt[i]);
+                n_opts++;
+            }
         }
 
         options[n_opts] = NULL;
         new_opts = g_strjoinv (",", options);
 
-        for (i = 0; i < n_opts; i++) g_free (options[i]);
+        for (i = 0; i < n_opts - 1; i++) g_free (options[i]);
         g_free (options);
 
         if (g_strcmp0 (init_model, new_mod) || g_strcmp0 (init_layout, new_lay) || g_strcmp0 (init_variant, new_var)
