@@ -1389,13 +1389,13 @@ static void populate_toggles (void)
     gtk_list_store_set (led_list, &iter, 0, _("None"), 1, "", -1);
 
     gtk_list_store_append (led_list, &iter);
-    gtk_list_store_set (led_list, &iter, 0, _("Caps"), 1, ",grp_led:caps", -1);
+    gtk_list_store_set (led_list, &iter, 0, _("Caps"), 1, "grp_led:caps", -1);
 
     gtk_list_store_append (led_list, &iter);
-    gtk_list_store_set (led_list, &iter, 0, _("Num"), 1, ",grp_led:num", -1);
+    gtk_list_store_set (led_list, &iter, 0, _("Num"), 1, "grp_led:num", -1);
 
     gtk_list_store_append (led_list, &iter);
-    gtk_list_store_set (led_list, &iter, 0, _("Scroll"), 1, ",grp_led:scroll", -1);
+    gtk_list_store_set (led_list, &iter, 0, _("Scroll"), 1, "grp_led:scroll", -1);
 }
 
 static void on_set_keyboard (GtkButton* btn, gpointer ptr)
@@ -1405,7 +1405,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     GtkCellRenderer *col;
     GtkTreeIter iter;
     char *init_model, *init_layout, *init_variant, *init_alayout, *init_avariant, *init_options;
-    char *new_mod, *new_lay, *new_var, *new_alay, *new_avar, *new_opt, *new_led;
+    char *new_mod, *new_lay, *new_var, *new_alay, *new_avar, *new_opt, *new_led, *new_opts;
     char *cptr;
     int init_alt;
 
@@ -1543,15 +1543,67 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
 
         gtk_widget_destroy (dlg);
 
+        int n_opts = 0, i;
+        char **options;
+
+        new_opts = g_strdup (init_options);
+        cptr = strtok (new_opts, ",");
+        while (cptr)
+        {
+            if (!strstr (cptr, "grp:") && !strstr (cptr, "grp_led:"))
+            {
+                if (n_opts == 0) options = malloc (sizeof (char *));
+                else options = realloc (options, (n_opts + 1) * sizeof (char *));
+                options[n_opts] = g_strdup_printf ("%s,", cptr);
+                n_opts++;
+            }
+            cptr = strtok (NULL, ",");
+        }
+        g_free (new_opts);
+        new_opts = NULL;
+
+        if (*new_opt)
+        {
+            if (n_opts == 0) options = malloc (sizeof (char *));
+            else options = realloc (options, (n_opts + 1) * sizeof (char *));
+            options[n_opts] = g_strdup_printf ("%s,", new_opt);
+            n_opts++;
+        }
+
+        if (*new_led)
+        {
+            if (n_opts == 0) options = malloc (sizeof (char *));
+            else options = realloc (options, (n_opts + 1) * sizeof (char *));
+            options[n_opts] = g_strdup_printf ("%s,", new_led);
+            n_opts++;
+        }
+
+        for (i = 0; i < n_opts; i++)
+        {
+            if (i == 0)
+            {
+                new_opts = malloc (strlen (options[i]));
+                strcpy (new_opts, options[i]);
+            }
+            else
+            {
+                new_opts = realloc (new_opts, strlen (new_opts) + strlen (options[i]));
+                strcat (new_opts, options[i]);
+            }
+            g_free (options[i]);
+        }
+        g_free (options);
+        if (new_opts) new_opts[strlen (new_opts) - 1] = 0;
+
         if (g_strcmp0 (init_model, new_mod) || g_strcmp0 (init_layout, new_lay) || g_strcmp0 (init_variant, new_var)
             || init_alt != alt_keys || g_strcmp0 (init_alayout, new_alay) || g_strcmp0 (init_avariant, new_avar)
-            || g_strcmp0 (init_options, new_opt))
+            || g_strcmp0 (init_options, new_opts))
         {
             // warn about a short delay...
             if (ptr == NULL) message (_("Setting keyboard - please wait..."));
 
             if (alt_keys)
-                sprintf (gbuffer, "\"%s\" \"%s,%s\" \"%s,%s\" \"%s%s\"", new_mod, new_lay, new_alay, new_var, new_avar, new_opt, new_led);
+                sprintf (gbuffer, "\"%s\" \"%s,%s\" \"%s,%s\" \"%s\"", new_mod, new_lay, new_alay, new_var, new_avar, new_opts ? new_opts : "");
             else
                 sprintf (gbuffer, "\"%s\" \"%s\" \"%s\" \"\"", new_mod, new_lay, new_var);
 
@@ -1575,6 +1627,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
         g_free (new_mod);
         g_free (new_lay);
         g_free (new_var);
+        g_free (new_opts);
     }
     else gtk_widget_destroy (dlg);
 
