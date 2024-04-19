@@ -1472,7 +1472,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     if (init_model == NULL) init_model = g_strdup ("pc105");
 
     init_layout = get_string ("grep XKBLAYOUT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
-    if (init_layout == NULL) init_layout = g_strdup ("gb"); // !!!! might need a different default here on Wayland?
+    if (init_layout == NULL) init_layout = g_strdup ("gb");
 
     init_variant = get_string ("grep XKBVARIANT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
     if (init_variant == NULL) init_variant = g_strdup ("");

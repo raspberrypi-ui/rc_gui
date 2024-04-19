@@ -68,6 +68,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Model:</property>
+                <property name="width-chars">15</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -108,6 +109,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Layout:</property>
+                <property name="width-chars">15</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -148,6 +150,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Variant:</property>
+                <property name="width-chars">15</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -215,6 +218,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Alternate Layout:</property>
+                <property name="width-chars">15</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -255,6 +259,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Alternate Variant:</property>
+                <property name="width-chars">15</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -295,6 +300,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Toggle Key:</property>
+                <property name="width-chars">15</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -335,6 +341,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Indicator:</property>
+                <property name="width-chars">15</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
