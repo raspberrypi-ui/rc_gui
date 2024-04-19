@@ -80,6 +80,7 @@
               <object class="GtkComboBox" id="keycbmodel">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">Select the keyboard model</property>
                 <accessibility>
                   <relation type="labelled-by" target="keylabelmodel"/>
                 </accessibility>
@@ -119,6 +120,7 @@
               <object class="GtkComboBox" id="keycblayout">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">Select the keyboard layout</property>
                 <accessibility>
                   <relation type="labelled-by" target="keylabellayout"/>
                 </accessibility>
@@ -158,6 +160,7 @@
               <object class="GtkComboBox" id="keycbvar">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">Select the keyboard variant</property>
                 <accessibility>
                   <relation type="labelled-by" target="keylabelvar"/>
                 </accessibility>
@@ -185,12 +188,13 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
-                <property name="tooltip-text" translatable="yes">Select this option to add a second keyboard layout which can be switched with a key combination.</property>
+                <property name="tooltip-text" translatable="yes">Enable a second keyboard layout which can be switched with a key combination</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
+                <property name="pack-type">end</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -223,6 +227,7 @@
               <object class="GtkComboBox" id="keycbalayout">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">Select the alternate keyboard layout</property>
                 <accessibility>
                   <relation type="labelled-by" target="keylabelalayout"/>
                 </accessibility>
@@ -262,6 +267,7 @@
               <object class="GtkComboBox" id="keycbavar">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">Select the alternate keyboard variant</property>
                 <accessibility>
                   <relation type="labelled-by" target="keylabelavar"/>
                 </accessibility>
@@ -288,7 +294,7 @@
               <object class="GtkLabel" id="keylabelshortcut">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Shortcut Key:</property>
+                <property name="label" translatable="yes">Toggle Key:</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -301,6 +307,7 @@
               <object class="GtkComboBox" id="keycbshortcut">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">Select the key combination to switch between keyboard layouts</property>
                 <accessibility>
                   <relation type="labelled-by" target="keylabelshortcut"/>
                 </accessibility>
@@ -340,7 +347,8 @@
               <object class="GtkComboBox" id="keycbled">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <accessibility>
+                 <property name="tooltip-text" translatable="yes">Select the indicator shown while the alternate keyboard layout is in effect</property>
+               <accessibility>
                   <relation type="labelled-by" target="keylabelled"/>
                 </accessibility>
               </object>

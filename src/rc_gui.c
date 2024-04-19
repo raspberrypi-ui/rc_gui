@@ -1304,17 +1304,8 @@ static void populate_toggles (void)
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("None"), 1, "", -1);
 
-    gtk_list_store_append (toggle_list, &iter);
-    gtk_list_store_set (toggle_list, &iter, 0, _("Alt"), 1, "grp:toggle", -1);
-
-    gtk_list_store_append (toggle_list, &iter);
-    gtk_list_store_set (toggle_list, &iter, 0, _("Alt + Caps"), 1, "grp:alt_caps_toggle", -1);
-
-    gtk_list_store_append (toggle_list, &iter);
-    gtk_list_store_set (toggle_list, &iter, 0, _("Alt + Shift"), 1, "grp:alt_shift_toggle", -1);
-
-    gtk_list_store_append (toggle_list, &iter);
-    gtk_list_store_set (toggle_list, &iter, 0, _("Alt + Space"), 1, "grp:alt_space_toggle", -1);
+    //gtk_list_store_append (toggle_list, &iter);
+    //gtk_list_store_set (toggle_list, &iter, 0, _("Alt + Space"), 1, "grp:alt_space_toggle", -1); // overridden by wm
 
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Ctrl + Alt"), 1, "grp:ctrl_alt_toggle", -1);
@@ -1326,10 +1317,16 @@ static void populate_toggles (void)
     gtk_list_store_set (toggle_list, &iter, 0, _("Left Alt"), 1, "grp:lalt_toggle", -1);
 
     gtk_list_store_append (toggle_list, &iter);
-    gtk_list_store_set (toggle_list, &iter, 0, _("Left Alt + Left Shift"), 1, "grp:lalt_lshift_toggle", -1);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Left Alt + Caps"), 1, "grp:alt_caps_toggle", -1);
 
     gtk_list_store_append (toggle_list, &iter);
-    gtk_list_store_set (toggle_list, &iter, 0, _("Left Alt + Right Alt"), 1, "grp:alts_toggle", -1);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Left Alt + Left Shift"), 1, "grp:lalt_lshift_toggle", -1);
+
+    //gtk_list_store_append (toggle_list, &iter);
+    //gtk_list_store_set (toggle_list, &iter, 0, _("Left Alt + Right Alt"), 1, "grp:alts_toggle", -1); // one way only
+
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Left Alt + Shift"), 1, "grp:alt_shift_toggle", -1);
 
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Left Ctrl"), 1, "grp:lctrl_toggle", -1);
@@ -1340,8 +1337,8 @@ static void populate_toggles (void)
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Left Ctrl + Left Shift"), 1, "grp:lctrl_lshift_toggle", -1);
 
-    gtk_list_store_append (toggle_list, &iter);
-    gtk_list_store_set (toggle_list, &iter, 0, _("Left Ctrl + Left Win"), 1, "grp:lctrl_lwin_toggle", -1);
+    //gtk_list_store_append (toggle_list, &iter);
+    //gtk_list_store_set (toggle_list, &iter, 0, _("Left Ctrl + Left Win"), 1, "grp:lctrl_lwin_toggle", -1); // triggers menu
 
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Left Ctrl + Right Ctrl"), 1, "grp:ctrls_toggle", -1);
@@ -1352,20 +1349,23 @@ static void populate_toggles (void)
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Left Shift + Right Shift"), 1, "grp:shifts_toggle", -1);
 
-    gtk_list_store_append (toggle_list, &iter);
-    gtk_list_store_set (toggle_list, &iter, 0, _("Left Win"), 1, "grp:lwin_toggle", -1);
+    //gtk_list_store_append (toggle_list, &iter);
+    //gtk_list_store_set (toggle_list, &iter, 0, _("Left Win"), 1, "grp:lwin_toggle", -1); // triggers menu
 
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Menu"), 1, "grp:menu_toggle", -1);
 
-    gtk_list_store_append (toggle_list, &iter);
-    gtk_list_store_set (toggle_list, &iter, 0, _("Right Alt + Right Shift"), 1, "grp:ralt_rshift_toggle", -1);
+    //gtk_list_store_append (toggle_list, &iter);
+    //gtk_list_store_set (toggle_list, &iter, 0, _("Right Alt"), 1, "grp:toggle", -1); // one way only
+
+    //gtk_list_store_append (toggle_list, &iter);
+    //gtk_list_store_set (toggle_list, &iter, 0, _("Right Alt + Right Shift"), 1, "grp:ralt_rshift_toggle", -1); // does nothing
 
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Right Ctrl"), 1, "grp:rctrl_toggle", -1);
 
-    gtk_list_store_append (toggle_list, &iter);
-    gtk_list_store_set (toggle_list, &iter, 0, _("Right Ctrl + Right Alt"), 1, "grp:rctrl_ralt_toggle", -1);
+    //gtk_list_store_append (toggle_list, &iter);
+    //gtk_list_store_set (toggle_list, &iter, 0, _("Right Ctrl + Right Alt"), 1, "grp:rctrl_ralt_toggle", -1); // one way only
 
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Right Ctrl + Right Shift"), 1, "grp:rctrl_rshift_toggle", -1);
@@ -1373,8 +1373,8 @@ static void populate_toggles (void)
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Right Shift"), 1, "grp:rshift_toggle", -1);
 
-    gtk_list_store_append (toggle_list, &iter);
-    gtk_list_store_set (toggle_list, &iter, 0, _("Right Win"), 1, "grp:rwin_toggle", -1);
+    //gtk_list_store_append (toggle_list, &iter);
+    //gtk_list_store_set (toggle_list, &iter, 0, _("Right Win"), 1, "grp:rwin_toggle", -1); // can't test...
 
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Scroll Lock"), 1, "grp:sclk_toggle", -1);
@@ -1382,8 +1382,8 @@ static void populate_toggles (void)
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Shift + Caps"), 1, "grp:shift_caps_toggle", -1);
 
-    gtk_list_store_append (toggle_list, &iter);
-    gtk_list_store_set (toggle_list, &iter, 0, _("Win + Space"), 1, "grp:win_space_toggle", -1);
+    //gtk_list_store_append (toggle_list, &iter);
+    //gtk_list_store_set (toggle_list, &iter, 0, _("Win + Space"), 1, "grp:win_space_toggle", -1); // triggers menu
 
     gtk_list_store_append (led_list, &iter);
     gtk_list_store_set (led_list, &iter, 0, _("None"), 1, "", -1);
@@ -1616,8 +1616,6 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     g_free (init_layout);
     g_free (init_variant);
     g_free (init_options);
-    //g_free (init_alayout);
-    //g_free (init_avariant);
     g_object_unref (model_list);
     g_object_unref (layout_list);
     g_object_unref (variant_list);
