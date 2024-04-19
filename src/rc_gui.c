@@ -1355,8 +1355,8 @@ static void populate_toggles (void)
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Menu"), 1, "grp:menu_toggle", -1);
 
-    //gtk_list_store_append (toggle_list, &iter);
-    //gtk_list_store_set (toggle_list, &iter, 0, _("Right Alt"), 1, "grp:toggle", -1); // one way only
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Right Alt"), 1, "grp:toggle", -1);
 
     //gtk_list_store_append (toggle_list, &iter);
     //gtk_list_store_set (toggle_list, &iter, 0, _("Right Alt + Right Shift"), 1, "grp:ralt_rshift_toggle", -1); // does nothing
@@ -1364,8 +1364,8 @@ static void populate_toggles (void)
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Right Ctrl"), 1, "grp:rctrl_toggle", -1);
 
-    //gtk_list_store_append (toggle_list, &iter);
-    //gtk_list_store_set (toggle_list, &iter, 0, _("Right Ctrl + Right Alt"), 1, "grp:rctrl_ralt_toggle", -1); // one way only
+    gtk_list_store_append (toggle_list, &iter);
+    gtk_list_store_set (toggle_list, &iter, 0, _("Right Ctrl + Right Alt"), 1, "grp:rctrl_ralt_toggle", -1);
 
     gtk_list_store_append (toggle_list, &iter);
     gtk_list_store_set (toggle_list, &iter, 0, _("Right Ctrl + Right Shift"), 1, "grp:rctrl_rshift_toggle", -1);
