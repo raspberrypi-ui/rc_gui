@@ -1,3 +1,9 @@
+rc-gui (1.80) bookworm; urgency=medium
+
+  * Add alternate keyboard layout assignment
+
+ -- Simon Long <simon@raspberrypi.com>  Wed, 24 Apr 2024 11:31:52 +0100
+
 rc-gui (1.79) bookworm; urgency=medium
 
   * Set title for modal dialog
