@@ -69,6 +69,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_CAMERA      SET_PREFIX "do_camera %d"
 #define GET_SSH         GET_PREFIX "get_ssh"
 #define SET_SSH         SET_PREFIX "do_ssh %d"
+#define GET_RPC         GET_PREFIX "get_rpi_connect"
+#define SET_RPC         SET_PREFIX "do_rpi_connect %d"
 #define GET_VNC         GET_PREFIX "get_vnc"
 #define SET_VNC         SET_PREFIX "do_vnc %d"
 #define GET_SPI         GET_PREFIX "get_spi"
@@ -131,6 +133,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_BROWSER     SET_PREFIX "do_browser %s"
 #define FF_INSTALLED    GET_PREFIX "is_installed firefox"
 #define CR_INSTALLED    GET_PREFIX "is_installed chromium-browser"
+#define RPC_INSTALLED   GET_PREFIX "is_installed rpi-connect"
 #define DEFAULT_GPU_MEM "vcgencmd get_mem gpu | cut -d = -f 2 | cut -d M -f 1"
 #define CHANGE_PASSWD   "echo $USER:'%s' | SUDO_ASKPASS=/usr/lib/rc-gui/pwdrcg.sh sudo -A chpasswd -e"
 
@@ -147,7 +150,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 static GObject *passwd_btn, *hostname_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
 static GObject *boot_desktop_rb, *boot_cli_rb, *chromium_rb, *firefox_rb;
-static GObject *overscan_sw, *overscan2_sw, *ssh_sw, *rgpio_sw, *vnc_sw;
+static GObject *overscan_sw, *overscan2_sw, *ssh_sw, *rgpio_sw, *vnc_sw, *rpc_sw;
 static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw, *usb_sw;
 static GObject *alogin_sw, *splash_sw, *scons_sw;
 static GObject *blank_sw, *led_actpwr_sw, *fan_sw;
@@ -165,7 +168,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 /* Initial values */
 
 static int orig_boot, orig_overscan, orig_overscan2, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
-static int orig_clock, orig_autolog, orig_onewire, orig_rgpio, orig_vnc, orig_usbi;
+static int orig_clock, orig_autolog, orig_onewire, orig_rgpio, orig_vnc, orig_usbi, orig_rpc;
 static int orig_ofs, orig_bpro, orig_blank, orig_leds, orig_fan, orig_fan_gpio, orig_fan_temp, orig_vnc_res;
 static char *vres, *orig_browser;
 
@@ -1786,6 +1789,7 @@ static gpointer process_changes_thread (gpointer ptr)
     if (!vsystem (IS_PI))
     {
         READ_SWITCH (vnc_sw, orig_vnc, SET_VNC, FALSE);
+        READ_SWITCH (rpc_sw, orig_rpc, SET_RPC, FALSE);
         READ_SWITCH (spi_sw, orig_spi, SET_SPI, FALSE);
         READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
         READ_SWITCH (onewire_sw, orig_onewire, SET_1WIRE, TRUE);
@@ -1999,6 +2003,7 @@ static gboolean init_config (gpointer data)
         CONFIG_SWITCH (rgpio_sw, "sw_rgp", orig_rgpio, GET_RGPIO);
         CONFIG_SWITCH (vnc_sw, "sw_vnc", orig_vnc, GET_VNC);
         CONFIG_SWITCH (usb_sw, "sw_usb", orig_usbi, GET_USBI);
+        CONFIG_SWITCH (rpc_sw, "sw_rpc", orig_rpc, GET_RPC);
 
         if (!vsystem (IS_PI5))
         {
@@ -2031,6 +2036,12 @@ static gboolean init_config (gpointer data)
         {
             gtk_widget_set_sensitive (GTK_WIDGET (vnc_sw), FALSE);
             gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_sw), _("The VNC server is not installed"));
+        }
+
+        if (vsystem (RPC_INSTALLED))
+        {
+            gtk_widget_set_sensitive (GTK_WIDGET (rpc_sw), FALSE);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (rpc_sw), _("Raspberry Pi Connect is not installed. Use Recommended Software to install it."));
         }
 
         led_actpwr_sw = gtk_builder_get_object (builder, "sw_led_actpwr");
@@ -2163,6 +2174,7 @@ static gboolean init_config (gpointer data)
 
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
 
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox22")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox23")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox24")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox25")));
