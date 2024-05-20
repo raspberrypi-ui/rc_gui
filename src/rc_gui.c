@@ -2157,6 +2157,9 @@ static gboolean init_config (gpointer data)
             g_free (vres);
 
             gtk_combo_box_set_active (GTK_COMBO_BOX (vnc_res_cb), orig_vnc_res);
+
+            // hide the RPiConnect option if not on Wayland
+            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox22")));
         }
         else gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
     }
