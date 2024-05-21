@@ -1,6 +1,6 @@
-rc-gui (1.81) bookworm	; urgency=medium
+rc-gui (1.81) bookworm; urgency=medium
 
-  * Add switching for RPi Connect"
+  * Add switching for RPi Connect
 
  -- Simon Long <simon@raspberrypi.com>  Tue, 21 May 2024 10:15:13 +0100
 
