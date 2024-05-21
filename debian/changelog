@@ -1,3 +1,9 @@
+rc-gui (1.81) bookworm	; urgency=medium
+
+  * Add switching for RPi Connect"
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 21 May 2024 10:15:13 +0100
+
 rc-gui (1.80) bookworm; urgency=medium
 
   * Add alternate keyboard layout assignment
