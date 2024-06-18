@@ -95,6 +95,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define IS_PI           GET_PREFIX "is_pi"
 #define IS_PI4          GET_PREFIX "is_pifour"
 #define IS_PI5          GET_PREFIX "is_pifive"
+#define IS_64BIT        GET_PREFIX "is_64bit"
 #define HAS_ANALOG      GET_PREFIX "has_analog"
 #define GET_OVERCLOCK   GET_PREFIX "get_config_var arm_freq /boot/config.txt"
 #define SET_OVERCLOCK   SET_PREFIX "do_overclock %s"
@@ -2162,6 +2163,9 @@ static gboolean init_config (gpointer data)
             gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox22")));
         }
         else gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
+
+        // hide the RPiConnect option if not on 64-bit
+        if (vsystem (IS_64BIT)) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox22")));
     }
     else
     {

@@ -1,3 +1,9 @@
+rc-gui (1.82) bookworm; urgency=medium
+
+  * Hide RPi Connect on 32-bit
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 18 Jun 2024 14:55:43 +0100
+
 rc-gui (1.81) bookworm; urgency=medium
 
   * Add switching for RPi Connect
