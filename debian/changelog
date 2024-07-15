@@ -1,3 +1,9 @@
+rc-gui (1.84) bookworm; urgency=medium
+
+  * Add switching for squeekboard; Chinese translation
+
+ -- Simon Long <simon@raspberrypi.com>  Mon, 15 Jul 2024 12:58:13 +0100
+
 rc-gui (1.83) bookworm; urgency=medium
 
   * Enable RPi Connect for 32-bit and X
