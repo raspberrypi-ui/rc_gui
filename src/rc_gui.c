@@ -135,6 +135,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define FF_INSTALLED    GET_PREFIX "is_installed firefox"
 #define CR_INSTALLED    GET_PREFIX "is_installed chromium-browser"
 #define RPC_INSTALLED   GET_PREFIX "is_installed rpi-connect"
+#define VKBD_INSTALLED  GET_PREFIX "is_installed squeekboard"
+#define GET_SQUEEK      GET_PREFIX "get_squeekboard"
+#define SET_SQUEEK      SET_PREFIX "do_squeekboard %d"
 #define DEFAULT_GPU_MEM "vcgencmd get_mem gpu | cut -d = -f 2 | cut -d M -f 1"
 #define CHANGE_PASSWD   "echo $USER:'%s' | SUDO_ASKPASS=/usr/lib/rc-gui/pwdrcg.sh sudo -A chpasswd -e"
 
@@ -152,7 +155,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 static GObject *passwd_btn, *hostname_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
 static GObject *boot_desktop_rb, *boot_cli_rb, *chromium_rb, *firefox_rb;
 static GObject *overscan_sw, *overscan2_sw, *ssh_sw, *rgpio_sw, *vnc_sw, *rpc_sw;
-static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw, *usb_sw;
+static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw, *usb_sw, *squeek_sw;
 static GObject *alogin_sw, *splash_sw, *scons_sw;
 static GObject *blank_sw, *led_actpwr_sw, *fan_sw;
 static GObject *overclock_cb, *hostname_tb, *ofs_en_sw, *bp_ro_sw, *ofs_lbl;
@@ -169,7 +172,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 /* Initial values */
 
 static int orig_boot, orig_overscan, orig_overscan2, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
-static int orig_clock, orig_autolog, orig_onewire, orig_rgpio, orig_vnc, orig_usbi, orig_rpc;
+static int orig_clock, orig_autolog, orig_onewire, orig_rgpio, orig_vnc, orig_usbi, orig_rpc, orig_squeek;
 static int orig_ofs, orig_bpro, orig_blank, orig_leds, orig_fan, orig_fan_gpio, orig_fan_temp, orig_vnc_res;
 static char *vres, *orig_browser;
 
@@ -1781,6 +1784,7 @@ static gpointer process_changes_thread (gpointer ptr)
     READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wm == WM_WAYFIRE ? FALSE : TRUE);
     READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
     READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
+    READ_SWITCH (squeek_sw, orig_squeek, SET_SQUEEK, FALSE);
 
     if (strcmp (orig_browser, "chromium-browser") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
         vsystem (SET_BROWSER, "chromium-browser");
@@ -1987,11 +1991,18 @@ static gboolean init_config (gpointer data)
     {
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox52")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
+        CONFIG_SWITCH (squeek_sw, "sw_squeek", orig_squeek, GET_SQUEEK);
+        if (vsystem (VKBD_INSTALLED))
+        {
+            gtk_widget_set_sensitive (GTK_WIDGET (squeek_sw), FALSE);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (squeek_sw), _("A virtual keyboard is not installed"));
+        }
     }
     else
     {
         if (num_screens () != 2) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
         else gtk_label_set_text (GTK_LABEL (gtk_builder_get_object (builder, "label52")), _("Overscan (HDMI-1):"));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox57")));
     }
 
     if (!vsystem (IS_PI))
