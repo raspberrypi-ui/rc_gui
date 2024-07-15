@@ -354,8 +354,8 @@
               <object class="GtkComboBox" id="keycbled">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                 <property name="tooltip-text" translatable="yes">Select the indicator shown while the alternate keyboard layout is in effect</property>
-               <accessibility>
+                <property name="tooltip-text" translatable="yes">Select the indicator shown while the alternate keyboard layout is in effect</property>
+                <accessibility>
                   <relation type="labelled-by" target="keylabelled"/>
                 </accessibility>
               </object>
@@ -2106,6 +2106,7 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="wrap">True</property>
+            <property name="max-width-chars">40</property>
           </object>
           <packing>
             <property name="expand">False</property>
