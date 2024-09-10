@@ -2077,10 +2077,13 @@
       <widget name="hbox14"/>
       <widget name="hbox16"/>
       <widget name="hbox17"/>
+      <widget name="hbox18"/>
       <widget name="hbox52"/>
       <widget name="hbox53"/>
       <widget name="hbox55"/>
       <widget name="hbox56"/>
+      <widget name="hbox57"/>
+      <widget name="hbox21"/>
       <widget name="hbox22"/>
       <widget name="hbox23"/>
       <widget name="hbox24"/>
