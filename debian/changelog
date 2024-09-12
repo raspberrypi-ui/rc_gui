@@ -1,3 +1,9 @@
+rc-gui (1.86) bookworm; urgency=medium
+
+  * Fix shadows on undecorated windows
+
+ -- Simon Long <simon@raspberrypi.com>  Thu, 12 Sep 2024 12:10:34 +0100
+
 rc-gui (1.85) bookworm; urgency=medium
 
   * Some items missing from size group
