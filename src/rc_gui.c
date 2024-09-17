@@ -133,7 +133,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_BROWSER     GET_PREFIX "get_browser"
 #define SET_BROWSER     SET_PREFIX "do_browser %s"
 #define FF_INSTALLED    GET_PREFIX "is_installed firefox"
-#define CR_INSTALLED    GET_PREFIX "is_installed chromium-browser"
+#define CR_INSTALLED    GET_PREFIX "is_installed chromium"
 #define RPC_INSTALLED   GET_PREFIX "is_installed rpi-connect"
 #define VKBD_INSTALLED  GET_PREFIX "is_installed squeekboard"
 #define GET_SQUEEK      GET_PREFIX "get_squeekboard"
@@ -1786,8 +1786,8 @@ static gpointer process_changes_thread (gpointer ptr)
     READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
     READ_SWITCH (squeek_sw, orig_squeek, SET_SQUEEK, FALSE);
 
-    if (strcmp (orig_browser, "chromium-browser") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
-        vsystem (SET_BROWSER, "chromium-browser");
+    if (strcmp (orig_browser, "chromium") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
+        vsystem (SET_BROWSER, "chromium");
     if (strcmp (orig_browser, "firefox") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (firefox_rb)))
         vsystem (SET_BROWSER, "firefox");
 
@@ -1972,7 +1972,7 @@ static gboolean init_config (gpointer data)
     chromium_rb = gtk_builder_get_object (builder, "rb_chromium");
     firefox_rb = gtk_builder_get_object (builder, "rb_firefox");
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (firefox_rb), !strcmp (orig_browser, "firefox"));
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chromium_rb), !strcmp (orig_browser, "chromium-browser"));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chromium_rb), !strcmp (orig_browser, "chromium"));
     if (vsystem (CR_INSTALLED) || vsystem (FF_INSTALLED))
     {
         gtk_widget_set_sensitive (GTK_WIDGET (chromium_rb), FALSE);
