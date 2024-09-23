@@ -1995,7 +1995,7 @@ static gboolean init_config (gpointer data)
         squeek_cb = gtk_builder_get_object (builder, "cb_squeek");
         orig_squeek = get_status (GET_SQUEEK);
         gtk_combo_box_set_active (GTK_COMBO_BOX (squeek_cb), orig_squeek);
-q        if (vsystem (VKBD_INSTALLED))
+        if (vsystem (VKBD_INSTALLED))
         {
             gtk_widget_set_sensitive (GTK_WIDGET (squeek_cb), FALSE);
             gtk_widget_set_tooltip_text (GTK_WIDGET (squeek_cb), _("A virtual keyboard is not installed"));
