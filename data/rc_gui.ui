@@ -1139,10 +1139,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSwitch" id="sw_squeek">
+                      <object class="GtkComboBoxText" id="cb_squeek">
                         <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="tooltip-text" translatable="yes">Turn on to enable virtual keyboard for use with touchscreens</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Set virtual keyboard for use with touchscreens</property>
+                        <items>
+                          <item translatable="yes">Enabled always</item>
+                          <item translatable="yes">Enabled if touchscreen found</item>
+                          <item translatable="yes">Disabled</item>
+                        </items>
                         <accessibility>
                           <relation type="labelled-by" target="label57"/>
                         </accessibility>
