@@ -1,3 +1,9 @@
+rc-gui (1.89) bookworm; urgency=medium
+
+  * Remove Raspberry Pi Connect switch
+
+ -- Simon Long <simon@raspberrypi.com>  Fri, 11 Oct 2024 14:22:19 +0100
+
 rc-gui (1.88) bookworm; urgency=medium
 
   * Add auto-detect option for squeekboard
