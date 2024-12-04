@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-_Name=Raspberry Pi Configuration
-_GenericName=Raspberry Pi Configuration
-_Comment=Configure Raspberry Pi system
-Icon=rpi
-Exec=rc_gui
-StartupNotify=true
-Categories=Settings;DesktopSettings;GTK;X-LXDE-Settings;

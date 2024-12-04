@@ -33,6 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <string.h>
 #include <math.h>
+#include <locale.h>
 #include <ctype.h>
 #include <stdlib.h>
 
@@ -182,6 +183,8 @@ static int needs_reboot, ovfs_rb;
 
 static int alt_keys;
 
+GtkBuilder *builder;
+
 /* Window manager in use */
 
 typedef enum {
@@ -318,7 +321,7 @@ static char *get_quoted_param (char *path, char *fname, char *toseek)
 static void message (char *msg)
 {
     GtkWidget *wid;
-    GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+    GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
 
     msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal");
     if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
@@ -341,7 +344,7 @@ static gboolean ok_clicked (GtkButton *button, gpointer data)
 static void info (char *msg)
 {
     GtkWidget *wid;
-    GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+    GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
 
     msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal");
     if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
@@ -379,7 +382,7 @@ static gboolean close_app_reboot (GtkButton *button, gpointer data)
 static gboolean reboot_prompt (gpointer data)
 {
     GtkWidget *wid;
-    GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+    GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
 
     msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal");
     gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
@@ -424,7 +427,7 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
     GtkWidget *dlg;
     int res;
 
-    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "passwddlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
     pwentry1_tb = gtk_builder_get_object (builder, "pwentry1");
@@ -459,7 +462,7 @@ static void on_change_hostname (GtkButton* btn, gpointer ptr)
     const char *new_hn, *cptr;
     char *orig_hn;
 
-    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "hostnamedlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
     hostname_tb = gtk_builder_get_object (builder, "hnentry1");
@@ -810,7 +813,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     read_locales ();
 
     // create the dialog
-    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "localedlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
@@ -1033,7 +1036,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
     tzcity_list = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
     read_timezones ();
 
-    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "tzdlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
@@ -1128,7 +1131,7 @@ static void on_set_wifi (GtkButton* btn, gpointer ptr)
     int n, found;
     size_t len;
 
-    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "wcdlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
@@ -1434,7 +1437,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
     populate_toggles ();
 
     // build the dialog and attach the combo boxes
-    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "keyboarddlg");
     gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
@@ -1601,7 +1604,7 @@ static void on_set_keyboard (GtkButton* btn, gpointer ptr)
             if (ptr != NULL)
             {
                 // if running the standalone keyboard dialog, need a dialog for the message
-                GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+                GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
                 msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal_dlg");
                 GtkWidget *lbl = (GtkWidget *) gtk_builder_get_object (builder, "modald_msg");
                 g_object_unref (builder);
@@ -1654,7 +1657,7 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
     GtkBuilder *builder;
     GtkWidget *dlg;
 
-    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
 
     if (vsystem (CHECK_UNAME))
     {
@@ -1914,19 +1917,18 @@ static int num_screens (void)
 
 static gboolean init_config (gpointer data)
 {
-    GtkBuilder *builder;
     GtkAdjustment *gadj, *tadj;
     GtkWidget *wid;
 
-    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/rc_gui.ui");
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
-    g_signal_connect (main_dlg, "delete_event", G_CALLBACK (close_prog), NULL);
+    //g_signal_connect (main_dlg, "delete_event", G_CALLBACK (close_prog), NULL);
 
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_ok");
-    g_signal_connect (wid, "clicked", G_CALLBACK (ok_main), NULL);
+    //wid = (GtkWidget *) gtk_builder_get_object (builder, "button_ok");
+    //g_signal_connect (wid, "clicked", G_CALLBACK (ok_main), NULL);
 
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_cancel");
-    g_signal_connect (wid, "clicked", G_CALLBACK (cancel_main), NULL);
+    //wid = (GtkWidget *) gtk_builder_get_object (builder, "button_cancel");
+    //g_signal_connect (wid, "clicked", G_CALLBACK (cancel_main), NULL);
 
     passwd_btn = gtk_builder_get_object (builder, "button_pw");
     g_signal_connect (passwd_btn, "clicked", G_CALLBACK (on_change_passwd), NULL);
@@ -2191,12 +2193,12 @@ static gboolean init_config (gpointer data)
 
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
     }
-    g_object_unref (builder);
+    //g_object_unref (builder);
 
-    gtk_widget_show (main_dlg);
-    gtk_widget_destroy (msg_dlg);
+    //gtk_widget_show (main_dlg);
+    //gtk_widget_destroy (msg_dlg);
 
-    return FALSE;
+    //return FALSE;
 }
 
 /* Bleagh...
@@ -2227,18 +2229,12 @@ static gboolean draw (GtkWidget *wid, cairo_t *cr, gpointer data)
 
 /* The dialog... */
 
-int main (int argc, char *argv[])
+void init_plugin (void)
 {
-#ifdef ENABLE_NLS
     setlocale (LC_ALL, "");
     bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
     bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
     textdomain (GETTEXT_PACKAGE);
-#endif
-
-    // GTK setup
-    gtk_init (&argc, &argv);
-    gtk_icon_theme_prepend_search_path (gtk_icon_theme_get_default(), PACKAGE_DATA_DIR);
 
     if (getenv ("WAYLAND_DISPLAY"))
     {
@@ -2247,36 +2243,61 @@ int main (int argc, char *argv[])
     }
     else wm = WM_OPENBOX;
 
-    if (argc == 2 && !g_strcmp0 (argv[1], "-w"))
-    {
-        on_set_wifi (NULL, NULL);
-        return 0;
-    }
-
-    if (argc == 2 && !strcmp (argv[1], "-k"))
-    {
-        pthread = 0;
-        on_set_keyboard (NULL, (gpointer) 1);
-        if (pthread) g_thread_join (pthread);
-        return 0;
-    }
-
     needs_reboot = 0;
     main_dlg = NULL;
-    if (vsystem (CAN_CONFIGURE))
-    {
-        info (_("The Raspberry Pi Configuration application can only modify a standard configuration.\n\nYour configuration appears to have been modified by other tools, and so this application cannot be used on your system.\n\nIn order to use this application, you need to have the latest firmware installed, Device Tree enabled, the default \"pi\" user set up and the lightdm application installed. "));
-    }
-    else
-    {
-        message (_("Loading configuration - please wait..."));
-        if (wm != WM_OPENBOX) g_signal_connect (msg_dlg, "event", G_CALLBACK (event), NULL);
-        else draw_id = g_signal_connect (msg_dlg, "draw", G_CALLBACK (draw), NULL);
-    }
 
-    gtk_main ();
-
-    if (main_dlg) gtk_widget_destroy (main_dlg);
-
-    return 0;
+    init_config (NULL);
 }
+
+int plugin_tabs (void)
+{
+    return 5;
+}
+
+const char *tab_name (int tab)
+{
+    switch (tab)
+    {
+        case 0 : return C_("tab", "System");
+        case 1 : return C_("tab", "Display");
+        case 2 : return C_("tab", "Interfaces");
+        case 3 : return C_("tab", "Performance");
+        case 4 : return C_("tab", "Localisation");
+        default : return _("No such tab");
+    }
+}
+
+GtkWidget *get_tab (int tab)
+{
+    GtkWidget *window, *plugin;
+
+    window = (GtkWidget *) gtk_builder_get_object (builder, "notebook1");
+    switch (tab)
+    {
+        case 0 :
+            plugin = (GtkWidget *) gtk_builder_get_object (builder, "vbox10");
+            break;
+        case 1 :
+            plugin = (GtkWidget *) gtk_builder_get_object (builder, "vbox50");
+            break;
+        case 2 :
+            plugin = (GtkWidget *) gtk_builder_get_object (builder, "vbox20");
+            break;
+        case 3 :
+            plugin = (GtkWidget *) gtk_builder_get_object (builder, "vbox30");
+            break;
+        case 4 :
+            plugin = (GtkWidget *) gtk_builder_get_object (builder, "vbox40");
+            break;
+    }
+
+    gtk_container_remove (GTK_CONTAINER (window), plugin);
+
+    return plugin;
+}
+
+void free_plugin (void)
+{
+    g_object_unref (builder);
+}
+
