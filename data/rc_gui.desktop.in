@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Raspberry Pi Configuration
+Comment=Configure Raspberry Pi system
+Icon=rpi
+Exec=rc_gui
+Terminal=false
+Categories=Settings;
+StartupNotify=true

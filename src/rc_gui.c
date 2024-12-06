@@ -183,8 +183,6 @@ static int needs_reboot, ovfs_rb;
 
 static int alt_keys;
 
-GtkBuilder *builder;
-
 /* Window manager in use */
 
 typedef enum {
@@ -1915,20 +1913,27 @@ static int num_screens (void)
         return get_status ("xrandr -q | grep -cw connected");
 }
 
+#ifdef PLUGIN_NAME
+GtkBuilder *builder;
+#endif
+
 static gboolean init_config (gpointer data)
 {
+#ifndef PLUGIN_NAME
+    GtkBuilder *builder;
+#endif
     GtkAdjustment *gadj, *tadj;
     GtkWidget *wid;
 
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
-    //g_signal_connect (main_dlg, "delete_event", G_CALLBACK (close_prog), NULL);
+    g_signal_connect (main_dlg, "delete_event", G_CALLBACK (close_prog), NULL);
 
-    //wid = (GtkWidget *) gtk_builder_get_object (builder, "button_ok");
-    //g_signal_connect (wid, "clicked", G_CALLBACK (ok_main), NULL);
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_ok");
+    g_signal_connect (wid, "clicked", G_CALLBACK (ok_main), NULL);
 
-    //wid = (GtkWidget *) gtk_builder_get_object (builder, "button_cancel");
-    //g_signal_connect (wid, "clicked", G_CALLBACK (cancel_main), NULL);
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_cancel");
+    g_signal_connect (wid, "clicked", G_CALLBACK (cancel_main), NULL);
 
     passwd_btn = gtk_builder_get_object (builder, "button_pw");
     g_signal_connect (passwd_btn, "clicked", G_CALLBACK (on_change_passwd), NULL);
@@ -2193,12 +2198,14 @@ static gboolean init_config (gpointer data)
 
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
     }
-    //g_object_unref (builder);
+#ifndef PLUGIN_NAME
+    g_object_unref (builder);
 
-    //gtk_widget_show (main_dlg);
-    //gtk_widget_destroy (msg_dlg);
+    gtk_widget_show (main_dlg);
+    gtk_widget_destroy (msg_dlg);
+#endif
 
-    //return FALSE;
+    return FALSE;
 }
 
 /* Bleagh...
@@ -2227,7 +2234,10 @@ static gboolean draw (GtkWidget *wid, cairo_t *cr, gpointer data)
     return FALSE;
 }
 
-/* The dialog... */
+#ifdef PLUGIN_NAME
+/*----------------------------------------------------------------------------*/
+/* Plugin interface */
+/*----------------------------------------------------------------------------*/
 
 void init_plugin (void)
 {
@@ -2301,3 +2311,62 @@ void free_plugin (void)
     g_object_unref (builder);
 }
 
+#else
+
+/* The dialog... */
+
+int main (int argc, char *argv[])
+{
+#ifdef ENABLE_NLS
+    setlocale (LC_ALL, "");
+    bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
+    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+    textdomain (GETTEXT_PACKAGE);
+#endif
+
+    // GTK setup
+    gtk_init (&argc, &argv);
+    gtk_icon_theme_prepend_search_path (gtk_icon_theme_get_default(), PACKAGE_DATA_DIR);
+
+    if (getenv ("WAYLAND_DISPLAY"))
+    {
+        if (getenv ("WAYFIRE_CONFIG_FILE")) wm = WM_WAYFIRE;
+        else wm = WM_LABWC;
+    }
+    else wm = WM_OPENBOX;
+
+    if (argc == 2 && !g_strcmp0 (argv[1], "-w"))
+    {
+        on_set_wifi (NULL, NULL);
+        return 0;
+    }
+
+    if (argc == 2 && !strcmp (argv[1], "-k"))
+    {
+        pthread = 0;
+        on_set_keyboard (NULL, (gpointer) 1);
+        if (pthread) g_thread_join (pthread);
+        return 0;
+    }
+
+    needs_reboot = 0;
+    main_dlg = NULL;
+    if (vsystem (CAN_CONFIGURE))
+    {
+        info (_("The Raspberry Pi Configuration application can only modify a standard configuration.\n\nYour configuration appears to have been modified by other tools, and so this application cannot be used on your system.\n\nIn order to use this application, you need to have the latest firmware installed, Device Tree enabled, the default \"pi\" user set up and the lightdm application installed. "));
+    }
+    else
+    {
+        message (_("Loading configuration - please wait..."));
+        if (wm != WM_OPENBOX) g_signal_connect (msg_dlg, "event", G_CALLBACK (event), NULL);
+        else draw_id = g_signal_connect (msg_dlg, "draw", G_CALLBACK (draw), NULL);
+    }
+
+    gtk_main ();
+
+    if (main_dlg) gtk_widget_destroy (main_dlg);
+
+    return 0;
+}
+
+#endif
