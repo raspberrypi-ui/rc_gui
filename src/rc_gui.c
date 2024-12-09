@@ -1790,6 +1790,19 @@ static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
     return FALSE;
 }
 
+static void on_browser_toggle (GtkButton *btn, gpointer ptr)
+{
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
+        vsystem (SET_BROWSER, "chromium");
+    else
+        vsystem (SET_BROWSER, "firefox");
+}
+
+static void on_squeekboard_set (GtkComboBox* cb, gpointer ptr)
+{
+    vsystem (SET_SQUEEK, gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) + 1);
+}
+
 /* Write the changes to the system when OK is pressed */
 
 static gpointer process_changes_thread (gpointer ptr)
@@ -1816,13 +1829,13 @@ static gpointer process_changes_thread (gpointer ptr)
     //READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wm == WM_WAYFIRE ? FALSE : TRUE);
     //READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
     //READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
-    if (gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) != orig_squeek)
-        vsystem (SET_SQUEEK, gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) + 1);
+    //if (gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) != orig_squeek)
+    //    vsystem (SET_SQUEEK, gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) + 1);
 
-    if (strcmp (orig_browser, "chromium") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
-        vsystem (SET_BROWSER, "chromium");
-    if (strcmp (orig_browser, "firefox") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (firefox_rb)))
-        vsystem (SET_BROWSER, "firefox");
+    //if (strcmp (orig_browser, "chromium") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
+    //    vsystem (SET_BROWSER, "chromium");
+    //if (strcmp (orig_browser, "firefox") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (firefox_rb)))
+    //    vsystem (SET_BROWSER, "firefox");
 
     if (!vsystem (IS_PI))
     {
@@ -1832,7 +1845,7 @@ static gpointer process_changes_thread (gpointer ptr)
         //READ_SWITCH (onewire_sw, orig_onewire, SET_1WIRE, TRUE);
         //READ_SWITCH (rgpio_sw, orig_rgpio, SET_RGPIO, FALSE);
         //READ_SWITCH (usb_sw, orig_usbi, SET_USBI, TRUE);
-        READ_SWITCH (serial_sw, orig_serial, SET_SERIALHW, TRUE);
+        //READ_SWITCH (serial_sw, orig_serial, SET_SERIALHW, TRUE);
         //READ_SWITCH (scons_sw, orig_scons, SET_SERIALCON, TRUE);
 
         if (orig_leds != -1) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
@@ -2019,6 +2032,7 @@ static gboolean init_config (gpointer data)
         gtk_widget_set_tooltip_text (GTK_WIDGET (chromium_rb), _("Multiple browsers are not installed"));
         gtk_widget_set_tooltip_text (GTK_WIDGET (firefox_rb), _("Multiple browsers are not installed"));
     }
+    g_signal_connect (chromium_rb, "toggled", G_CALLBACK (on_browser_toggle), NULL);
 
     if (!vsystem (XSCR_INSTALLED))
     {
@@ -2038,6 +2052,7 @@ static gboolean init_config (gpointer data)
             gtk_widget_set_sensitive (GTK_WIDGET (squeek_cb), FALSE);
             gtk_widget_set_tooltip_text (GTK_WIDGET (squeek_cb), _("A virtual keyboard is not installed"));
         }
+        g_signal_connect (squeek_cb, "changed", G_CALLBACK (on_squeekboard_set), NULL);
     }
     else
     {
