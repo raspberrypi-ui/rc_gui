@@ -2306,6 +2306,11 @@ GtkWidget *get_tab (int tab)
     return plugin;
 }
 
+gboolean reboot_needed (void)
+{
+    return FALSE;
+}
+
 void free_plugin (void)
 {
     g_object_unref (builder);
