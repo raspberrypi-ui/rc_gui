@@ -1723,6 +1723,25 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
 
 /* Button handlers */
 
+static void config_boot (void)
+{
+    if (gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
+    {
+        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUIA);
+        else vsystem (SET_BOOT_CLIA);
+    }
+    else
+    {
+        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUI);
+        else vsystem (SET_BOOT_CLI);
+    }
+}
+
+static gboolean on_alogin_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
+{
+    config_boot ();
+}
+
 static void on_boot_toggle (GtkButton *btn, gpointer ptr)
 {
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
@@ -1734,6 +1753,7 @@ static void on_boot_toggle (GtkButton *btn, gpointer ptr)
     {
         gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), TRUE);
     }
+    config_boot ();
 }
 
 static gboolean on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
@@ -1775,20 +1795,20 @@ static gpointer process_changes_thread (gpointer ptr)
 {
     int reboot = (int) ptr;
 
-    if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)) 
-        || orig_autolog == gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
-    {
-        if (gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
-        {
-            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUIA);
-            else vsystem (SET_BOOT_CLIA);
-        }
-        else
-        {
-            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUI);
-            else vsystem (SET_BOOT_CLI);
-        }
-    }
+    //if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)) 
+    //    || orig_autolog == gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
+    //{
+    //    if (gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
+    //    {
+    //        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUIA);
+    //        else vsystem (SET_BOOT_CLIA);
+    //    }
+    //    else
+    //    {
+    //        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUI);
+    //        else vsystem (SET_BOOT_CLI);
+    //    }
+    //}
 
     //READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
     //READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
@@ -1968,6 +1988,7 @@ static gboolean init_config (gpointer data)
 
     CONFIG_SET_SWITCH (splash_sw, "sw_splash", orig_splash, GET_SPLASH, SET_SPLASH);
     CONFIG_SWITCH (alogin_sw, "sw_alogin", orig_autolog, GET_AUTOLOGIN);
+    g_signal_connect (alogin_sw, "state-set", on_alogin_toggle, NULL);
     CONFIG_SET_SWITCH (ssh_sw, "sw_ssh", orig_ssh, GET_SSH, SET_SSH);
     CONFIG_SET_SWITCH (blank_sw, "sw_blank", orig_blank, GET_BLANK, SET_BLANK);
 
