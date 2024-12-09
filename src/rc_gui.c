@@ -145,6 +145,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define CONFIG_SWITCH(wid,name,var,cmd) wid = gtk_builder_get_object (builder, name); \
                                         gtk_switch_set_active (GTK_SWITCH (wid), !(var = get_status (cmd)));
 
+#define CONFIG_SET_SWITCH(wid,name,var,getcmd,setcmd) wid = gtk_builder_get_object (builder, name); \
+                                        gtk_switch_set_active (GTK_SWITCH (wid), !(var = get_status (getcmd))); \
+                                        g_signal_connect (wid, "state-set", G_CALLBACK (on_switch), setcmd);
+
 #define READ_SWITCH(wid,var,cmd,reb)    if (var == gtk_switch_get_active (GTK_SWITCH (wid))) \
                                         { \
                                             vsystem (cmd, (1 - var)); \
@@ -230,6 +234,12 @@ static int vsystem (const char *fmt, ...)
     res = system (cmdline);
     g_free (cmdline);
     return res;
+}
+
+static gboolean on_switch (GtkSwitch *btn, gboolean state, const char *cmd)
+{
+    vsystem (cmd, (1 - state));
+    return FALSE;
 }
 
 static int get_status (char *cmd)
@@ -1780,11 +1790,11 @@ static gpointer process_changes_thread (gpointer ptr)
         }
     }
 
-    READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
-    READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
-    READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wm == WM_WAYFIRE ? FALSE : TRUE);
-    READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
-    READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
+    //READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
+    //READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
+    //READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wm == WM_WAYFIRE ? FALSE : TRUE);
+    //READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
+    //READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
     if (gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) != orig_squeek)
         vsystem (SET_SQUEEK, gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) + 1);
 
@@ -1795,14 +1805,14 @@ static gpointer process_changes_thread (gpointer ptr)
 
     if (!vsystem (IS_PI))
     {
-        READ_SWITCH (vnc_sw, orig_vnc, SET_VNC, FALSE);
-        READ_SWITCH (spi_sw, orig_spi, SET_SPI, FALSE);
-        READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
-        READ_SWITCH (onewire_sw, orig_onewire, SET_1WIRE, TRUE);
-        READ_SWITCH (rgpio_sw, orig_rgpio, SET_RGPIO, FALSE);
-        READ_SWITCH (usb_sw, orig_usbi, SET_USBI, TRUE);
+        //READ_SWITCH (vnc_sw, orig_vnc, SET_VNC, FALSE);
+        //READ_SWITCH (spi_sw, orig_spi, SET_SPI, FALSE);
+        //READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
+        //READ_SWITCH (onewire_sw, orig_onewire, SET_1WIRE, TRUE);
+        //READ_SWITCH (rgpio_sw, orig_rgpio, SET_RGPIO, FALSE);
+        //READ_SWITCH (usb_sw, orig_usbi, SET_USBI, TRUE);
         READ_SWITCH (serial_sw, orig_serial, SET_SERIALHW, TRUE);
-        READ_SWITCH (scons_sw, orig_scons, SET_SERIALCON, TRUE);
+        //READ_SWITCH (scons_sw, orig_scons, SET_SERIALCON, TRUE);
 
         if (orig_leds != -1) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
 
@@ -1956,10 +1966,10 @@ static gboolean init_config (gpointer data)
     if (has_wifi ()) gtk_widget_set_sensitive (GTK_WIDGET (wifi_btn), TRUE);
     else gtk_widget_set_sensitive (GTK_WIDGET (wifi_btn), FALSE);
 
-    CONFIG_SWITCH (splash_sw, "sw_splash", orig_splash, GET_SPLASH);
+    CONFIG_SET_SWITCH (splash_sw, "sw_splash", orig_splash, GET_SPLASH, SET_SPLASH);
     CONFIG_SWITCH (alogin_sw, "sw_alogin", orig_autolog, GET_AUTOLOGIN);
-    CONFIG_SWITCH (ssh_sw, "sw_ssh", orig_ssh, GET_SSH);
-    CONFIG_SWITCH (blank_sw, "sw_blank", orig_blank, GET_BLANK);
+    CONFIG_SET_SWITCH (ssh_sw, "sw_ssh", orig_ssh, GET_SSH, SET_SSH);
+    CONFIG_SET_SWITCH (blank_sw, "sw_blank", orig_blank, GET_BLANK, SET_BLANK);
 
     boot_desktop_rb = gtk_builder_get_object (builder, "rb_desktop");
     boot_cli_rb = gtk_builder_get_object (builder, "rb_cli");
@@ -2016,23 +2026,23 @@ static gboolean init_config (gpointer data)
 
     if (!vsystem (IS_PI))
     {
-        CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN);
-        CONFIG_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2);
-        CONFIG_SWITCH (spi_sw, "sw_spi", orig_spi, GET_SPI);
-        CONFIG_SWITCH (i2c_sw, "sw_i2c", orig_i2c, GET_I2C);
-        CONFIG_SWITCH (onewire_sw, "sw_one", orig_onewire, GET_1WIRE);
-        CONFIG_SWITCH (rgpio_sw, "sw_rgp", orig_rgpio, GET_RGPIO);
-        CONFIG_SWITCH (vnc_sw, "sw_vnc", orig_vnc, GET_VNC);
-        CONFIG_SWITCH (usb_sw, "sw_usb", orig_usbi, GET_USBI);
+        CONFIG_SET_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN, SET_OVERSCAN);
+        CONFIG_SET_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2, SET_OVERSCAN2);
+        CONFIG_SET_SWITCH (spi_sw, "sw_spi", orig_spi, GET_SPI, SET_SPI);
+        CONFIG_SET_SWITCH (i2c_sw, "sw_i2c", orig_i2c, GET_I2C, SET_I2C);
+        CONFIG_SET_SWITCH (onewire_sw, "sw_one", orig_onewire, GET_1WIRE, SET_1WIRE);
+        CONFIG_SET_SWITCH (rgpio_sw, "sw_rgp", orig_rgpio, GET_RGPIO, SET_RGPIO);
+        CONFIG_SET_SWITCH (vnc_sw, "sw_vnc", orig_vnc, GET_VNC, SET_VNC);
+        CONFIG_SET_SWITCH (usb_sw, "sw_usb", orig_usbi, GET_USBI, SET_USBI);
 
         if (!vsystem (IS_PI5))
         {
-            CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIALCON);
+            CONFIG_SET_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIALCON, SET_SERIALCON);
             CONFIG_SWITCH (serial_sw, "sw_ser", orig_serial, GET_SERIALHW);
         }
         else
         {
-            CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIALCON);
+            CONFIG_SET_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIALCON, SET_SERIALCON);
             serial_sw = gtk_builder_get_object (builder, "sw_ser");
             g_signal_connect (serial_sw, "state-set", G_CALLBACK (on_serial_toggle), NULL);
             if ((orig_serial = get_status (GET_SERIALHW)))
@@ -2176,8 +2186,8 @@ static gboolean init_config (gpointer data)
     }
     else
     {
-        CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN);
-        CONFIG_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2);
+        CONFIG_SET_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN, SET_OVERSCAN);
+        CONFIG_SET_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2, SET_OVERSCAN2);
 
         if (!get_status ("grep -q boot=live /proc/cmdline ; echo $?"))
         {
