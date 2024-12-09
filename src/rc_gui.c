@@ -1800,7 +1800,44 @@ static void on_browser_toggle (GtkButton *btn, gpointer ptr)
 
 static void on_squeekboard_set (GtkComboBox* cb, gpointer ptr)
 {
-    vsystem (SET_SQUEEK, gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) + 1);
+    vsystem (SET_SQUEEK, gtk_combo_box_get_active (cb) + 1);
+}
+
+static gboolean on_leds_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
+{
+    vsystem (SET_LEDS, (1 - state));
+}
+
+static void on_overclock_set (GtkComboBox* cb, gpointer ptr)
+{
+    switch (get_status (GET_PI_TYPE))
+    {
+        case 1:
+            switch (gtk_combo_box_get_active (cb))
+            {
+                case 0 :    vsystem (SET_OVERCLOCK, "None");
+                            break;
+                case 1 :    vsystem (SET_OVERCLOCK, "Modest");
+                            break;
+                case 2 :    vsystem (SET_OVERCLOCK, "Medium");
+                            break;
+                case 3 :    vsystem (SET_OVERCLOCK, "High");
+                            break;
+                case 4 :    vsystem (SET_OVERCLOCK, "Turbo");
+                            break;
+            }
+            break;
+
+        case 2:
+            switch (gtk_combo_box_get_active (cb))
+            {
+                case 0 :    vsystem (SET_OVERCLOCK, "None");
+                            break;
+                case 1 :    vsystem (SET_OVERCLOCK, "High");
+                            break;
+            }
+            break;
+    }
 }
 
 /* Write the changes to the system when OK is pressed */
@@ -1848,41 +1885,41 @@ static gpointer process_changes_thread (gpointer ptr)
         //READ_SWITCH (serial_sw, orig_serial, SET_SERIALHW, TRUE);
         //READ_SWITCH (scons_sw, orig_scons, SET_SERIALCON, TRUE);
 
-        if (orig_leds != -1) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
+        //if (orig_leds != -1) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
 
-        if (orig_clock != -1 && orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-        {
-            switch (get_status (GET_PI_TYPE))
-            {
-                case 1:
-                    switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-                    {
-                        case 0 :    vsystem (SET_OVERCLOCK, "None");
-                                    break;
-                        case 1 :    vsystem (SET_OVERCLOCK, "Modest");
-                                    break;
-                        case 2 :    vsystem (SET_OVERCLOCK, "Medium");
-                                    break;
-                        case 3 :    vsystem (SET_OVERCLOCK, "High");
-                                    break;
-                        case 4 :    vsystem (SET_OVERCLOCK, "Turbo");
-                                    break;
-                    }
-                    reboot = 1;
-                    break;
+        //if (orig_clock != -1 && orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
+        //{
+        //    switch (get_status (GET_PI_TYPE))
+        //    {
+        //        case 1:
+        //            switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
+        //            {
+        //                case 0 :    vsystem (SET_OVERCLOCK, "None");
+        //                            break;
+        //                case 1 :    vsystem (SET_OVERCLOCK, "Modest");
+        //                            break;
+        //                case 2 :    vsystem (SET_OVERCLOCK, "Medium");
+        //                            break;
+        //                case 3 :    vsystem (SET_OVERCLOCK, "High");
+        //                            break;
+        //                case 4 :    vsystem (SET_OVERCLOCK, "Turbo");
+        //                            break;
+        //            }
+        //            reboot = 1;
+        //            break;
 
-                case 2:
-                    switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-                    {
-                        case 0 :    vsystem (SET_OVERCLOCK, "None");
-                                    break;
-                        case 1 :    vsystem (SET_OVERCLOCK, "High");
-                                    break;
-                    }
-                    reboot = 1;
-                    break;
-            }
-        }
+        //        case 2:
+        //            switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
+        //            {
+        //                case 0 :    vsystem (SET_OVERCLOCK, "None");
+        //                            break;
+        //                case 1 :    vsystem (SET_OVERCLOCK, "High");
+        //                            break;
+        //            }
+        //            reboot = 1;
+        //            break;
+        //    }
+        //}
 
         if (wm == WM_OPENBOX)
         {
@@ -2109,7 +2146,11 @@ static gboolean init_config (gpointer data)
         led_actpwr_sw = gtk_builder_get_object (builder, "sw_led_actpwr");
         orig_leds = get_status (GET_LEDS);
         if (orig_leds == -1) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
-        else gtk_switch_set_active (GTK_SWITCH (led_actpwr_sw), !(orig_leds));
+        else
+        {
+            gtk_switch_set_active (GTK_SWITCH (led_actpwr_sw), !(orig_leds));
+            g_signal_connect (led_actpwr_sw, "state-set", G_CALLBACK (on_leds_toggle), NULL);
+        }
 
         if (vsystem (IS_PI4))
         {
@@ -2189,7 +2230,11 @@ static gboolean init_config (gpointer data)
                         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox31")));
                         break;
         }
-        if (orig_clock != -1) gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
+        if (orig_clock != -1)
+        {
+            gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
+            g_signal_connect (overclock_cb, "changed", G_CALLBACK (on_overclock_set), NULL);
+        }
 
         ofs_btn = gtk_builder_get_object (builder, "button_ofs");
         g_signal_connect (ofs_btn, "clicked", G_CALLBACK (on_set_ofs), NULL);
