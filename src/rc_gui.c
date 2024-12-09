@@ -1773,6 +1773,25 @@ static gboolean on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
     return FALSE;
 }
 
+static void fan_config (void)
+{
+    int fan_gpio = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_gpio_sb));
+    int fan_temp = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_temp_sb));
+    if (!gtk_switch_get_active (GTK_SWITCH (fan_sw)))
+    {
+        vsystem (SET_FAN, 1, 0, 0);
+    }
+    else
+    {
+        vsystem (SET_FAN, 0, fan_gpio, fan_temp);
+    }
+}
+
+static void on_fan_value_changed (GtkSpinButton *sb)
+{
+    fan_config ();
+}
+
 static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
     gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), state);
@@ -1787,6 +1806,7 @@ static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
         gtk_widget_set_tooltip_text (GTK_WIDGET (fan_gpio_sb), _("This setting cannot be changed unless the fan is enabled"));
         gtk_widget_set_tooltip_text (GTK_WIDGET (fan_temp_sb), _("This setting cannot be changed unless the fan is enabled"));
     }
+    fan_config ();
     return FALSE;
 }
 
@@ -1838,6 +1858,13 @@ static void on_overclock_set (GtkComboBox* cb, gpointer ptr)
             }
             break;
     }
+}
+
+static void on_vnc_res_set (GtkComboBox* cb, gpointer ptr)
+{
+    vres = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (vnc_res_cb));
+    vsystem (SET_VNC_RES, vres);
+    g_free (vres);
 }
 
 /* Write the changes to the system when OK is pressed */
@@ -1921,30 +1948,30 @@ static gpointer process_changes_thread (gpointer ptr)
         //    }
         //}
 
-        if (wm == WM_OPENBOX)
-        {
-            if (orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)))
-            {
-                vres = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (vnc_res_cb));
-                vsystem (SET_VNC_RES, vres);
-                g_free (vres);
-                reboot = 1;
-            }
-        }
+        //if (wm == WM_OPENBOX)
+        //{
+        //    if (orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)))
+        //    {
+        //        vres = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (vnc_res_cb));
+        //        vsystem (SET_VNC_RES, vres);
+        //        g_free (vres);
+        //        reboot = 1;
+        //    }
+        //}
 
-        if (!vsystem (IS_PI4))
-        {
-            int fan_gpio = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_gpio_sb));
-            int fan_temp = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_temp_sb));
-            if (!gtk_switch_get_active (GTK_SWITCH (fan_sw)))
-            {
-                if (orig_fan == 0) vsystem (SET_FAN, 1, 0, 0);
-            }
-            else
-            {
-                if (orig_fan == 1 || orig_fan_gpio != fan_gpio || orig_fan_temp != fan_temp) vsystem (SET_FAN, 0, fan_gpio, fan_temp);
-            }
-        }
+        //if (!vsystem (IS_PI4))
+        //{
+        //    int fan_gpio = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_gpio_sb));
+        //    int fan_temp = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_temp_sb));
+        //    if (!gtk_switch_get_active (GTK_SWITCH (fan_sw)))
+        //    {
+        //        if (orig_fan == 0) vsystem (SET_FAN, 1, 0, 0);
+        //    }
+        //    else
+        //    {
+        //        if (orig_fan == 1 || orig_fan_gpio != fan_gpio || orig_fan_temp != fan_temp) vsystem (SET_FAN, 0, fan_gpio, fan_temp);
+        //    }
+        //}
     }
 
     if (reboot) g_idle_add (reboot_prompt, NULL);
@@ -2183,11 +2210,13 @@ static gboolean init_config (gpointer data)
             gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (fan_gpio_sb), GTK_ADJUSTMENT (gadj));
             orig_fan_gpio = get_status (GET_FAN_GPIO);
             gtk_spin_button_set_value (GTK_SPIN_BUTTON (fan_gpio_sb), orig_fan_gpio);
+            g_signal_connect (fan_gpio_sb, "value_changed", G_CALLBACK (on_fan_value_changed), NULL);
 
             tadj = gtk_adjustment_new (80, 60, 120, 5, 10, 0);
             gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (fan_temp_sb), GTK_ADJUSTMENT (tadj));
             orig_fan_temp = get_status (GET_FAN_TEMP);
             gtk_spin_button_set_value (GTK_SPIN_BUTTON (fan_temp_sb), orig_fan_temp);
+            g_signal_connect (fan_temp_sb, "value_changed", G_CALLBACK (on_fan_value_changed), NULL);
         }
 
         overclock_cb = gtk_builder_get_object (builder, "combo_oc");
@@ -2264,6 +2293,7 @@ static gboolean init_config (gpointer data)
             g_free (vres);
 
             gtk_combo_box_set_active (GTK_COMBO_BOX (vnc_res_cb), orig_vnc_res);
+            g_signal_connect (vnc_res_cb, "changed", G_CALLBACK (on_vnc_res_set), NULL);
         }
         else gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
     }
