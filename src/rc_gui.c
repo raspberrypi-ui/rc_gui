@@ -1769,6 +1769,7 @@ static gboolean on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
         gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), FALSE);
         gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("This setting cannot be changed while the serial port is disabled"));
     }
+    vsystem (SET_SERIALHW, (1 - state));
     return FALSE;
 }
 
@@ -2060,6 +2061,7 @@ static gboolean init_config (gpointer data)
         {
             CONFIG_SET_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIALCON, SET_SERIALCON);
             CONFIG_SWITCH (serial_sw, "sw_ser", orig_serial, GET_SERIALHW);
+            g_signal_connect (serial_sw, "state-set", G_CALLBACK (on_serial_toggle), NULL);
         }
         else
         {
