@@ -1742,6 +1742,7 @@ static void config_boot (void)
 static gboolean on_alogin_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
     config_boot ();
+    return FALSE;
 }
 
 static void on_boot_toggle (GtkButton *btn, gpointer ptr)
@@ -1825,9 +1826,17 @@ static void on_squeekboard_set (GtkComboBox* cb, gpointer ptr)
     vsystem (SET_SQUEEK, gtk_combo_box_get_active (cb) + 1);
 }
 
+static void on_squeek_output_set (GtkComboBoxText* cb, gpointer ptr)
+{
+    char *op = gtk_combo_box_text_get_active_text (cb);
+    vsystem (SET_SQUEEKOUT, op);
+    g_free (op);
+}
+
 static gboolean on_leds_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
     vsystem (SET_LEDS, (1 - state));
+    return FALSE;
 }
 
 static void on_overclock_set (GtkComboBox* cb, gpointer ptr)
@@ -1897,10 +1906,10 @@ static gpointer process_changes_thread (gpointer ptr)
     //READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
     //if (gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) != orig_squeek)
     //    vsystem (SET_SQUEEK, gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) + 1);
-    char *sop = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (squeekop_cb));
-    if (sop && orig_sop && g_strcmp0 (orig_sop, sop))
-        vsystem (SET_SQUEEKOUT, sop);
-    if (sop) g_free (sop);
+    //char *sop = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (squeekop_cb));
+    //if (sop && orig_sop && g_strcmp0 (orig_sop, sop))
+    //    vsystem (SET_SQUEEKOUT, sop);
+    //if (sop) g_free (sop);
 
     //if (strcmp (orig_browser, "chromium") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
     //    vsystem (SET_BROWSER, "chromium");
@@ -2072,7 +2081,7 @@ static gboolean init_config (gpointer data)
 
     CONFIG_SET_SWITCH (splash_sw, "sw_splash", orig_splash, GET_SPLASH, SET_SPLASH);
     CONFIG_SWITCH (alogin_sw, "sw_alogin", orig_autolog, GET_AUTOLOGIN);
-    g_signal_connect (alogin_sw, "state-set", on_alogin_toggle, NULL);
+    g_signal_connect (alogin_sw, "state-set", G_CALLBACK (on_alogin_toggle), NULL);
     CONFIG_SET_SWITCH (ssh_sw, "sw_ssh", orig_ssh, GET_SSH, SET_SSH);
     CONFIG_SET_SWITCH (blank_sw, "sw_blank", orig_blank, GET_BLANK, SET_BLANK);
 
@@ -2157,6 +2166,7 @@ static gboolean init_config (gpointer data)
             gtk_widget_set_tooltip_text (GTK_WIDGET (squeekop_cb), _("A virtual keyboard is not installed"));
         }
         g_signal_connect (squeek_cb, "changed", G_CALLBACK (on_squeekboard_set), NULL);
+        g_signal_connect (squeekop_cb, "changed", G_CALLBACK (on_squeek_output_set), NULL);
     }
     else
     {
