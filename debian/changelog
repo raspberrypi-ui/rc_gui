@@ -1,3 +1,9 @@
+rc-gui (1.90) bookworm; urgency=medium
+
+  * Add squeekboard output selection
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 10 Dec 2024 14:06:20 +0000
+
 rc-gui (1.89) bookworm; urgency=medium
 
   * Remove Raspberry Pi Connect switch
