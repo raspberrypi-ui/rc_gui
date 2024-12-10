@@ -138,6 +138,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define VKBD_INSTALLED  GET_PREFIX "is_installed squeekboard"
 #define GET_SQUEEK      GET_PREFIX "get_squeekboard"
 #define SET_SQUEEK      SET_PREFIX "do_squeekboard S%d"
+#define GET_SQUEEKOUT   GET_PREFIX "get_squeek_output"
+#define SET_SQUEEKOUT   SET_PREFIX "do_squeek_output %s"
 #define DEFAULT_GPU_MEM "vcgencmd get_mem gpu | cut -d = -f 2 | cut -d M -f 1"
 #define CHANGE_PASSWD   "echo $USER:'%s' | SUDO_ASKPASS=/usr/lib/rc-gui/pwdrcg.sh sudo -A chpasswd -e"
 
@@ -155,7 +157,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 static GObject *passwd_btn, *hostname_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
 static GObject *boot_desktop_rb, *boot_cli_rb, *chromium_rb, *firefox_rb;
 static GObject *overscan_sw, *overscan2_sw, *ssh_sw, *rgpio_sw, *vnc_sw;
-static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw, *usb_sw, *squeek_cb;
+static GObject *spi_sw, *i2c_sw, *serial_sw, *onewire_sw, *usb_sw, *squeek_cb, *squeekop_cb;
 static GObject *alogin_sw, *splash_sw, *scons_sw;
 static GObject *blank_sw, *led_actpwr_sw, *fan_sw;
 static GObject *overclock_cb, *hostname_tb, *ofs_en_sw, *bp_ro_sw, *ofs_lbl;
@@ -174,7 +176,7 @@ static GtkWidget *main_dlg, *msg_dlg;
 static int orig_boot, orig_overscan, orig_overscan2, orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_splash;
 static int orig_clock, orig_autolog, orig_onewire, orig_rgpio, orig_vnc, orig_usbi, orig_squeek;
 static int orig_ofs, orig_bpro, orig_blank, orig_leds, orig_fan, orig_fan_gpio, orig_fan_temp, orig_vnc_res;
-static char *vres, *orig_browser;
+static char *vres, *orig_browser, *orig_sop;
 
 /* Reboot flag set after locale change */
 
@@ -1786,6 +1788,10 @@ static gpointer process_changes_thread (gpointer ptr)
     READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
     if (gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) != orig_squeek)
         vsystem (SET_SQUEEK, gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) + 1);
+    char *sop = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (squeekop_cb));
+    if (sop && orig_sop && g_strcmp0 (orig_sop, sop))
+        vsystem (SET_SQUEEKOUT, sop);
+    if (sop) g_free (sop);
 
     if (strcmp (orig_browser, "chromium") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
         vsystem (SET_BROWSER, "chromium");
@@ -1989,15 +1995,49 @@ static gboolean init_config (gpointer data)
 
     if (wm != WM_OPENBOX)
     {
+        char *line, *cptr;
+        size_t len;
+        FILE *fp;
+        int op = 0;
+
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox52")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
         squeek_cb = gtk_builder_get_object (builder, "cb_squeek");
         orig_squeek = get_status (GET_SQUEEK);
         gtk_combo_box_set_active (GTK_COMBO_BOX (squeek_cb), orig_squeek);
+
+        squeekop_cb = gtk_builder_get_object (builder, "cb_squeekout");
+        orig_sop = get_string (GET_SQUEEKOUT);
+        fp = popen ("wlr-randr", "r");
+        if (fp)
+        {
+            line = NULL;
+            len = 0;
+            while (getline (&line, &len, fp) != -1)
+            {
+                if (line[0] != ' ')
+                {
+                    cptr = line;
+                    while (*cptr != ' ') cptr++;
+                    *cptr = 0;
+                    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (squeekop_cb), line);
+                    if (orig_sop && !g_strcmp0 (orig_sop, line))
+                    {
+                        gtk_combo_box_set_active (GTK_COMBO_BOX (squeekop_cb), op);
+                    }
+                    op++;
+                }
+            }
+            free (line);
+            pclose (fp);
+        }
+
         if (vsystem (VKBD_INSTALLED))
         {
             gtk_widget_set_sensitive (GTK_WIDGET (squeek_cb), FALSE);
             gtk_widget_set_tooltip_text (GTK_WIDGET (squeek_cb), _("A virtual keyboard is not installed"));
+            gtk_widget_set_sensitive (GTK_WIDGET (squeekop_cb), FALSE);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (squeekop_cb), _("A virtual keyboard is not installed"));
         }
     }
     else
@@ -2005,6 +2045,7 @@ static gboolean init_config (gpointer data)
         if (num_screens () != 2) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
         else gtk_label_set_text (GTK_LABEL (gtk_builder_get_object (builder, "label52")), _("Overscan (HDMI-1):"));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox57")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox58")));
     }
 
     if (!vsystem (IS_PI))
