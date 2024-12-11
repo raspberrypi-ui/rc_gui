@@ -157,6 +157,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                             if (reb) reboot = 1; \
                                         }
 
+#define CHECK_SWITCH(wid,var)           if (var == gtk_switch_get_active (GTK_SWITCH (wid))) \
+                                        { \
+                                            return TRUE; \
+                                        }
+
+
 /* Controls */
 
 static GObject *passwd_btn, *hostname_btn, *locale_btn, *timezone_btn, *keyboard_btn, *wifi_btn, *ofs_btn;
@@ -1884,109 +1890,109 @@ static gpointer process_changes_thread (gpointer ptr)
 {
     int reboot = (int) ptr;
 
-    //if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)) 
-    //    || orig_autolog == gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
-    //{
-    //    if (gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
-    //    {
-    //        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUIA);
-    //        else vsystem (SET_BOOT_CLIA);
-    //    }
-    //    else
-    //    {
-    //        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUI);
-    //        else vsystem (SET_BOOT_CLI);
-    //    }
-    //}
+    if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)) 
+        || orig_autolog == gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
+    {
+        if (gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
+        {
+            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUIA);
+            else vsystem (SET_BOOT_CLIA);
+        }
+        else
+        {
+            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUI);
+            else vsystem (SET_BOOT_CLI);
+        }
+    }
 
-    //READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
-    //READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
-    //READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wm == WM_WAYFIRE ? FALSE : TRUE);
-    //READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
-    //READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
-    //if (gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) != orig_squeek)
-    //    vsystem (SET_SQUEEK, gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) + 1);
-    //char *sop = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (squeekop_cb));
-    //if (sop && orig_sop && g_strcmp0 (orig_sop, sop))
-    //    vsystem (SET_SQUEEKOUT, sop);
-    //if (sop) g_free (sop);
+    READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
+    READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
+    READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wm == WM_WAYFIRE ? FALSE : TRUE);
+    READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
+    READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
+    if (gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) != orig_squeek)
+        vsystem (SET_SQUEEK, gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) + 1);
+    char *sop = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (squeekop_cb));
+    if (sop && orig_sop && g_strcmp0 (orig_sop, sop))
+        vsystem (SET_SQUEEKOUT, sop);
+    if (sop) g_free (sop);
 
-    //if (strcmp (orig_browser, "chromium") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
-    //    vsystem (SET_BROWSER, "chromium");
-    //if (strcmp (orig_browser, "firefox") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (firefox_rb)))
-    //    vsystem (SET_BROWSER, "firefox");
+    if (strcmp (orig_browser, "chromium") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
+        vsystem (SET_BROWSER, "chromium");
+    if (strcmp (orig_browser, "firefox") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (firefox_rb)))
+        vsystem (SET_BROWSER, "firefox");
 
     if (!vsystem (IS_PI))
     {
-        //READ_SWITCH (vnc_sw, orig_vnc, SET_VNC, FALSE);
-        //READ_SWITCH (spi_sw, orig_spi, SET_SPI, FALSE);
-        //READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
-        //READ_SWITCH (onewire_sw, orig_onewire, SET_1WIRE, TRUE);
-        //READ_SWITCH (rgpio_sw, orig_rgpio, SET_RGPIO, FALSE);
-        //READ_SWITCH (usb_sw, orig_usbi, SET_USBI, TRUE);
-        //READ_SWITCH (serial_sw, orig_serial, SET_SERIALHW, TRUE);
-        //READ_SWITCH (scons_sw, orig_scons, SET_SERIALCON, TRUE);
+        READ_SWITCH (vnc_sw, orig_vnc, SET_VNC, FALSE);
+        READ_SWITCH (spi_sw, orig_spi, SET_SPI, FALSE);
+        READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
+        READ_SWITCH (onewire_sw, orig_onewire, SET_1WIRE, TRUE);
+        READ_SWITCH (rgpio_sw, orig_rgpio, SET_RGPIO, FALSE);
+        READ_SWITCH (usb_sw, orig_usbi, SET_USBI, TRUE);
+        READ_SWITCH (serial_sw, orig_serial, SET_SERIALHW, TRUE);
+        READ_SWITCH (scons_sw, orig_scons, SET_SERIALCON, TRUE);
 
-        //if (orig_leds != -1) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
+        if (orig_leds != -1) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
 
-        //if (orig_clock != -1 && orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-        //{
-        //    switch (get_status (GET_PI_TYPE))
-        //    {
-        //        case 1:
-        //            switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-        //            {
-        //                case 0 :    vsystem (SET_OVERCLOCK, "None");
-        //                            break;
-        //                case 1 :    vsystem (SET_OVERCLOCK, "Modest");
-        //                            break;
-        //                case 2 :    vsystem (SET_OVERCLOCK, "Medium");
-        //                            break;
-        //                case 3 :    vsystem (SET_OVERCLOCK, "High");
-        //                            break;
-        //                case 4 :    vsystem (SET_OVERCLOCK, "Turbo");
-        //                            break;
-        //            }
-        //            reboot = 1;
-        //            break;
+        if (orig_clock != -1 && orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
+        {
+            switch (get_status (GET_PI_TYPE))
+            {
+                case 1:
+                    switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
+                    {
+                        case 0 :    vsystem (SET_OVERCLOCK, "None");
+                                    break;
+                        case 1 :    vsystem (SET_OVERCLOCK, "Modest");
+                                    break;
+                        case 2 :    vsystem (SET_OVERCLOCK, "Medium");
+                                    break;
+                        case 3 :    vsystem (SET_OVERCLOCK, "High");
+                                    break;
+                        case 4 :    vsystem (SET_OVERCLOCK, "Turbo");
+                                    break;
+                    }
+                    reboot = 1;
+                    break;
 
-        //        case 2:
-        //            switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-        //            {
-        //                case 0 :    vsystem (SET_OVERCLOCK, "None");
-        //                            break;
-        //                case 1 :    vsystem (SET_OVERCLOCK, "High");
-        //                            break;
-        //            }
-        //            reboot = 1;
-        //            break;
-        //    }
-        //}
+                case 2:
+                    switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
+                    {
+                        case 0 :    vsystem (SET_OVERCLOCK, "None");
+                                    break;
+                        case 1 :    vsystem (SET_OVERCLOCK, "High");
+                                    break;
+                    }
+                    reboot = 1;
+                    break;
+            }
+        }
 
-        //if (wm == WM_OPENBOX)
-        //{
-        //    if (orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)))
-        //    {
-        //        vres = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (vnc_res_cb));
-        //        vsystem (SET_VNC_RES, vres);
-        //        g_free (vres);
-        //        reboot = 1;
-        //    }
-        //}
+        if (wm == WM_OPENBOX)
+        {
+            if (orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)))
+            {
+                vres = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (vnc_res_cb));
+                vsystem (SET_VNC_RES, vres);
+                g_free (vres);
+                reboot = 1;
+            }
+        }
 
-        //if (!vsystem (IS_PI4))
-        //{
-        //    int fan_gpio = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_gpio_sb));
-        //    int fan_temp = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_temp_sb));
-        //    if (!gtk_switch_get_active (GTK_SWITCH (fan_sw)))
-        //    {
-        //        if (orig_fan == 0) vsystem (SET_FAN, 1, 0, 0);
-        //    }
-        //    else
-        //    {
-        //        if (orig_fan == 1 || orig_fan_gpio != fan_gpio || orig_fan_temp != fan_temp) vsystem (SET_FAN, 0, fan_gpio, fan_temp);
-        //    }
-        //}
+        if (!vsystem (IS_PI4))
+        {
+            int fan_gpio = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_gpio_sb));
+            int fan_temp = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_temp_sb));
+            if (!gtk_switch_get_active (GTK_SWITCH (fan_sw)))
+            {
+                if (orig_fan == 0) vsystem (SET_FAN, 1, 0, 0);
+            }
+            else
+            {
+                if (orig_fan == 1 || orig_fan_gpio != fan_gpio || orig_fan_temp != fan_temp) vsystem (SET_FAN, 0, fan_gpio, fan_temp);
+            }
+        }
     }
 
     if (reboot) g_idle_add (reboot_prompt, NULL);
@@ -2482,6 +2488,21 @@ GtkWidget *get_tab (int tab)
 
 gboolean reboot_needed (void)
 {
+    if (needs_reboot) return TRUE;
+
+    if (wm == WM_OPENBOX) CHECK_SWITCH (blank_sw, orig_blank);
+
+    if (!vsystem (IS_PI))
+    {
+        CHECK_SWITCH (onewire_sw, orig_onewire);
+        CHECK_SWITCH (usb_sw, orig_usbi);
+        CHECK_SWITCH (serial_sw, orig_serial);
+        CHECK_SWITCH (scons_sw, orig_scons);
+
+        if (orig_clock != -1 && orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb))) return TRUE;
+
+        if (wm == WM_OPENBOX && orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb))) return TRUE;
+    }
     return FALSE;
 }
 
