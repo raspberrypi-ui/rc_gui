@@ -1185,6 +1185,10 @@
                       <object class="GtkComboBoxText" id="cb_squeekout">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Set display to use for on-screen keyboard</property>
+                        <accessibility>
+                          <relation type="labelled-by" target="label58"/>
+                        </accessibility>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -2091,6 +2095,7 @@
       <widget name="hbox55"/>
       <widget name="hbox56"/>
       <widget name="hbox57"/>
+      <widget name="hbox58"/>
       <widget name="hbox21"/>
       <widget name="hbox23"/>
       <widget name="hbox24"/>
