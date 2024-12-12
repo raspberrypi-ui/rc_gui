@@ -1762,7 +1762,9 @@ static void on_boot_toggle (GtkButton *btn, gpointer ptr)
     {
         gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), TRUE);
     }
+#ifdef PLUGIN_NAME
     config_boot ();
+#endif
 }
 
 static gboolean on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
@@ -1778,7 +1780,9 @@ static gboolean on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
         gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), FALSE);
         gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("This setting cannot be changed while the serial port is disabled"));
     }
+#ifdef PLUGIN_NAME
     vsystem (SET_SERIALHW, (1 - state));
+#endif
     return FALSE;
 }
 
@@ -1815,7 +1819,9 @@ static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
         gtk_widget_set_tooltip_text (GTK_WIDGET (fan_gpio_sb), _("This setting cannot be changed unless the fan is enabled"));
         gtk_widget_set_tooltip_text (GTK_WIDGET (fan_temp_sb), _("This setting cannot be changed unless the fan is enabled"));
     }
+#ifdef PLUGIN_NAME
     fan_config ();
+#endif
     return FALSE;
 }
 
@@ -2085,11 +2091,18 @@ static gboolean init_config (gpointer data)
     if (has_wifi ()) gtk_widget_set_sensitive (GTK_WIDGET (wifi_btn), TRUE);
     else gtk_widget_set_sensitive (GTK_WIDGET (wifi_btn), FALSE);
 
+#ifdef PLUGIN_NAME
     CONFIG_SET_SWITCH (splash_sw, "sw_splash", orig_splash, GET_SPLASH, SET_SPLASH);
     CONFIG_SWITCH (alogin_sw, "sw_alogin", orig_autolog, GET_AUTOLOGIN);
     g_signal_connect (alogin_sw, "state-set", G_CALLBACK (on_alogin_toggle), NULL);
     CONFIG_SET_SWITCH (ssh_sw, "sw_ssh", orig_ssh, GET_SSH, SET_SSH);
     CONFIG_SET_SWITCH (blank_sw, "sw_blank", orig_blank, GET_BLANK, SET_BLANK);
+#else
+    CONFIG_SWITCH (splash_sw, "sw_splash", orig_splash, GET_SPLASH);
+    CONFIG_SWITCH (alogin_sw, "sw_alogin", orig_autolog, GET_AUTOLOGIN);
+    CONFIG_SWITCH (ssh_sw, "sw_ssh", orig_ssh, GET_SSH);
+    CONFIG_SWITCH (blank_sw, "sw_blank", orig_blank, GET_BLANK);
+#endif
 
     boot_desktop_rb = gtk_builder_get_object (builder, "rb_desktop");
     boot_cli_rb = gtk_builder_get_object (builder, "rb_cli");
@@ -2117,7 +2130,9 @@ static gboolean init_config (gpointer data)
         gtk_widget_set_tooltip_text (GTK_WIDGET (chromium_rb), _("Multiple browsers are not installed"));
         gtk_widget_set_tooltip_text (GTK_WIDGET (firefox_rb), _("Multiple browsers are not installed"));
     }
+#ifdef PLUGIN_NAME
     g_signal_connect (chromium_rb, "toggled", G_CALLBACK (on_browser_toggle), NULL);
+#endif
 
     if (!vsystem (XSCR_INSTALLED))
     {
@@ -2171,8 +2186,10 @@ static gboolean init_config (gpointer data)
             gtk_widget_set_sensitive (GTK_WIDGET (squeekop_cb), FALSE);
             gtk_widget_set_tooltip_text (GTK_WIDGET (squeekop_cb), _("A virtual keyboard is not installed"));
         }
+#ifdef PLUGIN_NAME
         g_signal_connect (squeek_cb, "changed", G_CALLBACK (on_squeekboard_set), NULL);
         g_signal_connect (squeekop_cb, "changed", G_CALLBACK (on_squeek_output_set), NULL);
+#endif
     }
     else
     {
@@ -2184,6 +2201,7 @@ static gboolean init_config (gpointer data)
 
     if (!vsystem (IS_PI))
     {
+#ifdef PLUGIN_NAME
         CONFIG_SET_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN, SET_OVERSCAN);
         CONFIG_SET_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2, SET_OVERSCAN2);
         CONFIG_SET_SWITCH (spi_sw, "sw_spi", orig_spi, GET_SPI, SET_SPI);
@@ -2192,16 +2210,35 @@ static gboolean init_config (gpointer data)
         CONFIG_SET_SWITCH (rgpio_sw, "sw_rgp", orig_rgpio, GET_RGPIO, SET_RGPIO);
         CONFIG_SET_SWITCH (vnc_sw, "sw_vnc", orig_vnc, GET_VNC, SET_VNC);
         CONFIG_SET_SWITCH (usb_sw, "sw_usb", orig_usbi, GET_USBI, SET_USBI);
+#else
+        CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN);
+        CONFIG_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2);
+        CONFIG_SWITCH (spi_sw, "sw_spi", orig_spi, GET_SPI);
+        CONFIG_SWITCH (i2c_sw, "sw_i2c", orig_i2c, GET_I2C);
+        CONFIG_SWITCH (onewire_sw, "sw_one", orig_onewire, GET_1WIRE);
+        CONFIG_SWITCH (rgpio_sw, "sw_rgp", orig_rgpio, GET_RGPIO);
+        CONFIG_SWITCH (vnc_sw, "sw_vnc", orig_vnc, GET_VNC);
+        CONFIG_SWITCH (usb_sw, "sw_usb", orig_usbi, GET_USBI);
+#endif
 
         if (!vsystem (IS_PI5))
         {
+#ifdef PLUGIN_NAME
             CONFIG_SET_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIALCON, SET_SERIALCON);
             CONFIG_SWITCH (serial_sw, "sw_ser", orig_serial, GET_SERIALHW);
             g_signal_connect (serial_sw, "state-set", G_CALLBACK (on_serial_toggle), NULL);
+#else
+            CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIALCON);
+            CONFIG_SWITCH (serial_sw, "sw_ser", orig_serial, GET_SERIALHW);
+#endif
         }
         else
         {
+#ifdef PLUGIN_NAME
             CONFIG_SET_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIALCON, SET_SERIALCON);
+#else
+            CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIALCON);
+#endif
             serial_sw = gtk_builder_get_object (builder, "sw_ser");
             g_signal_connect (serial_sw, "state-set", G_CALLBACK (on_serial_toggle), NULL);
             if ((orig_serial = get_status (GET_SERIALHW)))
@@ -2233,7 +2270,9 @@ static gboolean init_config (gpointer data)
         else
         {
             gtk_switch_set_active (GTK_SWITCH (led_actpwr_sw), !(orig_leds));
+#ifdef PLUGIN_NAME
             g_signal_connect (led_actpwr_sw, "state-set", G_CALLBACK (on_leds_toggle), NULL);
+#endif
         }
 
         if (vsystem (IS_PI4))
@@ -2267,13 +2306,17 @@ static gboolean init_config (gpointer data)
             gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (fan_gpio_sb), GTK_ADJUSTMENT (gadj));
             orig_fan_gpio = get_status (GET_FAN_GPIO);
             gtk_spin_button_set_value (GTK_SPIN_BUTTON (fan_gpio_sb), orig_fan_gpio);
+#ifdef PLUGIN_NAME
             g_signal_connect (fan_gpio_sb, "value_changed", G_CALLBACK (on_fan_value_changed), NULL);
+#endif
 
             tadj = gtk_adjustment_new (80, 60, 120, 5, 10, 0);
             gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (fan_temp_sb), GTK_ADJUSTMENT (tadj));
             orig_fan_temp = get_status (GET_FAN_TEMP);
             gtk_spin_button_set_value (GTK_SPIN_BUTTON (fan_temp_sb), orig_fan_temp);
+#ifdef PLUGIN_NAME
             g_signal_connect (fan_temp_sb, "value_changed", G_CALLBACK (on_fan_value_changed), NULL);
+#endif
         }
 
         overclock_cb = gtk_builder_get_object (builder, "combo_oc");
@@ -2319,7 +2362,9 @@ static gboolean init_config (gpointer data)
         if (orig_clock != -1)
         {
             gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), orig_clock);
+#ifdef PLUGIN_NAME
             g_signal_connect (overclock_cb, "changed", G_CALLBACK (on_overclock_set), NULL);
+#endif
         }
 
         ofs_btn = gtk_builder_get_object (builder, "button_ofs");
@@ -2350,14 +2395,21 @@ static gboolean init_config (gpointer data)
             g_free (vres);
 
             gtk_combo_box_set_active (GTK_COMBO_BOX (vnc_res_cb), orig_vnc_res);
+#ifdef PLUGIN_NAME
             g_signal_connect (vnc_res_cb, "changed", G_CALLBACK (on_vnc_res_set), NULL);
+#endif
         }
         else gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
     }
     else
     {
+#ifdef PLUGIN_NAME
         CONFIG_SET_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN, SET_OVERSCAN);
         CONFIG_SET_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2, SET_OVERSCAN2);
+#else
+        CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN);
+        CONFIG_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2);
+#endif
 
         if (!get_status ("grep -q boot=live /proc/cmdline ; echo $?"))
         {
