@@ -1,5 +1,10 @@
 sources = files (
-    'rc_gui.c'
+    'rc_gui.c',
+    'system.c',
+    'display.c',
+    'interface.c',
+    'perform.c',
+    'local.c'
 )
 
 add_global_arguments('-Wno-unused-result', language : 'c')
