@@ -239,7 +239,6 @@ void info (char *msg)
 static gboolean ok_clicked (GtkButton *button, gpointer data)
 {
     gtk_widget_destroy (msg_dlg);
-    if (!main_dlg) gtk_main_quit ();
     return FALSE;
 }
 
