@@ -55,52 +55,34 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Global data                                                                */
 /*----------------------------------------------------------------------------*/
 
-static GObject *fan_gpio_sb, *fan_temp_sb, *ofs_btn, *usb_sw, *fan_sw, *overclock_cb, *ofs_en_sw, *bp_ro_sw, *ofs_lbl;
-static int orig_fan, orig_fan_gpio, orig_fan_temp, orig_clock, orig_usbi, orig_ofs, orig_bpro;
+static GObject *overclock_cb, *fan_sw, *fan_gpio_sb, *fan_temp_sb, *usb_sw, *ofs_btn, *ofs_en_sw, *bp_ro_sw, *ofs_lbl;
+static int orig_clock, orig_fan, orig_fan_gpio, orig_fan_temp, orig_usbi, orig_ofs, orig_bpro;
 static int ovfs_rb;
 
 /*----------------------------------------------------------------------------*/
 /* Prototypes                                                                 */
 /*----------------------------------------------------------------------------*/
 
-static gboolean close_msg (gpointer data);
-static gboolean on_overlay_fs (GtkSwitch *btn, gboolean state, gpointer ptr);
-static gpointer initrd_thread (gpointer data);
 static void on_set_ofs (GtkButton* btn, gpointer ptr);
+static gboolean overlay_update (GtkSwitch *btn, gboolean state, gpointer ptr);
+static gpointer initrd_thread (gpointer data);
+static gboolean close_msg (gpointer data);
+static void overclock_config (void);
+static void fan_config (void);
+static void fan_update (void);
+static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr);
 #ifdef PLUGIN_NAME
 static void on_overclock_set (GtkComboBox* cb, gpointer ptr);
-static void fan_config (void);
 static void on_fan_value_changed (GtkSpinButton *sb);
 #endif
-static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr);
 
 /*----------------------------------------------------------------------------*/
 /* Function definitions                                                       */
 /*----------------------------------------------------------------------------*/
 
-static gboolean close_msg (gpointer data)
-{
-    gtk_widget_destroy (GTK_WIDGET (msg_dlg));
-    return FALSE;
-}
-
-/* Overlay file system setting */
-
-static gboolean on_overlay_fs (GtkSwitch *btn, gboolean state, gpointer ptr)
-{
-    ovfs_rb = 0;
-    if (orig_ofs == gtk_switch_get_active (GTK_SWITCH (ofs_en_sw))) ovfs_rb = 1;
-    if (orig_bpro == gtk_switch_get_active (GTK_SWITCH (bp_ro_sw))) ovfs_rb = 1;
-    gtk_widget_set_visible (GTK_WIDGET (ofs_lbl), ovfs_rb);
-    return FALSE;
-}
-
-static gpointer initrd_thread (gpointer data)
-{
-    vsystem (SET_OFS_ON);
-    g_idle_add (close_msg, NULL);
-    return NULL;
-}
+/*----------------------------------------------------------------------------*/
+/* Overlay file system dialog                                                 */
+/*----------------------------------------------------------------------------*/
 
 static void on_set_ofs (GtkButton* btn, gpointer ptr)
 {
@@ -135,8 +117,8 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
         gtk_widget_set_tooltip_text (GTK_WIDGET (bp_ro_sw), _("The state of the boot partition cannot be changed while an overlay is active"));
     }
 
-    g_signal_connect (ofs_en_sw, "state-set", G_CALLBACK (on_overlay_fs), NULL);
-    g_signal_connect (bp_ro_sw, "state-set", G_CALLBACK (on_overlay_fs), NULL);
+    g_signal_connect (ofs_en_sw, "state-set", G_CALLBACK (overlay_update), NULL);
+    g_signal_connect (bp_ro_sw, "state-set", G_CALLBACK (overlay_update), NULL);
     gtk_widget_realize (GTK_WIDGET (ofs_lbl));
     gtk_widget_set_size_request (dlg, gtk_widget_get_allocated_width (dlg), gtk_widget_get_allocated_height (dlg));
     gtk_widget_hide (GTK_WIDGET (ofs_lbl));
@@ -163,13 +145,38 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
     gtk_widget_destroy (dlg);
 }
 
-#ifdef PLUGIN_NAME
-static void on_overclock_set (GtkComboBox* cb, gpointer ptr)
+static gboolean overlay_update (GtkSwitch *btn, gboolean state, gpointer ptr)
+{
+    ovfs_rb = 0;
+    if (orig_ofs == gtk_switch_get_active (GTK_SWITCH (ofs_en_sw))) ovfs_rb = 1;
+    if (orig_bpro == gtk_switch_get_active (GTK_SWITCH (bp_ro_sw))) ovfs_rb = 1;
+    gtk_widget_set_visible (GTK_WIDGET (ofs_lbl), ovfs_rb);
+    return FALSE;
+}
+
+static gpointer initrd_thread (gpointer data)
+{
+    vsystem (SET_OFS_ON);
+    g_idle_add (close_msg, NULL);
+    return NULL;
+}
+
+static gboolean close_msg (gpointer data)
+{
+    gtk_widget_destroy (GTK_WIDGET (msg_dlg));
+    return FALSE;
+}
+
+/*----------------------------------------------------------------------------*/
+/* Control handling                                                           */
+/*----------------------------------------------------------------------------*/
+
+static void overclock_config (void)
 {
     switch (get_status (GET_PI_TYPE))
     {
         case 1:
-            switch (gtk_combo_box_get_active (cb))
+            switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
             {
                 case 0 :    vsystem (SET_OVERCLOCK, "None");
                             break;
@@ -185,7 +192,7 @@ static void on_overclock_set (GtkComboBox* cb, gpointer ptr)
             break;
 
         case 2:
-            switch (gtk_combo_box_get_active (cb))
+            switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
             {
                 case 0 :    vsystem (SET_OVERCLOCK, "None");
                             break;
@@ -210,31 +217,56 @@ static void fan_config (void)
     }
 }
 
-static void on_fan_value_changed (GtkSpinButton *sb)
+static void fan_update (void)
 {
-    fan_config ();
-}
-#endif
-
-static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
-{
-    gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), state);
-    gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), state);
-    if (state)
+    if (gtk_switch_get_active (GTK_SWITCH (fan_sw)))
     {
+        gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), TRUE);
         gtk_widget_set_tooltip_text (GTK_WIDGET (fan_gpio_sb), _("Set the GPIO to which the fan is connected"));
         gtk_widget_set_tooltip_text (GTK_WIDGET (fan_temp_sb), _("Set the temperature in degrees C at which the fan turns on"));
     }
     else
     {
+        gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), FALSE);
         gtk_widget_set_tooltip_text (GTK_WIDGET (fan_gpio_sb), _("This setting cannot be changed unless the fan is enabled"));
         gtk_widget_set_tooltip_text (GTK_WIDGET (fan_temp_sb), _("This setting cannot be changed unless the fan is enabled"));
     }
+}
+
+static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
+{
+    fan_update ();
+
 #ifdef PLUGIN_NAME
     fan_config ();
 #endif
+
     return FALSE;
 }
+
+/*----------------------------------------------------------------------------*/
+/* Real-time handlers                                                         */
+/*----------------------------------------------------------------------------*/
+
+#ifdef PLUGIN_NAME
+
+static void on_overclock_set (GtkComboBox* cb, gpointer ptr)
+{
+    overclock_config ();
+}
+
+static void on_fan_value_changed (GtkSpinButton *sb)
+{
+    fan_config ();
+}
+
+#endif
+
+/*----------------------------------------------------------------------------*/
+/* Exit processing                                                            */
+/*----------------------------------------------------------------------------*/
 
 gboolean read_performance_tab (void)
 {
@@ -246,55 +278,19 @@ gboolean read_performance_tab (void)
 
         if (orig_clock != -1 && orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
         {
-            switch (get_status (GET_PI_TYPE))
-            {
-                case 1:
-                    switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-                    {
-                        case 0 :    vsystem (SET_OVERCLOCK, "None");
-                                    break;
-                        case 1 :    vsystem (SET_OVERCLOCK, "Modest");
-                                    break;
-                        case 2 :    vsystem (SET_OVERCLOCK, "Medium");
-                                    break;
-                        case 3 :    vsystem (SET_OVERCLOCK, "High");
-                                    break;
-                        case 4 :    vsystem (SET_OVERCLOCK, "Turbo");
-                                    break;
-                    }
-                    reboot = 1;
-                    break;
-
-                case 2:
-                    switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-                    {
-                        case 0 :    vsystem (SET_OVERCLOCK, "None");
-                                    break;
-                        case 1 :    vsystem (SET_OVERCLOCK, "High");
-                                    break;
-                    }
-                    reboot = 1;
-                    break;
-            }
+            overclock_config ();
+            reboot = TRUE;
         }
 
-        if (!vsystem (IS_PI4))
-        {
-            int fan_gpio = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_gpio_sb));
-            int fan_temp = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_temp_sb));
-            if (!gtk_switch_get_active (GTK_SWITCH (fan_sw)))
-            {
-                if (orig_fan == 0) vsystem (SET_FAN, 1, 0, 0);
-            }
-            else
-            {
-                if (orig_fan == 1 || orig_fan_gpio != fan_gpio || orig_fan_temp != fan_temp) vsystem (SET_FAN, 0, fan_gpio, fan_temp);
-            }
-        }
+        if (!vsystem (IS_PI4)) fan_config ();
     }
 
     return reboot;
 }
+
+/*----------------------------------------------------------------------------*/
+/* Reboot check                                                               */
+/*----------------------------------------------------------------------------*/
 
 gboolean performance_reboot (void)
 {
@@ -307,46 +303,31 @@ gboolean performance_reboot (void)
     return FALSE;
 }
 
+/*----------------------------------------------------------------------------*/
+/* Tab setup                                                                  */
+/*----------------------------------------------------------------------------*/
+
 void load_performance_tab (GtkBuilder *builder)
 {
     GtkAdjustment *gadj, *tadj;
 
     if (!vsystem (IS_PI))
     {
+        /* USB current limit switch */
         CONFIG_SWITCH (usb_sw, "sw_usb", orig_usbi, GET_USBI);
-
         HANDLE_SWITCH (usb_sw, SET_USBI);
-
         if (vsystem (IS_PI5))
         {
             gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox37")));
         }
 
-        if (vsystem (IS_PI4))
+        /* Fan controls */
+        if (!vsystem (IS_PI4))
         {
-            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox34")));
-            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox35")));
-            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox36")));
-        }
-        else
-        {
-            fan_sw = gtk_builder_get_object (builder, "sw_fan");
+            CONFIG_SWITCH (fan_sw, "sw_fan", orig_fan, GET_FAN);
             fan_gpio_sb = gtk_builder_get_object (builder, "sb_fan_gpio");
             fan_temp_sb = gtk_builder_get_object (builder, "sb_fan_temp");
-            if ((orig_fan = get_status (GET_FAN)))
-            {
-                gtk_switch_set_active (GTK_SWITCH (fan_sw), FALSE);
-                gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), FALSE);
-                gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), FALSE);
-                gtk_widget_set_tooltip_text (GTK_WIDGET (fan_gpio_sb), _("This setting cannot be changed unless the fan is enabled"));
-                gtk_widget_set_tooltip_text (GTK_WIDGET (fan_temp_sb), _("This setting cannot be changed unless the fan is enabled"));
-            }
-            else
-            {
-                gtk_switch_set_active (GTK_SWITCH (fan_sw), TRUE);
-                gtk_widget_set_sensitive (GTK_WIDGET (fan_gpio_sb), TRUE);
-                gtk_widget_set_sensitive (GTK_WIDGET (fan_temp_sb), TRUE);
-            }
+            fan_update ();
             g_signal_connect (fan_sw, "state-set", G_CALLBACK (on_fan_toggle), NULL);
 
             gadj = gtk_adjustment_new (14, 2, 27, 1, 1, 0);
@@ -361,7 +342,14 @@ void load_performance_tab (GtkBuilder *builder)
             gtk_spin_button_set_value (GTK_SPIN_BUTTON (fan_temp_sb), orig_fan_temp);
             HANDLE_CONTROL (fan_temp_sb, "value_changed", on_fan_value_changed);
         }
+        else
+        {
+            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox34")));
+            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox35")));
+            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox36")));
+        }
 
+        /* Overclock controls */
         overclock_cb = gtk_builder_get_object (builder, "combo_oc");
         switch (get_status (GET_PI_TYPE))
         {
@@ -408,6 +396,7 @@ void load_performance_tab (GtkBuilder *builder)
             HANDLE_CONTROL (overclock_cb, "changed", on_overclock_set);
         }
 
+        /* Overlay file system button */
         ofs_btn = gtk_builder_get_object (builder, "button_ofs");
         g_signal_connect (ofs_btn, "clicked", G_CALLBACK (on_set_ofs), NULL);
     }

@@ -41,22 +41,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_OVERSCAN2   SET_PREFIX "do_overscan_kms 2 %d"
 #define GET_BLANK       GET_PREFIX "get_blanking"
 #define SET_BLANK       SET_PREFIX "do_blanking %d"
-#define VKBD_INSTALLED  GET_PREFIX "is_installed squeekboard"
+#define GET_VNC_RES     GET_PREFIX "get_vnc_resolution"
+#define SET_VNC_RES     SET_PREFIX "do_vnc_resolution %s"
 #define GET_SQUEEK      GET_PREFIX "get_squeekboard"
 #define SET_SQUEEK      SET_PREFIX "do_squeekboard S%d"
 #define GET_SQUEEKOUT   GET_PREFIX "get_squeek_output"
 #define SET_SQUEEKOUT   SET_PREFIX "do_squeek_output %s"
+#define VKBD_INSTALLED  GET_PREFIX "is_installed squeekboard"
 #define XSCR_INSTALLED  GET_PREFIX "is_installed xscreensaver"
-#define GET_VNC_RES     GET_PREFIX "get_vnc_resolution"
-#define SET_VNC_RES     SET_PREFIX "do_vnc_resolution %s"
 
 /*----------------------------------------------------------------------------*/
 /* Global data                                                                */
 /*----------------------------------------------------------------------------*/
 
-static GObject *overscan_sw, *overscan2_sw, *blank_sw;
-static GObject *vnc_res_cb, *squeek_cb, *squeekop_cb;
-static int orig_overscan, orig_overscan2, orig_squeek, orig_blank, orig_vnc_res;
+static GObject *overscan_sw, *overscan2_sw, *blank_sw, *vnc_res_cb, *squeek_cb, *squeekop_cb;
+static int orig_overscan, orig_overscan2, orig_blank, orig_vnc_res, orig_squeek;
 static char *orig_sop;
 
 /*----------------------------------------------------------------------------*/
@@ -74,6 +73,10 @@ static void on_vnc_res_set (GtkComboBox* cb, gpointer ptr);
 /* Function definitions                                                       */
 /*----------------------------------------------------------------------------*/
 
+/*----------------------------------------------------------------------------*/
+/* Helpers                                                                    */
+/*----------------------------------------------------------------------------*/
+
 static int num_screens (void)
 {
     if (wm != WM_OPENBOX)
@@ -82,7 +85,12 @@ static int num_screens (void)
         return get_status ("xrandr -q | grep -cw connected");
 }
 
+/*----------------------------------------------------------------------------*/
+/* Real-time handlers                                                         */
+/*----------------------------------------------------------------------------*/
+
 #ifdef PLUGIN_NAME
+
 static void on_squeekboard_set (GtkComboBox* cb, gpointer ptr)
 {
     vsystem (SET_SQUEEK, gtk_combo_box_get_active (cb) + 1);
@@ -101,32 +109,44 @@ static void on_vnc_res_set (GtkComboBox* cb, gpointer ptr)
     vsystem (SET_VNC_RES, vres);
     g_free (vres);
 }
+
 #endif
+
+/*----------------------------------------------------------------------------*/
+/* Exit processing                                                            */
+/*----------------------------------------------------------------------------*/
 
 gboolean read_display_tab (void)
 {
     gboolean reboot = FALSE;
+    char *cptr;
 
-    READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wm == WM_WAYFIRE ? FALSE : TRUE);
+    READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wm == WM_OPENBOX ? TRUE : FALSE);
     READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
     READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
+
     if (gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) != orig_squeek)
+    {
         vsystem (SET_SQUEEK, gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) + 1);
-    char *sop = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (squeekop_cb));
-    if (sop && orig_sop && g_strcmp0 (orig_sop, sop))
-        vsystem (SET_SQUEEKOUT, sop);
-    if (sop) g_free (sop);
+    }
+
+    cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (squeekop_cb));
+    if (cptr)
+    {
+        if (orig_sop && g_strcmp0 (orig_sop, cptr)) vsystem (SET_SQUEEKOUT, cptr);
+        g_free (cptr);
+    }
 
     if (!vsystem (IS_PI))
     {
         if (wm == WM_OPENBOX)
         {
-            if (orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)))
+            if (gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)) != orig_vnc_res)
             {
-                char *vres = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (vnc_res_cb));
-                vsystem (SET_VNC_RES, vres);
-                g_free (vres);
-                reboot = 1;
+                cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (vnc_res_cb));
+                vsystem (SET_VNC_RES, cptr);
+                g_free (cptr);
+                reboot = TRUE;
             }
         }
     }
@@ -134,46 +154,77 @@ gboolean read_display_tab (void)
     return reboot;
 }
 
+/*----------------------------------------------------------------------------*/
+/* Reboot check                                                               */
+/*----------------------------------------------------------------------------*/
+
 gboolean display_reboot (void)
 {
-    if (wm == WM_OPENBOX) CHECK_SWITCH (blank_sw, orig_blank);
-    
-    if (!vsystem (IS_PI))
+    if (wm == WM_OPENBOX)
     {
-        if (wm == WM_OPENBOX && orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb))) return TRUE;
+        CHECK_SWITCH (blank_sw, orig_blank);
+        if (!vsystem (IS_PI) && orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)))
+            return TRUE;
     }
+
     return FALSE;
 }
 
+/*----------------------------------------------------------------------------*/
+/* Tab setup                                                                  */
+/*----------------------------------------------------------------------------*/
+
 void load_display_tab (GtkBuilder *builder)
 {
+    char *line, *cptr;
+    size_t len;
+    FILE *fp;
+    int op;
+
+    /* Blanking switch */
     CONFIG_SWITCH (blank_sw, "sw_blank", orig_blank, GET_BLANK);
     HANDLE_SWITCH (blank_sw, SET_BLANK);
-
     if (!vsystem (XSCR_INSTALLED))
     {
         gtk_widget_set_sensitive (GTK_WIDGET (blank_sw), FALSE);
         gtk_widget_set_tooltip_text (GTK_WIDGET (blank_sw), _("This setting is overridden when Xscreensaver is installed"));
     }
 
-    if (wm != WM_OPENBOX)
-    {
-        char *line, *cptr;
-        size_t len;
-        FILE *fp;
-        int op = 0;
+    /* Overscan switches */
+    CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN);
+    CONFIG_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2);
+    HANDLE_SWITCH (overscan_sw, SET_OVERSCAN);
+    HANDLE_SWITCH (overscan2_sw, SET_OVERSCAN2);
 
+    if (wm == WM_OPENBOX)
+    {
+        /* Set overscan switches for number of monitors */
+        if (num_screens () != 2) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
+        else gtk_label_set_text (GTK_LABEL (gtk_builder_get_object (builder, "label52")), _("Overscan (HDMI-1):"));
+
+        /* Hide squeekboard */
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox57")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox58")));
+    }
+    else
+    {
+        /* Hide overscan */
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox52")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
+
+        /* Squeekboard enable */
         squeek_cb = gtk_builder_get_object (builder, "cb_squeek");
         orig_squeek = get_status (GET_SQUEEK);
         gtk_combo_box_set_active (GTK_COMBO_BOX (squeek_cb), orig_squeek);
+        HANDLE_CONTROL (squeek_cb, "changed", on_squeekboard_set);
 
+        /* Squeekboard output */
         squeekop_cb = gtk_builder_get_object (builder, "cb_squeekout");
         orig_sop = get_string (GET_SQUEEKOUT);
         fp = popen ("wlr-randr", "r");
         if (fp)
         {
+            op = 0;
             line = NULL;
             len = 0;
             while (getline (&line, &len, fp) != -1)
@@ -194,6 +245,7 @@ void load_display_tab (GtkBuilder *builder)
             free (line);
             pclose (fp);
         }
+        HANDLE_CONTROL (squeekop_cb, "changed", on_squeek_output_set);
 
         if (vsystem (VKBD_INSTALLED))
         {
@@ -202,63 +254,37 @@ void load_display_tab (GtkBuilder *builder)
             gtk_widget_set_sensitive (GTK_WIDGET (squeekop_cb), FALSE);
             gtk_widget_set_tooltip_text (GTK_WIDGET (squeekop_cb), _("A virtual keyboard is not installed"));
         }
-        HANDLE_CONTROL (squeek_cb, "changed", on_squeekboard_set);
-        HANDLE_CONTROL (squeekop_cb, "changed", on_squeek_output_set);
     }
-    else
+
+    /* VNC resolution */
+    if (!vsystem (IS_PI) && wm == WM_OPENBOX)
     {
-        if (num_screens () != 2) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
-        else gtk_label_set_text (GTK_LABEL (gtk_builder_get_object (builder, "label52")), _("Overscan (HDMI-1):"));
-        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox57")));
-        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox58")));
+        vnc_res_cb = gtk_builder_get_object (builder, "combo_res");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "640x480");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "720x480");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "800x600");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1024x768");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1280x720");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1280x1024");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1600x1200");
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1920x1080");
+
+        orig_vnc_res = -1;
+        cptr = get_string (GET_VNC_RES);
+        if (!strcmp (cptr, "640x480")) orig_vnc_res = 0;
+        if (!strcmp (cptr, "720x480")) orig_vnc_res = 1;
+        if (!strcmp (cptr, "800x600")) orig_vnc_res = 2;
+        if (!strcmp (cptr, "1024x768")) orig_vnc_res = 3;
+        if (!strcmp (cptr, "1280x720")) orig_vnc_res = 4;
+        if (!strcmp (cptr, "1280x1024")) orig_vnc_res = 5;
+        if (!strcmp (cptr, "1600x1200")) orig_vnc_res = 6;
+        if (!strcmp (cptr, "1920x1080")) orig_vnc_res = 7;
+        g_free (cptr);
+
+        gtk_combo_box_set_active (GTK_COMBO_BOX (vnc_res_cb), orig_vnc_res);
+        HANDLE_CONTROL (vnc_res_cb, "changed", on_vnc_res_set)
     }
-
-    if (!vsystem (IS_PI))
-    {
-        CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN);
-        CONFIG_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2);
-
-        HANDLE_SWITCH (overscan_sw, SET_OVERSCAN);
-        HANDLE_SWITCH (overscan2_sw, SET_OVERSCAN2);
-
-        if (wm == WM_OPENBOX)
-        {
-            vnc_res_cb = gtk_builder_get_object (builder, "combo_res");
-            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "640x480");
-            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "720x480");
-            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "800x600");
-            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1024x768");
-            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1280x720");
-            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1280x1024");
-            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1600x1200");
-            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1920x1080");
-
-            orig_vnc_res = -1;
-            char *vres = get_string (GET_VNC_RES);
-            if (!strcmp (vres, "640x480")) orig_vnc_res = 0;
-            if (!strcmp (vres, "720x480")) orig_vnc_res = 1;
-            if (!strcmp (vres, "800x600")) orig_vnc_res = 2;
-            if (!strcmp (vres, "1024x768")) orig_vnc_res = 3;
-            if (!strcmp (vres, "1280x720")) orig_vnc_res = 4;
-            if (!strcmp (vres, "1280x1024")) orig_vnc_res = 5;
-            if (!strcmp (vres, "1600x1200")) orig_vnc_res = 6;
-            if (!strcmp (vres, "1920x1080")) orig_vnc_res = 7;
-            g_free (vres);
-
-            gtk_combo_box_set_active (GTK_COMBO_BOX (vnc_res_cb), orig_vnc_res);
-            HANDLE_CONTROL (vnc_res_cb, "changed", on_vnc_res_set)
-        }
-        else gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
-    }
-    else
-    {
-        CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN);
-        CONFIG_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2);
-        HANDLE_SWITCH (overscan_sw, SET_OVERSCAN);
-        HANDLE_SWITCH (overscan2_sw, SET_OVERSCAN2);
-
-        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
-    }
+    else gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
 }
 
 /* End of file */

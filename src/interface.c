@@ -43,8 +43,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_I2C         GET_PREFIX "get_i2c"
 #define SET_I2C         SET_PREFIX "do_i2c %d"
 #define GET_SERIALCON   GET_PREFIX "get_serial_cons"
-#define GET_SERIALHW    GET_PREFIX "get_serial_hw"
 #define SET_SERIALCON   SET_PREFIX "do_serial_cons %d"
+#define GET_SERIALHW    GET_PREFIX "get_serial_hw"
 #define SET_SERIALHW    SET_PREFIX "do_serial_hw %d"
 #define GET_1WIRE       GET_PREFIX "get_onewire"
 #define SET_1WIRE       SET_PREFIX "do_onewire %d"
@@ -57,22 +57,27 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Global data                                                                */
 /*----------------------------------------------------------------------------*/
 
-static GObject *ssh_sw, *rgpio_sw, *vnc_sw, *spi_sw, *i2c_sw, *serial_sw, *scons_sw, *onewire_sw;
-static int orig_ssh, orig_spi, orig_i2c, orig_serial, orig_scons, orig_onewire, orig_rgpio, orig_vnc;
+static GObject *ssh_sw, *vnc_sw, *spi_sw, *i2c_sw, *serial_sw, *scons_sw, *onewire_sw, *rgpio_sw;
+static int orig_ssh, orig_vnc, orig_spi, orig_i2c, orig_serial, orig_scons, orig_onewire, orig_rgpio;
 
 /*----------------------------------------------------------------------------*/
 /* Prototypes                                                                 */
 /*----------------------------------------------------------------------------*/
 
+static void serial_update (void);
 static gboolean on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr);
 
 /*----------------------------------------------------------------------------*/
 /* Function definitions                                                       */
 /*----------------------------------------------------------------------------*/
 
-static gboolean on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
+/*----------------------------------------------------------------------------*/
+/* Control handling                                                           */
+/*----------------------------------------------------------------------------*/
+
+static void serial_update (void)
 {
-    if (state)
+    if (gtk_switch_get_active (GTK_SWITCH (serial_sw)))
     {
         gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), TRUE);
         gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("Enable shell and kernel messages on the serial connection"));
@@ -83,21 +88,32 @@ static gboolean on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
         gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), FALSE);
         gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("This setting cannot be changed while the serial port is disabled"));
     }
+}
+
+static gboolean on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
+{
+    serial_update ();
+
 #ifdef PLUGIN_NAME
     vsystem (SET_SERIALHW, (1 - state));
 #endif
+
     return FALSE;
 }
+
+/*----------------------------------------------------------------------------*/
+/* Exit processing                                                            */
+/*----------------------------------------------------------------------------*/
 
 gboolean read_interfacing_tab (void)
 {
     gboolean reboot = FALSE;
 
     READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
+    READ_SWITCH (vnc_sw, orig_vnc, SET_VNC, FALSE);
 
     if (!vsystem (IS_PI))
     {
-        READ_SWITCH (vnc_sw, orig_vnc, SET_VNC, FALSE);
         READ_SWITCH (spi_sw, orig_spi, SET_SPI, FALSE);
         READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
         READ_SWITCH (onewire_sw, orig_onewire, SET_1WIRE, TRUE);
@@ -105,8 +121,13 @@ gboolean read_interfacing_tab (void)
         READ_SWITCH (serial_sw, orig_serial, SET_SERIALHW, TRUE);
         READ_SWITCH (scons_sw, orig_scons, SET_SERIALCON, TRUE);
      }
+
      return reboot;
 }
+
+/*----------------------------------------------------------------------------*/
+/* Reboot check                                                               */
+/*----------------------------------------------------------------------------*/
 
 gboolean interfacing_reboot (void)
 {
@@ -116,69 +137,65 @@ gboolean interfacing_reboot (void)
         CHECK_SWITCH (serial_sw, orig_serial);
         CHECK_SWITCH (scons_sw, orig_scons);
     }
+
     return FALSE;
 }
 
+/*----------------------------------------------------------------------------*/
+/* Tab setup                                                                  */
+/*----------------------------------------------------------------------------*/
+
 void load_interfacing_tab (GtkBuilder *builder)
 {
-
+    /* SSH switch */
     CONFIG_SWITCH (ssh_sw, "sw_ssh", orig_ssh, GET_SSH);
     HANDLE_SWITCH (ssh_sw, SET_SSH);
 
+    /* VNC switch */
+    CONFIG_SWITCH (vnc_sw, "sw_vnc", orig_vnc, GET_VNC);
+    HANDLE_SWITCH (vnc_sw, SET_VNC);
+    if (vsystem (RVNC_INSTALLED) && vsystem (WVNC_INSTALLED))
+    {
+        gtk_widget_set_sensitive (GTK_WIDGET (vnc_sw), FALSE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_sw), _("The VNC server is not installed"));
+    }
+
     if (!vsystem (IS_PI))
     {
+        /* SPI switch */
         CONFIG_SWITCH (spi_sw, "sw_spi", orig_spi, GET_SPI);
-        CONFIG_SWITCH (i2c_sw, "sw_i2c", orig_i2c, GET_I2C);
-        CONFIG_SWITCH (onewire_sw, "sw_one", orig_onewire, GET_1WIRE);
-        CONFIG_SWITCH (rgpio_sw, "sw_rgp", orig_rgpio, GET_RGPIO);
-        CONFIG_SWITCH (vnc_sw, "sw_vnc", orig_vnc, GET_VNC);
-
         HANDLE_SWITCH (spi_sw, SET_SPI);
+
+        /* I2C switch */
+        CONFIG_SWITCH (i2c_sw, "sw_i2c", orig_i2c, GET_I2C);
         HANDLE_SWITCH (i2c_sw, SET_I2C);
+
+        /* 1-wire interface switch */
+        CONFIG_SWITCH (onewire_sw, "sw_one", orig_onewire, GET_1WIRE);
         HANDLE_SWITCH (onewire_sw, SET_1WIRE);
+
+        /* Remote GPIO switch */
+        CONFIG_SWITCH (rgpio_sw, "sw_rgp", orig_rgpio, GET_RGPIO);
         HANDLE_SWITCH (rgpio_sw, SET_RGPIO);
-        HANDLE_SWITCH (vnc_sw, SET_VNC);
 
-        if (!vsystem (IS_PI5))
+        /* Serial console switch */
+        CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIALCON);
+        HANDLE_SWITCH (scons_sw, SET_SERIALCON);
+
+        /* Serial hardware switch */
+        CONFIG_SWITCH (serial_sw, "sw_ser", orig_serial, GET_SERIALHW);
+        if (vsystem (IS_PI5))
         {
-            CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIALCON);
-            CONFIG_SWITCH (serial_sw, "sw_ser", orig_serial, GET_SERIALHW);
-
-            HANDLE_SWITCH (scons_sw, SET_SERIALCON);
-            HANDLE_CONTROL (serial_sw, "state-set", on_serial_toggle);
+            HANDLE_SWITCH (serial_sw, SET_SERIALHW);
         }
         else
         {
-            CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIALCON);
-            HANDLE_SWITCH (scons_sw, SET_SERIALCON);
-            serial_sw = gtk_builder_get_object (builder, "sw_ser");
-            g_signal_connect (serial_sw, "state-set", G_CALLBACK (on_serial_toggle), NULL);
-            if ((orig_serial = get_status (GET_SERIALHW)))
-            {
-                gtk_switch_set_active (GTK_SWITCH (serial_sw), FALSE);
-                gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), FALSE);
-                gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("This setting cannot be changed while the serial port is disabled"));
-            }
-            else
-            {
-                gtk_switch_set_active (GTK_SWITCH (serial_sw), TRUE);
-                gtk_widget_set_sensitive (GTK_WIDGET (scons_sw), TRUE);
-                gtk_widget_set_tooltip_text (GTK_WIDGET (scons_sw), _("Enable shell and kernel messages on the serial connection"));
-            }
-
-            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox37")));
-        }
-
-        // disable the buttons if VNC isn't installed
-        if (vsystem (RVNC_INSTALLED) && vsystem (WVNC_INSTALLED))
-        {
-            gtk_widget_set_sensitive (GTK_WIDGET (vnc_sw), FALSE);
-            gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_sw), _("The VNC server is not installed"));
+            HANDLE_CONTROL (serial_sw, "state-set", on_serial_toggle);
+            serial_update ();
         }
     }
     else
     {
-        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox23")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox24")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox25")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox26")));

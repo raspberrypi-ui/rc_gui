@@ -51,6 +51,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_BROWSER     SET_PREFIX "do_browser %s"
 #define FF_INSTALLED    GET_PREFIX "is_installed firefox"
 #define CR_INSTALLED    GET_PREFIX "is_installed chromium"
+
 #define CHANGE_PASSWD   "echo $USER:'%s' | SUDO_ASKPASS=/usr/lib/rc-gui/pwdrcg.sh sudo -A chpasswd -e"
 
 /*----------------------------------------------------------------------------*/
@@ -63,38 +64,32 @@ static GObject *alogin_sw, *splash_sw, *led_actpwr_sw;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
 static GObject *hostname_tb;
 
-static int orig_boot, orig_leds, orig_autolog, orig_splash;
+static int orig_boot, orig_autolog, orig_splash, orig_leds;
 static char *orig_browser;
 
 /*----------------------------------------------------------------------------*/
 /* Prototypes                                                                 */
 /*----------------------------------------------------------------------------*/
 
-static void set_passwd (GtkEntry *entry, gpointer ptr);
 static void on_change_passwd (GtkButton* btn, gpointer ptr);
+static void passwd_update (GtkEntry *entry, gpointer ptr);
 static void on_change_hostname (GtkButton* btn, gpointer ptr);
-#ifdef PLUGIN_NAME
 static void config_boot (void);
+static void boot_update (void);
+static void on_boot_toggle (GtkButton *btn, gpointer ptr);
+#ifdef PLUGIN_NAME
 static gboolean on_alogin_toggle (GtkSwitch *btn, gboolean state, gpointer ptr);
 static void on_browser_toggle (GtkButton *btn, gpointer ptr);
 static gboolean on_leds_toggle (GtkSwitch *btn, gboolean state, gpointer ptr);
 #endif
-static void on_boot_toggle (GtkButton *btn, gpointer ptr);
 
 /*----------------------------------------------------------------------------*/
 /* Function definitions                                                       */
 /*----------------------------------------------------------------------------*/
 
-/* Password setting */
-
-static void set_passwd (GtkEntry *entry, gpointer ptr)
-{
-    if (strlen (gtk_entry_get_text (GTK_ENTRY (pwentry1_tb))) && g_strcmp0 (gtk_entry_get_text (GTK_ENTRY (pwentry1_tb)), 
-        gtk_entry_get_text (GTK_ENTRY(pwentry2_tb))))
-        gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), FALSE);
-    else
-        gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), TRUE);
-}
+/*----------------------------------------------------------------------------*/
+/* Password dialog                                                            */
+/*----------------------------------------------------------------------------*/
 
 static void on_change_passwd (GtkButton* btn, gpointer ptr)
 {
@@ -109,8 +104,8 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
     pwentry2_tb = gtk_builder_get_object (builder, "pwentry2");
     gtk_entry_set_visibility (GTK_ENTRY (pwentry1_tb), FALSE);
     gtk_entry_set_visibility (GTK_ENTRY (pwentry2_tb), FALSE);
-    g_signal_connect (pwentry1_tb, "changed", G_CALLBACK (set_passwd), NULL);
-    g_signal_connect (pwentry2_tb, "changed", G_CALLBACK (set_passwd), NULL);
+    g_signal_connect (pwentry1_tb, "changed", G_CALLBACK (passwd_update), NULL);
+    g_signal_connect (pwentry2_tb, "changed", G_CALLBACK (passwd_update), NULL);
     pwok_btn = gtk_builder_get_object (builder, "passwdok");
     gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), FALSE);
 
@@ -127,7 +122,18 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
     g_object_unref (builder);
 }
 
-/* Hostname setting */
+static void passwd_update (GtkEntry *entry, gpointer ptr)
+{
+    if (strlen (gtk_entry_get_text (GTK_ENTRY (pwentry1_tb))) && g_strcmp0 (gtk_entry_get_text (GTK_ENTRY (pwentry1_tb)), 
+        gtk_entry_get_text (GTK_ENTRY(pwentry2_tb))))
+        gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), FALSE);
+    else
+        gtk_widget_set_sensitive (GTK_WIDGET (pwok_btn), TRUE);
+}
+
+/*----------------------------------------------------------------------------*/
+/* Hostname dialog                                                            */
+/*----------------------------------------------------------------------------*/
 
 static void on_change_hostname (GtkButton* btn, gpointer ptr)
 {
@@ -183,7 +189,10 @@ static void on_change_hostname (GtkButton* btn, gpointer ptr)
     g_object_unref (builder);
 }
 
-#ifdef PLUGIN_NAME
+/*----------------------------------------------------------------------------*/
+/* Control handling                                                           */
+/*----------------------------------------------------------------------------*/
+
 static void config_boot (void)
 {
     if (gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
@@ -198,9 +207,38 @@ static void config_boot (void)
     }
 }
 
+static void boot_update (void)
+{
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_cli_rb)))
+    {
+        gtk_switch_set_active (GTK_SWITCH (splash_sw), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
+    }
+    else
+    {
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), TRUE);
+    }
+}
+
+static void on_boot_toggle (GtkButton *btn, gpointer ptr)
+{
+    boot_update ();
+    
+#ifdef PLUGIN_NAME
+    config_boot ();
+#endif
+}
+
+/*----------------------------------------------------------------------------*/
+/* Real-time handlers                                                         */
+/*----------------------------------------------------------------------------*/
+
+#ifdef PLUGIN_NAME
+
 static gboolean on_alogin_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
     config_boot ();
+
     return FALSE;
 }
 
@@ -215,43 +253,24 @@ static void on_browser_toggle (GtkButton *btn, gpointer ptr)
 static gboolean on_leds_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
     vsystem (SET_LEDS, (1 - state));
+
     return FALSE;
 }
+
 #endif
 
-static void on_boot_toggle (GtkButton *btn, gpointer ptr)
-{
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (btn)))
-    {
-        gtk_switch_set_active (GTK_SWITCH (splash_sw), FALSE);
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
-    }
-    else
-    {
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), TRUE);
-    }
-#ifdef PLUGIN_NAME
-    config_boot ();
-#endif
-}
+/*----------------------------------------------------------------------------*/
+/* Exit processing                                                            */
+/*----------------------------------------------------------------------------*/
 
 gboolean read_system_tab (void)
 {
     gboolean reboot = FALSE;
 
-   if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)) 
+    if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)) 
         || orig_autolog == gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
     {
-        if (gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
-        {
-            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUIA);
-            else vsystem (SET_BOOT_CLIA);
-        }
-        else
-        {
-            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUI);
-            else vsystem (SET_BOOT_CLI);
-        }
+        config_boot ();
     }
 
     READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
@@ -265,44 +284,63 @@ gboolean read_system_tab (void)
     {
         if (orig_leds != -1) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
     }
+
     return reboot;
 }
+
+/*----------------------------------------------------------------------------*/
+/* Reboot check                                                               */
+/*----------------------------------------------------------------------------*/
 
 gboolean system_reboot (void)
 {
     return FALSE;
 }
 
+/*----------------------------------------------------------------------------*/
+/* Tab setup                                                                  */
+/*----------------------------------------------------------------------------*/
+
 void load_system_tab (GtkBuilder *builder)
 {
+    /* Change password button */
     passwd_btn = gtk_builder_get_object (builder, "button_pw");
     g_signal_connect (passwd_btn, "clicked", G_CALLBACK (on_change_passwd), NULL);
 
+    /* Change hostname button */
     hostname_btn = gtk_builder_get_object (builder, "button_hn");
     g_signal_connect (hostname_btn, "clicked", G_CALLBACK (on_change_hostname), NULL);
 
+    /* Splash screen switch */
     CONFIG_SWITCH (splash_sw, "sw_splash", orig_splash, GET_SPLASH);
-    CONFIG_SWITCH (alogin_sw, "sw_alogin", orig_autolog, GET_AUTOLOGIN);
     HANDLE_SWITCH (splash_sw, SET_SPLASH);
+    if (!vsystem (IS_PI))
+    {
+        if (!get_status ("grep -q boot=live /proc/cmdline ; echo $?"))
+        {
+            gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (splash_sw), _("Splash screen cannot be configured on a live image"));
+        }
+    }
+
+    /* Autologin switch */
+    CONFIG_SWITCH (alogin_sw, "sw_alogin", orig_autolog, GET_AUTOLOGIN);
     HANDLE_CONTROL (alogin_sw, "state-set", on_alogin_toggle);
 
+    /* CLI / desktop radio buttons */
     boot_desktop_rb = gtk_builder_get_object (builder, "rb_desktop");
     boot_cli_rb = gtk_builder_get_object (builder, "rb_cli");
-    g_signal_connect (boot_cli_rb, "toggled", G_CALLBACK (on_boot_toggle), NULL);
     if ((orig_boot = get_status (GET_BOOT_CLI)))
-    {
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), TRUE);
-    }
     else
-    {
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
-    }
+    g_signal_connect (boot_cli_rb, "toggled", G_CALLBACK (on_boot_toggle), NULL);
+    boot_update ();
 
-    orig_browser = get_string (GET_BROWSER);
+    /* Browser radio buttons */
     chromium_rb = gtk_builder_get_object (builder, "rb_chromium");
     firefox_rb = gtk_builder_get_object (builder, "rb_firefox");
+    orig_browser = get_string (GET_BROWSER);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (firefox_rb), !strcmp (orig_browser, "firefox"));
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chromium_rb), !strcmp (orig_browser, "chromium"));
     if (vsystem (CR_INSTALLED) || vsystem (FF_INSTALLED))
@@ -314,25 +352,18 @@ void load_system_tab (GtkBuilder *builder)
     }
     HANDLE_CONTROL (chromium_rb, "toggled", on_browser_toggle);
 
+    /* Power LED switch */
+    gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
     if (!vsystem (IS_PI))
     {
         led_actpwr_sw = gtk_builder_get_object (builder, "sw_led_actpwr");
         orig_leds = get_status (GET_LEDS);
-        if (orig_leds == -1) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
-        else
+        if (orig_leds != -1)
         {
             gtk_switch_set_active (GTK_SWITCH (led_actpwr_sw), !(orig_leds));
+            gtk_widget_show (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
             HANDLE_CONTROL (led_actpwr_sw, "state-set", on_leds_toggle);
         }
-    }
-    else
-    {
-        if (!get_status ("grep -q boot=live /proc/cmdline ; echo $?"))
-        {
-            gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
-        }
-
-        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
     }
 }
 
