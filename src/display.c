@@ -64,9 +64,9 @@ static char *orig_sop;
 
 static int num_screens (void);
 #ifdef PLUGIN_NAME
-static void on_squeekboard_set (GtkComboBox* cb, gpointer ptr);
-static void on_squeek_output_set (GtkComboBoxText* cb, gpointer ptr);
-static void on_vnc_res_set (GtkComboBox* cb, gpointer ptr);
+static void on_squeekboard_set (GtkComboBox *cb, gpointer ptr);
+static void on_squeek_output_set (GtkComboBoxText *cb, gpointer ptr);
+static void on_vnc_res_set (GtkComboBox *cb, gpointer ptr);
 #endif
 
 /*----------------------------------------------------------------------------*/
@@ -91,19 +91,19 @@ static int num_screens (void)
 
 #ifdef PLUGIN_NAME
 
-static void on_squeekboard_set (GtkComboBox* cb, gpointer ptr)
+static void on_squeekboard_set (GtkComboBox *cb, gpointer ptr)
 {
     vsystem (SET_SQUEEK, gtk_combo_box_get_active (cb) + 1);
 }
 
-static void on_squeek_output_set (GtkComboBoxText* cb, gpointer ptr)
+static void on_squeek_output_set (GtkComboBoxText *cb, gpointer ptr)
 {
     char *op = gtk_combo_box_text_get_active_text (cb);
     vsystem (SET_SQUEEKOUT, op);
     g_free (op);
 }
 
-static void on_vnc_res_set (GtkComboBox* cb, gpointer ptr)
+static void on_vnc_res_set (GtkComboBox *cb, gpointer ptr)
 {
     char *vres = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (vnc_res_cb));
     vsystem (SET_VNC_RES, vres);
