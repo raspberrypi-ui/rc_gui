@@ -50,7 +50,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 GtkWidget *main_dlg, *msg_dlg;
 GThread *pthread;
-int needs_reboot;
+gboolean needs_reboot;
 wm_type wm;
 
 #ifdef PLUGIN_NAME
@@ -81,7 +81,9 @@ static gboolean draw (GtkWidget *wid, cairo_t *cr, gpointer data);
 /* Function definitions                                                       */
 /*----------------------------------------------------------------------------*/
 
-/* Helpers */
+/*----------------------------------------------------------------------------*/
+/* Helpers                                                                    */
+/*----------------------------------------------------------------------------*/
 
 int vsystem (const char *fmt, ...)
 {
@@ -95,12 +97,6 @@ int vsystem (const char *fmt, ...)
     res = system (cmdline);
     g_free (cmdline);
     return res;
-}
-
-gboolean on_switch (GtkSwitch *btn, gboolean state, const char *cmd)
-{
-    vsystem (cmd, (1 - state));
-    return FALSE;
 }
 
 int get_status (char *cmd)
@@ -187,6 +183,20 @@ char *get_quoted_param (char *path, char *fname, char *toseek)
     return NULL;
 }
 
+/*----------------------------------------------------------------------------*/
+/* Generic control handler                                                    */
+/*----------------------------------------------------------------------------*/
+
+gboolean on_switch (GtkSwitch *btn, gboolean state, const char *cmd)
+{
+    vsystem (cmd, (1 - state));
+    return FALSE;
+}
+
+/*----------------------------------------------------------------------------*/
+/* Message box                                                                */
+/*----------------------------------------------------------------------------*/
+
 void message (char *msg)
 {
     GtkWidget *wid;
@@ -201,13 +211,6 @@ void message (char *msg)
     gtk_widget_show (msg_dlg);
 
     g_object_unref (builder);
-}
-
-static gboolean ok_clicked (GtkButton *button, gpointer data)
-{
-    gtk_widget_destroy (msg_dlg);
-    if (!main_dlg) gtk_main_quit ();
-    return FALSE;
 }
 
 void info (char *msg)
@@ -233,20 +236,16 @@ void info (char *msg)
     g_object_unref (builder);
 }
 
-static gboolean close_app (GtkButton *button, gpointer data)
+static gboolean ok_clicked (GtkButton *button, gpointer data)
 {
     gtk_widget_destroy (msg_dlg);
-    gtk_main_quit ();
+    if (!main_dlg) gtk_main_quit ();
     return FALSE;
 }
 
-static gboolean close_app_reboot (GtkButton *button, gpointer data)
-{
-    gtk_widget_destroy (msg_dlg);
-    gtk_main_quit ();
-    vsystem ("reboot");
-    return FALSE;
-}
+/*----------------------------------------------------------------------------*/
+/* Reboot prompt                                                              */
+/*----------------------------------------------------------------------------*/
 
 static gboolean reboot_prompt (gpointer data)
 {
@@ -278,19 +277,40 @@ static gboolean reboot_prompt (gpointer data)
     return FALSE;
 }
 
+static gboolean close_app (GtkButton *button, gpointer data)
+{
+    gtk_widget_destroy (msg_dlg);
+    gtk_main_quit ();
+    return FALSE;
+}
 
-/* Write the changes to the system when OK is pressed */
+static gboolean close_app_reboot (GtkButton *button, gpointer data)
+{
+    gtk_widget_destroy (msg_dlg);
+    gtk_main_quit ();
+    vsystem ("reboot");
+    return FALSE;
+}
+
+/*----------------------------------------------------------------------------*/
+/* Main window                                                                */
+/*----------------------------------------------------------------------------*/
+
+static gboolean ok_main (GtkButton *button, gpointer data)
+{
+    message (_("Updating configuration - please wait..."));
+    pthread = g_thread_new (NULL, process_changes_thread, NULL);
+    return FALSE;
+}
 
 static gpointer process_changes_thread (gpointer ptr)
 {
-    int reboot = needs_reboot;
-    
-    if (read_system_tab ()) reboot = 1;
-    if (read_display_tab ()) reboot = 1;
-    if (read_interfacing_tab ()) reboot = 1;
-    if (read_performance_tab ()) reboot = 1;
+    if (read_system_tab ()) needs_reboot = TRUE;
+    if (read_display_tab ()) needs_reboot = TRUE;
+    if (read_interfacing_tab ()) needs_reboot = TRUE;
+    if (read_performance_tab ()) needs_reboot = TRUE;
 
-    if (reboot) g_idle_add (reboot_prompt, NULL);
+    if (needs_reboot) g_idle_add (reboot_prompt, NULL);
     else gtk_main_quit ();
 
     return NULL;
@@ -300,13 +320,6 @@ static gboolean cancel_main (GtkButton *button, gpointer data)
 {
     if (needs_reboot) reboot_prompt (NULL);
     else gtk_main_quit ();
-    return FALSE;
-}
-
-static gboolean ok_main (GtkButton *button, gpointer data)
-{
-    message (_("Updating configuration - please wait..."));
-    pthread = g_thread_new (NULL, process_changes_thread, NULL);
     return FALSE;
 }
 
@@ -368,7 +381,7 @@ void init_plugin (void)
     }
     else wm = WM_OPENBOX;
 
-    needs_reboot = 0;
+    needs_reboot = FALSE;
     main_dlg = NULL;
 
     init_config (NULL);
@@ -490,7 +503,7 @@ int main (int argc, char *argv[])
         return 0;
     }
 
-    needs_reboot = 0;
+    needs_reboot = FALSE;
     main_dlg = NULL;
 
     message (_("Loading configuration - please wait..."));

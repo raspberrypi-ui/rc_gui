@@ -174,7 +174,7 @@ static void on_change_hostname (GtkButton* btn, gpointer ptr)
                 vsystem (SET_HOSTNAME, new_hn);
                 gtk_widget_destroy (dlg);
                 info (_("The hostname has been changed successfully and will take effect on the next reboot."));
-                needs_reboot = 1;
+                needs_reboot = TRUE;
             }
             else
             {

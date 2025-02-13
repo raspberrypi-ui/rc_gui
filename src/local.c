@@ -223,7 +223,7 @@ static gboolean close_msg (gpointer data)
 }
 
 /*----------------------------------------------------------------------------*/
-/* Locale                                                                     */
+/* Locale dialog                                                              */
 /*----------------------------------------------------------------------------*/
 
 static void on_set_locale (GtkButton* btn, gpointer ptr)
@@ -307,7 +307,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
             g_thread_new (NULL, locale_thread, NULL);
 
             // set reboot flag
-            needs_reboot = 1;
+            needs_reboot = TRUE;
         }
         g_free (buffer);
     }
@@ -510,7 +510,7 @@ static gpointer locale_thread (gpointer data)
 }
 
 /*----------------------------------------------------------------------------*/
-/* Timezone                                                                   */
+/* Timezone dialog                                                            */
 /*----------------------------------------------------------------------------*/
 
 static void on_set_timezone (GtkButton* btn, gpointer ptr)
@@ -742,7 +742,7 @@ static gpointer timezone_thread (gpointer data)
 }
 
 /*----------------------------------------------------------------------------*/
-/* Keyboard                                                                   */
+/* Keyboard dialog                                                            */
 /*----------------------------------------------------------------------------*/
 
 void on_set_keyboard (GtkButton* btn, gpointer ptr)
@@ -1195,7 +1195,7 @@ static gpointer keyboard_thread (gpointer ptr)
 }
 
 /*----------------------------------------------------------------------------*/
-/* Wi-fi country                                                              */
+/* Wi-fi country dialog                                                       */
 /*----------------------------------------------------------------------------*/
 
 void on_set_wifi (GtkButton* btn, gpointer ptr)

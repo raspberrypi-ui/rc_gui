@@ -70,19 +70,19 @@ typedef enum
 
 extern GtkWidget *main_dlg, *msg_dlg;
 extern GThread *pthread;
-extern int needs_reboot;
+extern gboolean needs_reboot;
 extern wm_type wm;
 
 /*----------------------------------------------------------------------------*/
 /* Prototypes                                                                 */
 /*----------------------------------------------------------------------------*/
 
-extern char *get_quoted_param (char *path, char *fname, char *toseek);
 extern int vsystem (const char *fmt, ...);
 extern char *get_string (char *cmd);
 extern int get_status (char *cmd);
-extern void message (char *msg);
+extern char *get_quoted_param (char *path, char *fname, char *toseek);
 extern gboolean on_switch (GtkSwitch *btn, gboolean state, const char *cmd);
+extern void message (char *msg);
 extern void info (char *msg);
 
 /* End of file */

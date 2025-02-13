@@ -126,7 +126,7 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
     ovfs_rb = 0;
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
-        if (ovfs_rb) needs_reboot = 1;
+        if (ovfs_rb) needs_reboot = TRUE;
         if (orig_bpro && gtk_switch_get_active (GTK_SWITCH (bp_ro_sw)))
             vsystem (SET_BOOTP_RO);
         if (!orig_bpro && !gtk_switch_get_active (GTK_SWITCH (bp_ro_sw)))
