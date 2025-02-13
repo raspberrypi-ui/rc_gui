@@ -184,13 +184,13 @@ void load_interfacing_tab (GtkBuilder *builder)
 
         /* Serial hardware switch */
         CONFIG_SWITCH (serial_sw, "sw_ser", orig_serial, GET_SERIALHW);
-        if (vsystem (IS_PI5))
+        if (!vsystem (IS_PI5))
         {
             HANDLE_SWITCH (serial_sw, SET_SERIALHW);
         }
         else
         {
-            HANDLE_CONTROL (serial_sw, "state-set", on_serial_toggle);
+            g_signal_connect (serial_sw, "state-set", G_CALLBACK (on_serial_toggle), NULL);
             serial_update ();
         }
     }

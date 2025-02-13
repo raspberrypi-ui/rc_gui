@@ -924,9 +924,6 @@ void on_set_keyboard (GtkButton* btn, gpointer ptr)
             || init_alt != alt_keys || g_strcmp0 (init_alayout, new_alay) || g_strcmp0 (init_avariant, new_avar)
             || g_strcmp0 (init_options, new_opts))
         {
-            // warn about a short delay...
-            if (ptr == NULL) message (_("Setting keyboard - please wait..."));
-
             if (alt_keys)
                 sprintf (gbuffer, "\"%s\" \"%s,%s\" \"%s,%s\" \"%s\"", new_mod, new_lay, new_alay, new_var, new_avar, new_opts ? new_opts : "");
             else
@@ -935,7 +932,8 @@ void on_set_keyboard (GtkButton* btn, gpointer ptr)
             // launch a thread with the system call to update the keyboard
             pthread = g_thread_new (NULL, keyboard_thread, NULL);
 
-            if (ptr != NULL)
+            // warn about a short delay...
+            if (ptr)
             {
                 // if running the standalone keyboard dialog, need a dialog for the message
                 GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
@@ -947,6 +945,7 @@ void on_set_keyboard (GtkButton* btn, gpointer ptr)
                 gtk_widget_show (msg_dlg);
                 gtk_dialog_run (GTK_DIALOG (msg_dlg));
             }
+            else message (_("Setting keyboard - please wait..."));
         }
 
         g_free (new_mod);
