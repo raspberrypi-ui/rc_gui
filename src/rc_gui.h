@@ -71,6 +71,7 @@ typedef enum
 extern GtkWidget *main_dlg, *msg_dlg;
 extern GThread *pthread;
 extern gboolean needs_reboot;
+extern gboolean singledlg;
 extern wm_type wm;
 
 /*----------------------------------------------------------------------------*/

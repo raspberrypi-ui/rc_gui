@@ -53,6 +53,7 @@ static GtkBuilder *builder;
 GtkWidget *main_dlg, *msg_dlg;
 GThread *pthread;
 gboolean needs_reboot;
+gboolean singledlg;
 wm_type wm;
 
 #ifndef PLUGIN_NAME
@@ -266,7 +267,6 @@ void init_plugin (void)
     main_dlg = NULL;
 
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
-    main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
 
     load_system_tab (builder);
     load_display_tab (builder);
@@ -500,6 +500,7 @@ int main (int argc, char *argv[])
     needs_reboot = FALSE;
     main_dlg = NULL;
 
+    singledlg = TRUE;
     if (argc == 2 && !g_strcmp0 (argv[1], "-w"))
     {
         on_set_wifi (NULL, NULL);
@@ -513,6 +514,7 @@ int main (int argc, char *argv[])
         if (pthread) g_thread_join (pthread);
         return 0;
     }
+    singledlg = FALSE;
 
     message (_("Loading configuration - please wait..."));
     if (wm != WM_OPENBOX) g_signal_connect (msg_dlg, "event", G_CALLBACK (event), NULL);
