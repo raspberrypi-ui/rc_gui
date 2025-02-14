@@ -933,7 +933,7 @@ void on_set_keyboard (GtkButton* btn, gpointer ptr)
             pthread = g_thread_new (NULL, keyboard_thread, NULL);
 
             // warn about a short delay...
-            if (ptr)
+            if (!main_dlg)
             {
                 // if running the standalone keyboard dialog, need a dialog for the message
                 GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");

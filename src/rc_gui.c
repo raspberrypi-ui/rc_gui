@@ -497,7 +497,7 @@ int main (int argc, char *argv[])
     if (argc == 2 && !strcmp (argv[1], "-k"))
     {
         pthread = 0;
-        on_set_keyboard (NULL, (gpointer) 1);
+        on_set_keyboard (NULL, NULL);
         if (pthread) g_thread_join (pthread);
         return 0;
     }
