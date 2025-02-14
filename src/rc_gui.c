@@ -266,6 +266,7 @@ void init_plugin (void)
     main_dlg = NULL;
 
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
+    main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
 
     load_system_tab (builder);
     load_display_tab (builder);
