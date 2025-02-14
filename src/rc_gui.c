@@ -48,14 +48,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Global data                                                                */
 /*----------------------------------------------------------------------------*/
 
+static GtkBuilder *builder;
+
 GtkWidget *main_dlg, *msg_dlg;
 GThread *pthread;
 gboolean needs_reboot;
 wm_type wm;
 
-#ifdef PLUGIN_NAME
-GtkBuilder *builder;
-#else
+#ifndef PLUGIN_NAME
 static gulong draw_id;
 #endif
 
@@ -64,6 +64,8 @@ static gulong draw_id;
 /*----------------------------------------------------------------------------*/
 
 static gboolean ok_clicked (GtkButton *button, gpointer data);
+#ifndef PLUGIN_NAME
+static gboolean init_config (gpointer data);
 static gboolean close_app (GtkButton *button, gpointer data);
 static gboolean close_app_reboot (GtkButton *button, gpointer data);
 static gboolean reboot_prompt (gpointer data);
@@ -71,8 +73,6 @@ static gpointer process_changes_thread (gpointer ptr);
 static gboolean cancel_main (GtkButton *button, gpointer data);
 static gboolean ok_main (GtkButton *button, gpointer data);
 static gboolean close_prog (GtkWidget *widget, GdkEvent *event, gpointer data);
-static gboolean init_config (gpointer data);
-#ifndef PLUGIN_NAME
 static gboolean event (GtkWidget *wid, GdkEventWindowState *ev, gpointer data);
 static gboolean draw (GtkWidget *wid, cairo_t *cr, gpointer data);
 #endif
@@ -243,127 +243,9 @@ static gboolean ok_clicked (GtkButton *button, gpointer data)
 }
 
 /*----------------------------------------------------------------------------*/
-/* Reboot prompt                                                              */
-/*----------------------------------------------------------------------------*/
-
-static gboolean reboot_prompt (gpointer data)
-{
-    GtkWidget *wid;
-    GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
-
-    msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal");
-    gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_msg");
-    gtk_label_set_text (GTK_LABEL (wid), _("The changes you have made require the Raspberry Pi to be rebooted to take effect.\n\nWould you like to reboot now? "));
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_cancel");
-    gtk_button_set_label (GTK_BUTTON (wid), _("_No"));
-    g_signal_connect (wid, "clicked", G_CALLBACK (close_app), NULL);
-    gtk_widget_show (wid);
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_ok");
-    gtk_button_set_label (GTK_BUTTON (wid), _("_Yes"));
-    g_signal_connect (wid, "clicked", G_CALLBACK (close_app_reboot), NULL);
-    gtk_widget_show (wid);
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_buttons");
-    gtk_widget_show (wid);
-
-    gtk_widget_show (msg_dlg);
-
-    g_object_unref (builder);
-    return FALSE;
-}
-
-static gboolean close_app (GtkButton *button, gpointer data)
-{
-    gtk_widget_destroy (msg_dlg);
-    gtk_main_quit ();
-    return FALSE;
-}
-
-static gboolean close_app_reboot (GtkButton *button, gpointer data)
-{
-    gtk_widget_destroy (msg_dlg);
-    gtk_main_quit ();
-    vsystem ("reboot");
-    return FALSE;
-}
-
-/*----------------------------------------------------------------------------*/
-/* Main window                                                                */
-/*----------------------------------------------------------------------------*/
-
-static gboolean ok_main (GtkButton *button, gpointer data)
-{
-    message (_("Updating configuration - please wait..."));
-    pthread = g_thread_new (NULL, process_changes_thread, NULL);
-    return FALSE;
-}
-
-static gpointer process_changes_thread (gpointer ptr)
-{
-    if (read_system_tab ()) needs_reboot = TRUE;
-    if (read_display_tab ()) needs_reboot = TRUE;
-    if (read_interfacing_tab ()) needs_reboot = TRUE;
-    if (read_performance_tab ()) needs_reboot = TRUE;
-
-    if (needs_reboot) g_idle_add (reboot_prompt, NULL);
-    else gtk_main_quit ();
-
-    return NULL;
-}
-
-static gboolean cancel_main (GtkButton *button, gpointer data)
-{
-    if (needs_reboot) reboot_prompt (NULL);
-    else gtk_main_quit ();
-    return FALSE;
-}
-
-static gboolean close_prog (GtkWidget *widget, GdkEvent *event, gpointer data)
-{
-    gtk_main_quit ();
-    return TRUE;
-}
-
-static gboolean init_config (gpointer data)
-{
-#ifndef PLUGIN_NAME
-    GtkBuilder *builder;
-#endif
-    GtkWidget *wid;
-
-    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
-    main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
-    g_signal_connect (main_dlg, "delete_event", G_CALLBACK (close_prog), NULL);
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_ok");
-    g_signal_connect (wid, "clicked", G_CALLBACK (ok_main), NULL);
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_cancel");
-    g_signal_connect (wid, "clicked", G_CALLBACK (cancel_main), NULL);
-
-    load_system_tab (builder);
-    load_display_tab (builder);
-    load_interfacing_tab (builder);
-    load_performance_tab (builder);
-    load_localisation_tab (builder);
-
-#ifndef PLUGIN_NAME
-    g_object_unref (builder);
-
-    gtk_widget_show (main_dlg);
-    gtk_widget_destroy (msg_dlg);
-#endif
-
-    return FALSE;
-}
-
-/*----------------------------------------------------------------------------*/
 /* Plugin interface */
 /*----------------------------------------------------------------------------*/
+
 #ifdef PLUGIN_NAME
 
 void init_plugin (void)
@@ -383,7 +265,13 @@ void init_plugin (void)
     needs_reboot = FALSE;
     main_dlg = NULL;
 
-    init_config (NULL);
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
+
+    load_system_tab (builder);
+    load_display_tab (builder);
+    load_interfacing_tab (builder);
+    load_performance_tab (builder);
+    load_localisation_tab (builder);
 }
 
 int plugin_tabs (void)
@@ -451,6 +339,126 @@ void free_plugin (void)
 }
 
 #else
+
+/*----------------------------------------------------------------------------*/
+/* Reboot prompt                                                              */
+/*----------------------------------------------------------------------------*/
+
+static gboolean reboot_prompt (gpointer data)
+{
+    GtkWidget *wid;
+
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
+
+    msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal");
+    gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_msg");
+    gtk_label_set_text (GTK_LABEL (wid), _("The changes you have made require the Raspberry Pi to be rebooted to take effect.\n\nWould you like to reboot now? "));
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_cancel");
+    gtk_button_set_label (GTK_BUTTON (wid), _("_No"));
+    g_signal_connect (wid, "clicked", G_CALLBACK (close_app), NULL);
+    gtk_widget_show (wid);
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_ok");
+    gtk_button_set_label (GTK_BUTTON (wid), _("_Yes"));
+    g_signal_connect (wid, "clicked", G_CALLBACK (close_app_reboot), NULL);
+    gtk_widget_show (wid);
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_buttons");
+    gtk_widget_show (wid);
+
+    gtk_widget_show (msg_dlg);
+
+    g_object_unref (builder);
+    return FALSE;
+}
+
+static gboolean close_app (GtkButton *button, gpointer data)
+{
+    gtk_widget_destroy (msg_dlg);
+    gtk_main_quit ();
+    return FALSE;
+}
+
+static gboolean close_app_reboot (GtkButton *button, gpointer data)
+{
+    gtk_widget_destroy (msg_dlg);
+    gtk_main_quit ();
+    vsystem ("reboot");
+    return FALSE;
+}
+
+/*----------------------------------------------------------------------------*/
+/* Main window button handlers                                                */
+/*----------------------------------------------------------------------------*/
+
+static gboolean ok_main (GtkButton *button, gpointer data)
+{
+    message (_("Updating configuration - please wait..."));
+    pthread = g_thread_new (NULL, process_changes_thread, NULL);
+    return FALSE;
+}
+
+static gpointer process_changes_thread (gpointer ptr)
+{
+    if (read_system_tab ()) needs_reboot = TRUE;
+    if (read_display_tab ()) needs_reboot = TRUE;
+    if (read_interfacing_tab ()) needs_reboot = TRUE;
+    if (read_performance_tab ()) needs_reboot = TRUE;
+
+    if (needs_reboot) g_idle_add (reboot_prompt, NULL);
+    else gtk_main_quit ();
+
+    return NULL;
+}
+
+static gboolean cancel_main (GtkButton *button, gpointer data)
+{
+    if (needs_reboot) reboot_prompt (NULL);
+    else gtk_main_quit ();
+    return FALSE;
+}
+
+static gboolean close_prog (GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+    gtk_main_quit ();
+    return TRUE;
+}
+
+/*----------------------------------------------------------------------------*/
+/* Main window                                                                */
+/*----------------------------------------------------------------------------*/
+
+static gboolean init_config (gpointer data)
+{
+    GtkWidget *wid;
+
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
+
+    main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
+    g_signal_connect (main_dlg, "delete_event", G_CALLBACK (close_prog), NULL);
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_ok");
+    g_signal_connect (wid, "clicked", G_CALLBACK (ok_main), NULL);
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_cancel");
+    g_signal_connect (wid, "clicked", G_CALLBACK (cancel_main), NULL);
+
+    load_system_tab (builder);
+    load_display_tab (builder);
+    load_interfacing_tab (builder);
+    load_performance_tab (builder);
+    load_localisation_tab (builder);
+
+    g_object_unref (builder);
+
+    gtk_widget_show (main_dlg);
+    gtk_widget_destroy (msg_dlg);
+
+    return FALSE;
+}
 
 static gboolean event (GtkWidget *wid, GdkEventWindowState *ev, gpointer data)
 {
