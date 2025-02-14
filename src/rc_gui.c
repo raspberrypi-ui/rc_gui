@@ -488,22 +488,22 @@ int main (int argc, char *argv[])
     }
     else wm = WM_OPENBOX;
 
+    needs_reboot = FALSE;
+    main_dlg = NULL;
+
     if (argc == 2 && !g_strcmp0 (argv[1], "-w"))
     {
         on_set_wifi (NULL, NULL);
         return 0;
     }
 
-    if (argc == 2 && !strcmp (argv[1], "-k"))
+    if (argc == 2 && !g_strcmp0 (argv[1], "-k"))
     {
         pthread = 0;
         on_set_keyboard (NULL, NULL);
         if (pthread) g_thread_join (pthread);
         return 0;
     }
-
-    needs_reboot = FALSE;
-    main_dlg = NULL;
 
     message (_("Loading configuration - please wait..."));
     if (wm != WM_OPENBOX) g_signal_connect (msg_dlg, "event", G_CALLBACK (event), NULL);
