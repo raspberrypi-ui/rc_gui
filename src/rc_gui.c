@@ -265,6 +265,7 @@ void init_plugin (void)
 
     needs_reboot = FALSE;
     main_dlg = NULL;
+    singledlg = FALSE;
 
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
 
