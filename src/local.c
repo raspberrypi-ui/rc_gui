@@ -246,7 +246,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     // create the dialog
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "localedlg");
-    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
     // create the combo boxes
     loclang_cb = (GObject *) gtk_builder_get_object (builder, "loccblang");
@@ -531,7 +531,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
 
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "tzdlg");
-    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
     tzarea_cb = (GObject *) gtk_builder_get_object (builder, "tzcbarea");
     tzloc_cb = (GObject *) gtk_builder_get_object (builder, "tzcbloc");
@@ -776,7 +776,7 @@ void on_set_keyboard (GtkButton* btn, gpointer ptr)
     // build the dialog and attach the combo boxes
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "keyboarddlg");
-    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
     keymodel_cb = (GObject *) gtk_builder_get_object (builder, "keycbmodel");
     keylayout_cb = (GObject *) gtk_builder_get_object (builder, "keycblayout");
@@ -1209,7 +1209,7 @@ void on_set_wifi (GtkButton* btn, gpointer ptr)
 
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "wcdlg");
-    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
     wccountry_cb = (GObject *) gtk_builder_get_object (builder, "wccbcountry");
 

@@ -65,8 +65,8 @@ static gulong draw_id;
 /*----------------------------------------------------------------------------*/
 
 static gboolean ok_clicked (GtkButton *button, gpointer data);
+static void init_config (void);
 #ifndef PLUGIN_NAME
-static gboolean init_config (gpointer data);
 static gboolean close_app (GtkButton *button, gpointer data);
 static gboolean close_app_reboot (GtkButton *button, gpointer data);
 static gboolean reboot_prompt (gpointer data);
@@ -74,6 +74,7 @@ static gpointer process_changes_thread (gpointer ptr);
 static gboolean cancel_main (GtkButton *button, gpointer data);
 static gboolean ok_main (GtkButton *button, gpointer data);
 static gboolean close_prog (GtkWidget *widget, GdkEvent *event, gpointer data);
+static gboolean init_window (gpointer data);
 static gboolean draw (GtkWidget *wid, cairo_t *cr, gpointer data);
 #endif
 
@@ -243,6 +244,20 @@ static gboolean ok_clicked (GtkButton *button, gpointer data)
 }
 
 /*----------------------------------------------------------------------------*/
+/* Initial configuration                                                      */
+/*----------------------------------------------------------------------------*/
+
+static void init_config (void)
+{
+    load_system_tab (builder);
+    load_display_tab (builder);
+    load_interfacing_tab (builder);
+    load_performance_tab (builder);
+    load_localisation_tab (builder);
+    needs_reboot = FALSE;
+}
+
+/*----------------------------------------------------------------------------*/
 /* Plugin interface */
 /*----------------------------------------------------------------------------*/
 
@@ -262,17 +277,12 @@ void init_plugin (void)
     }
     else wm = WM_OPENBOX;
 
-    needs_reboot = FALSE;
-    main_dlg = NULL;
     singledlg = FALSE;
 
+    main_dlg = NULL;
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
 
-    load_system_tab (builder);
-    load_display_tab (builder);
-    load_interfacing_tab (builder);
-    load_performance_tab (builder);
-    load_localisation_tab (builder);
+    init_config ();
 }
 
 int plugin_tabs (void)
@@ -432,26 +442,9 @@ static gboolean close_prog (GtkWidget *widget, GdkEvent *event, gpointer data)
 /* Main window                                                                */
 /*----------------------------------------------------------------------------*/
 
-static gboolean init_config (gpointer data)
+static gboolean init_window (gpointer data)
 {
-    GtkWidget *wid;
-
-    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
-
-    main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
-    g_signal_connect (main_dlg, "delete_event", G_CALLBACK (close_prog), NULL);
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_ok");
-    g_signal_connect (wid, "clicked", G_CALLBACK (ok_main), NULL);
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_cancel");
-    g_signal_connect (wid, "clicked", G_CALLBACK (cancel_main), NULL);
-
-    load_system_tab (builder);
-    load_display_tab (builder);
-    load_interfacing_tab (builder);
-    load_performance_tab (builder);
-    load_localisation_tab (builder);
+    init_config ();
 
     g_object_unref (builder);
 
@@ -464,20 +457,18 @@ static gboolean init_config (gpointer data)
 static gboolean draw (GtkWidget *wid, cairo_t *cr, gpointer data)
 {
     g_signal_handler_disconnect (wid, draw_id);
-    g_idle_add (init_config, NULL);
+    g_idle_add (init_window, NULL);
     return FALSE;
 }
 
 int main (int argc, char *argv[])
 {
+    GtkWidget *wid;
+
     setlocale (LC_ALL, "");
     bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
     bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
     textdomain (GETTEXT_PACKAGE);
-
-    // GTK setup
-    gtk_init (&argc, &argv);
-    gtk_icon_theme_prepend_search_path (gtk_icon_theme_get_default(), PACKAGE_DATA_DIR);
 
     if (getenv ("WAYLAND_DISPLAY"))
     {
@@ -486,9 +477,10 @@ int main (int argc, char *argv[])
     }
     else wm = WM_OPENBOX;
 
-    needs_reboot = FALSE;
     main_dlg = NULL;
+    gtk_init (&argc, &argv);
 
+    // handle cases where single locale dialog is required
     singledlg = TRUE;
     if (argc == 2 && !g_strcmp0 (argv[1], "-w"))
     {
@@ -504,6 +496,17 @@ int main (int argc, char *argv[])
         return 0;
     }
     singledlg = FALSE;
+
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
+
+    main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
+    g_signal_connect (main_dlg, "delete_event", G_CALLBACK (close_prog), NULL);
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_ok");
+    g_signal_connect (wid, "clicked", G_CALLBACK (ok_main), NULL);
+
+    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_cancel");
+    g_signal_connect (wid, "clicked", G_CALLBACK (cancel_main), NULL);
 
     message (_("Loading configuration - please wait..."));
     draw_id = g_signal_connect (msg_dlg, "draw", G_CALLBACK (draw), NULL);

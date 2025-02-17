@@ -98,7 +98,7 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
     }
 
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "ofsdlg");
-    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
     CONFIG_SWITCH (ofs_en_sw, "sw_ofsen", orig_ofs, GET_OVERLAY);
     CONFIG_SWITCH (bp_ro_sw, "sw_bpro", orig_bpro, GET_BOOTRO);

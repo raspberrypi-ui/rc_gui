@@ -99,7 +99,7 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
 
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "passwddlg");
-    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
     pwentry1_tb = gtk_builder_get_object (builder, "pwentry1");
     pwentry2_tb = gtk_builder_get_object (builder, "pwentry2");
     gtk_entry_set_visibility (GTK_ENTRY (pwentry1_tb), FALSE);
@@ -145,7 +145,7 @@ static void on_change_hostname (GtkButton* btn, gpointer ptr)
 
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "hostnamedlg");
-    gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
+    if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
     hostname_tb = gtk_builder_get_object (builder, "hnentry1");
     orig_hn = get_string (GET_HOSTNAME);
     gtk_entry_set_text (GTK_ENTRY (hostname_tb), orig_hn);
