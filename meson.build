@@ -1,7 +1,7 @@
 # To build standalone, use 'rc_gui'
-#project ('rc_gui','c')
+project ('rc_gui','c')
 # To build plugin, use 'rpcc_rc_gui'
-project ('rpcc_rc_gui','c')
+#project ('rpcc_rc_gui','c')
 
 share_dir = join_paths(get_option('prefix'), 'share')
 if meson.project_name().contains('rpcc')

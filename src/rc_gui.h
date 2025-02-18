@@ -28,6 +28,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Typedefs and macros                                                        */
 /*----------------------------------------------------------------------------*/
 
+#ifdef PLUGIN_NAME
+#define REALTIME
+#endif
+
 #define GET_PREFIX      "raspi-config nonint "
 #define SET_PREFIX      "SUDO_ASKPASS=/usr/lib/rc-gui/pwdrcg.sh sudo -A " GET_PREFIX
 #define GET_PI_TYPE     GET_PREFIX "get_pi_type"
@@ -38,7 +42,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define CONFIG_SWITCH(wid,name,var,cmd) wid = gtk_builder_get_object (builder, name); \
                                         gtk_switch_set_active (GTK_SWITCH (wid), !(var = get_status (cmd)));
 
-#ifdef PLUGIN_NAME
+#ifdef REALTIME
 #define HANDLE_SWITCH(wid,setcmd)       g_signal_connect (wid, "state-set", G_CALLBACK (on_switch), setcmd);
 #define HANDLE_CONTROL(wid,cmd,cb)      g_signal_connect (wid, cmd, G_CALLBACK(cb), NULL);
 #else

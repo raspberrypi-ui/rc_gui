@@ -94,7 +94,7 @@ static gboolean on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
     serial_update ();
 
-#ifdef PLUGIN_NAME
+#ifdef REALTIME
     vsystem (SET_SERIALHW, (1 - state));
 #endif
 

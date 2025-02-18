@@ -63,7 +63,7 @@ static char *orig_sop;
 /*----------------------------------------------------------------------------*/
 
 static int num_screens (void);
-#ifdef PLUGIN_NAME
+#ifdef REALTIME
 static void on_squeekboard_set (GtkComboBox *cb, gpointer ptr);
 static void on_squeek_output_set (GtkComboBoxText *cb, gpointer ptr);
 static void on_vnc_res_set (GtkComboBox *cb, gpointer ptr);
@@ -89,7 +89,7 @@ static int num_screens (void)
 /* Real-time handlers                                                         */
 /*----------------------------------------------------------------------------*/
 
-#ifdef PLUGIN_NAME
+#ifdef REALTIME
 
 static void on_squeekboard_set (GtkComboBox *cb, gpointer ptr)
 {

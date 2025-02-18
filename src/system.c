@@ -77,7 +77,7 @@ static void on_change_hostname (GtkButton* btn, gpointer ptr);
 static void config_boot (void);
 static void boot_update (void);
 static void on_boot_toggle (GtkButton *btn, gpointer ptr);
-#ifdef PLUGIN_NAME
+#ifdef REALTIME
 static gboolean on_alogin_toggle (GtkSwitch *btn, gboolean state, gpointer ptr);
 static void on_browser_toggle (GtkButton *btn, gpointer ptr);
 static gboolean on_leds_toggle (GtkSwitch *btn, gboolean state, gpointer ptr);
@@ -224,7 +224,7 @@ static void on_boot_toggle (GtkButton *btn, gpointer ptr)
 {
     boot_update ();
     
-#ifdef PLUGIN_NAME
+#ifdef REALTIME
     config_boot ();
 #endif
 }
@@ -233,7 +233,7 @@ static void on_boot_toggle (GtkButton *btn, gpointer ptr)
 /* Real-time handlers                                                         */
 /*----------------------------------------------------------------------------*/
 
-#ifdef PLUGIN_NAME
+#ifdef REALTIME
 
 static gboolean on_alogin_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 {

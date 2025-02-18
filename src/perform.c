@@ -71,7 +71,7 @@ static void overclock_config (void);
 static void fan_config (void);
 static void fan_update (void);
 static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr);
-#ifdef PLUGIN_NAME
+#ifdef REALTIME
 static void on_overclock_set (GtkComboBox* cb, gpointer ptr);
 static void on_fan_value_changed (GtkSpinButton *sb);
 #endif
@@ -239,7 +239,7 @@ static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
     fan_update ();
 
-#ifdef PLUGIN_NAME
+#ifdef REALTIME
     fan_config ();
 #endif
 
@@ -250,7 +250,7 @@ static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 /* Real-time handlers                                                         */
 /*----------------------------------------------------------------------------*/
 
-#ifdef PLUGIN_NAME
+#ifdef REALTIME
 
 static void on_overclock_set (GtkComboBox* cb, gpointer ptr)
 {
