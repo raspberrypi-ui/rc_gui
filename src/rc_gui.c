@@ -303,6 +303,11 @@ const char *tab_name (int tab)
     }
 }
 
+const char *tab_id (int tab)
+{
+    return NULL;
+}
+
 GtkWidget *get_tab (int tab)
 {
     GtkWidget *window, *plugin;
