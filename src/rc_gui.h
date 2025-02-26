@@ -32,8 +32,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define REALTIME
 #endif
 
+#define SUDO_PREFIX     "SUDO_ASKPASS=" PACKAGE_DATA_DIR "/pwdrcg.sh sudo -A "
 #define GET_PREFIX      "raspi-config nonint "
-#define SET_PREFIX      "SUDO_ASKPASS=/usr/lib/rc-gui/pwdrcg.sh sudo -A " GET_PREFIX
+#define SET_PREFIX      SUDO_PREFIX GET_PREFIX
 #define GET_PI_TYPE     GET_PREFIX "get_pi_type"
 #define IS_PI           GET_PREFIX "is_pi"
 #define IS_PI4          GET_PREFIX "is_pifour"

@@ -52,7 +52,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define FF_INSTALLED    GET_PREFIX "is_installed firefox"
 #define CR_INSTALLED    GET_PREFIX "is_installed chromium"
 
-#define CHANGE_PASSWD   "echo $USER:'%s' | SUDO_ASKPASS=/usr/lib/rc-gui/pwdrcg.sh sudo -A chpasswd -e"
+#define CHANGE_PASSWD   "echo $USER:'%s' | " SUDO_PREFIX "chpasswd -e"
 
 /*----------------------------------------------------------------------------*/
 /* Global data                                                                */
