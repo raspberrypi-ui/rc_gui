@@ -12,11 +12,16 @@ add_global_arguments('-Wno-unused-result', language : 'c')
 gtk = dependency ('gtk+-3.0')
 deps = [ gtk ]
 
-if meson.project_name().contains('rpcc')
-  shared_module(meson.project_name(), sources, dependencies: deps, install: true,
-        install_dir: get_option('libdir') / 'rpcc',
-        c_args : '-DPLUGIN_NAME="' + meson.project_name() + '"'
+if build_plugin
+  shared_module(plugin_name, sources, dependencies: deps, install: true,
+    install_dir: get_option('libdir') / 'rpcc',
+    c_args : [ '-DPACKAGE_DATA_DIR="' + presource_dir + '"', '-DPLUGIN_NAME="' + plugin_name + '"' ],
+    link_args : '-Wl,-z,defs'
   )
-else
-  executable (meson.project_name(), sources, dependencies: deps, install: true)
+endif
+
+if build_standalone
+  executable (meson.project_name(), sources, dependencies: deps, install: true,
+    c_args : '-DPACKAGE_DATA_DIR="' + resource_dir + '"'
+  )
 endif
