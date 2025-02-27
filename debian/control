@@ -11,6 +11,6 @@ Vcs-Browser: https://github.com/raspberrypi-ui/rc_gui
 
 Package: rc-gui
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libgtk-3-0 (>= 3.24), raspi-config (>= 20220301), zenity
+Depends: ${shlibs:Depends}, ${misc:Depends}, libgtk-3-0 (>= 3.24), raspi-config (>= 20220301), sudopwd
 Description: raspi-config GUI
  Application which allows the configuration of Raspberry Pi system settings
