@@ -244,6 +244,7 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     read_locales ();
 
     // create the dialog
+    textdomain (GETTEXT_PACKAGE);
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "localedlg");
     if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
@@ -529,6 +530,7 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
     tzcity_list = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
     read_timezones ();
 
+    textdomain (GETTEXT_PACKAGE);
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "tzdlg");
     if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
@@ -774,6 +776,7 @@ void on_set_keyboard (GtkButton* btn, gpointer ptr)
     populate_toggles ();
 
     // build the dialog and attach the combo boxes
+    textdomain (GETTEXT_PACKAGE);
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "keyboarddlg");
     if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
@@ -1207,6 +1210,7 @@ void on_set_wifi (GtkButton* btn, gpointer ptr)
     int n, found;
     size_t len;
 
+    textdomain (GETTEXT_PACKAGE);
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "wcdlg");
     if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
@@ -1269,6 +1273,7 @@ void load_localisation_tab (GtkBuilder *builder)
     timezone_btn = gtk_builder_get_object (builder, "button_tz");
     g_signal_connect (timezone_btn, "clicked", G_CALLBACK (on_set_timezone), NULL);
 
+    textdomain (GETTEXT_PACKAGE);
     keyboard_btn = gtk_builder_get_object (builder, "button_kb");
     g_signal_connect (keyboard_btn, "clicked", G_CALLBACK (on_set_keyboard), NULL);
 

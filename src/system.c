@@ -97,6 +97,7 @@ static void on_change_passwd (GtkButton* btn, gpointer ptr)
     GtkWidget *dlg;
     int res;
 
+    textdomain (GETTEXT_PACKAGE);
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "passwddlg");
     if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
@@ -143,6 +144,7 @@ static void on_change_hostname (GtkButton* btn, gpointer ptr)
     const char *new_hn, *cptr;
     char *orig_hn;
 
+    textdomain (GETTEXT_PACKAGE);
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "hostnamedlg");
     if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));

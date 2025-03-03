@@ -89,6 +89,7 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
     GtkBuilder *builder;
     GtkWidget *dlg;
 
+    textdomain (GETTEXT_PACKAGE);
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
 
     if (vsystem (CHECK_UNAME))
