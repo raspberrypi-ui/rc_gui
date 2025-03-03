@@ -360,13 +360,6 @@ void free_plugin (void)
     g_object_unref (builder);
 }
 
-const char *dgetfixt (const char *domain, const char *msgctxid)
-{
-    const char *text = dgettext (domain, msgctxid);
-    if (!strchr (text, 0x04)) return text;
-    return dgettext (domain, strchr (msgctxid, 0x04) + 1);
-}
-
 #else
 
 /*----------------------------------------------------------------------------*/
