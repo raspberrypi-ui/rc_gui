@@ -201,7 +201,10 @@ gboolean on_switch (GtkSwitch *btn, gboolean state, const char *cmd)
 void message (char *msg)
 {
     GtkWidget *wid;
-    GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
+    GtkBuilder *builder;
+
+    textdomain (GETTEXT_PACKAGE);
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
 
     msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal");
     if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
@@ -217,7 +220,10 @@ void message (char *msg)
 void info (char *msg)
 {
     GtkWidget *wid;
-    GtkBuilder *builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
+    GtkBuilder *builder;
+
+    textdomain (GETTEXT_PACKAGE);
+    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
 
     msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal");
     if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
