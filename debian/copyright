@@ -3,11 +3,7 @@ Upstream-Name: rc-gui
 Source: https://github.com/RPi-Distro/rc_gui
 
 Files: *
-Copyright: 2015 Raspberry Pi Foundation
-License: BSD-3-Clause
-
-Files: debian/*
-Copyright: 2015 Serge Schneider <serge@raspberrypi.org>
+Copyright: 2014-2025 Raspberry Pi
 License: BSD-3-Clause
 
 License: BSD-3-Clause

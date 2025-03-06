@@ -1,16 +1,13 @@
 Source: rc-gui
 Section: admin
 Priority: optional
-Maintainer: Serge Schneider <serge@raspberrypi.org>
-Build-Depends: debhelper (>= 9), dh-autoreconf, libglib2.0-dev, libgtk-3-dev (>= 3.24),
- libx11-dev, intltool
-Standards-Version: 3.9.6
-Homepage: https://github.com/raspberrypi-ui/rc_gui
-Vcs-Git: git://git@github.com:raspberrypi-ui/rc_gui.git
-Vcs-Browser: https://github.com/raspberrypi-ui/rc_gui
+Maintainer: Simon Long <simon@raspberrypi.com>
+Build-Depends: debhelper-compat (= 13), meson, libgtk-3-dev (>= 3.24), intltool (>= 0.40.0)
+Standards-Version: 4.5.1
+Homepage: http://raspberrypi.com/
 
 Package: rc-gui
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libgtk-3-0 (>= 3.24), raspi-config (>= 20220301), sudopwd
-Description: raspi-config GUI
+Depends: ${shlibs:Depends}, ${misc:Depends}, libgtk-3-0 (>= 3.24), raspi-config (>= 20250306), sudopwd
+Description: GUI for raspi-config
  Application which allows the configuration of Raspberry Pi system settings
