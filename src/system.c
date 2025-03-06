@@ -38,11 +38,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_HOSTNAME    GET_PREFIX "get_hostname"
 #define SET_HOSTNAME    SET_PREFIX "do_hostname %s"
 #define GET_BOOT_CLI    GET_PREFIX "get_boot_cli"
-#define GET_AUTOLOGIN   GET_PREFIX "get_autologin"
-#define SET_BOOT_CLI    SET_PREFIX "do_boot_behaviour B1"
-#define SET_BOOT_CLIA   SET_PREFIX "do_boot_behaviour B2"
-#define SET_BOOT_GUI    SET_PREFIX "do_boot_behaviour B3"
-#define SET_BOOT_GUIA   SET_PREFIX "do_boot_behaviour B4"
+#define GET_ALOGIN_CLI  GET_PREFIX "get_autologin_cli"
+#define GET_ALOGIN_DESK GET_PREFIX "get_autologin_desktop"
+#define SET_ALOGIN      SET_PREFIX "do_autologin %d"
+#define SET_BOOT_CLI    SET_PREFIX "do_boot_target B1"
+#define SET_BOOT_GUI    SET_PREFIX "do_boot_target B2"
 #define GET_SPLASH      GET_PREFIX "get_boot_splash"
 #define SET_SPLASH      SET_PREFIX "do_boot_splash %d"
 #define GET_LEDS        GET_PREFIX "get_leds"
@@ -60,11 +60,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 static GObject *passwd_btn, *hostname_btn;
 static GObject *boot_desktop_rb, *boot_cli_rb, *chromium_rb, *firefox_rb;
-static GObject *alogin_sw, *splash_sw, *led_actpwr_sw;
+static GObject *alog_cli_sw, *alog_desk_sw, *splash_sw, *led_actpwr_sw;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
 static GObject *hostname_tb;
 
-static int orig_boot, orig_autolog, orig_splash, orig_leds;
+static int orig_boot, orig_alog_cli, orig_alog_desk, orig_splash, orig_leds;
 static char *orig_browser;
 
 /*----------------------------------------------------------------------------*/
@@ -197,16 +197,16 @@ static void on_change_hostname (GtkButton* btn, gpointer ptr)
 
 static void config_boot (void)
 {
-    if (gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
-    {
-        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUIA);
-        else vsystem (SET_BOOT_CLIA);
-    }
-    else
-    {
-        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUI);
-        else vsystem (SET_BOOT_CLI);
-    }
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUI);
+    else vsystem (SET_BOOT_CLI);
+}
+
+static void config_autologin (void)
+{
+    int setting = 0;
+    if (gtk_switch_get_active (GTK_SWITCH (alog_cli_sw))) setting += 0x01;
+    if (gtk_switch_get_active (GTK_SWITCH (alog_desk_sw))) setting += 0x02;
+    vsystem (SET_ALOGIN, setting);
 }
 
 static void boot_update (void)
@@ -214,11 +214,14 @@ static void boot_update (void)
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_cli_rb)))
     {
         gtk_switch_set_active (GTK_SWITCH (splash_sw), FALSE);
+        gtk_switch_set_active (GTK_SWITCH (alog_desk_sw), FALSE);
         gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (alog_desk_sw), FALSE);
     }
     else
     {
         gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), TRUE);
+        gtk_widget_set_sensitive (GTK_WIDGET (alog_desk_sw), TRUE);
     }
 }
 
@@ -239,7 +242,7 @@ static void on_boot_toggle (GtkButton *btn, gpointer ptr)
 
 static gboolean on_alogin_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
-    config_boot ();
+    config_autologin ();
 
     return FALSE;
 }
@@ -269,10 +272,15 @@ gboolean read_system_tab (void)
 {
     gboolean reboot = FALSE;
 
-    if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)) 
-        || orig_autolog == gtk_switch_get_active (GTK_SWITCH (alogin_sw)))
+    if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)))
     {
         config_boot ();
+    }
+
+    if (orig_alog_cli == gtk_switch_get_active (GTK_SWITCH (alog_cli_sw))
+        || orig_alog_desk == gtk_switch_get_active (GTK_SWITCH (alog_desk_sw)))
+    {
+        config_autologin ();
     }
 
     READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
@@ -326,8 +334,11 @@ void load_system_tab (GtkBuilder *builder)
     }
 
     /* Autologin switch */
-    CONFIG_SWITCH (alogin_sw, "sw_alogin", orig_autolog, GET_AUTOLOGIN);
-    HANDLE_CONTROL (alogin_sw, "state-set", on_alogin_toggle);
+    CONFIG_SWITCH (alog_cli_sw, "sw_alogin_cons", orig_alog_cli, GET_ALOGIN_CLI);
+    HANDLE_CONTROL (alog_cli_sw, "state-set", on_alogin_toggle);
+
+    CONFIG_SWITCH (alog_desk_sw, "sw_alogin_desk", orig_alog_desk, GET_ALOGIN_DESK);
+    HANDLE_CONTROL (alog_desk_sw, "state-set", on_alogin_toggle);
 
     /* CLI / desktop radio buttons */
     boot_desktop_rb = gtk_builder_get_object (builder, "rb_desktop");
