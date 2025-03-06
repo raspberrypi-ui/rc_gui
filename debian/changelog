@@ -1,3 +1,9 @@
+rc-gui (1.91) bookworm; urgency=medium
+
+  * Add separate console and desktop autologin options
+
+ -- Simon Long <simon@raspberrypi.com>  Thu, 06 Mar 2025 16:15:12 +0000
+
 rc-gui (1.90) bookworm; urgency=medium
 
   * Add squeekboard output selection
