@@ -1,7 +1,7 @@
 project ('rc_gui','c')
 
 build_standalone = true
-build_plugin = true
+build_plugin = false
 plugin_name = 'rpcc_' + meson.project_name()
 
 share_dir = join_paths(get_option('prefix'), 'share')
