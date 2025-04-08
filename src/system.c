@@ -80,7 +80,6 @@ static void on_boot_toggle (GtkButton *btn, gpointer ptr);
 #ifdef REALTIME
 static gboolean on_alogin_toggle (GtkSwitch *btn, gboolean state, gpointer ptr);
 static void on_browser_toggle (GtkButton *btn, gpointer ptr);
-static gboolean on_leds_toggle (GtkSwitch *btn, gboolean state, gpointer ptr);
 #endif
 
 /*----------------------------------------------------------------------------*/
@@ -255,13 +254,6 @@ static void on_browser_toggle (GtkButton *btn, gpointer ptr)
         vsystem (SET_BROWSER, "firefox");
 }
 
-static gboolean on_leds_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
-{
-    vsystem (SET_LEDS, (1 - state));
-
-    return FALSE;
-}
-
 #endif
 
 /*----------------------------------------------------------------------------*/
@@ -375,7 +367,7 @@ void load_system_tab (GtkBuilder *builder)
         {
             gtk_switch_set_active (GTK_SWITCH (led_actpwr_sw), !(orig_leds));
             gtk_widget_show (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
-            HANDLE_CONTROL (led_actpwr_sw, "state-set", on_leds_toggle);
+            HANDLE_SWITCH (led_actpwr_sw, SET_LEDS);
         }
     }
 }
