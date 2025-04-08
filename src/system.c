@@ -79,7 +79,10 @@ static void boot_update (void);
 static void on_boot_toggle (GtkButton *btn, gpointer ptr);
 #ifdef REALTIME
 static gboolean on_alogin_toggle (GtkSwitch *btn, gboolean state, gpointer ptr);
+static gboolean process_alogin (gpointer data);
 static void on_browser_toggle (GtkButton *btn, gpointer ptr);
+static gboolean process_browser (gpointer data);
+static gboolean process_boot (gpointer data);
 #endif
 
 /*----------------------------------------------------------------------------*/
@@ -229,7 +232,8 @@ static void on_boot_toggle (GtkButton *btn, gpointer ptr)
     boot_update ();
     
 #ifdef REALTIME
-    config_boot ();
+    set_watch_cursor ();
+    g_idle_add (process_boot, NULL);
 #endif
 }
 
@@ -241,17 +245,39 @@ static void on_boot_toggle (GtkButton *btn, gpointer ptr)
 
 static gboolean on_alogin_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 {
-    config_autologin ();
+    set_watch_cursor ();
+    g_idle_add (process_alogin, NULL);
+    return FALSE;
+}
 
+static gboolean process_alogin (gpointer data)
+{
+    config_autologin ();
+    clear_watch_cursor ();
     return FALSE;
 }
 
 static void on_browser_toggle (GtkButton *btn, gpointer ptr)
 {
+    set_watch_cursor ();
+    g_idle_add (process_browser, NULL);
+}
+
+static gboolean process_browser (gpointer data)
+{
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
         vsystem (SET_BROWSER, "chromium");
     else
         vsystem (SET_BROWSER, "firefox");
+    clear_watch_cursor ();
+    return FALSE;
+}
+
+static gboolean process_boot (gpointer data)
+{
+    config_boot ();
+    clear_watch_cursor ();
+    return FALSE;
 }
 
 #endif

@@ -40,10 +40,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "perform.h"
 #include "local.h"
 
-//extern void set_watch_cursor (void);
-//extern void clear_watch_cursor (void);
-extern GtkWidget *get_window (void);
-
 /*----------------------------------------------------------------------------*/
 /* Typedefs and macros                                                        */
 /*----------------------------------------------------------------------------*/
@@ -59,10 +55,6 @@ GThread *pthread;
 gboolean needs_reboot;
 gboolean singledlg;
 wm_type wm;
-
-#ifdef REALTIME
-GdkCursor *watch;
-#endif
 
 #ifndef PLUGIN_NAME
 static gulong draw_id;
@@ -203,16 +195,15 @@ static gboolean process_switch (gpointer data)
     char *cmdline = (char *) data;
     vsystem (cmdline);
     g_free (cmdline);
-    //clear_watch_cursor ();
-    gdk_window_set_cursor (gtk_widget_get_window (get_window ()), NULL);
+    clear_watch_cursor ();
     return FALSE;
 }
 
 gboolean on_switch (GtkSwitch *btn, gboolean state, const char *cmd)
 {
-    char *cmdline = g_strdup_printf (cmd, (1 - state));
-    //set_watch_cursor ();
-    gdk_window_set_cursor (gtk_widget_get_window (get_window ()), watch);
+    char *cmdline;
+    set_watch_cursor ();
+    cmdline = g_strdup_printf (cmd, (1 - state));
     g_idle_add (process_switch, cmdline);
     return FALSE;
 }
@@ -312,10 +303,6 @@ void init_plugin (void)
 
     main_dlg = NULL;
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
-
-#ifdef REALTIME
-    watch = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_WATCH);
-#endif
 
     init_config ();
 }

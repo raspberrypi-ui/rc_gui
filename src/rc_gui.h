@@ -99,5 +99,8 @@ extern gboolean on_switch (GtkSwitch *btn, gboolean state, const char *cmd);
 extern void message (char *msg);
 extern void info (char *msg);
 
+extern void set_watch_cursor (void);
+extern void clear_watch_cursor (void);
+
 /* End of file */
 /*----------------------------------------------------------------------------*/
