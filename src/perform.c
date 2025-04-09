@@ -73,7 +73,9 @@ static void fan_update (void);
 static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr);
 #ifdef REALTIME
 static void on_overclock_set (GtkComboBox* cb, gpointer ptr);
+static gboolean process_oc (gpointer data);
 static void on_fan_value_changed (GtkSpinButton *sb);
+static gboolean process_fan (gpointer data);
 #endif
 
 /*----------------------------------------------------------------------------*/
@@ -206,6 +208,14 @@ static void overclock_config (void)
 
 static void fan_config (void)
 {
+#ifdef REALTIME
+    set_watch_cursor ();
+    g_idle_add (process_fan, NULL);
+}
+
+static gboolean process_fan (gpointer data)
+{
+#endif
     int fan_gpio = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_gpio_sb));
     int fan_temp = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_temp_sb));
     if (!gtk_switch_get_active (GTK_SWITCH (fan_sw)))
@@ -216,6 +226,10 @@ static void fan_config (void)
     {
         vsystem (SET_FAN, 0, fan_gpio, fan_temp);
     }
+#ifdef REALTIME
+    clear_watch_cursor ();
+    return FALSE;
+#endif
 }
 
 static void fan_update (void)
@@ -255,7 +269,15 @@ static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
 
 static void on_overclock_set (GtkComboBox* cb, gpointer ptr)
 {
+    set_watch_cursor ();
+    g_idle_add (process_oc, NULL);
+}
+
+static gboolean process_oc (gpointer data)
+{
     overclock_config ();
+    clear_watch_cursor ();
+    return FALSE;
 }
 
 static void on_fan_value_changed (GtkSpinButton *sb)
