@@ -1,5 +1,10 @@
 [encoding: UTF-8]
 src/rc_gui.c
+src/display.c
+src/interface.c
+src/local.c
+src/perform.c
+src/system.c
 [type: gettext/glade] data/rc_gui.ui
 # files added by intltool-prepare
 data/rc_gui.desktop.in
