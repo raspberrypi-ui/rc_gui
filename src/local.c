@@ -1273,15 +1273,11 @@ void load_localisation_tab (GtkBuilder *builder)
     timezone_btn = gtk_builder_get_object (builder, "button_tz");
     g_signal_connect (timezone_btn, "clicked", G_CALLBACK (on_set_timezone), NULL);
 
-    textdomain (GETTEXT_PACKAGE);
     keyboard_btn = gtk_builder_get_object (builder, "button_kb");
     g_signal_connect (keyboard_btn, "clicked", G_CALLBACK (on_set_keyboard), NULL);
 
     wifi_btn = gtk_builder_get_object (builder, "button_wifi");
     g_signal_connect (wifi_btn, "clicked", G_CALLBACK (on_set_wifi), NULL);
-
-    if (has_wifi ()) gtk_widget_set_sensitive (GTK_WIDGET (wifi_btn), TRUE);
-    else gtk_widget_set_sensitive (GTK_WIDGET (wifi_btn), FALSE);
 }
 
 /* End of file */
