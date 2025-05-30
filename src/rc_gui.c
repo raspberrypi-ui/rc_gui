@@ -327,7 +327,11 @@ const char *tab_name (int tab)
 
 const char *tab_id (int tab)
 {
-    return NULL;
+    switch (tab)
+    {
+        case 4 : return ("localisation");
+        default : return NULL;
+    }
 }
 
 GtkWidget *get_tab (int tab)
