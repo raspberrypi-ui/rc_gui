@@ -2098,13 +2098,6 @@
     </child>
   </object>
   <object class="GtkSizeGroup">
-    <widgets>
-      <widget name="combo_res"/>
-      <widget name="cb_squeek"/>
-      <widget name="cb_squeekout"/>
-    </widgets>
-  </object>
-  <object class="GtkSizeGroup">
     <property name="mode">vertical</property>
     <widgets>
       <widget name="hbox11"/>
@@ -2153,6 +2146,8 @@
       <widget name="button_ofs"/>
       <widget name="sb_fan_temp"/>
       <widget name="sb_fan_gpio"/>
+      <widget name="cb_squeek"/>
+      <widget name="cb_squeekout"/>
     </widgets>
   </object>
   <object class="GtkWindow" id="modal">
