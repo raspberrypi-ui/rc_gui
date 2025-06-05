@@ -325,6 +325,19 @@ const char *tab_name (int tab)
     }
 }
 
+const char *icon_name (int tab)
+{
+    switch (tab)
+    {
+        case 0 : return "applications-system";
+        case 1 : return "applications-graphics";
+        case 2 : return "applications-engineering";
+        case 3 : return "system-run";
+        case 4 : return "accessories-character-map";
+        default : return NULL;
+    }
+}
+
 const char *tab_id (int tab)
 {
     switch (tab)
