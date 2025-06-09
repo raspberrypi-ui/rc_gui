@@ -330,10 +330,10 @@ const char *icon_name (int tab)
     switch (tab)
     {
         case 0 : return "applications-system";
-        case 1 : return "applications-graphics";
-        case 2 : return "applications-engineering";
+        case 1 : return "computer";
+        case 2 : return "rc-gui-interfaces";
         case 3 : return "system-run";
-        case 4 : return "accessories-character-map";
+        case 4 : return "rc-gui-localisation";
         default : return NULL;
     }
 }
