@@ -48,8 +48,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_SERIALHW    SET_PREFIX "do_serial_hw %d"
 #define GET_1WIRE       GET_PREFIX "get_onewire"
 #define SET_1WIRE       SET_PREFIX "do_onewire %d"
-#define GET_RGPIO       GET_PREFIX "get_rgpio"
-#define SET_RGPIO       SET_PREFIX "do_rgpio %d"
 #define RVNC_INSTALLED  GET_PREFIX "is_installed realvnc-vnc-server"
 #define WVNC_INSTALLED  GET_PREFIX "is_installed wayvnc"
 
@@ -57,8 +55,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Global data                                                                */
 /*----------------------------------------------------------------------------*/
 
-static GObject *ssh_sw, *vnc_sw, *spi_sw, *i2c_sw, *serial_sw, *scons_sw, *onewire_sw, *rgpio_sw;
-static int orig_ssh, orig_vnc, orig_spi, orig_i2c, orig_serial, orig_scons, orig_onewire, orig_rgpio;
+static GObject *ssh_sw, *vnc_sw, *spi_sw, *i2c_sw, *serial_sw, *scons_sw, *onewire_sw;
+static int orig_ssh, orig_vnc, orig_spi, orig_i2c, orig_serial, orig_scons, orig_onewire;
 
 /*----------------------------------------------------------------------------*/
 /* Prototypes                                                                 */
@@ -117,7 +115,6 @@ gboolean read_interfacing_tab (void)
         READ_SWITCH (spi_sw, orig_spi, SET_SPI, FALSE);
         READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
         READ_SWITCH (onewire_sw, orig_onewire, SET_1WIRE, TRUE);
-        READ_SWITCH (rgpio_sw, orig_rgpio, SET_RGPIO, FALSE);
         READ_SWITCH (serial_sw, orig_serial, SET_SERIALHW, TRUE);
         READ_SWITCH (scons_sw, orig_scons, SET_SERIALCON, TRUE);
      }
@@ -174,10 +171,6 @@ void load_interfacing_tab (GtkBuilder *builder)
         CONFIG_SWITCH (onewire_sw, "sw_one", orig_onewire, GET_1WIRE);
         HANDLE_SWITCH (onewire_sw, SET_1WIRE);
 
-        /* Remote GPIO switch */
-        CONFIG_SWITCH (rgpio_sw, "sw_rgp", orig_rgpio, GET_RGPIO);
-        HANDLE_SWITCH (rgpio_sw, SET_RGPIO);
-
         /* Serial console switch */
         CONFIG_SWITCH (scons_sw, "sw_serc", orig_scons, GET_SERIALCON);
         HANDLE_SWITCH (scons_sw, SET_SERIALCON);
@@ -201,7 +194,6 @@ void load_interfacing_tab (GtkBuilder *builder)
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox26")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox27")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox28")));
-        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox29")));
     }
 }
 

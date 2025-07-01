@@ -1533,45 +1533,6 @@
                     <property name="position">7</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkBox" id="hbox29">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="label29">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Remote GPIO:</property>
-                        <property name="xalign">0</property>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSwitch" id="sw_rgp">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="tooltip-text" translatable="yes">Enable remote access to GPIO pins</property>
-                        <accessibility>
-                          <relation type="labelled-by" target="label29"/>
-                        </accessibility>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">8</property>
-                  </packing>
-                </child>
               </object>
               <packing>
                 <property name="position">2</property>
@@ -2104,6 +2065,7 @@
       <widget name="hbox12"/>
       <widget name="hbox13"/>
       <widget name="hbox14"/>
+      <widget name="hbox15"/>
       <widget name="hbox16"/>
       <widget name="hbox17"/>
       <widget name="hbox18"/>
@@ -2120,7 +2082,6 @@
       <widget name="hbox26"/>
       <widget name="hbox27"/>
       <widget name="hbox28"/>
-      <widget name="hbox29"/>
       <widget name="hbox31"/>
       <widget name="hbox33"/>
       <widget name="hbox34"/>
