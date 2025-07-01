@@ -2,7 +2,13 @@ rc-gui (2.0) trixie; urgency=medium
 
   * Build as plugin
 
- -- Simon Long <simon@raspberrypi.com>  Wed, 28 May 2025 20:10:12 +0100
+ -- Simon Long <simon@raspberrypi.com>  Tue, 01 Jul 2025 14:38:12 +0100
+
+rc-gui (1.93) trixie; urgency=medium
+
+  * Fix control size; remove remote GPIO switch
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 01 Jul 2025 14:38:12 +0100
 
 rc-gui (1.92) bookworm; urgency=medium
 
