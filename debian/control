@@ -8,6 +8,6 @@ Homepage: http://raspberrypi.com/
 
 Package: rc-gui
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libgtk-3-0 (>= 3.24), raspi-config (>= 20250306), sudopwd
+Depends: ${shlibs:Depends}, ${misc:Depends}, raspi-config (>= 20250306), sudopwd
 Description: GUI for raspi-config
  Application which allows the configuration of Raspberry Pi system settings
