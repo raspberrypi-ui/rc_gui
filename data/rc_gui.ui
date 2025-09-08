@@ -603,6 +603,7 @@
                   <object class="GtkBox" id="hbox11">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label11">
                         <property name="visible">True</property>
@@ -645,6 +646,7 @@
                   <object class="GtkBox" id="hbox12">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label12">
                         <property name="visible">True</property>
@@ -687,6 +689,7 @@
                   <object class="GtkBox" id="hbox13">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label13">
                         <property name="visible">True</property>
@@ -750,6 +753,7 @@
                   <object class="GtkBox" id="hbox14">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label14">
                         <property name="visible">True</property>
@@ -789,6 +793,7 @@
                   <object class="GtkBox" id="hbox15">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label15">
                         <property name="visible">True</property>
@@ -828,6 +833,7 @@
                   <object class="GtkBox" id="hbox16">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label16">
                         <property name="visible">True</property>
@@ -867,6 +873,7 @@
                   <object class="GtkBox" id="hbox17">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label17">
                         <property name="visible">True</property>
@@ -906,6 +913,7 @@
                   <object class="GtkBox" id="hbox18">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label18">
                         <property name="visible">True</property>
@@ -1000,6 +1008,7 @@
                   <object class="GtkBox" id="hbox52">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label52">
                         <property name="visible">True</property>
@@ -1039,6 +1048,7 @@
                   <object class="GtkBox" id="hbox53">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label53">
                         <property name="visible">True</property>
@@ -1078,6 +1088,7 @@
                   <object class="GtkBox" id="hbox55">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label55">
                         <property name="visible">True</property>
@@ -1117,6 +1128,7 @@
                   <object class="GtkBox" id="hbox56">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label56">
                         <property name="visible">True</property>
@@ -1158,6 +1170,7 @@
                   <object class="GtkBox" id="hbox57">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label57">
                         <property name="visible">True</property>
@@ -1202,6 +1215,7 @@
                   <object class="GtkBox" id="hbox58">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label58">
                         <property name="visible">True</property>
@@ -1264,6 +1278,7 @@
                   <object class="GtkBox" id="hbox21">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label21">
                         <property name="visible">True</property>
@@ -1303,6 +1318,7 @@
                   <object class="GtkBox" id="hbox23">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label23">
                         <property name="visible">True</property>
@@ -1342,6 +1358,7 @@
                   <object class="GtkBox" id="hbox24">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label24">
                         <property name="visible">True</property>
@@ -1381,6 +1398,7 @@
                   <object class="GtkBox" id="hbox25">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label25">
                         <property name="visible">True</property>
@@ -1420,6 +1438,7 @@
                   <object class="GtkBox" id="hbox26">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label26">
                         <property name="visible">True</property>
@@ -1459,6 +1478,7 @@
                   <object class="GtkBox" id="hbox27">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label27">
                         <property name="visible">True</property>
@@ -1498,6 +1518,7 @@
                   <object class="GtkBox" id="hbox28">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label28">
                         <property name="visible">True</property>
@@ -1560,6 +1581,7 @@
                   <object class="GtkBox" id="hbox31">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label31">
                         <property name="visible">True</property>
@@ -1601,6 +1623,7 @@
                   <object class="GtkBox" id="hbox33">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label33">
                         <property name="visible">True</property>
@@ -1642,6 +1665,7 @@
                   <object class="GtkBox" id="hbox34">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label34">
                         <property name="visible">True</property>
@@ -1681,6 +1705,7 @@
                   <object class="GtkBox" id="hbox35">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label35">
                         <property name="visible">True</property>
@@ -1721,6 +1746,7 @@
                   <object class="GtkBox" id="hbox36">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label36">
                         <property name="visible">True</property>
@@ -1761,6 +1787,7 @@
                   <object class="GtkBox" id="hbox37">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label37">
                         <property name="visible">True</property>
@@ -1823,6 +1850,7 @@
                   <object class="GtkBox" id="hbox41">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label41">
                         <property name="visible">True</property>
@@ -1866,6 +1894,7 @@
                   <object class="GtkBox" id="hbox42">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label42">
                         <property name="visible">True</property>
@@ -1909,6 +1938,7 @@
                   <object class="GtkBox" id="hbox43">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label43">
                         <property name="visible">True</property>
@@ -1952,6 +1982,7 @@
                   <object class="GtkBox" id="hbox44">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label44">
                         <property name="visible">True</property>
