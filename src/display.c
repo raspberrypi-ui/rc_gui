@@ -179,9 +179,9 @@ gboolean read_display_tab (void)
 
 gboolean display_reboot (void)
 {
+    CHECK_SWITCH (blank_sw, orig_blank);
     if (wm == WM_OPENBOX)
     {
-        CHECK_SWITCH (blank_sw, orig_blank);
         if (!vsystem (IS_PI) && orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)))
             return TRUE;
     }

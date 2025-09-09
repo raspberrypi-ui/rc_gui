@@ -1,3 +1,9 @@
+rc-gui (2.3) trixie; urgency=medium
+
+  * Request reboot when changing blanking
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 09 Sep 2025 14:44:24 +0100
+
 rc-gui (2.2) trixie; urgency=medium
 
   * Add spacing
