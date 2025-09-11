@@ -1,3 +1,9 @@
+rc-gui (2.4) trixie; urgency=medium
+
+  * Add warning to hostname dialog
+
+ -- Simon Long <simon@raspberrypi.com>  Thu, 11 Sep 2025 11:51:52 +0100
+
 rc-gui (2.3) trixie; urgency=medium
 
   * Request reboot when changing blanking
