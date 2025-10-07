@@ -151,7 +151,7 @@ void load_interfacing_tab (GtkBuilder *builder)
     /* VNC switch */
     CONFIG_SWITCH (vnc_sw, "sw_vnc", orig_vnc, GET_VNC);
     HANDLE_SWITCH (vnc_sw, SET_VNC);
-    if (vsystem (RVNC_INSTALLED) && vsystem (WVNC_INSTALLED))
+    if ((wm == WM_OPENBOX && vsystem (RVNC_INSTALLED)) || (wm != WM_OPENBOX && vsystem (WVNC_INSTALLED)))
     {
         gtk_widget_set_sensitive (GTK_WIDGET (vnc_sw), FALSE);
         gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_sw), _("The VNC server is not installed"));
