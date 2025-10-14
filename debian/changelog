@@ -1,3 +1,9 @@
+rc-gui (2.6) trixie; urgency=medium
+
+  * Handle firefox-esr as well as firefox
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 14 Oct 2025 11:43:38 +0100
+
 rc-gui (2.5) trixie; urgency=medium
 
   * Correctly disable VNC switch
