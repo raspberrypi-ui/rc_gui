@@ -50,6 +50,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GET_BROWSER     GET_PREFIX "get_browser"
 #define SET_BROWSER     SET_PREFIX "do_browser %s"
 #define FF_INSTALLED    GET_PREFIX "is_installed firefox"
+#define FFE_INSTALLED   GET_PREFIX "is_installed firefox-esr"
 #define CR_INSTALLED    GET_PREFIX "is_installed chromium"
 
 #define CHANGE_PASSWD   "echo $USER:'%s' | " SUDO_PREFIX "chpasswd -e"
@@ -66,6 +67,7 @@ static GObject *hostname_tb;
 
 static int orig_boot, orig_alog_cli, orig_alog_desk, orig_splash, orig_leds;
 static char *orig_browser;
+static int ffver;
 
 /*----------------------------------------------------------------------------*/
 /* Prototypes                                                                 */
@@ -268,7 +270,7 @@ static gboolean process_browser (gpointer data)
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
         vsystem (SET_BROWSER, "chromium");
     else
-        vsystem (SET_BROWSER, "firefox");
+        vsystem (SET_BROWSER, ffver == 1 ? "firefox" : "firefox-esr");
     clear_watch_cursor ();
     return FALSE;
 }
@@ -372,9 +374,12 @@ void load_system_tab (GtkBuilder *builder)
     chromium_rb = gtk_builder_get_object (builder, "rb_chromium");
     firefox_rb = gtk_builder_get_object (builder, "rb_firefox");
     orig_browser = get_string (GET_BROWSER);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (firefox_rb), !strcmp (orig_browser, "firefox"));
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chromium_rb), !strcmp (orig_browser, "chromium"));
-    if (vsystem (CR_INSTALLED) || vsystem (FF_INSTALLED))
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (firefox_rb), !strncmp (orig_browser, "firefox", 7));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chromium_rb), !strncmp (orig_browser, "chromium", 8));
+    if (vsystem (FF_INSTALLED) == 0) ffver = 1;
+    else if (vsystem (FFE_INSTALLED) == 0) ffver = 2;
+    else ffver = 0;
+    if (vsystem (CR_INSTALLED) || ffver == 0)
     {
         gtk_widget_set_sensitive (GTK_WIDGET (chromium_rb), FALSE);
         gtk_widget_set_sensitive (GTK_WIDGET (firefox_rb), FALSE);
