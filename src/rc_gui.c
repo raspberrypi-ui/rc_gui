@@ -285,7 +285,7 @@ static void init_config (void)
 
 #ifdef PLUGIN_NAME
 
-void init_plugin (void)
+void init_plugin (GtkWidget *parent)
 {
     setlocale (LC_ALL, "");
     bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
@@ -301,7 +301,7 @@ void init_plugin (void)
 
     singledlg = FALSE;
 
-    main_dlg = NULL;
+    main_dlg = parent;
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
 
     init_config ();
