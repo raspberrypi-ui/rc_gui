@@ -1,3 +1,9 @@
+rc-gui (2.8) trixie; urgency=medium
+
+  * Add larger icons
+
+ -- Simon Long <simon@raspberrypi.com>  Mon, 03 Nov 2025 13:30:00 +0000
+
 rc-gui (2.7) trixie; urgency=medium
 
   * Add window handle to init function
