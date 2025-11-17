@@ -95,7 +95,7 @@ extern int vsystem (const char *fmt, ...);
 extern char *get_string (char *cmd);
 extern int get_status (char *cmd);
 extern char *get_quoted_param (char *path, char *fname, char *toseek);
-extern gboolean on_switch (GtkSwitch *btn, gpointer, const char *cmd);
+extern void on_switch (GtkSwitch *btn, gpointer, const char *cmd);
 extern void message (char *msg);
 extern void info (char *msg);
 

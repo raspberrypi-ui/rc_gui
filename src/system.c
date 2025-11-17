@@ -80,7 +80,7 @@ static void config_boot (void);
 static void boot_update (void);
 static void on_boot_toggle (GtkButton *btn, gpointer ptr);
 #ifdef REALTIME
-static gboolean on_alogin_toggle (GtkSwitch *btn, gpointer, gpointer);
+static void on_alogin_toggle (GtkSwitch *btn, gpointer, gpointer);
 static gboolean process_alogin (gpointer data);
 static void on_browser_toggle (GtkButton *btn, gpointer ptr);
 static gboolean process_browser (gpointer data);
@@ -245,11 +245,10 @@ static void on_boot_toggle (GtkButton *btn, gpointer ptr)
 
 #ifdef REALTIME
 
-static gboolean on_alogin_toggle (GtkSwitch *btn, gpointer, gpointer)
+static void on_alogin_toggle (GtkSwitch *btn, gpointer, gpointer)
 {
     set_watch_cursor ();
     g_idle_add (process_alogin, NULL);
-    return FALSE;
 }
 
 static gboolean process_alogin (gpointer data)

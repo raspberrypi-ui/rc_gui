@@ -64,13 +64,13 @@ static int ovfs_rb;
 /*----------------------------------------------------------------------------*/
 
 static void on_set_ofs (GtkButton* btn, gpointer ptr);
-static gboolean overlay_update (GtkSwitch *btn, gpointer, gpointer);
+static void overlay_update (GtkSwitch *btn, gpointer, gpointer);
 static gpointer initrd_thread (gpointer data);
 static gboolean close_msg (gpointer data);
 static void overclock_config (void);
 static void fan_config (void);
 static void fan_update (void);
-static gboolean on_fan_toggle (GtkSwitch *btn, gpointer, gpointer);
+static void on_fan_toggle (GtkSwitch *btn, gpointer, gpointer);
 #ifdef REALTIME
 static void on_overclock_set (GtkComboBox* cb, gpointer ptr);
 static gboolean process_oc (gpointer data);
@@ -148,13 +148,12 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
     gtk_widget_destroy (dlg);
 }
 
-static gboolean overlay_update (GtkSwitch *btn, gpointer, gpointer)
+static void overlay_update (GtkSwitch *btn, gpointer, gpointer)
 {
     ovfs_rb = 0;
     if (orig_ofs == gtk_switch_get_active (GTK_SWITCH (ofs_en_sw))) ovfs_rb = 1;
     if (orig_bpro == gtk_switch_get_active (GTK_SWITCH (bp_ro_sw))) ovfs_rb = 1;
     gtk_widget_set_visible (GTK_WIDGET (ofs_lbl), ovfs_rb);
-    return FALSE;
 }
 
 static gpointer initrd_thread (gpointer data)
@@ -250,15 +249,13 @@ static void fan_update (void)
     }
 }
 
-static gboolean on_fan_toggle (GtkSwitch *btn, gpointer, gpointer)
+static void on_fan_toggle (GtkSwitch *btn, gpointer, gpointer)
 {
     fan_update ();
 
 #ifdef REALTIME
     fan_config ();
 #endif
-
-    return FALSE;
 }
 
 /*----------------------------------------------------------------------------*/
