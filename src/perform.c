@@ -64,13 +64,13 @@ static int ovfs_rb;
 /*----------------------------------------------------------------------------*/
 
 static void on_set_ofs (GtkButton* btn, gpointer ptr);
-static gboolean overlay_update (GtkSwitch *btn, gboolean state, gpointer ptr);
+static gboolean overlay_update (GtkSwitch *btn, gpointer, gpointer);
 static gpointer initrd_thread (gpointer data);
 static gboolean close_msg (gpointer data);
 static void overclock_config (void);
 static void fan_config (void);
 static void fan_update (void);
-static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr);
+static gboolean on_fan_toggle (GtkSwitch *btn, gpointer, gpointer);
 #ifdef REALTIME
 static void on_overclock_set (GtkComboBox* cb, gpointer ptr);
 static gboolean process_oc (gpointer data);
@@ -120,8 +120,8 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
         gtk_widget_set_tooltip_text (GTK_WIDGET (bp_ro_sw), _("The state of the boot partition cannot be changed while an overlay is active"));
     }
 
-    g_signal_connect (ofs_en_sw, "state-set", G_CALLBACK (overlay_update), NULL);
-    g_signal_connect (bp_ro_sw, "state-set", G_CALLBACK (overlay_update), NULL);
+    g_signal_connect (ofs_en_sw, "notify::active", G_CALLBACK (overlay_update), NULL);
+    g_signal_connect (bp_ro_sw, "notify::active", G_CALLBACK (overlay_update), NULL);
     gtk_widget_realize (GTK_WIDGET (ofs_lbl));
     gtk_widget_set_size_request (dlg, gtk_widget_get_allocated_width (dlg), gtk_widget_get_allocated_height (dlg));
     gtk_widget_hide (GTK_WIDGET (ofs_lbl));
@@ -148,7 +148,7 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
     gtk_widget_destroy (dlg);
 }
 
-static gboolean overlay_update (GtkSwitch *btn, gboolean state, gpointer ptr)
+static gboolean overlay_update (GtkSwitch *btn, gpointer, gpointer)
 {
     ovfs_rb = 0;
     if (orig_ofs == gtk_switch_get_active (GTK_SWITCH (ofs_en_sw))) ovfs_rb = 1;
@@ -250,7 +250,7 @@ static void fan_update (void)
     }
 }
 
-static gboolean on_fan_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
+static gboolean on_fan_toggle (GtkSwitch *btn, gpointer, gpointer)
 {
     fan_update ();
 
@@ -351,7 +351,7 @@ void load_performance_tab (GtkBuilder *builder)
             fan_gpio_sb = gtk_builder_get_object (builder, "sb_fan_gpio");
             fan_temp_sb = gtk_builder_get_object (builder, "sb_fan_temp");
             fan_update ();
-            g_signal_connect (fan_sw, "state-set", G_CALLBACK (on_fan_toggle), NULL);
+            g_signal_connect (fan_sw, "notify::active", G_CALLBACK (on_fan_toggle), NULL);
 
             gadj = gtk_adjustment_new (14, 2, 27, 1, 1, 0);
             gtk_spin_button_set_adjustment (GTK_SPIN_BUTTON (fan_gpio_sb), GTK_ADJUSTMENT (gadj));

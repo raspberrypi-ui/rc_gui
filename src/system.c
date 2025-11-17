@@ -80,7 +80,7 @@ static void config_boot (void);
 static void boot_update (void);
 static void on_boot_toggle (GtkButton *btn, gpointer ptr);
 #ifdef REALTIME
-static gboolean on_alogin_toggle (GtkSwitch *btn, gboolean state, gpointer ptr);
+static gboolean on_alogin_toggle (GtkSwitch *btn, gpointer, gpointer);
 static gboolean process_alogin (gpointer data);
 static void on_browser_toggle (GtkButton *btn, gpointer ptr);
 static gboolean process_browser (gpointer data);
@@ -245,7 +245,7 @@ static void on_boot_toggle (GtkButton *btn, gpointer ptr)
 
 #ifdef REALTIME
 
-static gboolean on_alogin_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
+static gboolean on_alogin_toggle (GtkSwitch *btn, gpointer, gpointer)
 {
     set_watch_cursor ();
     g_idle_add (process_alogin, NULL);
@@ -355,10 +355,10 @@ void load_system_tab (GtkBuilder *builder)
 
     /* Autologin switch */
     CONFIG_SWITCH (alog_cli_sw, "sw_alogin_cons", orig_alog_cli, GET_ALOGIN_CLI);
-    HANDLE_CONTROL (alog_cli_sw, "state-set", on_alogin_toggle);
+    HANDLE_CONTROL (alog_cli_sw, "notify::active", on_alogin_toggle);
 
     CONFIG_SWITCH (alog_desk_sw, "sw_alogin_desk", orig_alog_desk, GET_ALOGIN_DESK);
-    HANDLE_CONTROL (alog_desk_sw, "state-set", on_alogin_toggle);
+    HANDLE_CONTROL (alog_desk_sw, "notify::active", on_alogin_toggle);
 
     /* CLI / desktop radio buttons */
     boot_desktop_rb = gtk_builder_get_object (builder, "rb_desktop");

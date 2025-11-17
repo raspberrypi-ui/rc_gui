@@ -63,7 +63,7 @@ static int orig_ssh, orig_vnc, orig_spi, orig_i2c, orig_serial, orig_scons, orig
 /*----------------------------------------------------------------------------*/
 
 static void serial_update (void);
-static gboolean on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr);
+static gboolean on_serial_toggle (GtkSwitch *btn, gpointer, gpointer);
 
 /*----------------------------------------------------------------------------*/
 /* Function definitions                                                       */
@@ -88,12 +88,12 @@ static void serial_update (void)
     }
 }
 
-static gboolean on_serial_toggle (GtkSwitch *btn, gboolean state, gpointer ptr)
+static gboolean on_serial_toggle (GtkSwitch *btn, gpointer, gpointer)
 {
     serial_update ();
 
 #ifdef REALTIME
-    vsystem (SET_SERIALHW, (1 - state));
+    vsystem (SET_SERIALHW, (1 - gtk_switch_get_active (btn)));
 #endif
 
     return FALSE;
@@ -183,7 +183,7 @@ void load_interfacing_tab (GtkBuilder *builder)
         }
         else
         {
-            g_signal_connect (serial_sw, "state-set", G_CALLBACK (on_serial_toggle), NULL);
+            g_signal_connect (serial_sw, "notify::active", G_CALLBACK (on_serial_toggle), NULL);
             serial_update ();
         }
     }

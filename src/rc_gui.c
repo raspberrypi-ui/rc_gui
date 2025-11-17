@@ -199,11 +199,11 @@ static gboolean process_switch (gpointer data)
     return FALSE;
 }
 
-gboolean on_switch (GtkSwitch *btn, gboolean state, const char *cmd)
+gboolean on_switch (GtkSwitch *btn, gpointer, const char *cmd)
 {
     char *cmdline;
     set_watch_cursor ();
-    cmdline = g_strdup_printf (cmd, (1 - state));
+    cmdline = g_strdup_printf (cmd, (1 - gtk_switch_get_active (btn)));
     g_idle_add (process_switch, cmdline);
     return FALSE;
 }
