@@ -49,6 +49,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_LEDS        SET_PREFIX "do_leds %d"
 #define GET_BROWSER     GET_PREFIX "get_browser"
 #define SET_BROWSER     SET_PREFIX "do_browser %s"
+#define GET_PSUDO       GET_PREFIX "get_sudo_pass"
+#define SET_PSUDO       SET_PREFIX "do_sudo_pass %d"
 #define FF_INSTALLED    GET_PREFIX "is_installed firefox"
 #define FFE_INSTALLED   GET_PREFIX "is_installed firefox-esr"
 #define CR_INSTALLED    GET_PREFIX "is_installed chromium"
@@ -61,11 +63,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 static GObject *passwd_btn, *hostname_btn;
 static GObject *boot_desktop_rb, *boot_cli_rb, *chromium_rb, *firefox_rb;
-static GObject *alog_cli_sw, *alog_desk_sw, *splash_sw, *led_actpwr_sw;
+static GObject *alog_cli_sw, *alog_desk_sw, *splash_sw, *led_actpwr_sw, *psudo_sw;
 static GObject *pwentry1_tb, *pwentry2_tb, *pwok_btn;
 static GObject *hostname_tb;
 
-static int orig_boot, orig_alog_cli, orig_alog_desk, orig_splash, orig_leds;
+static int orig_boot, orig_alog_cli, orig_alog_desk, orig_splash, orig_leds, orig_psudo;
 static char *orig_browser;
 static int ffver;
 
@@ -314,6 +316,8 @@ gboolean read_system_tab (void)
         if (orig_leds != -1) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
     }
 
+    READ_SWITCH (psudo_sw, orig_psudo, SET_PSUDO, FALSE);
+
     return reboot;
 }
 
@@ -400,6 +404,10 @@ void load_system_tab (GtkBuilder *builder)
             HANDLE_SWITCH (led_actpwr_sw, SET_LEDS);
         }
     }
+
+    /* Passwordless sudo switch */
+    CONFIG_SWITCH (psudo_sw, "sw_psudo", orig_psudo, GET_PSUDO);
+    HANDLE_SWITCH (psudo_sw, SET_PSUDO);
 }
 
 /* End of file */
