@@ -994,7 +994,7 @@
                       <object class="GtkLabel" id="label19">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Passwordless Sudo:</property>
+                        <property name="label" translatable="yes">Admin Password:</property>
                         <property name="xalign">0</property>
                       </object>
                       <packing>
@@ -1007,7 +1007,7 @@
                       <object class="GtkSwitch" id="sw_psudo">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="tooltip-text" translatable="yes">Allow sudo operations without password</property>
+                        <property name="tooltip-text" translatable="yes">Prompt for the user password before admin ("sudo") operations</property>
                         <accessibility>
                           <relation type="labelled-by" target="label19"/>
                         </accessibility>
