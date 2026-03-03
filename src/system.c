@@ -49,7 +49,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_LEDS        SET_PREFIX "do_leds %d"
 #define GET_BROWSER     GET_PREFIX "get_browser"
 #define SET_BROWSER     SET_PREFIX "do_browser %s"
-#define GET_PSUDO       GET_PREFIX "get_sudo_pass"
+#define GET_PSUDO       SET_PREFIX "get_sudo_pass"
 #define SET_PSUDO       SET_PREFIX "do_sudo_pass %d"
 #define FF_INSTALLED    GET_PREFIX "is_installed firefox"
 #define FFE_INSTALLED   GET_PREFIX "is_installed firefox-esr"
