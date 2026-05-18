@@ -1,3 +1,9 @@
+rc-gui (2.15) trixie; urgency=medium
+
+  * Add Polish translation
+
+ -- Simon Long <simon@raspberrypi.com>  Mon, 18 May 2026 13:14:14 +0100
+
 rc-gui (2.14) trixie; urgency=medium
 
   * Fix forced toggling of serial console on startup
