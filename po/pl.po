@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rc_gui 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-19 15:19+0200\n"
-"PO-Revision-Date: 2021-07-19 15:19+0200\n"
-"Last-Translator: GITNE <GITNE@users.noreply.github.com>\n"
+"POT-Creation-Date: 2026-04-12 23:31+0200\n"
+"PO-Revision-Date: 2026-04-13 17:37+0200\n"
+"Last-Translator: Skotniczny <skotniczny@outlook.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -18,655 +18,36 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#. warn about a short delay...
-#: src/rc_gui.c:755
-msgid "Setting locale - please wait..."
-msgstr "Ustawianie regionalnych — proszę czekać…"
-
-#. warn about a short delay...
-#: src/rc_gui.c:995
-msgid "Setting timezone - please wait..."
-msgstr "Ustawianie strefy czasowej — proszę czekać…"
-
-#: src/rc_gui.c:1036 src/rc_gui.c:1059
-msgid "<not set>"
-msgstr "<brak ustawienia>"
-
-#. warn about a short delay...
-#: src/rc_gui.c:1430
-msgid "Setting keyboard - please wait..."
-msgstr "Ustawianie klawiatury — proszę czekać…"
-
-#: src/rc_gui.c:1459 data/rc_gui.ui:2772
-msgid "Changes will not take effect until a reboot"
-msgstr "Dokonane zmiany zadziałają dopiero po ponownym uruchomieniu"
-
-#: src/rc_gui.c:1514 src/rc_gui.c:1515
-msgid ""
-"The state of the boot partition cannot be changed while an overlay is active"
-msgstr ""
-"Nie można dokonać zmiany stanu partycji rozruchowej gdy pokrywa jest aktywna"
-
-#. warn about a short delay...
-#: src/rc_gui.c:1535
-msgid "Setting up overlay - please wait..."
-msgstr "Ustawianie pokrywy — proszę czekać…"
-
-#: src/rc_gui.c:1588 data/rc_gui.ui:1331
-msgid "Enable shell and kernel messages on the serial connection"
-msgstr "Włącz komunikaty powłoki systemowej i jądra na łączu szeregowym"
-
-#: src/rc_gui.c:1589 data/rc_gui.ui:1350
-msgid "Disable shell and kernel messages on the serial connection"
-msgstr "Wyłącz komunikaty powłoki systemowej i jądra na łączu szeregowym"
-
-#: src/rc_gui.c:1600 src/rc_gui.c:1601
-msgid "This setting cannot be changed while the serial port is disabled"
-msgstr "Nie możesz tego ustawić gdy gniazdo szeregowe jest wyłączone"
-
-#: src/rc_gui.c:1958 src/rc_gui.c:1959
-msgid "This setting is overridden when Xscreensaver is installed"
-msgstr "Te ustawienie jest uchylane gdy Xscreensaver jest zainstalowany"
-
-#: src/rc_gui.c:2018 src/rc_gui.c:2019
-msgid "The VNC server is not installed"
-msgstr "Serwer VNC nie jest zainstalowany"
-
-#: data/rc_gui.ui:8 data/rc_gui.ui:2309 data/rc_gui.desktop.in:4
-#: data/rc_gui.desktop.in:5
-msgid "Raspberry Pi Configuration"
-msgstr "Konfiguracja Raspberry Pi"
-
-#: data/rc_gui.ui:78
-msgid "Password:"
-msgstr "Hasło:"
-
-#: data/rc_gui.ui:88
-msgid "Change _Password..."
-msgstr "Zmień _hasło…"
-
-#: data/rc_gui.ui:92
-msgid "Change password for the default user (pi)"
-msgstr "Zmień hasło domyślnego użytkownika „pi”"
-
-#: data/rc_gui.ui:121
-msgid "Hostname:"
-msgstr "Nazwa hosta:"
-
-#: data/rc_gui.ui:133
-msgid "Set the name of your Pi on a local network"
-msgstr "Ustaw nazwę w sieci lokalnej Twojego Pi"
-
-#: data/rc_gui.ui:165
-msgid "Boot:"
-msgstr "Rozruch:"
-
-#: data/rc_gui.ui:175
-msgid "To Desktop"
-msgstr "do pulpitu"
-
-#: data/rc_gui.ui:179
-msgid "Launch the desktop environment automatically on boot"
-msgstr "Automatycznie uruchamiaj środowisko pulpitu podczas rozruchu"
-
-#: data/rc_gui.ui:194
-msgid "To CLI"
-msgstr "do interfejsu wiersza poleceń"
-
-#: data/rc_gui.ui:198
-msgid "Boot into a command line shell rather than the desktop"
-msgstr "Rozrusza do powłoki systemowej wierszy poleceń zamiast do pulpitu"
-
-#: data/rc_gui.ui:229
-msgid "Auto login:"
-msgstr "Automatyczne logowanie:"
-
-#: data/rc_gui.ui:239
-msgid "Login as user 'pi'"
-msgstr "loguj jako użytkownik „pi”"
-
-#: data/rc_gui.ui:243
-msgid "Automatically log in the default user (pi)"
-msgstr "Automatycznie loguj domyślnego użytkownika „pi”"
-
-#: data/rc_gui.ui:257 data/rc_gui.ui:2676
-msgid "Disabled"
-msgstr "wyłączone"
-
-#: data/rc_gui.ui:261
-msgid "Prompt for password at boot"
-msgstr "Pytaj o hasło przy rozruchu"
-
-#: data/rc_gui.ui:291
-msgid "Network at Boot:"
-msgstr "Sieć podczas rozruchu:"
-
-#: data/rc_gui.ui:301
-msgid "Wait for network"
-msgstr "czekaj na sieć"
-
-#: data/rc_gui.ui:305
-msgid "Do not complete boot until network connection is established"
-msgstr ""
-"Nie finalizuj rozruchu dopóki połączenie sieciowe nie zostanie nawiązane"
-
-#: data/rc_gui.ui:319
-msgid "Do not wait"
-msgstr "nie czekaj"
-
-#: data/rc_gui.ui:323
-msgid "Do not wait for network connection during boot"
-msgstr "Nie czekaj na połączenie sieciowe podczas rozruchu"
-
-#: data/rc_gui.ui:353
-msgid "Splash Screen:"
-msgstr "Ekran powitalny:"
-
-#: data/rc_gui.ui:363 data/rc_gui.ui:586 data/rc_gui.ui:650 data/rc_gui.ui:714
-#: data/rc_gui.ui:778 data/rc_gui.ui:941 data/rc_gui.ui:1007 data/rc_gui.ui:1071
-#: data/rc_gui.ui:1135 data/rc_gui.ui:1199 data/rc_gui.ui:1263
-#: data/rc_gui.ui:1327 data/rc_gui.ui:1391 data/rc_gui.ui:1455
-#: data/rc_gui.ui:1856
-msgid "Enable"
-msgstr "włącz"
-
-#: data/rc_gui.ui:367
-msgid "Show graphical splash screen at boot"
-msgstr "Pokazuj graficzny ekran powitalny podczas rozruchu"
-
-#: data/rc_gui.ui:382 data/rc_gui.ui:605 data/rc_gui.ui:669 data/rc_gui.ui:733
-#: data/rc_gui.ui:797 data/rc_gui.ui:961 data/rc_gui.ui:1026 data/rc_gui.ui:1090
-#: data/rc_gui.ui:1154 data/rc_gui.ui:1218 data/rc_gui.ui:1282
-#: data/rc_gui.ui:1346 data/rc_gui.ui:1410 data/rc_gui.ui:1474
-#: data/rc_gui.ui:1875
-msgid "Disable"
-msgstr "wyłącz"
-
-#: data/rc_gui.ui:386
-msgid "Show text messages at boot"
-msgstr "Pokazuj komunikaty tekstowe podczas rozruchu"
-
-#: data/rc_gui.ui:417
-msgid "Power LED:"
-msgstr "Kontrolka zasilania:"
-
-#: data/rc_gui.ui:427
-msgid "Activity"
-msgstr "aktywność"
-
-#: data/rc_gui.ui:431
-msgid "Flash the power LED on disk activity"
-msgstr "Mrugaj kontrolką zasilania przy sięganiu do pamięci stałej"
-
-#: data/rc_gui.ui:446
-msgid "Constant"
-msgstr "stała"
-
-#: data/rc_gui.ui:450
-msgid "Do not flash the power LED"
-msgstr "Nie mrugaj kontrolką zasilania"
-
-#: data/rc_gui.ui:510
+#: ../src/rc_gui.c:326
+msgctxt "tab"
 msgid "System"
 msgstr "System"
 
-#: data/rc_gui.ui:532 data/rc_gui.ui:3208
-msgid "Resolution:"
-msgstr "Rozdzielczość:"
-
-#: data/rc_gui.ui:543
-msgid "Set _Resolution..."
-msgstr "Ustaw _rozdzielczość…"
-
-#: data/rc_gui.ui:547
-msgid "Set the resolution for HDMI and VNC"
-msgstr "Ustaw rozdzielczość dla HDMI i VNC"
-
-#: data/rc_gui.ui:576
-msgid "Overscan:"
-msgstr "Margines:"
-
-#: data/rc_gui.ui:590
-msgid "Enable overscan to show the edges of the screen"
-msgstr "Włącz wyświetlanie marginesu ekranu"
-
-#: data/rc_gui.ui:609
-msgid "Disable overscan to hide black outline on screen"
-msgstr "Wyłącz wyświetlanie marginesu ekranu"
-
-#: data/rc_gui.ui:640
-msgid "Pixel Doubling:"
-msgstr "Podwójne piksle:"
-
-#: data/rc_gui.ui:654
-msgid "Enable pixel doubling to improve usability on high-res screens"
-msgstr ""
-"Włącz podwajanie piksli, aby polepszyć używalność na ekranach wysokiej "
-"rozdzielczości"
-
-#: data/rc_gui.ui:673
-msgid "Disable pixel doubling for standard resolution screens"
-msgstr "Wyłącz podwajanie piksli na ekranach standardowej rozdzielczości"
-
-#: data/rc_gui.ui:704
-msgid "Composite Video:"
-msgstr "Wideo kompozytowe:"
-
-#: data/rc_gui.ui:718
-msgid "Enable analogue composite video on the 3.5mm socket"
-msgstr "Włącz analogowe wideo kompozytowe przez gniazdo 3,5 mm"
-
-#: data/rc_gui.ui:737
-msgid "Disable analogue composite video"
-msgstr "Wyłącz analogowe wideo kompozytowe"
-
-#: data/rc_gui.ui:768
-msgid "Screen Blanking:"
-msgstr "Wygaszanie ekranu:"
-
-#: data/rc_gui.ui:782
-msgid "Blank the screen after a period of inactivity"
-msgstr "Wygaszaj ekran po upływie okresu bez aktywności"
-
-#: data/rc_gui.ui:801
-msgid "Never blank the screen"
-msgstr "Nigdy nie wygaszaj ekranu"
-
-#: data/rc_gui.ui:908
+#: ../src/rc_gui.c:327
+msgctxt "tab"
 msgid "Display"
-msgstr "Wyświetlacz"
+msgstr "Ekran"
 
-#: data/rc_gui.ui:931
-msgid "Camera:"
-msgstr "Kamera:"
-
-#: data/rc_gui.ui:945
-msgid "Enable the Raspberry Pi Camera Board"
-msgstr "Włącz płytę z kamerą dla Raspberry Pi"
-
-#: data/rc_gui.ui:965
-msgid "Disable the Raspberry Pi Camera Board"
-msgstr "Wyłącz płytę z kamerą dla Raspberry Pi"
-
-#: data/rc_gui.ui:997
-msgid "SSH:"
-msgstr "SSH:"
-
-#: data/rc_gui.ui:1011
-msgid "Enable remote access to this Pi via SSH"
-msgstr "Włącz dostęp zdalny do tego Pi poprzez SSH"
-
-#: data/rc_gui.ui:1030
-msgid "Disable remote access to this Pi via SSH"
-msgstr "Wyłącz dostęp zdalny do tego Pi poprzez SSH"
-
-#: data/rc_gui.ui:1061
-msgid "VNC:"
-msgstr "VNC:"
-
-#: data/rc_gui.ui:1075
-msgid "Enable remote access to this Pi using RealVNC"
-msgstr "Włącz dostęp zdalny do tego Pi za pomocą RealVNC"
-
-#: data/rc_gui.ui:1094
-msgid "Disable remote access to this Pi using RealVNC"
-msgstr "Wyłącz dostęp zdalny do tego Pi za pomocą RealVNC"
-
-#: data/rc_gui.ui:1125
-msgid "SPI:"
-msgstr "SPI:"
-
-#: data/rc_gui.ui:1139
-msgid "Enable the automatic loading of the SPI kernel module"
-msgstr "Włącz automatyczne ładowanie modułu jądra SPI"
-
-#: data/rc_gui.ui:1158
-msgid "Disable the automatic loading of the SPI kernel module"
-msgstr "Wyłącz automatyczne ładowanie modułu jądra SPI"
-
-#: data/rc_gui.ui:1189
-msgid "I2C:"
-msgstr "I2C:"
-
-#: data/rc_gui.ui:1203
-msgid "Enable the automatic loading of the I2C kernel module"
-msgstr "Włącz automatyczne ładowanie modułu jądra I2C"
-
-#: data/rc_gui.ui:1222
-msgid "Disable the automatic loading of the I2C kernel module"
-msgstr "Wyłącz automatyczne ładowanie modułu jądra I2C"
-
-#: data/rc_gui.ui:1253
-msgid "Serial Port:"
-msgstr "Gniazdo szeregowe:"
-
-#: data/rc_gui.ui:1267
-msgid "Enable the serial port over the GPIO pins"
-msgstr "Włącz gniazdo szeregowe przez styki GPIO"
-
-#: data/rc_gui.ui:1286
-msgid "Disable the serial port over the GPIO pins"
-msgstr "Wyłącz gniazdo szeregowe przez styki GPIO"
-
-#: data/rc_gui.ui:1317
-msgid "Serial Console:"
-msgstr "Konsola szeregowa:"
-
-#: data/rc_gui.ui:1381
-msgid "1-Wire:"
-msgstr "Interfejs jednoprzewodowy:"
-
-#: data/rc_gui.ui:1395
-msgid "Enable 1-wire peripheral interface"
-msgstr "Włącz zewnętrzny interfejs jednoprzewodowy"
-
-#: data/rc_gui.ui:1414
-msgid "Disable 1-wire peripheral interface"
-msgstr "Wyłącz zewnętrzny interfejs jednoprzewodowy"
-
-#: data/rc_gui.ui:1445
-msgid "Remote GPIO:"
-msgstr "Zdalne GPIO:"
-
-#: data/rc_gui.ui:1459
-msgid "Enable remote access to GPIO pins"
-msgstr "Włącz dostęp zdalny do styków GPIO"
-
-#: data/rc_gui.ui:1478
-msgid "Disable remote access to GPIO pins"
-msgstr "Wyłącz dostęp zdalny do styków GPIO"
-
-#: data/rc_gui.ui:1596
+#: ../src/rc_gui.c:328
+msgctxt "tab"
 msgid "Interfaces"
-msgstr "Interfejs"
+msgstr "Interfejsy"
 
-#: data/rc_gui.ui:1619 data/rc_gui.ui:1668 data/rc_gui.ui:1714
-msgid "O_verclock:"
-msgstr "_Przetaktowanie:"
-
-#: data/rc_gui.ui:1633 data/rc_gui.ui:1682
-msgid "Set the level of overclock to control performance"
-msgstr "Ustaw poziom przetaktowania, aby kontrolować wydajność"
-
-#: data/rc_gui.ui:1638
-msgid "None (700MHz)"
-msgstr "brak (700MHz)"
-
-#: data/rc_gui.ui:1639
-msgid "Modest (800MHz)"
-msgstr "nisko (800MHz)"
-
-#: data/rc_gui.ui:1640
-msgid "Medium (900MHz)"
-msgstr "średnio (900MHz)"
-
-#: data/rc_gui.ui:1641
-msgid "High (950MHz)"
-msgstr "wysoko (950MHz)"
-
-#: data/rc_gui.ui:1642
-msgid "Turbo (1000MHz)"
-msgstr "turbo (1000MHz)"
-
-#: data/rc_gui.ui:1687
-msgid "None (900MHz)"
-msgstr "brak (900MHz)"
-
-#: data/rc_gui.ui:1688
-msgid "High (1000MHz)"
-msgstr "wysoko (1000MHz)"
-
-#: data/rc_gui.ui:1732
-msgid "Not available"
-msgstr "Nie dostępne"
-
-#: data/rc_gui.ui:1758
-msgid "_GPU Memory:"
-msgstr "Pamięć _GPU:"
-
-#: data/rc_gui.ui:1772
-msgid "Enter the amount of memory available to the GPU"
-msgstr "Wprowadź rozmiar pamięci dostępnej GPU"
-
-#: data/rc_gui.ui:1804
-msgid "Overlay File System:"
-msgstr "Pokrywczy system plików:"
-
-#: data/rc_gui.ui:1814
-msgid "Configure..."
-msgstr "Skonfiguruj…"
-
-#: data/rc_gui.ui:1818
-msgid ""
-"Configure an overlay file system to protect data from being overwritten or "
-"deleted"
-msgstr ""
-"Konfiguruj pokrywczy system plików, który chroni dane przed nadpisaniem lub "
-"utratą"
-
-#: data/rc_gui.ui:1846
-msgid "Fan:"
-msgstr "Wentylator:"
-
-#: data/rc_gui.ui:1860
-msgid "Enable a temperature-controlled fan on a GPIO pin"
-msgstr "Włącz sterowanie wentylatora temperaturą przez styk GPIO"
-
-#: data/rc_gui.ui:1879
-msgid "Disable GPIO fan"
-msgstr "Wyłącz wentylator GPIO"
-
-#: data/rc_gui.ui:1910
-msgid "Fan GPIO:"
-msgstr "GPIO wentylatora:"
-
-#: data/rc_gui.ui:1922
-msgid "Set the GPIO to which the fan is connected"
-msgstr "Ustaw styk GPIO do którego jest podłączony wentylator"
-
-#: data/rc_gui.ui:1955
-msgid "Fan Temperature:"
-msgstr "Temperatura wentylatora:"
-
-#: data/rc_gui.ui:1967
-msgid "Set the temperature in degrees C at which the fan turns on"
-msgstr "Ustaw temperaturę w stopniach Celcjusza od której włącza się wentylator"
-
-#: data/rc_gui.ui:2032
+#: ../src/rc_gui.c:329
+msgctxt "tab"
 msgid "Performance"
 msgstr "Wydajność"
 
-#: data/rc_gui.ui:2055
-msgid "Locale:"
-msgstr "Opcje regionalne:"
-
-#: data/rc_gui.ui:2066
-msgid "Set _Locale..."
-msgstr "Ustaw opcje regiona_lne…"
-
-#: data/rc_gui.ui:2070
-msgid "Set internationalisation settings for units etc."
-msgstr "Ustaw jednostki itp. rzeczy opcji regionalnych"
-
-#: data/rc_gui.ui:2099
-msgid "Timezone:"
-msgstr "Strefa czasowa:"
-
-#: data/rc_gui.ui:2110
-msgid "Set _Timezone..."
-msgstr "Ustaw s_trefę czasową…"
-
-#: data/rc_gui.ui:2114
-msgid "Set the timezone to be used by the internal clock"
-msgstr "Ustaw strefę czasową zegara wewnętrznego"
-
-#: data/rc_gui.ui:2143
-msgid "Keyboard:"
-msgstr "Klawiatura:"
-
-#: data/rc_gui.ui:2154
-msgid "Set _Keyboard..."
-msgstr "Ustaw _klawiaturę…"
-
-#: data/rc_gui.ui:2158
-msgid "Set international keyboard options"
-msgstr "Ustaw międzynarodowe opcje klawiaturowe"
-
-#: data/rc_gui.ui:2187
-msgid "WiFi Country:"
-msgstr "Kraj Wi‑Fi:"
-
-#: data/rc_gui.ui:2198
-msgid "Set _WiFi Country..."
-msgstr "Ustaw kraj _Wi‑Fi…"
-
-#: data/rc_gui.ui:2202
-msgid "Set WiFi country code"
-msgstr "Ustaw kod krajowy Wi‑Fi"
-
-#: data/rc_gui.ui:2285
+#: ../src/rc_gui.c:330
+msgctxt "tab"
 msgid "Localisation"
 msgstr "Lokalizacja"
 
-#: data/rc_gui.ui:2353
-msgid ""
-"The Raspberry Pi Configuration application can only modify a standard "
-"configuration.\n"
-"\n"
-"Your configuration appears to have been modified by other tools, and so this "
-"application cannot be used on your system.\n"
-"\n"
-"In order to use this application, you need to have the latest firmware "
-"installed, Device Tree enabled, the default \"pi\" user set up and the "
-"lightdm application installed. "
-msgstr ""
-"Aplikacja „Konfiguracja Raspberry Pi” potrafi modyfikować wyłącznie "
-"standardową konfigurację.\n"
-"\n"
-"Wygląda na to, że Twoja konfiguracja została zmodyfikowana innymi "
-"narzędziami. Z tego powodu nie możesz zastosować tej aplikacji na Twoim "
-"systemie.\n"
-"\n"
-"Aby móc korzystać z tej aplikacji, musisz mieć zainstalowane najnowsze "
-"oprogramowanie sprzętowe, aplikację „lightdm”, włączone drzewo urządzeń i "
-"istniejące aktywne konto standardowego użytkownika „pi”."
+#: ../src/rc_gui.c:331
+msgid "No such tab"
+msgstr "Nie ma takiej zakładki"
 
-#: data/rc_gui.ui:2375
-msgid "Filesystem Expanded"
-msgstr "Rozszerzono system plików"
-
-#: data/rc_gui.ui:2390
-msgid ""
-"The filesystem has been expanded.\n"
-"\n"
-"The new space will not be available until you reboot your Raspberry Pi."
-msgstr ""
-"Powiększono rozmiar systemu plików.\n"
-"\n"
-"Pozyskana pojemność nie będzie dostępna dopóki nie uruchomisz Twojego "
-"Raspberry Pi ponownie."
-
-#: data/rc_gui.ui:2439
-msgid "Locale"
-msgstr "Opcje regionalne"
-
-#: data/rc_gui.ui:2499
-msgid "Language:"
-msgstr "Język:"
-
-#: data/rc_gui.ui:2507 data/rc_gui.ui:3420
-msgid "Country:"
-msgstr "Kraj:"
-
-#: data/rc_gui.ui:2519
-msgid "Character Set:"
-msgstr "Zestaw znaków:"
-
-#: data/rc_gui.ui:2586
-msgid "Overlay File System"
-msgstr "Pokrywczy system plików"
-
-#: data/rc_gui.ui:2647
-msgid "Overlay:"
-msgstr "Pokrywa:"
-
-#: data/rc_gui.ui:2657
-msgid "Enabled"
-msgstr "włączone"
-
-#: data/rc_gui.ui:2663
-msgid "Enable a file system overlay; all changes will be lost on reboot"
-msgstr ""
-"Włącz pokrywczy system plików — ponowne uruchomienie Pi spowoduje utratę "
-"wszystkich dokonanych zmian"
-
-#: data/rc_gui.ui:2683
-msgid "Disable a file system overlay; changes will be saved to the SD card"
-msgstr "Wyłącz pokrywczy system plików — zmiany zostaną zapisane na karcie SD"
-
-#: data/rc_gui.ui:2712
-msgid "Boot Partition:"
-msgstr "Partycja rozruchowa:"
-
-#: data/rc_gui.ui:2722
-msgid "Read-only"
-msgstr "wyłącznie do odczytu"
-
-#: data/rc_gui.ui:2728
-msgid "Make the boot partition read-only"
-msgstr "Blokuje zapis na partycji rozruchowej"
-
-#: data/rc_gui.ui:2741
-msgid "Read-write"
-msgstr "do odczytu i zapisu"
-
-#: data/rc_gui.ui:2748
-msgid "Make the boot partition writable"
-msgstr "Odblokowuje zapis na partycji rozruchowej"
-
-#: data/rc_gui.ui:2798
-msgid "Change Password"
-msgstr "Zmiana hasła"
-
-#: data/rc_gui.ui:2858
-msgid "Enter new password:"
-msgstr "Wprowadź nowe hasło:"
-
-#: data/rc_gui.ui:2904
-msgid "Confirm new password:"
-msgstr "Potwierdź nowe hasło:"
-
-#: data/rc_gui.ui:2950
-msgid "Password Not Changed"
-msgstr "Nie zmieniono hasła"
-
-#: data/rc_gui.ui:2965
-msgid ""
-"The password change failed.\n"
-"\n"
-"This could be because the current password was incorrect, or because the new "
-"password was not sufficiently complex or was too similar to the current "
-"password."
-msgstr ""
-"Zmiana hasła się nie powiodła.\n"
-"\n"
-"Przyczyną tego mogła być nie zgodność z aktualnym hasłem, za bliskie "
-"podobieństwo do aktualnego hasła lub brak wystarczająco kompleksyjnej "
-"wysokiej złożoności hasła."
-
-#: data/rc_gui.ui:3014
-msgid "Password Changed"
-msgstr "Zmieniono hasło"
-
-#: data/rc_gui.ui:3029
-msgid "The password has been changed successfully."
-msgstr "Pomyślnie zmieniono hasło."
-
-#: data/rc_gui.ui:3076
-msgid "Reboot needed"
-msgstr "Potrzeba ponownego uruchomienia"
-
-#: data/rc_gui.ui:3128
+#: ../src/rc_gui.c:421
 msgid ""
 "The changes you have made require the Raspberry Pi to be rebooted to take "
 "effect.\n"
@@ -676,60 +57,959 @@ msgstr ""
 "Aby dokonane zmiany zadziałały potrzebne jest ponowne uruchomienie Raspberry "
 "Pi.\n"
 "\n"
-"Czy chcesz teraz uruchomić system ponownie?"
+"Czy chcesz teraz uruchomić system ponownie? "
 
-#: data/rc_gui.ui:3149
-msgid "Set Resolution"
-msgstr "Ustawianie rozdzielczości"
+#: ../src/rc_gui.c:424
+msgid "_No"
+msgstr "_Nie"
 
-#: data/rc_gui.ui:3241
-msgid "Timezone"
-msgstr "Strefa czasowa"
+#: ../src/rc_gui.c:429
+msgid "_Yes"
+msgstr "_Tak"
 
-#: data/rc_gui.ui:3301
-msgid "Area:"
-msgstr "Obszar:"
+#: ../src/rc_gui.c:463
+msgid "Updating configuration - please wait..."
+msgstr "Aktualizowanie konfiguracji — proszę czekać…"
 
-#: data/rc_gui.ui:3309
-msgid "Location:"
-msgstr "Położenie:"
+#: ../src/rc_gui.c:564
+msgid "Loading configuration - please wait..."
+msgstr "Ładowanie konfiguracji — proszę czekać…"
 
-#: data/rc_gui.ui:3361
-msgid "WiFi Country Code"
-msgstr "Kod krajowy Wi‑Fi"
+#: ../src/display.c:269
+msgid "This setting is overridden when Xscreensaver is installed"
+msgstr "To ustawienie jest ignorowane gdy Xscreensaver jest zainstalowany"
 
-#: data/rc_gui.ui:3453
-msgid "Keyboard"
-msgstr "Klawiatura"
+#: ../src/display.c:282
+msgid "Overscan (HDMI-1):"
+msgstr ""
 
-#: data/rc_gui.ui:3513
-msgid "Model:"
-msgstr "Model:"
+#: ../src/display.c:332 ../src/display.c:334
+msgid "A virtual keyboard is not installed"
+msgstr "Klawiatura ekranowa nie jest zainstalowana"
 
-#: data/rc_gui.ui:3521
-msgid "Layout:"
-msgstr "Układ:"
+#: ../src/interface.c:84 ../data/rc_gui.ui.h:79
+msgid "Enable shell and kernel messages on the serial connection"
+msgstr "Włącz komunikaty powłoki systemowej i jądra na łączu szeregowym"
 
-#: data/rc_gui.ui:3533
-msgid "Variant:"
-msgstr "Wariant:"
+#: ../src/interface.c:89
+msgid "This setting cannot be changed while the serial port is disabled"
+msgstr "Nie możesz tego ustawić gdy gniazdo szeregowe jest wyłączone"
 
-#: data/rc_gui.ui:3650
-msgid "Reboot Needed"
-msgstr "Potrzeba ponownego uruchomienia"
+#: ../src/interface.c:175
+msgid "The VNC server is not installed"
+msgstr "Serwer VNC nie jest zainstalowany"
 
-#: data/rc_gui.ui:3665
+#. warn about a short delay...
+#: ../src/local.c:303
+msgid "Setting locale - please wait..."
+msgstr "Ustawianie lokalizacji — proszę czekać…"
+
+#. warn about a short delay...
+#: ../src/local.c:599
+msgid "Setting timezone - please wait..."
+msgstr "Ustawianie strefy czasowej — proszę czekać…"
+
+#. warn about a short delay...
+#: ../src/local.c:931 ../src/local.c:949
+msgid "Setting keyboard - please wait..."
+msgstr "Ustawianie klawiatury — proszę czekać…"
+
+#: ../src/local.c:1029 ../src/local.c:1113
+msgid "None"
+msgstr "Brak"
+
+#: ../src/local.c:1035
+msgid "Ctrl + Alt"
+msgstr ""
+
+#: ../src/local.c:1038
+msgid "Ctrl + Shift"
+msgstr ""
+
+#: ../src/local.c:1041
+msgid "Left Alt"
+msgstr "Lewy Alt"
+
+#: ../src/local.c:1044
+msgid "Left Alt + Caps"
+msgstr "Lewy Alt + Caps Lock"
+
+#: ../src/local.c:1047
+msgid "Left Alt + Left Shift"
+msgstr "Lewy Alt + Lewy Shift"
+
+#: ../src/local.c:1053
+msgid "Left Alt + Shift"
+msgstr "Lewy Alt + Shift"
+
+#: ../src/local.c:1056
+msgid "Left Ctrl"
+msgstr "Lewy Ctrl"
+
+#: ../src/local.c:1059
+msgid "Left Ctrl + Left Alt"
+msgstr "Lewy Ctrl + Lewy Alt"
+
+#: ../src/local.c:1062
+msgid "Left Ctrl + Left Shift"
+msgstr "Lewy Ctrl + Lewy Shift"
+
+#: ../src/local.c:1068
+msgid "Left Ctrl + Right Ctrl"
+msgstr "Lewy Ctrl + Prawy Ctrl"
+
+#: ../src/local.c:1071
+msgid "Left Shift"
+msgstr "Lewy Shift"
+
+#: ../src/local.c:1074
+msgid "Left Shift + Right Shift"
+msgstr "Lewy Shift + Prawy Shift"
+
+#: ../src/local.c:1080
+msgid "Menu"
+msgstr ""
+
+#: ../src/local.c:1083
+msgid "Right Alt"
+msgstr "Prawy Alt"
+
+#: ../src/local.c:1089
+msgid "Right Ctrl"
+msgstr "Prawy Ctrl"
+
+#: ../src/local.c:1092
+msgid "Right Ctrl + Right Alt"
+msgstr "Prawy Ctrl + Prawy Alt"
+
+#: ../src/local.c:1095
+msgid "Right Ctrl + Right Shift"
+msgstr "Prawy Ctrl + Prawy Shift"
+
+#: ../src/local.c:1098
+msgid "Right Shift"
+msgstr "Prawy Shift"
+
+#: ../src/local.c:1104
+msgid "Scroll Lock"
+msgstr ""
+
+#: ../src/local.c:1107
+msgid "Shift + Caps"
+msgstr "Shift + Caps Lock"
+
+#: ../src/local.c:1116
+msgid "Caps"
+msgstr "Caps Lock"
+
+#: ../src/local.c:1119
+msgid "Num"
+msgstr "Num Lock"
+
+#: ../src/local.c:1122
+msgid "Scroll"
+msgstr "Scroll Lock"
+
+#: ../src/local.c:1227 ../src/local.c:1250
+msgid "<not set>"
+msgstr "<brak ustawienia>"
+
+#: ../src/perform.c:103
 msgid ""
 "Your system has recently been updated. Please reboot to ensure these updates "
 "have loaded before setting up the overlay file system."
 msgstr ""
 "System niedawno zaktualizowano. Zanim ustawisz pokrywczy system plików, "
-"proszę uruchom system ponownie aby zapewnić załadowanie aktualizacji."
+"uruchom system ponownie aby zapewnić załadowanie aktualizacji."
 
-#: data/rc_gui.desktop.in:6
-msgid "Configure Raspberry Pi system"
-msgstr "Konfiguruj system Raspberry Pi"
+#: ../src/perform.c:124
+msgid ""
+"The state of the boot partition cannot be changed while an overlay is active"
+msgstr ""
+"Nie można dokonać zmiany stanu partycji rozruchowej gdy pokrywa jest aktywna"
 
-#: data/pwdrcg.sh:6
-msgid "Password Required"
-msgstr "Hasło jest wymagane"
+#. warn about a short delay...
+#: ../src/perform.c:146
+msgid "Setting up overlay - please wait..."
+msgstr "Ustawianie pokrywy — proszę czekać…"
+
+#: ../src/perform.c:256 ../data/rc_gui.ui.h:91
+msgid "Set the GPIO to which the fan is connected"
+msgstr "Ustaw styk GPIO do którego jest podłączony wentylator"
+
+#: ../src/perform.c:257 ../data/rc_gui.ui.h:93
+msgid "Set the temperature in degrees C at which the fan turns on"
+msgstr "Ustaw temperaturę w stopniach Celsjusza, przy której włącza się wentylator"
+
+#: ../src/perform.c:263 ../src/perform.c:264
+msgid "This setting cannot be changed unless the fan is enabled"
+msgstr "To ustawienie nie może być zmienione gdy wentylator jest wyłączony"
+
+#: ../src/perform.c:436
+msgid "None (700MHz)"
+msgstr "brak (700MHz)"
+
+#: ../src/perform.c:437
+msgid "Modest (800MHz)"
+msgstr "nisko (800MHz)"
+
+#: ../src/perform.c:438
+msgid "Medium (900MHz)"
+msgstr "średnio (900MHz)"
+
+#: ../src/perform.c:439
+msgid "High (950MHz)"
+msgstr "wysoko (950MHz)"
+
+#: ../src/perform.c:440
+msgid "Turbo (1000MHz)"
+msgstr "turbo (1000MHz)"
+
+#: ../src/perform.c:457
+msgid "None (900MHz)"
+msgstr "brak (900MHz)"
+
+#: ../src/perform.c:458
+msgid "High (1000MHz)"
+msgstr "wysoko (1000MHz)"
+
+#: ../src/system.c:124
+msgid ""
+"The password change failed.\n"
+"\n"
+"This could be because the current password was incorrect, or because the new "
+"password was not sufficiently complex or was too similar to the current "
+"password."
+msgstr ""
+"Zmiana hasła się nie powiodła.\n"
+"\n"
+"Przyczyną tego mogła być niezgodność z aktualnym hasłem, zbyt duże "
+"podobieństwo do aktualnego hasła lub brak wystarczająco wysokiej "
+"złożoności hasła."
+
+#: ../src/system.c:126
+msgid "The password has been changed successfully."
+msgstr "Pomyślnie zmieniono hasło."
+
+#: ../src/system.c:189
+msgid ""
+"The hostname has been changed successfully and will take effect on the next "
+"reboot."
+msgstr ""
+"Nazwa hosta została pomyślnie zmieniona i zostanie zastosowana po ponownym "
+"uruchomieniu."
+
+#: ../src/system.c:192 ../src/system.c:197
+msgid ""
+"The hostname change failed.\n"
+"\n"
+"The hostname must only contain the characters A-Z, a-z, 0-9 and hyphen.\n"
+"The first and last character may not be the hyphen."
+msgstr ""
+"Zmiana nazwy hosta się nie powiodła.\n"
+"\n"
+"Nazwa hosta może zawierać wyłącznie znaki A-Z, a-z, 0-9 i myślnik.\n"
+"Pierwszy i ostatni znak nie może być myślnikiem."
+
+#: ../src/system.c:382
+msgid "Splash screen cannot be configured on a live image"
+msgstr "Ekranu powitalnego nie można skonfigurować na obrazie live"
+
+#: ../src/system.c:416 ../src/system.c:417
+msgid "Multiple browsers are not installed"
+msgstr "Nie wszystkie obsługiwane przeglądarki są zainstalowane"
+
+#. End of file
+#. ----------------------------------------------------------------------------
+#: ../data/rc_gui.ui.h:1
+msgid "Keyboard"
+msgstr "Klawiatura"
+
+#: ../data/rc_gui.ui.h:2
+msgid "_Cancel"
+msgstr "_Anuluj"
+
+#: ../data/rc_gui.ui.h:3
+msgid "_OK"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:4
+msgid "Model:"
+msgstr "Model:"
+
+#: ../data/rc_gui.ui.h:5
+msgid "Select the keyboard model"
+msgstr "Wybierz model klawiatury"
+
+#: ../data/rc_gui.ui.h:6
+msgid "Layout:"
+msgstr "Układ:"
+
+#: ../data/rc_gui.ui.h:7
+msgid "Select the keyboard layout"
+msgstr "Wybierz układ klawiatury"
+
+#: ../data/rc_gui.ui.h:8
+msgid "Variant:"
+msgstr "Wariant:"
+
+#: ../data/rc_gui.ui.h:9
+msgid "Select the keyboard variant"
+msgstr "Wybierz wariant klawiatury"
+
+#: ../data/rc_gui.ui.h:10
+msgid "Add alternate keyboard"
+msgstr "Dodaj alternatywny układ klawiatury"
+
+#: ../data/rc_gui.ui.h:11
+msgid ""
+"Enable a second keyboard layout which can be switched with a key combination"
+msgstr ""
+"Włącz drugi układ klawiatury, który można przełączać kombinacją klawiszy"
+
+#: ../data/rc_gui.ui.h:12
+msgid "Alternate Layout:"
+msgstr "Alternatywny układ:"
+
+#: ../data/rc_gui.ui.h:13
+msgid "Select the alternate keyboard layout"
+msgstr "Wybierz alternatywny układ klawiatury"
+
+#: ../data/rc_gui.ui.h:14
+msgid "Alternate Variant:"
+msgstr "Alternatywny wariant:"
+
+#: ../data/rc_gui.ui.h:15
+msgid "Select the alternate keyboard variant"
+msgstr "Wybierz alternatywny wariant klawiatury"
+
+#: ../data/rc_gui.ui.h:16
+msgid "Toggle Key:"
+msgstr "Klawisz przełączania:"
+
+#: ../data/rc_gui.ui.h:17
+msgid "Select the key combination to switch between keyboard layouts"
+msgstr "Wybierz kombinację klawiszy do przełączania układów klawiatury"
+
+#: ../data/rc_gui.ui.h:18
+msgid "Indicator:"
+msgstr "Wskaźnik:"
+
+#: ../data/rc_gui.ui.h:19
+msgid ""
+"Select the indicator shown while the alternate keyboard layout is in effect"
+msgstr ""
+"Wybierz wskaźnik wyświetlany gdy aktywny jest alternatywny układ klawiatury"
+
+#: ../data/rc_gui.ui.h:20
+msgid "Locale"
+msgstr "Opcje regionalne"
+
+#: ../data/rc_gui.ui.h:21
+msgid "Language:"
+msgstr "Język:"
+
+#: ../data/rc_gui.ui.h:22
+msgid "Country:"
+msgstr "Kraj:"
+
+#: ../data/rc_gui.ui.h:23
+msgid "Character Set:"
+msgstr "Zestaw znaków:"
+
+#: ../data/rc_gui.ui.h:24
+msgid "Raspberry Pi Configuration"
+msgstr "Konfiguracja Raspberry Pi"
+
+#: ../data/rc_gui.ui.h:25
+msgid "Password:"
+msgstr "Hasło:"
+
+#: ../data/rc_gui.ui.h:26
+msgid "Change _Password..."
+msgstr "Zmień _hasło…"
+
+#: ../data/rc_gui.ui.h:27
+msgid "Change password for the default user (pi)"
+msgstr "Zmień hasło domyślnego użytkownika „pi”"
+
+#: ../data/rc_gui.ui.h:28
+msgid "Hostname:"
+msgstr "Nazwa hosta:"
+
+#: ../data/rc_gui.ui.h:29
+msgid "Change _Hostname..."
+msgstr "Zmień _nazwę hosta…"
+
+#: ../data/rc_gui.ui.h:30
+msgid "Set the name of your Pi on a local network"
+msgstr "Ustaw nazwę w sieci lokalnej Twojego Pi"
+
+#: ../data/rc_gui.ui.h:31
+msgid "Boot:"
+msgstr "Rozruch:"
+
+#: ../data/rc_gui.ui.h:32
+msgid "To Desktop"
+msgstr "do pulpitu"
+
+#: ../data/rc_gui.ui.h:33
+msgid "Launch the desktop environment automatically on boot"
+msgstr "Automatycznie uruchamia środowisko pulpitu podczas rozruchu"
+
+#: ../data/rc_gui.ui.h:34
+msgid "To CLI"
+msgstr "do interfejsu wiersza poleceń"
+
+#: ../data/rc_gui.ui.h:35
+msgid "Boot into a command line shell rather than the desktop"
+msgstr "Uruchamia system do powłoki systemowej zamiast do pulpitu"
+
+#: ../data/rc_gui.ui.h:36
+msgid "Console auto login:"
+msgstr "Automatyczne logowanie do konsoli:"
+
+#: ../data/rc_gui.ui.h:37
+msgid "Automatically log in the current user at the console"
+msgstr "Automatycznie zaloguj bieżącego użytkownika do konsoli"
+
+#: ../data/rc_gui.ui.h:38
+msgid "Desktop auto login:"
+msgstr "Automatyczne logowanie do pulpitu:"
+
+#: ../data/rc_gui.ui.h:39
+msgid "Automatically log in the current user to the desktop"
+msgstr "Automatycznie zaloguj bieżącego użytkownika do pulpitu"
+
+#: ../data/rc_gui.ui.h:40
+msgid "Splash Screen:"
+msgstr "Ekran powitalny:"
+
+#: ../data/rc_gui.ui.h:41
+msgid "Show graphical splash screen at boot"
+msgstr "Pokazuj graficzny ekran powitalny podczas rozruchu"
+
+#: ../data/rc_gui.ui.h:42
+msgid "Power LED:"
+msgstr "Kontrolka zasilania:"
+
+#: ../data/rc_gui.ui.h:43
+msgid "Flash the power LED on disk activity"
+msgstr "Mrugaj kontrolką zasilania przy sięganiu do pamięci stałej"
+
+#: ../data/rc_gui.ui.h:44
+msgid "Browser:"
+msgstr "Przeglądarka:"
+
+#: ../data/rc_gui.ui.h:45
+msgid "Chromium"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:46
+msgid "Select Chromium as the default browser"
+msgstr "Ustaw Chromium jako domyślną przeglądarkę"
+
+#: ../data/rc_gui.ui.h:47
+msgid "Firefox"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:48
+msgid "Select Firefox as the default browser"
+msgstr "Ustaw Firefox jako domyślną przeglądarkę"
+
+#: ../data/rc_gui.ui.h:49
+msgid "Admin Password:"
+msgstr "Hasło administratora:"
+
+#: ../data/rc_gui.ui.h:50
+msgid "Prompt for the user password before admin (\"sudo\") operations"
+msgstr "Pytaj o hasło użytkownika przed operacjami administratora (\"sudo\")"
+
+#: ../data/rc_gui.ui.h:51
+msgid "System"
+msgstr "System"
+
+#: ../data/rc_gui.ui.h:52
+msgid "Overscan:"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:53
+msgid "Enable overscan to show the edges of the screen"
+msgstr "Włącz overscan, aby pokazać krawędzie ekranu"
+
+#: ../data/rc_gui.ui.h:54
+msgid "Overscan (HDMI-2):"
+msgstr ""
+
+#: ../data/rc_gui.ui.h:55
+msgid "Enable overscan to show the edges of the second screen"
+msgstr "Włącz overscan, aby pokazać krawędzie drugiego ekranu"
+
+#: ../data/rc_gui.ui.h:56
+msgid "Screen Blanking:"
+msgstr "Wygaszanie ekranu:"
+
+#: ../data/rc_gui.ui.h:57
+msgid "Blank the screen after a period of inactivity"
+msgstr "Wygaszaj ekran po upływie okresu bez aktywności"
+
+#: ../data/rc_gui.ui.h:58
+msgid "Headless Resolution:"
+msgstr "Rozdzielczość bez monitora:"
+
+#: ../data/rc_gui.ui.h:59
+msgid "Set the resolution for VNC when no monitor is connected"
+msgstr "Ustaw rozdzielczość VNC, gdy nie podłączono monitora"
+
+#: ../data/rc_gui.ui.h:60
+msgid "On-screen Keyboard:"
+msgstr "Klawiatura ekranowa:"
+
+#: ../data/rc_gui.ui.h:61
+msgid "Set virtual keyboard for use with touchscreens"
+msgstr "Ustaw klawiaturę wirtualną dla ekranów dotykowych"
+
+#: ../data/rc_gui.ui.h:62
+msgid "Enabled always"
+msgstr "Zawsze włączona"
+
+#: ../data/rc_gui.ui.h:63
+msgid "Enabled if touchscreen found"
+msgstr "Włączona gdy wykryto ekran dotykowy"
+
+#: ../data/rc_gui.ui.h:64
+msgid "Disabled"
+msgstr "Wyłączona"
+
+#: ../data/rc_gui.ui.h:65
+msgid "On-Screen Keyboard Location:"
+msgstr "Wyświetlacz klawiatury ekranowej:"
+
+#: ../data/rc_gui.ui.h:66
+msgid "Set display to use for on-screen keyboard"
+msgstr "Ustaw wyświetlacz dla klawiatury ekranowej"
+
+#: ../data/rc_gui.ui.h:67
+msgid "Display"
+msgstr "Ekran"
+
+#: ../data/rc_gui.ui.h:68
+msgid "SSH:"
+msgstr "SSH:"
+
+#: ../data/rc_gui.ui.h:69
+msgid "Enable remote access to this Pi via SSH"
+msgstr "Włącz dostęp zdalny do tego Pi poprzez SSH"
+
+#: ../data/rc_gui.ui.h:70
+msgid "VNC:"
+msgstr "VNC:"
+
+#: ../data/rc_gui.ui.h:71
+msgid "Enable remote access to this Pi using RealVNC"
+msgstr "Włącz dostęp zdalny do tego Pi za pomocą RealVNC"
+
+#: ../data/rc_gui.ui.h:72
+msgid "SPI:"
+msgstr "SPI:"
+
+#: ../data/rc_gui.ui.h:73
+msgid "Enable the automatic loading of the SPI kernel module"
+msgstr "Włącz automatyczne ładowanie modułu jądra SPI"
+
+#: ../data/rc_gui.ui.h:74
+msgid "I2C:"
+msgstr "I2C:"
+
+#: ../data/rc_gui.ui.h:75
+msgid "Enable the automatic loading of the I2C kernel module"
+msgstr "Włącz automatyczne ładowanie modułu jądra I2C"
+
+#: ../data/rc_gui.ui.h:76
+msgid "Serial Port:"
+msgstr "Gniazdo szeregowe:"
+
+#: ../data/rc_gui.ui.h:77
+msgid "Enable the serial port over the GPIO pins"
+msgstr "Włącz gniazdo szeregowe przez styki GPIO"
+
+#: ../data/rc_gui.ui.h:78
+msgid "Serial Console:"
+msgstr "Konsola szeregowa:"
+
+#: ../data/rc_gui.ui.h:80
+msgid "1-Wire:"
+msgstr "Interfejs jednoprzewodowy:"
+
+#: ../data/rc_gui.ui.h:81
+msgid "Enable 1-wire peripheral interface"
+msgstr "Włącz zewnętrzny interfejs jednoprzewodowy"
+
+#: ../data/rc_gui.ui.h:82
+msgid "Interfaces"
+msgstr "Interfejs"
+
+#: ../data/rc_gui.ui.h:83
+msgid "O_verclock:"
+msgstr "_Przetaktowanie:"
+
+#: ../data/rc_gui.ui.h:84
+msgid "Set the level of overclock to control performance"
+msgstr "Ustaw poziom przetaktowania, aby kontrolować wydajność"
+
+#: ../data/rc_gui.ui.h:85
+msgid "Overlay File System:"
+msgstr "Pokrywczy system plików:"
+
+#: ../data/rc_gui.ui.h:86
+msgid "Configure..."
+msgstr "Skonfiguruj…"
+
+#: ../data/rc_gui.ui.h:87
+msgid ""
+"Configure an overlay file system to protect data from being overwritten or "
+"deleted"
+msgstr ""
+"Konfiguruj pokrywczy system plików, który chroni dane przed nadpisaniem lub "
+"utratą"
+
+#: ../data/rc_gui.ui.h:88
+msgid "Fan:"
+msgstr "Wentylator:"
+
+#: ../data/rc_gui.ui.h:89
+msgid "Enable a temperature-controlled fan on a GPIO pin"
+msgstr "Włącz sterowanie wentylatorem przez GPIO w zależności od temperatury"
+
+#: ../data/rc_gui.ui.h:90
+msgid "Fan GPIO:"
+msgstr "GPIO wentylatora:"
+
+#: ../data/rc_gui.ui.h:92
+msgid "Fan Temperature:"
+msgstr "Temperatura uruchomienia wentylatora:"
+
+#: ../data/rc_gui.ui.h:94
+msgid "Disable USB Current Limit:"
+msgstr "Wyłącz limit natężenia prądu USB:"
+
+#: ../data/rc_gui.ui.h:95
+msgid "Turn on to allow higher currents to USB peripherals"
+msgstr "Włącz, aby zezwolić na wyższe natężenie prądu dla urządzeń USB"
+
+#: ../data/rc_gui.ui.h:96
+msgid "Performance"
+msgstr "Wydajność"
+
+#: ../data/rc_gui.ui.h:97
+msgid "Locale:"
+msgstr "Opcje regionalne:"
+
+#: ../data/rc_gui.ui.h:98
+msgid "Set _Locale..."
+msgstr "Ustaw opcje regiona_lne…"
+
+#: ../data/rc_gui.ui.h:99
+msgid "Set internationalisation settings for units etc."
+msgstr "Ustaw opcje regionalne dla jednostek itp."
+
+#: ../data/rc_gui.ui.h:100
+msgid "Timezone:"
+msgstr "Strefa czasowa:"
+
+#: ../data/rc_gui.ui.h:101
+msgid "Set _Timezone..."
+msgstr "Ustaw s_trefę czasową…"
+
+#: ../data/rc_gui.ui.h:102
+msgid "Set the timezone to be used by the internal clock"
+msgstr "Ustaw strefę czasową zegara systemowego"
+
+#: ../data/rc_gui.ui.h:103
+msgid "Keyboard:"
+msgstr "Klawiatura:"
+
+#: ../data/rc_gui.ui.h:104
+msgid "Set _Keyboard..."
+msgstr "Ustaw _klawiaturę…"
+
+#: ../data/rc_gui.ui.h:105
+msgid "Set international keyboard options"
+msgstr "Ustaw międzynarodowe opcje klawiaturowe"
+
+#: ../data/rc_gui.ui.h:106
+msgid "WiFi Country:"
+msgstr "Kraj Wi‑Fi:"
+
+#: ../data/rc_gui.ui.h:107
+msgid "Set _WiFi Country..."
+msgstr "Ustaw kraj _Wi‑Fi…"
+
+#: ../data/rc_gui.ui.h:108
+msgid "Set WiFi country code"
+msgstr "Ustaw kod krajowy Wi‑Fi"
+
+#: ../data/rc_gui.ui.h:109
+msgid "Localisation"
+msgstr "Lokalizacja"
+
+#: ../data/rc_gui.ui.h:110
+msgid "Overlay File System"
+msgstr "Pokrywczy system plików"
+
+#: ../data/rc_gui.ui.h:111
+msgid "Overlay:"
+msgstr "Pokrywa:"
+
+#: ../data/rc_gui.ui.h:112
+msgid "Enable a file system overlay; all changes will be lost on reboot"
+msgstr ""
+"Włącz pokrywczy system plików — ponowne uruchomienie Pi spowoduje utratę "
+"wszystkich dokonanych zmian"
+
+#: ../data/rc_gui.ui.h:113
+msgid "Boot Partition:"
+msgstr "Partycja rozruchowa:"
+
+#: ../data/rc_gui.ui.h:114
+msgid "Make the boot partition read-only"
+msgstr "Blokuje zapis na partycji rozruchowej"
+
+#: ../data/rc_gui.ui.h:115
+msgid "Changes will not take effect until a reboot"
+msgstr "Dokonane zmiany zadziałają dopiero po ponownym uruchomieniu"
+
+#: ../data/rc_gui.ui.h:116
+msgid "Change Password"
+msgstr "Zmiana hasła"
+
+#: ../data/rc_gui.ui.h:117
+msgid "Enter new password:"
+msgstr "Wprowadź nowe hasło:"
+
+#: ../data/rc_gui.ui.h:118
+msgid "Confirm new password:"
+msgstr "Potwierdź nowe hasło:"
+
+#: ../data/rc_gui.ui.h:119
+msgid "Timezone"
+msgstr "Strefa czasowa"
+
+#: ../data/rc_gui.ui.h:120
+msgid "Area:"
+msgstr "Obszar:"
+
+#: ../data/rc_gui.ui.h:121
+msgid "Location:"
+msgstr "Położenie:"
+
+#: ../data/rc_gui.ui.h:122
+msgid "Change Hostname"
+msgstr "Zmiana nazwy hosta"
+
+#: ../data/rc_gui.ui.h:123
+msgid "Enter new hostname:"
+msgstr "Wprowadź nową nazwę hosta:"
+
+#: ../data/rc_gui.ui.h:124
+msgid ""
+"It is recommended that all other applications are closed before changing the "
+"hostname."
+msgstr ""
+"Zaleca się zamknięcie wszystkich pozostałych aplikacji przed zmianą nazwy hosta."
+
+#: ../data/rc_gui.ui.h:125
+msgid "WiFi Country Code"
+msgstr "Kod krajowy Wi‑Fi"
+
+#~ msgid "Disable shell and kernel messages on the serial connection"
+#~ msgstr "Wyłącz komunikaty powłoki systemowej i jądra na łączu szeregowym"
+
+#~ msgid "Login as user 'pi'"
+#~ msgstr "loguj jako użytkownik „pi”"
+
+#~ msgid "Prompt for password at boot"
+#~ msgstr "Pytaj o hasło przy rozruchu"
+
+#~ msgid "Network at Boot:"
+#~ msgstr "Sieć podczas rozruchu:"
+
+#~ msgid "Wait for network"
+#~ msgstr "czekaj na sieć"
+
+#~ msgid "Do not complete boot until network connection is established"
+#~ msgstr ""
+#~ "Nie finalizuj rozruchu dopóki połączenie sieciowe nie zostanie nawiązane"
+
+#~ msgid "Do not wait"
+#~ msgstr "nie czekaj"
+
+#~ msgid "Do not wait for network connection during boot"
+#~ msgstr "Nie czekaj na połączenie sieciowe podczas rozruchu"
+
+#~ msgid "Enable"
+#~ msgstr "włącz"
+
+#~ msgid "Disable"
+#~ msgstr "wyłącz"
+
+#~ msgid "Show text messages at boot"
+#~ msgstr "Pokazuj komunikaty tekstowe podczas rozruchu"
+
+#~ msgid "Activity"
+#~ msgstr "aktywność"
+
+#~ msgid "Constant"
+#~ msgstr "stała"
+
+#~ msgid "Do not flash the power LED"
+#~ msgstr "Nie mrugaj kontrolką zasilania"
+
+#~ msgid "Set _Resolution..."
+#~ msgstr "Ustaw _rozdzielczość…"
+
+#~ msgid "Set the resolution for HDMI and VNC"
+#~ msgstr "Ustaw rozdzielczość dla HDMI i VNC"
+
+#~ msgid "Disable overscan to hide black outline on screen"
+#~ msgstr "Wyłącz wyświetlanie marginesu ekranu"
+
+#~ msgid "Pixel Doubling:"
+#~ msgstr "Podwójne piksle:"
+
+#~ msgid "Enable pixel doubling to improve usability on high-res screens"
+#~ msgstr ""
+#~ "Włącz podwajanie piksli, aby polepszyć używalność na ekranach wysokiej "
+#~ "rozdzielczości"
+
+#~ msgid "Disable pixel doubling for standard resolution screens"
+#~ msgstr "Wyłącz podwajanie piksli na ekranach standardowej rozdzielczości"
+
+#~ msgid "Composite Video:"
+#~ msgstr "Wideo kompozytowe:"
+
+#~ msgid "Enable analogue composite video on the 3.5mm socket"
+#~ msgstr "Włącz analogowe wideo kompozytowe przez gniazdo 3,5 mm"
+
+#~ msgid "Disable analogue composite video"
+#~ msgstr "Wyłącz analogowe wideo kompozytowe"
+
+#~ msgid "Never blank the screen"
+#~ msgstr "Nigdy nie wygaszaj ekranu"
+
+#~ msgid "Camera:"
+#~ msgstr "Kamera:"
+
+#~ msgid "Enable the Raspberry Pi Camera Board"
+#~ msgstr "Włącz płytę z kamerą dla Raspberry Pi"
+
+#~ msgid "Disable the Raspberry Pi Camera Board"
+#~ msgstr "Wyłącz płytę z kamerą dla Raspberry Pi"
+
+#~ msgid "Disable remote access to this Pi via SSH"
+#~ msgstr "Wyłącz dostęp zdalny do tego Pi poprzez SSH"
+
+#~ msgid "Disable remote access to this Pi using RealVNC"
+#~ msgstr "Wyłącz dostęp zdalny do tego Pi za pomocą RealVNC"
+
+#~ msgid "Disable the automatic loading of the SPI kernel module"
+#~ msgstr "Wyłącz automatyczne ładowanie modułu jądra SPI"
+
+#~ msgid "Disable the automatic loading of the I2C kernel module"
+#~ msgstr "Wyłącz automatyczne ładowanie modułu jądra I2C"
+
+#~ msgid "Disable the serial port over the GPIO pins"
+#~ msgstr "Wyłącz gniazdo szeregowe przez styki GPIO"
+
+#~ msgid "Disable 1-wire peripheral interface"
+#~ msgstr "Wyłącz zewnętrzny interfejs jednoprzewodowy"
+
+#~ msgid "Remote GPIO:"
+#~ msgstr "Zdalne GPIO:"
+
+#~ msgid "Enable remote access to GPIO pins"
+#~ msgstr "Włącz dostęp zdalny do styków GPIO"
+
+#~ msgid "Disable remote access to GPIO pins"
+#~ msgstr "Wyłącz dostęp zdalny do styków GPIO"
+
+#~ msgid "Not available"
+#~ msgstr "Nie dostępne"
+
+#~ msgid "_GPU Memory:"
+#~ msgstr "Pamięć _GPU:"
+
+#~ msgid "Enter the amount of memory available to the GPU"
+#~ msgstr "Wprowadź rozmiar pamięci dostępnej GPU"
+
+#~ msgid "Disable GPIO fan"
+#~ msgstr "Wyłącz wentylator GPIO"
+
+#~ msgid ""
+#~ "The Raspberry Pi Configuration application can only modify a standard "
+#~ "configuration.\n"
+#~ "\n"
+#~ "Your configuration appears to have been modified by other tools, and so "
+#~ "this application cannot be used on your system.\n"
+#~ "\n"
+#~ "In order to use this application, you need to have the latest firmware "
+#~ "installed, Device Tree enabled, the default \"pi\" user set up and the "
+#~ "lightdm application installed. "
+#~ msgstr ""
+#~ "Aplikacja „Konfiguracja Raspberry Pi” potrafi modyfikować wyłącznie "
+#~ "standardową konfigurację.\n"
+#~ "\n"
+#~ "Wygląda na to, że Twoja konfiguracja została zmodyfikowana innymi "
+#~ "narzędziami. Z tego powodu nie możesz zastosować tej aplikacji na Twoim "
+#~ "systemie.\n"
+#~ "\n"
+#~ "Aby móc korzystać z tej aplikacji, musisz mieć zainstalowane najnowsze "
+#~ "oprogramowanie sprzętowe, aplikację „lightdm”, włączone drzewo urządzeń i "
+#~ "istniejące aktywne konto standardowego użytkownika „pi”."
+
+#~ msgid "Filesystem Expanded"
+#~ msgstr "Rozszerzono system plików"
+
+#~ msgid ""
+#~ "The filesystem has been expanded.\n"
+#~ "\n"
+#~ "The new space will not be available until you reboot your Raspberry Pi."
+#~ msgstr ""
+#~ "Powiększono rozmiar systemu plików.\n"
+#~ "\n"
+#~ "Pozyskana pojemność nie będzie dostępna dopóki nie uruchomisz Twojego "
+#~ "Raspberry Pi ponownie."
+
+#~ msgid "Disable a file system overlay; changes will be saved to the SD card"
+#~ msgstr ""
+#~ "Wyłącz pokrywczy system plików — zmiany zostaną zapisane na karcie SD"
+
+#~ msgid "Read-only"
+#~ msgstr "wyłącznie do odczytu"
+
+#~ msgid "Read-write"
+#~ msgstr "do odczytu i zapisu"
+
+#~ msgid "Make the boot partition writable"
+#~ msgstr "Odblokowuje zapis na partycji rozruchowej"
+
+#~ msgid "Password Not Changed"
+#~ msgstr "Nie zmieniono hasła"
+
+#~ msgid "Password Changed"
+#~ msgstr "Zmieniono hasło"
+
+#~ msgid "Reboot needed"
+#~ msgstr "Potrzeba ponownego uruchomienia"
+
+#~ msgid "Set Resolution"
+#~ msgstr "Ustawianie rozdzielczości"
+
+#~ msgid "Reboot Needed"
+#~ msgstr "Potrzeba ponownego uruchomienia"
+
+#~ msgid "Configure Raspberry Pi system"
+#~ msgstr "Konfiguruj system Raspberry Pi"
+
+#~ msgid "Password Required"
+#~ msgstr "Hasło jest wymagane"
