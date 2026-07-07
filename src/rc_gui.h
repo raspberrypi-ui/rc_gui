@@ -93,8 +93,11 @@ extern wm_type wm;
 
 extern int vsystem (const char *fmt, ...);
 extern char *get_string (char *cmd);
+extern char *get_string_cached (char *cmd);
 extern int get_status (char *cmd);
 extern char *get_quoted_param (char *path, char *fname, char *toseek);
+extern void batch_get (int n, ...);
+extern void batch_free (void);
 extern void on_switch (GtkSwitch *btn, gpointer, const char *cmd);
 extern void message (char *msg);
 extern void info (char *msg);

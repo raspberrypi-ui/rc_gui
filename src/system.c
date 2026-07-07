@@ -363,6 +363,8 @@ gboolean system_reboot (void)
 
 void load_system_tab (GtkBuilder *builder)
 {
+    batch_get (8, GET_PI_TYPE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_CLI, GET_LEDS, GET_BROWSER);
+
     /* Change password button */
     passwd_btn = gtk_builder_get_object (builder, "button_pw");
     g_signal_connect (passwd_btn, "clicked", G_CALLBACK (on_change_passwd), NULL);
@@ -374,7 +376,7 @@ void load_system_tab (GtkBuilder *builder)
     /* Splash screen switch */
     CONFIG_SWITCH (splash_sw, "sw_splash", orig_splash, GET_SPLASH);
     HANDLE_SWITCH (splash_sw, SET_SPLASH, GET_SPLASH);
-    if (!vsystem (IS_PI))
+    if (get_status (GET_PI_TYPE) != -1)
     {
         if (!get_status ("grep -q boot=live /proc/cmdline ; echo $?"))
         {
@@ -403,7 +405,7 @@ void load_system_tab (GtkBuilder *builder)
     /* Browser radio buttons */
     chromium_rb = gtk_builder_get_object (builder, "rb_chromium");
     firefox_rb = gtk_builder_get_object (builder, "rb_firefox");
-    orig_browser = get_string (GET_BROWSER);
+    orig_browser = get_string_cached (GET_BROWSER);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (firefox_rb), !strncmp (orig_browser, "firefox", 7));
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chromium_rb), !strncmp (orig_browser, "chromium", 8));
     if (vsystem (FF_INSTALLED) == 0) ffver = 1;
@@ -420,7 +422,7 @@ void load_system_tab (GtkBuilder *builder)
 
     /* Power LED switch */
     gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
-    if (!vsystem (IS_PI))
+    if (get_status (GET_PI_TYPE) != -1)
     {
         led_actpwr_sw = gtk_builder_get_object (builder, "sw_led_actpwr");
         orig_leds = get_status (GET_LEDS);
@@ -435,6 +437,8 @@ void load_system_tab (GtkBuilder *builder)
     /* Passwordless sudo switch */
     CONFIG_SWITCH (psudo_sw, "sw_psudo", orig_psudo, GET_PSUDO);
     HANDLE_SWITCH (psudo_sw, SET_PSUDO, GET_PSUDO);
+
+    batch_free ();
 }
 
 /* End of file */

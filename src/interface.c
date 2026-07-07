@@ -25,6 +25,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ============================================================================*/
 
+#include <stdarg.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
@@ -155,13 +156,14 @@ gboolean interfacing_reboot (void)
 
     return FALSE;
 }
-
 /*----------------------------------------------------------------------------*/
 /* Tab setup                                                                  */
 /*----------------------------------------------------------------------------*/
 
 void load_interfacing_tab (GtkBuilder *builder)
 {
+    batch_get (8, GET_PI_TYPE, GET_SSH, GET_VNC, GET_SPI, GET_I2C, GET_1WIRE, GET_SERIALCON, GET_SERIALHW);
+
     /* SSH switch */
     CONFIG_SWITCH (ssh_sw, "sw_ssh", orig_ssh, GET_SSH);
     HANDLE_SWITCH (ssh_sw, SET_SSH, GET_SSH);
@@ -175,7 +177,7 @@ void load_interfacing_tab (GtkBuilder *builder)
         gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_sw), _("The VNC server is not installed"));
     }
 
-    if (!vsystem (IS_PI))
+    if (get_status (GET_PI_TYPE) != -1)
     {
         /* SPI switch */
         CONFIG_SWITCH (spi_sw, "sw_spi", orig_spi, GET_SPI);
@@ -195,7 +197,7 @@ void load_interfacing_tab (GtkBuilder *builder)
 
         /* Serial hardware switch */
         CONFIG_SWITCH (serial_sw, "sw_ser", orig_serial, GET_SERIALHW);
-        if (!vsystem (IS_PI5))
+        if (get_status (GET_PI_TYPE) == 5)
         {
             HANDLE_SWITCH (serial_sw, SET_SERIALHW, GET_SERIALHW);
         }
@@ -213,6 +215,8 @@ void load_interfacing_tab (GtkBuilder *builder)
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox27")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox28")));
     }
+
+    batch_free ();
 }
 
 /* End of file */

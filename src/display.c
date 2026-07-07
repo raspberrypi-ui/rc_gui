@@ -47,8 +47,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_SQUEEK      SET_PREFIX "do_squeekboard S%d"
 #define GET_SQUEEKOUT   GET_PREFIX "get_squeek_output"
 #define SET_SQUEEKOUT   SET_PREFIX "do_squeek_output %s"
-#define VKBD_INSTALLED  GET_PREFIX "is_installed squeekboard"
-#define XSCR_INSTALLED  GET_PREFIX "is_installed xscreensaver"
+#define VKBD_INSTALLED  GET_PREFIX "get_installed squeekboard"
+#define XSCR_INSTALLED  GET_PREFIX "get_installed xscreensaver"
 
 /*----------------------------------------------------------------------------*/
 /* Global data                                                                */
@@ -260,10 +260,12 @@ void load_display_tab (GtkBuilder *builder)
     FILE *fp;
     int op;
 
+    batch_get (9, GET_PI_TYPE, GET_BLANK, GET_OVERSCAN, GET_OVERSCAN2, GET_SQUEEK, GET_SQUEEKOUT, GET_VNC_RES, VKBD_INSTALLED, XSCR_INSTALLED);
+
     /* Blanking switch */
     CONFIG_SWITCH (blank_sw, "sw_blank", orig_blank, GET_BLANK);
     HANDLE_SWITCH (blank_sw, SET_BLANK, GET_BLANK);
-    if (!vsystem (XSCR_INSTALLED))
+    if (get_status (XSCR_INSTALLED))
     {
         gtk_widget_set_sensitive (GTK_WIDGET (blank_sw), FALSE);
         gtk_widget_set_tooltip_text (GTK_WIDGET (blank_sw), _("This setting is overridden when Xscreensaver is installed"));
@@ -299,7 +301,7 @@ void load_display_tab (GtkBuilder *builder)
 
         /* Squeekboard output */
         squeekop_cb = gtk_builder_get_object (builder, "combo_squeekout");
-        orig_sop = get_string (GET_SQUEEKOUT);
+        orig_sop = get_string_cached (GET_SQUEEKOUT);
         fp = popen ("wlr-randr", "r");
         if (fp)
         {
@@ -326,7 +328,7 @@ void load_display_tab (GtkBuilder *builder)
         }
         HANDLE_CONTROL (squeekop_cb, "changed", on_squeek_output_set);
 
-        if (vsystem (VKBD_INSTALLED))
+        if (!get_status (VKBD_INSTALLED))
         {
             gtk_widget_set_sensitive (GTK_WIDGET (squeek_cb), FALSE);
             gtk_widget_set_tooltip_text (GTK_WIDGET (squeek_cb), _("A virtual keyboard is not installed"));
@@ -336,7 +338,7 @@ void load_display_tab (GtkBuilder *builder)
     }
 
     /* VNC resolution */
-    if (!vsystem (IS_PI) && wm == WM_OPENBOX)
+    if (get_status (GET_PI_TYPE) != -1 && wm == WM_OPENBOX)
     {
         vnc_res_cb = gtk_builder_get_object (builder, "combo_res");
         gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "640x480");
@@ -349,7 +351,7 @@ void load_display_tab (GtkBuilder *builder)
         gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "1920x1080");
 
         orig_vnc_res = -1;
-        cptr = get_string (GET_VNC_RES);
+        cptr = get_string_cached (GET_VNC_RES);
         if (!strcmp (cptr, "640x480")) orig_vnc_res = 0;
         if (!strcmp (cptr, "720x480")) orig_vnc_res = 1;
         if (!strcmp (cptr, "800x600")) orig_vnc_res = 2;
@@ -364,6 +366,8 @@ void load_display_tab (GtkBuilder *builder)
         HANDLE_CONTROL (vnc_res_cb, "changed", on_vnc_res_set)
     }
     else gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
+
+    batch_free ();
 }
 
 /* End of file */

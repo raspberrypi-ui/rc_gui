@@ -56,6 +56,8 @@ gboolean needs_reboot;
 gboolean singledlg;
 wm_type wm;
 
+char **batch = NULL;
+
 #ifndef PLUGIN_NAME
 static gulong draw_id;
 #endif
@@ -102,6 +104,21 @@ int vsystem (const char *fmt, ...)
 
 int get_status (char *cmd)
 {
+    if (batch)
+    {
+        char **ptr = &batch[0];
+        while (*ptr)
+        {
+            if (strstr (*ptr, cmd + 20))
+            {
+                int val;
+                sscanf (strchr (*ptr, ' '), "%d", &val);
+                return val;
+            }
+            ptr++;
+        }
+    }
+
     FILE *fp = popen (cmd, "r");
     char *buf = NULL;
     size_t res = 0;
@@ -140,6 +157,25 @@ char *get_string (char *cmd)
     pclose (fp);
     g_free (line);
     return res;
+}
+
+char *get_string_cached (char *cmd)
+{
+    if (batch)
+    {
+        char **ptr = &batch[0];
+        while (*ptr)
+        {
+            if (strstr (*ptr, cmd + 20))
+            {
+                if (strchr (*ptr, ' ')) return g_strdup (strchr (*ptr, ' ') + 1);
+                else return NULL;
+            }
+            ptr++;
+        }
+    }
+
+    return get_string (cmd);
 }
 
 char *get_quoted_param (char *path, char *fname, char *toseek)
@@ -182,6 +218,62 @@ char *get_quoted_param (char *path, char *fname, char *toseek)
     g_free (linebuf);
     fclose (fp);
     return NULL;
+}
+
+void batch_get (int n, ...)
+{
+    char *cmdbuf, *tmp;
+    const char *cmd;
+    int i;
+    FILE *fp;
+    size_t siz;
+    va_list args;
+
+    cmdbuf = g_strdup ("raspi-config batch");
+
+    // append the commands to batch
+    va_start (args, n);
+    for (i = 0; i < n; i++)
+    {
+        cmd = va_arg (args, const char *);
+        tmp = g_strdup_printf ("%s '%s'", cmdbuf, cmd + 20);
+        g_free (cmdbuf);
+        cmdbuf = tmp;
+    }
+    va_end (args);
+
+    // initialise the cache array
+    batch = malloc (sizeof (char*));
+    batch[0] = NULL;
+    i = 0;
+
+    // call the batch command
+    fp = popen (cmdbuf, "r");
+    while (1)
+    {
+        batch = realloc (batch, (i + 1) * sizeof (char *));
+        batch[i] = NULL;
+        siz = 0;
+        if (getline (&batch[i], &siz, fp) == -1) break;
+        i++;
+    }
+    batch[i] = NULL;
+    pclose (fp);
+}
+
+void batch_free (void)
+{
+    if (batch)
+    {
+        char **ptr = &batch[0];
+        while (*ptr)
+        {
+            g_free (*ptr);
+            ptr++;
+        }
+        g_free (batch);
+        batch = NULL;
+    }
 }
 
 /*----------------------------------------------------------------------------*/
