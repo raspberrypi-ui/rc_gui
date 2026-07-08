@@ -51,9 +51,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_BROWSER     SET_PREFIX "do_browser %s"
 #define GET_PSUDO       GET_PREFIX "get_sudo_pass"
 #define SET_PSUDO       SET_PREFIX "do_sudo_pass %d"
-#define FF_INSTALLED    GET_PREFIX "is_installed firefox"
-#define FFE_INSTALLED   GET_PREFIX "is_installed firefox-esr"
-#define CR_INSTALLED    GET_PREFIX "is_installed chromium"
+#define FF_INSTALLED    GET_PREFIX "get_installed firefox"
+#define FFE_INSTALLED   GET_PREFIX "get_installed firefox-esr"
+#define CR_INSTALLED    GET_PREFIX "get_installed chromium"
 
 #define CHANGE_PASSWD   "echo $USER:'%s' | " SUDO_PREFIX "chpasswd -e"
 
@@ -363,7 +363,7 @@ gboolean system_reboot (void)
 
 void load_system_tab (GtkBuilder *builder)
 {
-    batch_get (8, GET_PI_TYPE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_CLI, GET_LEDS, GET_BROWSER);
+    batch_get (11, GET_PI_TYPE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_CLI, GET_LEDS, GET_BROWSER, FF_INSTALLED, FFE_INSTALLED, CR_INSTALLED);
 
     /* Change password button */
     passwd_btn = gtk_builder_get_object (builder, "button_pw");
@@ -408,10 +408,10 @@ void load_system_tab (GtkBuilder *builder)
     orig_browser = get_string_cached (GET_BROWSER);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (firefox_rb), !strncmp (orig_browser, "firefox", 7));
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chromium_rb), !strncmp (orig_browser, "chromium", 8));
-    if (vsystem (FF_INSTALLED) == 0) ffver = 1;
-    else if (vsystem (FFE_INSTALLED) == 0) ffver = 2;
+    if (!get_status (FF_INSTALLED) == 0) ffver = 1;
+    else if (!get_status (FFE_INSTALLED) == 0) ffver = 2;
     else ffver = 0;
-    if (vsystem (CR_INSTALLED) || ffver == 0)
+    if (!get_status (CR_INSTALLED) || ffver == 0)
     {
         gtk_widget_set_sensitive (GTK_WIDGET (chromium_rb), FALSE);
         gtk_widget_set_sensitive (GTK_WIDGET (firefox_rb), FALSE);

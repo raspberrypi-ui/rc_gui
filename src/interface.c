@@ -49,8 +49,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SET_SERIALHW    SET_PREFIX "do_serial_hw %d"
 #define GET_1WIRE       GET_PREFIX "get_onewire"
 #define SET_1WIRE       SET_PREFIX "do_onewire %d"
-#define RVNC_INSTALLED  GET_PREFIX "is_installed realvnc-vnc-server"
-#define WVNC_INSTALLED  GET_PREFIX "is_installed wayvnc"
+#define RVNC_INSTALLED  GET_PREFIX "get_installed realvnc-vnc-server"
+#define WVNC_INSTALLED  GET_PREFIX "get_installed wayvnc"
 
 /*----------------------------------------------------------------------------*/
 /* Global data                                                                */
@@ -162,7 +162,7 @@ gboolean interfacing_reboot (void)
 
 void load_interfacing_tab (GtkBuilder *builder)
 {
-    batch_get (8, GET_PI_TYPE, GET_SSH, GET_VNC, GET_SPI, GET_I2C, GET_1WIRE, GET_SERIALCON, GET_SERIALHW);
+    batch_get (10, GET_PI_TYPE, GET_SSH, GET_VNC, GET_SPI, GET_I2C, GET_1WIRE, GET_SERIALCON, GET_SERIALHW, RVNC_INSTALLED, WVNC_INSTALLED);
 
     /* SSH switch */
     CONFIG_SWITCH (ssh_sw, "sw_ssh", orig_ssh, GET_SSH);
@@ -171,7 +171,7 @@ void load_interfacing_tab (GtkBuilder *builder)
     /* VNC switch */
     CONFIG_SWITCH (vnc_sw, "sw_vnc", orig_vnc, GET_VNC);
     HANDLE_SWITCH (vnc_sw, SET_VNC, GET_VNC);
-    if ((wm == WM_OPENBOX && vsystem (RVNC_INSTALLED)) || (wm != WM_OPENBOX && vsystem (WVNC_INSTALLED)))
+    if ((wm == WM_OPENBOX && !get_status (RVNC_INSTALLED)) || (wm != WM_OPENBOX && !get_status (WVNC_INSTALLED)))
     {
         gtk_widget_set_sensitive (GTK_WIDGET (vnc_sw), FALSE);
         gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_sw), _("The VNC server is not installed"));
