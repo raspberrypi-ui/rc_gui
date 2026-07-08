@@ -35,26 +35,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Typedefs and macros                                                        */
 /*----------------------------------------------------------------------------*/
 
-#define GET_HOSTNAME    GET_PREFIX "get_hostname"
-#define SET_HOSTNAME    SET_PREFIX "do_hostname %s"
-#define GET_BOOT_CLI    GET_PREFIX "get_boot_cli"
-#define GET_ALOGIN_CLI  GET_PREFIX "get_autologin_cli"
-#define GET_ALOGIN_DESK GET_PREFIX "get_autologin_desktop"
-#define SET_ALOGIN      SET_PREFIX "do_autologin %d"
-#define SET_BOOT_CLI    SET_PREFIX "do_boot_target B1"
-#define SET_BOOT_GUI    SET_PREFIX "do_boot_target B2"
-#define GET_SPLASH      GET_PREFIX "get_boot_splash"
-#define SET_SPLASH      SET_PREFIX "do_boot_splash %d"
-#define GET_LEDS        GET_PREFIX "get_leds"
-#define SET_LEDS        SET_PREFIX "do_leds %d"
-#define GET_BROWSER     GET_PREFIX "get_browser"
-#define SET_BROWSER     SET_PREFIX "do_browser %s"
-#define GET_PSUDO       GET_PREFIX "get_sudo_pass"
-#define SET_PSUDO       SET_PREFIX "do_sudo_pass %d"
-#define FF_INSTALLED    GET_PREFIX "get_installed firefox"
-#define FFE_INSTALLED   GET_PREFIX "get_installed firefox-esr"
-#define CR_INSTALLED    GET_PREFIX "get_installed chromium"
-
 #define CHANGE_PASSWD   "echo $USER:'%s' | " SUDO_PREFIX "chpasswd -e"
 
 /*----------------------------------------------------------------------------*/
@@ -363,8 +343,6 @@ gboolean system_reboot (void)
 
 void load_system_tab (GtkBuilder *builder)
 {
-    batch_get (11, GET_PI_TYPE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_CLI, GET_LEDS, GET_BROWSER, FF_INSTALLED, FFE_INSTALLED, CR_INSTALLED);
-
     /* Change password button */
     passwd_btn = gtk_builder_get_object (builder, "button_pw");
     g_signal_connect (passwd_btn, "clicked", G_CALLBACK (on_change_passwd), NULL);
@@ -437,8 +415,6 @@ void load_system_tab (GtkBuilder *builder)
     /* Passwordless sudo switch */
     CONFIG_SWITCH (psudo_sw, "sw_psudo", orig_psudo, GET_PSUDO);
     HANDLE_SWITCH (psudo_sw, SET_PSUDO, GET_PSUDO);
-
-    batch_free ();
 }
 
 /* End of file */

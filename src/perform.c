@@ -34,23 +34,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Typedefs and macros                                                        */
 /*----------------------------------------------------------------------------*/
 
-#define GET_OVERCLOCK   GET_PREFIX "get_config_var arm_freq /boot/firmware/config.txt"
-#define SET_OVERCLOCK   SET_PREFIX "do_overclock %s"
-#define GET_FAN         GET_PREFIX "get_fan"
-#define GET_FAN_GPIO    GET_PREFIX "get_fan_gpio"
-#define GET_FAN_TEMP    GET_PREFIX "get_fan_temp"
-#define SET_FAN         SET_PREFIX "do_fan %d %d %d"
-#define GET_OVERLAYNOW  GET_PREFIX "get_overlay_now"
-#define GET_OVERLAY     GET_PREFIX "get_overlay_conf"
-#define GET_BOOTRO      GET_PREFIX "get_bootro_conf"
-#define SET_OFS_ON      SET_PREFIX "enable_overlayfs"
-#define SET_OFS_OFF     SET_PREFIX "disable_overlayfs"
-#define SET_BOOTP_RO    SET_PREFIX "enable_bootro"
-#define SET_BOOTP_RW    SET_PREFIX "disable_bootro"
-#define GET_USBI        GET_PREFIX "get_usb_current"
-#define SET_USBI        SET_PREFIX "do_usb_current %d"
-#define CHECK_UNAME     GET_PREFIX "is_uname_current"
-
 #define TIMEOUT_MS 500
 
 /*----------------------------------------------------------------------------*/
@@ -391,18 +374,18 @@ void load_performance_tab (GtkBuilder *builder)
 {
     GtkAdjustment *gadj, *tadj;
 
-    if (!vsystem (IS_PI))
+    if (get_status (GET_PI_TYPE) != -1)
     {
         /* USB current limit switch */
         CONFIG_SWITCH (usb_sw, "sw_usb", orig_usbi, GET_USBI);
         HANDLE_SWITCH (usb_sw, SET_USBI, GET_USBI);
-        if (vsystem (IS_PI5))
+        if (get_status (GET_PI_TYPE) != 5)
         {
             gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox37")));
         }
 
         /* Fan controls */
-        if (!vsystem (IS_PI4))
+        if (get_status (GET_PI_TYPE) == 4)
         {
             CONFIG_SWITCH (fan_sw, "sw_fan", orig_fan, GET_FAN);
             fan_gpio_sb = gtk_builder_get_object (builder, "sb_fan_gpio");

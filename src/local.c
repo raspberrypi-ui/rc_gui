@@ -34,13 +34,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Typedefs and macros                                                        */
 /*----------------------------------------------------------------------------*/
 
-#define SET_LOCALE      SET_PREFIX "do_change_locale_rc_gui %s"
-#define SET_TIMEZONE    SET_PREFIX "do_change_timezone_rc_gui %s"
-#define SET_KEYBOARD    SET_PREFIX "do_change_keyboard_rc_gui %s"
-#define GET_WIFI_CTRY   GET_PREFIX "get_wifi_country"
-#define SET_WIFI_CTRY   SET_PREFIX "do_wifi_country %s"
-#define WLAN_INTERFACES GET_PREFIX "list_wlan_interfaces"
-
 #define LOC_NAME   0
 #define LOC_LCODE  1
 #define LOC_CCODE  2

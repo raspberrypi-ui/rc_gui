@@ -35,23 +35,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Typedefs and macros                                                        */
 /*----------------------------------------------------------------------------*/
 
-#define GET_SSH         GET_PREFIX "get_ssh"
-#define SET_SSH         SET_PREFIX "do_ssh %d"
-#define GET_VNC         GET_PREFIX "get_vnc"
-#define SET_VNC         SET_PREFIX "do_vnc %d"
-#define GET_SPI         GET_PREFIX "get_spi"
-#define SET_SPI         SET_PREFIX "do_spi %d"
-#define GET_I2C         GET_PREFIX "get_i2c"
-#define SET_I2C         SET_PREFIX "do_i2c %d"
-#define GET_SERIALCON   GET_PREFIX "get_serial_cons"
-#define SET_SERIALCON   SET_PREFIX "do_serial_cons %d"
-#define GET_SERIALHW    GET_PREFIX "get_serial_hw"
-#define SET_SERIALHW    SET_PREFIX "do_serial_hw %d"
-#define GET_1WIRE       GET_PREFIX "get_onewire"
-#define SET_1WIRE       SET_PREFIX "do_onewire %d"
-#define RVNC_INSTALLED  GET_PREFIX "get_installed realvnc-vnc-server"
-#define WVNC_INSTALLED  GET_PREFIX "get_installed wayvnc"
-
 /*----------------------------------------------------------------------------*/
 /* Global data                                                                */
 /*----------------------------------------------------------------------------*/
@@ -162,8 +145,6 @@ gboolean interfacing_reboot (void)
 
 void load_interfacing_tab (GtkBuilder *builder)
 {
-    batch_get (10, GET_PI_TYPE, GET_SSH, GET_VNC, GET_SPI, GET_I2C, GET_1WIRE, GET_SERIALCON, GET_SERIALHW, RVNC_INSTALLED, WVNC_INSTALLED);
-
     /* SSH switch */
     CONFIG_SWITCH (ssh_sw, "sw_ssh", orig_ssh, GET_SSH);
     HANDLE_SWITCH (ssh_sw, SET_SSH, GET_SSH);
@@ -215,8 +196,6 @@ void load_interfacing_tab (GtkBuilder *builder)
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox27")));
         gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox28")));
     }
-
-    batch_free ();
 }
 
 /* End of file */

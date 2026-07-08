@@ -370,11 +370,18 @@ static gboolean ok_clicked (GtkButton *button, gpointer data)
 
 static void init_config (void)
 {
+    batch_get (31, GET_PI_TYPE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_CLI, GET_LEDS,
+        GET_BROWSER, FF_INSTALLED, FFE_INSTALLED, CR_INSTALLED, GET_SSH, GET_VNC, GET_SPI, GET_I2C, GET_1WIRE,
+        GET_SERIALCON, GET_SERIALHW, RVNC_INSTALLED, WVNC_INSTALLED, GET_BLANK, GET_OVERSCAN, GET_OVERSCAN2,
+        GET_SQUEEK, GET_SQUEEKOUT, GET_VNC_RES, VKBD_INSTALLED, XSCR_INSTALLED, GET_USBI, GET_FAN, GET_OVERCLOCK);
+
     load_system_tab (builder);
     load_display_tab (builder);
     load_interfacing_tab (builder);
     load_performance_tab (builder);
     load_localisation_tab (builder);
+
+    batch_free ();
     needs_reboot = FALSE;
 }
 

@@ -35,21 +35,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Typedefs and macros                                                        */
 /*----------------------------------------------------------------------------*/
 
-#define GET_OVERSCAN    GET_PREFIX "get_overscan_kms 1"
-#define GET_OVERSCAN2   GET_PREFIX "get_overscan_kms 2"
-#define SET_OVERSCAN    SET_PREFIX "do_overscan_kms 1 %d"
-#define SET_OVERSCAN2   SET_PREFIX "do_overscan_kms 2 %d"
-#define GET_BLANK       GET_PREFIX "get_blanking"
-#define SET_BLANK       SET_PREFIX "do_blanking %d"
-#define GET_VNC_RES     GET_PREFIX "get_vnc_resolution"
-#define SET_VNC_RES     SET_PREFIX "do_vnc_resolution %s"
-#define GET_SQUEEK      GET_PREFIX "get_squeekboard"
-#define SET_SQUEEK      SET_PREFIX "do_squeekboard S%d"
-#define GET_SQUEEKOUT   GET_PREFIX "get_squeek_output"
-#define SET_SQUEEKOUT   SET_PREFIX "do_squeek_output %s"
-#define VKBD_INSTALLED  GET_PREFIX "get_installed squeekboard"
-#define XSCR_INSTALLED  GET_PREFIX "get_installed xscreensaver"
-
 /*----------------------------------------------------------------------------*/
 /* Global data                                                                */
 /*----------------------------------------------------------------------------*/
@@ -260,8 +245,6 @@ void load_display_tab (GtkBuilder *builder)
     FILE *fp;
     int op;
 
-    batch_get (9, GET_PI_TYPE, GET_BLANK, GET_OVERSCAN, GET_OVERSCAN2, GET_SQUEEK, GET_SQUEEKOUT, GET_VNC_RES, VKBD_INSTALLED, XSCR_INSTALLED);
-
     /* Blanking switch */
     CONFIG_SWITCH (blank_sw, "sw_blank", orig_blank, GET_BLANK);
     HANDLE_SWITCH (blank_sw, SET_BLANK, GET_BLANK);
@@ -366,8 +349,6 @@ void load_display_tab (GtkBuilder *builder)
         HANDLE_CONTROL (vnc_res_cb, "changed", on_vnc_res_set)
     }
     else gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox56")));
-
-    batch_free ();
 }
 
 /* End of file */
