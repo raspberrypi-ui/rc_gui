@@ -390,7 +390,8 @@ static void country_changed (GtkComboBox *cb, char *ptr)
     GtkTreeModelFilter *f1, *f2;
     GtkTreeModelSort *schar;
     GtkTreeIter iter;
-    char *lstr = NULL, *cstr = NULL;
+    char *lstr = NULL, *cstr = NULL, *ch;
+    gboolean run;
 
     // get the current language code from the combo box
     model = gtk_combo_box_get_model (GTK_COMBO_BOX (loclang_cb));
@@ -415,7 +416,18 @@ static void country_changed (GtkComboBox *cb, char *ptr)
     // set up the combo box from the sorted and filtered list
     gtk_combo_box_set_model (GTK_COMBO_BOX (locchar_cb), GTK_TREE_MODEL (schar));
 
-    if (ptr == NULL) gtk_combo_box_set_active (GTK_COMBO_BOX (locchar_cb), 0);
+    if (ptr == NULL)
+    {
+        run = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (schar), &iter);
+        while (run)
+        {
+            gtk_tree_model_get (GTK_TREE_MODEL (schar), &iter, LOC_NAME, &ch, -1);
+            if (!g_strcmp0 (ch, "UTF-8")) run = FALSE;
+            g_free (ch);
+            if (run) run = gtk_tree_model_iter_next (GTK_TREE_MODEL (schar), &iter);
+        }
+        gtk_combo_box_set_active_iter (GTK_COMBO_BOX (locchar_cb), &iter);
+    }
     else set_init (GTK_TREE_MODEL (schar), locchar_cb, LOC_LCCODE, ptr);
 
     g_object_unref (f1);
