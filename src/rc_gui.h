@@ -154,7 +154,6 @@ extern const char *dgetfixt (const char *domain, const char *msgctxid);
 typedef enum
 {
     WM_OPENBOX,
-    WM_WAYFIRE,
     WM_LABWC
 } wm_type;
 

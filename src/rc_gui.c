@@ -398,11 +398,7 @@ void init_plugin (GtkWidget *parent)
     bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
     textdomain (GETTEXT_PACKAGE);
 
-    if (getenv ("WAYLAND_DISPLAY"))
-    {
-        if (getenv ("WAYFIRE_CONFIG_FILE")) wm = WM_WAYFIRE;
-        else wm = WM_LABWC;
-    }
+    if (getenv ("WAYLAND_DISPLAY")) wm = WM_LABWC;
     else wm = WM_OPENBOX;
 
     singledlg = FALSE;
@@ -622,11 +618,7 @@ int main (int argc, char *argv[])
     bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
     textdomain (GETTEXT_PACKAGE);
 
-    if (getenv ("WAYLAND_DISPLAY"))
-    {
-        if (getenv ("WAYFIRE_CONFIG_FILE")) wm = WM_WAYFIRE;
-        else wm = WM_LABWC;
-    }
+    if (getenv ("WAYLAND_DISPLAY")) wm = WM_LABWC;
     else wm = WM_OPENBOX;
 
     main_dlg = NULL;
