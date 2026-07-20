@@ -177,6 +177,7 @@ extern int get_status (char *cmd);
 extern char *get_quoted_param (char *path, char *fname, char *toseek);
 extern void batch_get (int n, ...);
 extern void batch_free (void);
+extern int strncmp_safe (const char *str1, const char *str2, size_t n);
 extern void on_switch (GtkSwitch *btn, gpointer, const char *cmd);
 extern void message (char *msg);
 extern void info (char *msg);

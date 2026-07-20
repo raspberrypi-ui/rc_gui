@@ -268,8 +268,8 @@ static gboolean process_browser (gpointer data)
         vsystem (SET_BROWSER, ffver == 1 ? "firefox" : "firefox-esr");
     browser = get_string (GET_BROWSER);
     g_signal_handlers_block_matched (chromium_rb, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, on_browser_toggle, NULL);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (firefox_rb), !strncmp (browser, "firefox", 7));
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chromium_rb), !strncmp (browser, "chromium", 8));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (firefox_rb), !strncmp_safe (browser, "firefox", 7));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chromium_rb), !strncmp_safe (browser, "chromium", 8));
     g_signal_handlers_unblock_matched (chromium_rb, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, on_browser_toggle, NULL);
     g_free (browser);
     clear_watch_cursor ();
@@ -384,8 +384,8 @@ void load_system_tab (GtkBuilder *builder)
     chromium_rb = gtk_builder_get_object (builder, "rb_chromium");
     firefox_rb = gtk_builder_get_object (builder, "rb_firefox");
     orig_browser = get_string_cached (GET_BROWSER);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (firefox_rb), !strncmp (orig_browser, "firefox", 7));
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chromium_rb), !strncmp (orig_browser, "chromium", 8));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (firefox_rb), !strncmp_safe (orig_browser, "firefox", 7));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chromium_rb), !strncmp_safe (orig_browser, "chromium", 8));
     if (!get_status (FF_INSTALLED) == 0) ffver = 1;
     else if (!get_status (FFE_INSTALLED) == 0) ffver = 2;
     else ffver = 0;

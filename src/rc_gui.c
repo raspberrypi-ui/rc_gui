@@ -197,7 +197,7 @@ char *get_quoted_param (char *path, char *fname, char *toseek)
         while (*cptr == ' ' || *cptr == '\t') cptr++;
 
         // compare against string to find
-        if (!strncmp (cptr, toseek, strlen (toseek)))
+        if (!strncmp_safe (cptr, toseek, strlen (toseek)))
         {
             // find string in quotes
             strtok (cptr, "\"");
@@ -274,6 +274,13 @@ void batch_free (void)
         g_free (batch);
         batch = NULL;
     }
+}
+
+int strncmp_safe (const char *str1, const char *str2, size_t n)
+{
+    if (!str1) return -1;
+    if (!str2) return 1;
+    return strncmp (str1, str2, n);
 }
 
 /*----------------------------------------------------------------------------*/

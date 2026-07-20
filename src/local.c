@@ -1019,8 +1019,8 @@ static void read_keyboards (void)
                 }
             }
         }
-        if (!strncmp ("%models", cptr, 7)) in_list = 1;
-        if (!strncmp ("%layouts", cptr, 8)) in_list = 2;
+        if (!strncmp_safe ("%models", cptr, 7)) in_list = 1;
+        if (!strncmp_safe ("%layouts", cptr, 8)) in_list = 2;
     }
     fclose (fp);
     g_free (cptr);
@@ -1172,7 +1172,7 @@ static void layout_changed (GtkComboBox *cb, GObject *cb2)
                 }
             }
         }
-        if (!strncmp (buffer, cptr, strlen (buffer))) in_list = 1;
+        if (!strncmp_safe (buffer, cptr, strlen (buffer))) in_list = 1;
     }
     fclose (fp);
     g_free (cptr);
@@ -1239,7 +1239,7 @@ void on_set_wifi (GtkButton* btn, gpointer ptr)
         {
             buffer[strlen(buffer) - 1] = 0;
             gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (wccountry_cb), buffer);
-            if (!strncmp (cnow, buffer, 2)) found = n;
+            if (!strncmp_safe (cnow, buffer, 2)) found = n;
             n++;
         }
     }
@@ -1254,7 +1254,7 @@ void on_set_wifi (GtkButton* btn, gpointer ptr)
         cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (wccountry_cb));
         if (!g_strcmp0 (cptr, _("<not set>")))
             vsystem (SET_WIFI_CTRY, "00");
-        else if (strncmp (cnow, cptr, 2))
+        else if (strncmp_safe (cnow, cptr, 2))
         {
             strncpy (cnow, cptr, 2);
             cnow[2] = 0;
