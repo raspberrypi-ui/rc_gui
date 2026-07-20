@@ -169,7 +169,7 @@ char *get_string_cached (char *cmd)
             if (strstr (*ptr, cmd + 20))
             {
                 if (strchr (*ptr, ' ')) return g_strdup (strchr (*ptr, ' ') + 1);
-                else return NULL;
+                else return g_strdup ("");
             }
             ptr++;
         }
