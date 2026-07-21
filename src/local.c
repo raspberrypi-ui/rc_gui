@@ -73,7 +73,6 @@ static char gbuffer[512];
 /* Prototypes                                                                 */
 /*----------------------------------------------------------------------------*/
 
-static int has_wifi (void);
 static void deunicode (char **str);
 static void set_init (GtkTreeModel *model, GObject *cb, int pos, char *init);
 static void set_init_sub (GtkTreeModel *model, GObject *cb, int pos, char *init);
@@ -106,17 +105,6 @@ static gpointer keyboard_thread (gpointer ptr);
 /*----------------------------------------------------------------------------*/
 /* Helpers                                                                    */
 /*----------------------------------------------------------------------------*/
-
-static int has_wifi (void)
-{
-    char *res;
-    int ret = 0;
-
-    res = get_string (WLAN_INTERFACES);
-    if (res && strlen (res) > 0) ret = 1;
-    g_free (res);
-    return ret;
-}
 
 static void deunicode (char **str)
 {
