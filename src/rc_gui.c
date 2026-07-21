@@ -104,37 +104,37 @@ int vsystem (const char *fmt, ...)
 
 int get_status (char *cmd)
 {
+    int val, res = 0;
+    char **line, *ptr;
+
     if (batch)
     {
-        char **ptr = &batch[0];
-        while (*ptr)
+        line = &batch[0];
+        while (*line)
         {
-            if (strstr (*ptr, cmd + 20))
+            if (strstr (*line, cmd + 20))
             {
-                int val;
-                sscanf (strchr (*ptr, ' '), "%d", &val);
-                return val;
+                ptr = g_strdup_printf ("%s %%d", cmd + 20);
+                if (sscanf (*line, ptr, &val) == 1) res = val;
+                g_free (ptr);
+                return res;
             }
-            ptr++;
+            line++;
         }
     }
 
     FILE *fp = popen (cmd, "r");
     char *buf = NULL;
-    size_t res = 0;
-    int val = 0;
+    size_t siz = 0;
 
     if (fp == NULL) return 0;
-    if (getline (&buf, &res, fp) > 0)
+    if (getline (&buf, &siz, fp) > 0)
     {
-        if (sscanf (buf, "%zu", &res) == 1)
-        {
-            val = res;
-        }
+        if (sscanf (buf, "%d", &val) == 1) res = val;
     }
     pclose (fp);
     g_free (buf);
-    return val;
+    return res;
 }
 
 char *get_string (char *cmd)

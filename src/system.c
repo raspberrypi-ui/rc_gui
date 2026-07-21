@@ -313,9 +313,9 @@ gboolean read_system_tab (void)
 
     READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
 
-    if (strcmp (orig_browser, "chromium") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
+    if (g_strcmp0 (orig_browser, "chromium") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
         vsystem (SET_BROWSER, "chromium");
-    if (strcmp (orig_browser, "firefox") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (firefox_rb)))
+    if (g_strcmp0 (orig_browser, "firefox") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (firefox_rb)))
         vsystem (SET_BROWSER, "firefox");
 
     if (!vsystem (IS_PI))

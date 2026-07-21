@@ -335,14 +335,14 @@ void load_display_tab (GtkBuilder *builder)
 
         orig_vnc_res = -1;
         cptr = get_string_cached (GET_VNC_RES);
-        if (!strcmp (cptr, "640x480")) orig_vnc_res = 0;
-        if (!strcmp (cptr, "720x480")) orig_vnc_res = 1;
-        if (!strcmp (cptr, "800x600")) orig_vnc_res = 2;
-        if (!strcmp (cptr, "1024x768")) orig_vnc_res = 3;
-        if (!strcmp (cptr, "1280x720")) orig_vnc_res = 4;
-        if (!strcmp (cptr, "1280x1024")) orig_vnc_res = 5;
-        if (!strcmp (cptr, "1600x1200")) orig_vnc_res = 6;
-        if (!strcmp (cptr, "1920x1080")) orig_vnc_res = 7;
+        if (!g_strcmp0 (cptr, "640x480")) orig_vnc_res = 0;
+        if (!g_strcmp0 (cptr, "720x480")) orig_vnc_res = 1;
+        if (!g_strcmp0 (cptr, "800x600")) orig_vnc_res = 2;
+        if (!g_strcmp0 (cptr, "1024x768")) orig_vnc_res = 3;
+        if (!g_strcmp0 (cptr, "1280x720")) orig_vnc_res = 4;
+        if (!g_strcmp0 (cptr, "1280x1024")) orig_vnc_res = 5;
+        if (!g_strcmp0 (cptr, "1600x1200")) orig_vnc_res = 6;
+        if (!g_strcmp0 (cptr, "1920x1080")) orig_vnc_res = 7;
         g_free (cptr);
 
         gtk_combo_box_set_active (GTK_COMBO_BOX (vnc_res_cb), orig_vnc_res);
