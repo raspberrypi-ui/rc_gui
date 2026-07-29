@@ -356,7 +356,7 @@ void load_system_tab (GtkBuilder *builder)
     HANDLE_SWITCH (splash_sw, SET_SPLASH, GET_SPLASH);
     if (get_status (GET_PI_TYPE) != -1)
     {
-        if (!get_status ("grep -q boot=live /proc/cmdline ; echo $?"))
+        if (get_status (GET_IS_LIVE))
         {
             gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
             gtk_widget_set_tooltip_text (GTK_WIDGET (splash_sw), _("Splash screen cannot be configured on a live image"));
