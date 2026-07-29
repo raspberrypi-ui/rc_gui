@@ -254,14 +254,14 @@ void load_display_tab (GtkBuilder *builder)
         gtk_widget_set_tooltip_text (GTK_WIDGET (blank_sw), _("This setting is overridden when Xscreensaver is installed"));
     }
 
-    /* Overscan switches */
-    CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN);
-    CONFIG_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2);
-    HANDLE_SWITCH (overscan_sw, SET_OVERSCAN, GET_OVERSCAN);
-    HANDLE_SWITCH (overscan2_sw, SET_OVERSCAN2, GET_OVERSCAN2);
-
     if (wm == WM_OPENBOX)
     {
+        /* Overscan switches */
+        CONFIG_SWITCH (overscan_sw, "sw_os1", orig_overscan, GET_OVERSCAN);
+        CONFIG_SWITCH (overscan2_sw, "sw_os2", orig_overscan2, GET_OVERSCAN2);
+        HANDLE_SWITCH (overscan_sw, SET_OVERSCAN, GET_OVERSCAN);
+        HANDLE_SWITCH (overscan2_sw, SET_OVERSCAN2, GET_OVERSCAN2);
+
         /* Set overscan switches for number of monitors */
         if (num_screens () != 2) gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox53")));
         else gtk_label_set_text (GTK_LABEL (gtk_builder_get_object (builder, "label52")), _("Overscan (HDMI-1):"));

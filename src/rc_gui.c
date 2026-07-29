@@ -27,6 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /* NOTE raspi-config nonint functions obey sh return codes - 0 is in general success / yes / selected, 1 is failed / no / not selected */
 
+#include <dirent.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <locale.h>
@@ -377,10 +378,24 @@ static gboolean ok_clicked (GtkButton *button, gpointer data)
 
 static void init_config (void)
 {
-    batch_get (31, GET_PI_TYPE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_CLI, GET_LEDS,
-        GET_BROWSER, FF_INSTALLED, FFE_INSTALLED, CR_INSTALLED, GET_SSH, GET_VNC, GET_SPI, GET_I2C, GET_1WIRE,
-        GET_SERIALCON, GET_SERIALHW, RVNC_INSTALLED, WVNC_INSTALLED, GET_BLANK, GET_OVERSCAN, GET_OVERSCAN2,
-        GET_SQUEEK, GET_SQUEEKOUT, GET_VNC_RES, VKBD_INSTALLED, XSCR_INSTALLED, GET_USBI, GET_FAN, GET_OVERCLOCK);
+    DIR *dir = opendir ("/boot/firmware");
+
+    if (dir)
+    {
+        batch_get (33, GET_PI_TYPE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_CLI, GET_LEDS,
+            GET_BROWSER, FF_INSTALLED, FFE_INSTALLED, CR_INSTALLED, GET_SSH, GET_VNC, GET_SPI, GET_I2C, GET_1WIRE,
+            GET_SERIALCON, GET_SERIALHW, RVNC_INSTALLED, WVNC_INSTALLED, GET_BLANK, GET_OVERSCAN, GET_OVERSCAN2,
+            GET_SQUEEK, GET_SQUEEKOUT, GET_VNC_RES, VKBD_INSTALLED, XSCR_INSTALLED, GET_USBI, GET_FAN, GET_FAN_GPIO,
+            GET_FAN_TEMP, GET_OVERCLOCK);
+        closedir (dir);
+    }
+    else
+    {
+        batch_get (19, GET_PI_TYPE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_CLI,
+            GET_BROWSER, FF_INSTALLED, FFE_INSTALLED, CR_INSTALLED, GET_SSH, GET_VNC,
+            RVNC_INSTALLED, WVNC_INSTALLED, GET_BLANK,
+            GET_SQUEEK, GET_SQUEEKOUT, VKBD_INSTALLED, XSCR_INSTALLED);
+    }
 
     load_system_tab (builder);
     load_display_tab (builder);
@@ -418,7 +433,8 @@ void init_plugin (GtkWidget *parent)
 
 int plugin_tabs (void)
 {
-    return 5;
+    if (get_status (GET_PI_TYPE) != -1) return 5;
+    else return 4;
 }
 
 const char *tab_name (int tab)
@@ -428,8 +444,8 @@ const char *tab_name (int tab)
         case 0 : return C_("tab", "System");
         case 1 : return C_("tab", "Display");
         case 2 : return C_("tab", "Interfaces");
-        case 3 : return C_("tab", "Performance");
-        case 4 : return C_("tab", "Localisation");
+        case 3 : return C_("tab", "Localisation");
+        case 4 : return C_("tab", "Performance");
         default : return _("No such tab");
     }
 }
@@ -441,8 +457,8 @@ const char *icon_name (int tab)
         case 0 : return "applications-system";
         case 1 : return "computer";
         case 2 : return "rc-gui-interfaces";
-        case 3 : return "system-run";
-        case 4 : return "rc-gui-localisation";
+        case 3 : return "rc-gui-localisation";
+        case 4 : return "system-run";
         default : return NULL;
     }
 }
@@ -451,7 +467,7 @@ const char *tab_id (int tab)
 {
     switch (tab)
     {
-        case 4 : return ("localisation");
+        case 3 : return ("localisation");
         default : return NULL;
     }
 }
@@ -473,10 +489,10 @@ GtkWidget *get_tab (int tab)
             plugin = (GtkWidget *) gtk_builder_get_object (builder, "vbox20");
             break;
         case 3 :
-            plugin = (GtkWidget *) gtk_builder_get_object (builder, "vbox30");
+            plugin = (GtkWidget *) gtk_builder_get_object (builder, "vbox40");
             break;
         case 4 :
-            plugin = (GtkWidget *) gtk_builder_get_object (builder, "vbox40");
+            plugin = (GtkWidget *) gtk_builder_get_object (builder, "vbox30");
             break;
         default :
             plugin = NULL;
