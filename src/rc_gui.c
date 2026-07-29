@@ -55,6 +55,7 @@ GtkWidget *main_dlg, *msg_dlg;
 GThread *pthread;
 gboolean needs_reboot;
 gboolean singledlg;
+gboolean ispi;
 wm_type wm;
 
 char **batch = NULL;
@@ -403,6 +404,9 @@ static void init_config (void)
     load_performance_tab (builder);
     load_localisation_tab (builder);
 
+    if (get_status (GET_PI_TYPE) != -1) ispi = TRUE;
+    else ispi = FALSE;
+
     batch_free ();
     needs_reboot = FALSE;
 }
@@ -433,7 +437,7 @@ void init_plugin (GtkWidget *parent)
 
 int plugin_tabs (void)
 {
-    if (get_status (GET_PI_TYPE) != -1) return 5;
+    if (ispi) return 5;
     else return 4;
 }
 
