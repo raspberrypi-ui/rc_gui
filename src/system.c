@@ -354,13 +354,10 @@ void load_system_tab (GtkBuilder *builder)
     /* Splash screen switch */
     CONFIG_SWITCH (splash_sw, "sw_splash", orig_splash, GET_SPLASH);
     HANDLE_SWITCH (splash_sw, SET_SPLASH, GET_SPLASH);
-    if (get_status (GET_PI_TYPE) != -1)
+    if (get_status (GET_PI_TYPE) == -1 && get_status (GET_IS_LIVE))
     {
-        if (get_status (GET_IS_LIVE))
-        {
-            gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
-            gtk_widget_set_tooltip_text (GTK_WIDGET (splash_sw), _("Splash screen cannot be configured on a live image"));
-        }
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (splash_sw), _("Splash screen cannot be configured on a live image"));
     }
 
     /* Autologin switch */
