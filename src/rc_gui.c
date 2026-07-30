@@ -119,11 +119,13 @@ int get_status (char *cmd)
                 ptr = g_strdup_printf ("%s %%d", cmd + 20);
                 if (sscanf (*line, ptr, &val) == 1) res = val;
                 g_free (ptr);
+                printf ("cached %s\n", cmd);
                 return res;
             }
             line++;
         }
     }
+    printf ("uncached %s\n", cmd);
 
     FILE *fp = popen (cmd, "r");
     char *buf = NULL;
@@ -383,7 +385,7 @@ static void init_config (void)
 
     if (dir)
     {
-        batch_get (34, GET_PI_TYPE, GET_IS_LIVE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_CLI, GET_LEDS,
+        batch_get (33, GET_PI_TYPE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_CLI, GET_LEDS,
             GET_BROWSER, FF_INSTALLED, FFE_INSTALLED, CR_INSTALLED, GET_SSH, GET_VNC, GET_SPI, GET_I2C, GET_1WIRE,
             GET_SERIALCON, GET_SERIALHW, RVNC_INSTALLED, WVNC_INSTALLED, GET_BLANK, GET_OVERSCAN, GET_OVERSCAN2,
             GET_SQUEEK, GET_SQUEEKOUT, GET_VNC_RES, VKBD_INSTALLED, XSCR_INSTALLED, GET_USBI, GET_FAN, GET_FAN_GPIO,
