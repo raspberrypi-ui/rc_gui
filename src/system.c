@@ -50,6 +50,7 @@ static GObject *hostname_tb;
 static int orig_boot, orig_alog_cli, orig_alog_desk, orig_splash, orig_leds, orig_psudo;
 static char *orig_browser;
 static int ffver;
+static gboolean islive = FALSE;
 
 /*----------------------------------------------------------------------------*/
 /* Prototypes                                                                 */
@@ -206,14 +207,17 @@ static void boot_update (void)
 {
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_cli_rb)))
     {
-        gtk_switch_set_active (GTK_SWITCH (splash_sw), FALSE);
+        if (!islive)
+        {
+            gtk_switch_set_active (GTK_SWITCH (splash_sw), FALSE);
+            gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
+        }
         gtk_switch_set_active (GTK_SWITCH (alog_desk_sw), FALSE);
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
         gtk_widget_set_sensitive (GTK_WIDGET (alog_desk_sw), FALSE);
     }
     else
     {
-        gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), TRUE);
+        if (!islive) gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), TRUE);
         gtk_widget_set_sensitive (GTK_WIDGET (alog_desk_sw), TRUE);
     }
 }
@@ -356,6 +360,7 @@ void load_system_tab (GtkBuilder *builder)
     HANDLE_SWITCH (splash_sw, SET_SPLASH, GET_SPLASH);
     if (get_status (GET_PI_TYPE) == -1 && get_status (GET_IS_LIVE))
     {
+        islive = TRUE;
         gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
         gtk_widget_set_tooltip_text (GTK_WIDGET (splash_sw), _("Splash screen cannot be configured on a live image"));
     }
