@@ -1,3 +1,9 @@
+rc-gui (2.18) trixie; urgency=medium
+
+  * Various fixes for x86 and live images
+
+ -- Simon Long <simon@raspberrypi.com>  Thu, 30 Jul 2026 10:48:39 +0100
+
 rc-gui (2.17) trixie; urgency=medium
 
   * Robustness improvements on string parsing
