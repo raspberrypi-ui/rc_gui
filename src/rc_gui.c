@@ -119,13 +119,11 @@ int get_status (char *cmd)
                 ptr = g_strdup_printf ("%s %%d", cmd + 20);
                 if (sscanf (*line, ptr, &val) == 1) res = val;
                 g_free (ptr);
-                printf ("cached %s\n", cmd);
                 return res;
             }
             line++;
         }
     }
-    printf ("uncached %s\n", cmd);
 
     FILE *fp = popen (cmd, "r");
     char *buf = NULL;
