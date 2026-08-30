@@ -1,0 +1,828 @@
+# Georgian translation for rpcc_rc_gui.
+# Copyright (C) 2026 rpcc_rc_gui's authors.
+# This file is distributed under the same license as the rpcc_rc_gui package.
+# Ekaterine Papava <papava.e@gtu.ge>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: rpcc_rc_gui\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-30 12:01+0200\n"
+"PO-Revision-Date: 2026-08-30 06:38+0200\n"
+"Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
+"Language-Team: Georgian <(nothing)>\n"
+"Language: ka\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
+
+#: src/rc_gui.c:448
+msgctxt "tab"
+msgid "System"
+msgstr "სისტემა"
+
+#: src/rc_gui.c:449
+msgctxt "tab"
+msgid "Display"
+msgstr "ჩვენება"
+
+#: src/rc_gui.c:450
+msgctxt "tab"
+msgid "Interfaces"
+msgstr "ინტერფეისები"
+
+#: src/rc_gui.c:451
+msgctxt "tab"
+msgid "Localisation"
+msgstr "ლოკალიზაცია"
+
+#: src/rc_gui.c:452
+msgctxt "tab"
+msgid "Performance"
+msgstr "წარმადობა"
+
+#: src/rc_gui.c:453
+msgid "No such tab"
+msgstr "ასეთი ჩანართი არ არსებობს"
+
+#: src/rc_gui.c:543
+msgid ""
+"The changes you have made require the Raspberry Pi to be rebooted to take "
+"effect.\n"
+"\n"
+"Would you like to reboot now? "
+msgstr ""
+"ცვლილებებს, რომლებიც შეიტანეთ, ძალაში შესასვლელად თქვენი Raspberry Pi-ის "
+"გადატვირთვა სჭირდება.\n"
+"\n"
+"გნებავთ ახლავე გადატვირთვა? "
+
+#: src/rc_gui.c:546
+msgid "_No"
+msgstr "_არა"
+
+#: src/rc_gui.c:551
+msgid "_Yes"
+msgstr "_დიახ"
+
+#: src/rc_gui.c:585
+msgid "Updating configuration - please wait..."
+msgstr "მიმდინარეობს კონფიგურაციის განახლება. მოითმინეთ..."
+
+#: src/rc_gui.c:682
+msgid "Loading configuration - please wait..."
+msgstr "კონფიგურაციის ჩატვირთვა - მოითმინეთ..."
+
+#: src/display.c:254
+msgid "This setting is overridden when Xscreensaver is installed"
+msgstr "ეს პარამეტრი გადაიფარება, როცა Xscreensaver დაყენებულია"
+
+#: src/display.c:267
+msgid "Overscan (HDMI-1):"
+msgstr "Overscan (HDMI-1):"
+
+#: src/display.c:317 src/display.c:319
+msgid "A virtual keyboard is not installed"
+msgstr "ვირტუალური კლავიატურა დაყენებული არაა"
+
+#: src/interface.c:68 data/rc_gui.ui:1700
+msgid "Enable shell and kernel messages on the serial connection"
+msgstr "გარსისა და ბირთვის შეტყობინებების ჩართვა სერიულ კავშირზე"
+
+#: src/interface.c:73
+msgid "This setting cannot be changed while the serial port is disabled"
+msgstr "ამ პარამეტრის ცვლილება, სანამ სერიული პორტი გამორთულია, შეუძლებელია"
+
+#: src/interface.c:159
+msgid "The VNC server is not installed"
+msgstr "VNC სერვერი დაყენებული არაა"
+
+#. warn about a short delay...
+#: src/local.c:284
+msgid "Setting locale - please wait..."
+msgstr "მიმდინარეობს ლოკალის დაყენება - მოითმინეთ..."
+
+#. warn about a short delay...
+#: src/local.c:592
+msgid "Setting timezone - please wait..."
+msgstr "მიმდინარეობს დროის სარტყლის დაყენება - მოითმინეთ..."
+
+#. warn about a short delay...
+#: src/local.c:924 src/local.c:942
+msgid "Setting keyboard - please wait..."
+msgstr "მიმდინარეობს კლავიატურის დაყენება - მოითმინეთ..."
+
+#: src/local.c:1022 src/local.c:1106
+msgid "None"
+msgstr "არცერთი"
+
+#: src/local.c:1028
+msgid "Ctrl + Alt"
+msgstr "Ctrl + Alt"
+
+#: src/local.c:1031
+msgid "Ctrl + Shift"
+msgstr "Ctrl + Shift"
+
+#: src/local.c:1034
+msgid "Left Alt"
+msgstr "მარცხენა Alt"
+
+#: src/local.c:1037
+msgid "Left Alt + Caps"
+msgstr "Left Alt + Caps"
+
+#: src/local.c:1040
+msgid "Left Alt + Left Shift"
+msgstr "Left Alt + Left Shift"
+
+#: src/local.c:1046
+msgid "Left Alt + Shift"
+msgstr "Left Alt + Shift"
+
+#: src/local.c:1049
+msgid "Left Ctrl"
+msgstr "მარცხენა Ctrl"
+
+#: src/local.c:1052
+msgid "Left Ctrl + Left Alt"
+msgstr "Left Ctrl + Left Alt"
+
+#: src/local.c:1055
+msgid "Left Ctrl + Left Shift"
+msgstr "Left Ctrl + Left Shift"
+
+#: src/local.c:1061
+msgid "Left Ctrl + Right Ctrl"
+msgstr "Left Ctrl + Right Ctrl"
+
+#: src/local.c:1064
+msgid "Left Shift"
+msgstr "მარცხენა Shift"
+
+#: src/local.c:1067
+msgid "Left Shift + Right Shift"
+msgstr "Left Shift + Right Shift"
+
+#: src/local.c:1073
+msgid "Menu"
+msgstr "მენიუ"
+
+#: src/local.c:1076
+msgid "Right Alt"
+msgstr "მარჯვენა Alt"
+
+#: src/local.c:1082
+msgid "Right Ctrl"
+msgstr "მარჯვენა Ctrl"
+
+#: src/local.c:1085
+msgid "Right Ctrl + Right Alt"
+msgstr "Right Ctrl + Right Alt"
+
+#: src/local.c:1088
+msgid "Right Ctrl + Right Shift"
+msgstr "Right Ctrl + Right Shift"
+
+#: src/local.c:1091
+msgid "Right Shift"
+msgstr "მარჯვენა Shift"
+
+#: src/local.c:1097
+msgid "Scroll Lock"
+msgstr "Scroll Lock"
+
+#: src/local.c:1100
+msgid "Shift + Caps"
+msgstr "Shift + Caps"
+
+#: src/local.c:1109
+msgid "Caps"
+msgstr "დიდი ასოები"
+
+#: src/local.c:1112
+msgid "Num"
+msgstr "ნუმი"
+
+#: src/local.c:1115
+msgid "Scroll"
+msgstr "ჩამოქაჩვა"
+
+#: src/local.c:1220 src/local.c:1243
+msgid "<not set>"
+msgstr "<დაყენებული არაა>"
+
+#: src/perform.c:86
+msgid ""
+"Your system has recently been updated. Please reboot to ensure these updates "
+"have loaded before setting up the overlay file system."
+msgstr ""
+"თქვენი სისტემა ახლახან განახლდა. Overlay ფაილური სისტემის ჩართვამდე "
+"გადატვირთეთ მანქანა, რომ დარწმუნდეთ, რომ ეს განახლებები ჩატვირთულია."
+
+#: src/perform.c:107
+msgid ""
+"The state of the boot partition cannot be changed while an overlay is active"
+msgstr ""
+"სანამ overlay აქტიურია, ჩატვირთვადი დანაყოფის მდგომარეობის ცვლილება "
+"შეუძლებელია"
+
+#. warn about a short delay...
+#: src/perform.c:129
+msgid "Setting up overlay - please wait..."
+msgstr "მიმდინარეობს overlay-ის მორგება - მოითმინეთ..."
+
+#: src/perform.c:239 data/rc_gui.ui:1958
+msgid "Set the GPIO to which the fan is connected"
+msgstr "დააყენეთ GPIO, რომელზეც ვენტილატორია მიერთებული"
+
+#: src/perform.c:240 data/rc_gui.ui:1999
+msgid "Set the temperature in degrees C at which the fan turns on"
+msgstr "დააყენეთ ტემპერატურა C გრადუსში, რომელზეც ვენტილატორი ირთვება"
+
+#: src/perform.c:246 src/perform.c:247
+msgid "This setting cannot be changed unless the fan is enabled"
+msgstr "ამ პარამეტრის ცვლილება, სანამ ვენტილატორი გამორთულია, შეუძლებელია"
+
+#: src/perform.c:419
+msgid "None (700MHz)"
+msgstr "არცერთი (700მჰც)"
+
+#: src/perform.c:420
+msgid "Modest (800MHz)"
+msgstr "მოკრძალებული (800მჰც)"
+
+#: src/perform.c:421
+msgid "Medium (900MHz)"
+msgstr "საშუალო (900მჰც)"
+
+#: src/perform.c:422
+msgid "High (950MHz)"
+msgstr "მაღალი (950მჰც)"
+
+#: src/perform.c:423
+msgid "Turbo (1000MHz)"
+msgstr "ტურბო (1000მჰც)"
+
+#: src/perform.c:440
+msgid "None (900MHz)"
+msgstr "არცერთი (900მჰც)"
+
+#: src/perform.c:441
+msgid "High (1000MHz)"
+msgstr "მაღალი (1000მჰც)"
+
+#: src/system.c:105
+msgid ""
+"The password change failed.\n"
+"\n"
+"This could be because the current password was incorrect, or because the new "
+"password was not sufficiently complex or was too similar to the current "
+"password."
+msgstr ""
+"პაროლის შეცვლა ჩავარდა.\n"
+"\n"
+"ეს, შეიძლება, მოხდეს მაშინ, როცა მიმდინარე პაროლი არასწორია, ან იმიტომ, რომ "
+"ახალი პაროლი არასაკმარისად რთულია, ან მეტისმეტად ჰგავს მიმდინარე პაროლს."
+
+#: src/system.c:107
+msgid "The password has been changed successfully."
+msgstr "თქვენი პაროლი წარმატებით შეიცვალა."
+
+#: src/system.c:170
+msgid ""
+"The hostname has been changed successfully and will take effect on the next "
+"reboot."
+msgstr ""
+"ჰოსტის სახელი წარმატებით შეიცვალა და ძალაში შემდეგი გადატვირთვისას შევა."
+
+#: src/system.c:173 src/system.c:178
+msgid ""
+"The hostname change failed.\n"
+"\n"
+"The hostname must only contain the characters A-Z, a-z, 0-9 and hyphen.\n"
+"The first and last character may not be the hyphen."
+msgstr ""
+"ჰოსტის სახელის ცვლილება ჩავარდა.\n"
+"\n"
+"ჰოსტის სახელი უნდა შეიცავდეს, მხოლოდ, სიმბოლოებს A-Z, a-z, 0-9 და ტირეს.\n"
+"პირველი და ბოლო სიმბოლოები, არ შეიძლება, ტირე იყოს."
+
+#: src/system.c:367
+msgid "Splash screen cannot be configured on a live image"
+msgstr "ცოცხალ სისტემაზე მისალმების ეკრანის მორგება შეუძლებელია"
+
+#: src/system.c:401 src/system.c:402
+msgid "Multiple browsers are not installed"
+msgstr "ერთზე მეტი ბრაუზერი დაყენებული არაა"
+
+#: data/rc_gui.ui:9
+msgid "Keyboard"
+msgstr "კლავიატურა"
+
+#: data/rc_gui.ui:28 data/rc_gui.ui:415 data/rc_gui.ui:2300 data/rc_gui.ui:2453
+#: data/rc_gui.ui:2523 data/rc_gui.ui:2704 data/rc_gui.ui:2850
+#: data/rc_gui.ui:2996 data/rc_gui.ui:3116
+msgid "_Cancel"
+msgstr "გაუ_ქმება"
+
+#: data/rc_gui.ui:42 data/rc_gui.ui:429 data/rc_gui.ui:2314 data/rc_gui.ui:2468
+#: data/rc_gui.ui:2537 data/rc_gui.ui:2718 data/rc_gui.ui:2864
+#: data/rc_gui.ui:3010 data/rc_gui.ui:3130
+msgid "_OK"
+msgstr "_დიახ"
+
+#: data/rc_gui.ui:70
+msgid "Model:"
+msgstr "მოდელი:"
+
+#: data/rc_gui.ui:84
+msgid "Select the keyboard model"
+msgstr "კლავიატურის მოდელის არჩევა"
+
+#: data/rc_gui.ui:111
+msgid "Layout:"
+msgstr "განლაგება:"
+
+#: data/rc_gui.ui:125
+msgid "Select the keyboard layout"
+msgstr "კლავიატურის განლაგების არჩევა"
+
+#: data/rc_gui.ui:152
+msgid "Variant:"
+msgstr "ვარიანტი:"
+
+#: data/rc_gui.ui:166
+msgid "Select the keyboard variant"
+msgstr "კლავიატურის ვარიანტის არჩევა"
+
+#: data/rc_gui.ui:190
+msgid "Add alternate keyboard"
+msgstr "ალტერნატიული კლავიატურის დამატება"
+
+#: data/rc_gui.ui:194
+msgid ""
+"Enable a second keyboard layout which can be switched with a key combination"
+msgstr ""
+"ჩართეთ მეორე კლავიატურის განლაგება, რომელზე გადართვაც ღილაკების კომბინაციით "
+"შეგეძლებათ"
+
+#: data/rc_gui.ui:220
+msgid "Alternate Layout:"
+msgstr "ალტერნატიული განლაგება:"
+
+#: data/rc_gui.ui:234
+msgid "Select the alternate keyboard layout"
+msgstr "ალტერნატიული კლავიატურის განლაგების არჩევა"
+
+#: data/rc_gui.ui:261
+msgid "Alternate Variant:"
+msgstr "ალტერნატიული ვარიანტი:"
+
+#: data/rc_gui.ui:275
+msgid "Select the alternate keyboard variant"
+msgstr "ალტერნატიული კლავიატურის ვარიანტის არჩევა"
+
+#: data/rc_gui.ui:302
+msgid "Toggle Key:"
+msgstr "გადართვის ღილაკი:"
+
+#: data/rc_gui.ui:316
+msgid "Select the key combination to switch between keyboard layouts"
+msgstr ""
+"აირჩიეთ ღილაკების კომბინაცია კლავიატურის განლაგებების შორის გადასართავად"
+
+#: data/rc_gui.ui:343
+msgid "Indicator:"
+msgstr "ინდიკატორი:"
+
+#: data/rc_gui.ui:357
+msgid ""
+"Select the indicator shown while the alternate keyboard layout is in effect"
+msgstr ""
+"აირჩიეთ მაჩვენებელი, რომელიც ნაჩვენები იქნება, როცა ალტერნატიული კლავიატურაა "
+"ჩართული"
+
+#: data/rc_gui.ui:396
+msgid "Locale"
+msgstr "ენა"
+
+#: data/rc_gui.ui:457
+msgid "Language:"
+msgstr "ენა:"
+
+#: data/rc_gui.ui:496 data/rc_gui.ui:3158
+msgid "Country:"
+msgstr "ქვეყანა:"
+
+#: data/rc_gui.ui:535
+msgid "Character Set:"
+msgstr "სიმბოლოების ნაკრები:"
+
+#: data/rc_gui.ui:582 data/rc_gui.ui:2494 data/rc_gui.desktop.in:3
+msgid "Raspberry Pi Configuration"
+msgstr "Raspberry Pi-ის მორგება"
+
+#: data/rc_gui.ui:611
+msgid "Password:"
+msgstr "პაროლი:"
+
+#: data/rc_gui.ui:622
+msgid "Change _Password..."
+msgstr "_პაროლის შეცვლა..."
+
+#: data/rc_gui.ui:626
+msgid "Change password for the default user (pi)"
+msgstr "პაროლის შეცვლა ნაგულისხმევი მომხმარებლისთვის (pi)"
+
+#: data/rc_gui.ui:654
+msgid "Hostname:"
+msgstr "ჰოსტის სახელი:"
+
+#: data/rc_gui.ui:665
+msgid "Change _Hostname..."
+msgstr "_ჰოსტის სახელის შეცვლა..."
+
+#: data/rc_gui.ui:669
+msgid "Set the name of your Pi on a local network"
+msgstr "თქვენი Pi-ის სახელის დაყენება ლოკალური ქსელისთვის"
+
+#: data/rc_gui.ui:697
+msgid "Boot:"
+msgstr "ჩატვირთვა:"
+
+#: data/rc_gui.ui:708
+msgid "To Desktop"
+msgstr "სამუშაო მაგიდაზე"
+
+#: data/rc_gui.ui:712
+msgid "Launch the desktop environment automatically on boot"
+msgstr "სამუშაო მაგიდის გარემოს ავტომატური გაშვება ჩატვირთვისას"
+
+#: data/rc_gui.ui:727
+msgid "To CLI"
+msgstr "CLI-ზე გადასვლა"
+
+#: data/rc_gui.ui:731
+msgid "Boot into a command line shell rather than the desktop"
+msgstr "ბრძანების სტრიქონში ჩატვირთვა გრაფიკული ინტერფეისის მაგიერ"
+
+#: data/rc_gui.ui:761
+msgid "Console auto login:"
+msgstr "ავტოშესვლა კონსოლზე:"
+
+#: data/rc_gui.ui:779
+msgid "Automatically log in the current user at the console"
+msgstr "მიმდინარე მომხმარებლის ავტომატური შესვლა კონსოლზე"
+
+#: data/rc_gui.ui:813
+msgid "Desktop auto login:"
+msgstr "ავტოშესვლა სამუშაო მაგიდაზე:"
+
+#: data/rc_gui.ui:831
+msgid "Automatically log in the current user to the desktop"
+msgstr "მიმდინარე მომხმარებლის ავტომატური შესვლა სამუშაო მაგიდაზე"
+
+#: data/rc_gui.ui:865
+msgid "Splash Screen:"
+msgstr "მისალმების ფანჯარა:"
+
+#: data/rc_gui.ui:883
+msgid "Show graphical splash screen at boot"
+msgstr "გრაფიკული მისალმების ეკრანის ჩვენება ჩატვირთვისას"
+
+#: data/rc_gui.ui:917
+msgid "Power LED:"
+msgstr "კვების LED:"
+
+#: data/rc_gui.ui:935
+msgid "Flash the power LED on disk activity"
+msgstr "კვების LED-ის ციმციმი დისკის აქტივობისას"
+
+#: data/rc_gui.ui:969
+msgid "Browser:"
+msgstr "ბრაუზერი:"
+
+#: data/rc_gui.ui:980
+msgid "Chromium"
+msgstr "ქრომი"
+
+#: data/rc_gui.ui:984
+msgid "Select Chromium as the default browser"
+msgstr "Chromium-ის დაყენება ნაგულისხმევ ბრაუზერად"
+
+#: data/rc_gui.ui:999
+msgid "Firefox"
+msgstr "Firefox"
+
+#: data/rc_gui.ui:1003
+msgid "Select Firefox as the default browser"
+msgstr "Firefox-ის დაყენება ნაგულისხმევ ბრაუზერად"
+
+#: data/rc_gui.ui:1045
+msgid "Admin Password:"
+msgstr "ადმინისტრატორის პაროლი:"
+
+#: data/rc_gui.ui:1063
+msgid "Prompt for the user password before admin (\"sudo\") operations"
+msgstr "მომხმარებლის პაროლის მოთხოვნა ადმინის (\"sudo\") ოპერაციებამდე"
+
+#: data/rc_gui.ui:1094
+msgid "System"
+msgstr "სისტემა"
+
+#: data/rc_gui.ui:1116
+msgid "Overscan:"
+msgstr "გადასკანირება:"
+
+#: data/rc_gui.ui:1134
+msgid "Enable overscan to show the edges of the screen"
+msgstr "ეკრანის წიბოების საჩვენებლად ჩართეთ overscan"
+
+#: data/rc_gui.ui:1168
+msgid "Overscan (HDMI-2):"
+msgstr "Overscan (HDMI-2):"
+
+#: data/rc_gui.ui:1186
+msgid "Enable overscan to show the edges of the second screen"
+msgstr "მეორე ეკრანის წიბოების საჩვენებლად ჩართეთ overscan"
+
+#: data/rc_gui.ui:1220
+msgid "Screen Blanking:"
+msgstr "ეკრანის გასუფთავება:"
+
+#: data/rc_gui.ui:1238
+msgid "Blank the screen after a period of inactivity"
+msgstr "ეკრანის გამორთვა უქმე პერიოდის შემდეგ"
+
+#: data/rc_gui.ui:1272
+msgid "Headless Resolution:"
+msgstr "უთავო გარჩევადობა:"
+
+#: data/rc_gui.ui:1287
+msgid "Set the resolution for VNC when no monitor is connected"
+msgstr "VNC-ის გარჩევადობის დაყენება, როცა ეკრანი მიერთებული არაა"
+
+#: data/rc_gui.ui:1314
+msgid "On-screen Keyboard:"
+msgstr "ეკრანის კლავიატურა:"
+
+#: data/rc_gui.ui:1327
+msgid "Set virtual keyboard for use with touchscreens"
+msgstr "ვირტუალური კლავიატურის დაყენება სენსორული ეკრანებისთვის"
+
+#: data/rc_gui.ui:1329
+msgid "Enabled always"
+msgstr "ყოველთვის ჩართულია"
+
+#: data/rc_gui.ui:1330
+msgid "Enabled if touchscreen found"
+msgstr "ჩართულია, თუ აღმოჩენილია სენსორული ეკრანი"
+
+#: data/rc_gui.ui:1331
+msgid "Disabled"
+msgstr "გამორთულია"
+
+#: data/rc_gui.ui:1359
+msgid "On-Screen Keyboard Location:"
+msgstr "ეკრანის კლავიატურის მდებარეობა:"
+
+#: data/rc_gui.ui:1371
+msgid "Set display to use for on-screen keyboard"
+msgstr "დააყენეთ ეკრანი ფუნქციისთვის 'კლავიატურა ეკრანზე'"
+
+#: data/rc_gui.ui:1399
+msgid "Display"
+msgstr "ჩვენება"
+
+#: data/rc_gui.ui:1422
+msgid "SSH:"
+msgstr "SSH:"
+
+#: data/rc_gui.ui:1440
+msgid "Enable remote access to this Pi via SSH"
+msgstr "ამ Pi-ზე SSH-ით დაშორებული წვდომის ჩართვა"
+
+#: data/rc_gui.ui:1474
+msgid "VNC:"
+msgstr "VNC:"
+
+#: data/rc_gui.ui:1492
+msgid "Enable remote access to this Pi using RealVNC"
+msgstr "ამ Pi-ზე RealVNC-ით დაშორებული წვდომის ჩართვა"
+
+#: data/rc_gui.ui:1526
+msgid "SPI:"
+msgstr "SPI:"
+
+#: data/rc_gui.ui:1544
+msgid "Enable the automatic loading of the SPI kernel module"
+msgstr "SPI-ის ბირთვის მოდულის ავტომატური ჩატვირთვის ჩართვა"
+
+#: data/rc_gui.ui:1578
+msgid "I2C:"
+msgstr "I2C:"
+
+#: data/rc_gui.ui:1596
+msgid "Enable the automatic loading of the I2C kernel module"
+msgstr "I2C-ის ბირთვის მოდულის ავტომატური ჩატვირთვის ჩართვა"
+
+#: data/rc_gui.ui:1630
+msgid "Serial Port:"
+msgstr "სერიული პორტი:"
+
+#: data/rc_gui.ui:1648
+msgid "Enable the serial port over the GPIO pins"
+msgstr "სერიული პორტის ჩართვა GPIO-ის საკონტაქტო ღეროებზე"
+
+#: data/rc_gui.ui:1682
+msgid "Serial Console:"
+msgstr "სერიული კონსოლი:"
+
+#: data/rc_gui.ui:1734
+msgid "1-Wire:"
+msgstr "1-მავთულიანი:"
+
+#: data/rc_gui.ui:1752
+msgid "Enable 1-wire peripheral interface"
+msgstr "1-მავთულიანი პერიფერიული ინტერფეისის ჩართვა"
+
+#: data/rc_gui.ui:1786
+msgid "Interfaces"
+msgstr "ინტერფეისები"
+
+#: data/rc_gui.ui:1809
+msgid "O_verclock:"
+msgstr "საათის აწ_ევა:"
+
+#: data/rc_gui.ui:1824
+msgid "Set the level of overclock to control performance"
+msgstr "გაძლიერების დონის დაყენება წარმადობის სამართავად"
+
+#: data/rc_gui.ui:1851
+msgid "Overlay File System:"
+msgstr "ფაილური სისტემა Overylay:"
+
+#: data/rc_gui.ui:1862
+msgid "Configure..."
+msgstr "მორგება..."
+
+#: data/rc_gui.ui:1866
+msgid ""
+"Configure an overlay file system to protect data from being overwritten or "
+"deleted"
+msgstr ""
+"მოირგეთ ფაილური სისტემა overlay მონაცემების წაშლისგან, ან თავზე გადაწერისგან "
+"დასაცავად"
+
+#: data/rc_gui.ui:1893
+msgid "Fan:"
+msgstr "ვენტილატორი:"
+
+#: data/rc_gui.ui:1911
+msgid "Enable a temperature-controlled fan on a GPIO pin"
+msgstr "ტემპერატურით მართვადი ვენტილატორის ჩართვა GPIO-ის საკონტაქტო ღეროებზე"
+
+#: data/rc_gui.ui:1945
+msgid "Fan GPIO:"
+msgstr "ვენტილატორის GPIO:"
+
+#: data/rc_gui.ui:1986
+msgid "Fan Temperature:"
+msgstr "ვენტილატორის ტემპერატურა:"
+
+#: data/rc_gui.ui:2027
+msgid "Disable USB Current Limit:"
+msgstr "USB-ის დენის ლიმიტის გათიშვა:"
+
+#: data/rc_gui.ui:2045
+msgid "Turn on to allow higher currents to USB peripherals"
+msgstr "ჩართეთ USB პერიფერიებისთვის უფრო მაღალი დენის დასაშვებად"
+
+#: data/rc_gui.ui:2079
+msgid "Performance"
+msgstr "წარმადობა"
+
+#: data/rc_gui.ui:2102
+msgid "Locale:"
+msgstr "ენა:"
+
+#: data/rc_gui.ui:2114
+msgid "Set _Locale..."
+msgstr "_ლოკალის დაყენება..."
+
+#: data/rc_gui.ui:2118
+msgid "Set internationalisation settings for units etc."
+msgstr "ინტერნაციონალიზაციის პარამეტრების დაყენება ერთეულებისთვის და ა.შ."
+
+#: data/rc_gui.ui:2146
+msgid "Timezone:"
+msgstr "დროის სარტყელი:"
+
+#: data/rc_gui.ui:2158
+msgid "Set _Timezone..."
+msgstr "დროის სარ_ტყლის დაყენება..."
+
+#: data/rc_gui.ui:2162
+msgid "Set the timezone to be used by the internal clock"
+msgstr "დროის სარტყლის დაყენება შიდა საათისთვის"
+
+#: data/rc_gui.ui:2190
+msgid "Keyboard:"
+msgstr "კლავიატურა:"
+
+#: data/rc_gui.ui:2202
+msgid "Set _Keyboard..."
+msgstr "_კლავიატურის დაყენება..."
+
+#: data/rc_gui.ui:2206
+msgid "Set international keyboard options"
+msgstr "საერთაშორისო კლავიატურის პარამეტრების დაყენება"
+
+#: data/rc_gui.ui:2234
+msgid "WiFi Country:"
+msgstr "WiFi-ის ქვეყანა:"
+
+#: data/rc_gui.ui:2246
+msgid "Set _WiFi Country..."
+msgstr "_Wi-Fi-ის ქვეყნის დაყენება..."
+
+#: data/rc_gui.ui:2250
+msgid "Set WiFi country code"
+msgstr "WiFi-ის ქვეყნის კოდის დაყენება"
+
+#: data/rc_gui.ui:2278
+msgid "Localisation"
+msgstr "ლოკალიზაცია"
+
+#: data/rc_gui.ui:2504
+msgid "Overlay File System"
+msgstr "ფაილური სისტემა Overylay"
+
+#: data/rc_gui.ui:2565
+msgid "Overlay:"
+msgstr "დადება:"
+
+#: data/rc_gui.ui:2578
+msgid "Enable a file system overlay; all changes will be lost on reboot"
+msgstr ""
+"overlay ფაილური სისტემის ჩართვა. გადატვირთვისას ყველა ცვლილება დაიკარგება"
+
+#: data/rc_gui.ui:2605
+msgid "Boot Partition:"
+msgstr "ჩამტვირთავი დანაყოფი:"
+
+#: data/rc_gui.ui:2618
+msgid "Make the boot partition read-only"
+msgstr "ჩამტვირთავი დანაყოფის მხოლოდ-წაკითხვადად გადაკეთება"
+
+#: data/rc_gui.ui:2645
+msgid "Changes will not take effect until a reboot"
+msgstr "ცვლილებები ძალაში გადატვირთვის შემდეგ შევა"
+
+#: data/rc_gui.ui:2685
+msgid "Change Password"
+msgstr "პაროლის შეცვლა"
+
+#: data/rc_gui.ui:2746
+msgid "Enter new password:"
+msgstr "შეიყვანეთ ახალი პაროლი:"
+
+#: data/rc_gui.ui:2785
+msgid "Confirm new password:"
+msgstr "დაადასტურეთ ახალი პაროლი:"
+
+#: data/rc_gui.ui:2831
+msgid "Timezone"
+msgstr "დროის სარტყელი"
+
+#: data/rc_gui.ui:2892
+msgid "Area:"
+msgstr "არე:"
+
+#: data/rc_gui.ui:2931
+msgid "Location:"
+msgstr "მდებარეობა:"
+
+#: data/rc_gui.ui:2977
+msgid "Change Hostname"
+msgstr "ჰოსტის სახელის შეცვლა"
+
+#: data/rc_gui.ui:3040
+msgid "Enter new hostname:"
+msgstr "შეიყვანეთ ახალი ჰოსტის სახელი:"
+
+#: data/rc_gui.ui:3076
+msgid ""
+"It is recommended that all other applications are closed before changing the "
+"hostname."
+msgstr "ჰოსტის შეცვლამდე რეკომენდებულია ყველა სხვა აპლიკაციის დახურვა."
+
+#: data/rc_gui.ui:3097
+msgid "WiFi Country Code"
+msgstr "Wi-Fi ქვეყნის კოდი"
+
+#: data/rc_gui.desktop.in:4
+msgid "Configure Raspberry Pi system"
+msgstr "Raspberry Pi-ის სისტემის მორგება"
