@@ -1,3 +1,9 @@
+rc-gui (2.19) trixie; urgency=medium
+
+  * Add French and Georgian translations
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 01 Sep 2026 13:39:54 +0100
+
 rc-gui (2.18) trixie; urgency=medium
 
   * Various fixes for x86 and live images
