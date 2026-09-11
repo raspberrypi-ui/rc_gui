@@ -415,8 +415,6 @@ static void init_config (void)
 /* Plugin interface */
 /*----------------------------------------------------------------------------*/
 
-#ifdef PLUGIN_NAME
-
 void init_plugin (GtkWidget *parent)
 {
     setlocale (LC_ALL, "");
@@ -480,22 +478,26 @@ GtkWidget *get_tab (int tab)
 {
     GtkWidget *window, *plugin;
 
-    window = (GtkWidget *) gtk_builder_get_object (builder, "notebook1");
     switch (tab)
     {
         case 0 :
+            window = (GtkWidget *) gtk_builder_get_object (builder, "system_window");
             plugin = (GtkWidget *) gtk_builder_get_object (builder, "vbox10");
             break;
         case 1 :
+            window = (GtkWidget *) gtk_builder_get_object (builder, "display_window");
             plugin = (GtkWidget *) gtk_builder_get_object (builder, "vbox50");
             break;
         case 2 :
+            window = (GtkWidget *) gtk_builder_get_object (builder, "interface_window");
             plugin = (GtkWidget *) gtk_builder_get_object (builder, "vbox20");
             break;
         case 3 :
+            window = (GtkWidget *) gtk_builder_get_object (builder, "localisation_window");
             plugin = (GtkWidget *) gtk_builder_get_object (builder, "vbox40");
             break;
         case 4 :
+            window = (GtkWidget *) gtk_builder_get_object (builder, "performance_window");
             plugin = (GtkWidget *) gtk_builder_get_object (builder, "vbox30");
             break;
         default :
@@ -523,171 +525,6 @@ void free_plugin (void)
 {
     g_object_unref (builder);
 }
-
-#else
-
-/*----------------------------------------------------------------------------*/
-/* Reboot prompt                                                              */
-/*----------------------------------------------------------------------------*/
-
-static gboolean reboot_prompt (gpointer data)
-{
-    GtkWidget *wid;
-
-    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
-
-    msg_dlg = (GtkWidget *) gtk_builder_get_object (builder, "modal");
-    gtk_window_set_transient_for (GTK_WINDOW (msg_dlg), GTK_WINDOW (main_dlg));
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_msg");
-    gtk_label_set_text (GTK_LABEL (wid), _("The changes you have made require the Raspberry Pi to be rebooted to take effect.\n\nWould you like to reboot now? "));
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_cancel");
-    gtk_button_set_label (GTK_BUTTON (wid), _("_No"));
-    g_signal_connect (wid, "clicked", G_CALLBACK (close_app), NULL);
-    gtk_widget_show (wid);
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_ok");
-    gtk_button_set_label (GTK_BUTTON (wid), _("_Yes"));
-    g_signal_connect (wid, "clicked", G_CALLBACK (close_app_reboot), NULL);
-    gtk_widget_show (wid);
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "modal_buttons");
-    gtk_widget_show (wid);
-
-    gtk_widget_show (msg_dlg);
-
-    g_object_unref (builder);
-    return FALSE;
-}
-
-static gboolean close_app (GtkButton *button, gpointer data)
-{
-    gtk_widget_destroy (msg_dlg);
-    gtk_main_quit ();
-    return FALSE;
-}
-
-static gboolean close_app_reboot (GtkButton *button, gpointer data)
-{
-    gtk_widget_destroy (msg_dlg);
-    gtk_main_quit ();
-    vsystem ("reboot");
-    return FALSE;
-}
-
-/*----------------------------------------------------------------------------*/
-/* Main window button handlers                                                */
-/*----------------------------------------------------------------------------*/
-
-static gboolean ok_main (GtkButton *button, gpointer data)
-{
-    message (_("Updating configuration - please wait..."));
-    pthread = g_thread_new (NULL, process_changes_thread, NULL);
-    return FALSE;
-}
-
-static gpointer process_changes_thread (gpointer ptr)
-{
-    if (read_system_tab ()) needs_reboot = TRUE;
-    if (read_display_tab ()) needs_reboot = TRUE;
-    if (read_interfacing_tab ()) needs_reboot = TRUE;
-    if (read_performance_tab ()) needs_reboot = TRUE;
-
-    if (needs_reboot) g_idle_add (reboot_prompt, NULL);
-    else gtk_main_quit ();
-
-    return NULL;
-}
-
-static gboolean cancel_main (GtkButton *button, gpointer data)
-{
-    if (needs_reboot) reboot_prompt (NULL);
-    else gtk_main_quit ();
-    return FALSE;
-}
-
-static gboolean close_prog (GtkWidget *widget, GdkEvent *event, gpointer data)
-{
-    gtk_main_quit ();
-    return TRUE;
-}
-
-/*----------------------------------------------------------------------------*/
-/* Main window                                                                */
-/*----------------------------------------------------------------------------*/
-
-static gboolean init_window (gpointer data)
-{
-    init_config ();
-
-    g_object_unref (builder);
-
-    gtk_widget_show (main_dlg);
-    gtk_widget_destroy (msg_dlg);
-
-    return FALSE;
-}
-
-static gboolean draw (GtkWidget *wid, cairo_t *cr, gpointer data)
-{
-    g_signal_handler_disconnect (wid, draw_id);
-    g_idle_add (init_window, NULL);
-    return FALSE;
-}
-
-int main (int argc, char *argv[])
-{
-    GtkWidget *wid;
-
-    setlocale (LC_ALL, "");
-    bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
-    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-    textdomain (GETTEXT_PACKAGE);
-
-    if (getenv ("WAYLAND_DISPLAY")) wm = WM_LABWC;
-    else wm = WM_OPENBOX;
-
-    main_dlg = NULL;
-    gtk_init (&argc, &argv);
-
-    // handle cases where single locale dialog is required
-    singledlg = TRUE;
-    if (argc == 2 && !g_strcmp0 (argv[1], "-w"))
-    {
-        on_set_wifi (NULL, NULL);
-        return 0;
-    }
-
-    if (argc == 2 && !g_strcmp0 (argv[1], "-k"))
-    {
-        pthread = 0;
-        on_set_keyboard (NULL, NULL);
-        if (pthread) g_thread_join (pthread);
-        return 0;
-    }
-    singledlg = FALSE;
-
-    builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
-
-    main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
-    g_signal_connect (main_dlg, "delete_event", G_CALLBACK (close_prog), NULL);
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_ok");
-    g_signal_connect (wid, "clicked", G_CALLBACK (ok_main), NULL);
-
-    wid = (GtkWidget *) gtk_builder_get_object (builder, "button_cancel");
-    g_signal_connect (wid, "clicked", G_CALLBACK (cancel_main), NULL);
-
-    message (_("Loading configuration - please wait..."));
-    draw_id = g_signal_connect (msg_dlg, "draw", G_CALLBACK (draw), NULL);
-
-    gtk_main ();
-
-    return 0;
-}
-
-#endif
 
 /* End of file */
 /*----------------------------------------------------------------------------*/
