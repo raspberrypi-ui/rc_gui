@@ -52,6 +52,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 static GtkBuilder *builder;
 
 GtkWidget *main_dlg, *msg_dlg;
+GtkWidget *cswitch;
 GThread *pthread;
 gboolean needs_reboot;
 gboolean singledlg;
@@ -60,27 +61,12 @@ wm_type wm;
 
 char **batch = NULL;
 
-#ifndef PLUGIN_NAME
-static gulong draw_id;
-#endif
-
 /*----------------------------------------------------------------------------*/
 /* Prototypes                                                                 */
 /*----------------------------------------------------------------------------*/
 
 static gboolean ok_clicked (GtkButton *button, gpointer data);
 static void init_config (void);
-#ifndef PLUGIN_NAME
-static gboolean close_app (GtkButton *button, gpointer data);
-static gboolean close_app_reboot (GtkButton *button, gpointer data);
-static gboolean reboot_prompt (gpointer data);
-static gpointer process_changes_thread (gpointer ptr);
-static gboolean cancel_main (GtkButton *button, gpointer data);
-static gboolean ok_main (GtkButton *button, gpointer data);
-static gboolean close_prog (GtkWidget *widget, GdkEvent *event, gpointer data);
-static gboolean init_window (gpointer data);
-static gboolean draw (GtkWidget *wid, cairo_t *cr, gpointer data);
-#endif
 
 /*----------------------------------------------------------------------------*/
 /* Function definitions                                                       */
@@ -289,10 +275,6 @@ int strncmp_safe (const char *str1, const char *str2, size_t n)
 /* Generic control handler                                                    */
 /*----------------------------------------------------------------------------*/
 
-#ifdef REALTIME
-
-GtkWidget *cswitch;
-
 static gboolean process_switch (gpointer data)
 {
     char *setcmd = (char *) data;
@@ -315,8 +297,6 @@ void on_switch (GtkSwitch *btn, gpointer, const char *cmd)
     cmdline = g_strdup_printf (cmd, (1 - gtk_switch_get_active (btn)));
     g_idle_add (process_switch, cmdline);
 }
-
-#endif
 
 /*----------------------------------------------------------------------------*/
 /* Message box                                                                */

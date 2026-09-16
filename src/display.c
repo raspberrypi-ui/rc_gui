@@ -49,14 +49,12 @@ static char *orig_sop;
 
 static int num_screens (void);
 static void set_cb_text (GObject *cb, const char *str);
-#ifdef REALTIME
 static void on_squeekboard_set (GtkComboBox *cb, gpointer ptr);
 static void on_squeek_output_set (GtkComboBoxText *cb, gpointer ptr);
 static void on_vnc_res_set (GtkComboBoxText *cb, gpointer ptr);
 static gboolean process_squeek_cb (gpointer data);
 static gboolean process_squeekop_cb (gpointer data);
 static gboolean process_vnc_cb (gpointer data);
-#endif
 
 /*----------------------------------------------------------------------------*/
 /* Function definitions                                                       */
@@ -96,8 +94,6 @@ static void set_cb_text (GObject *cb, const char *str)
 /*----------------------------------------------------------------------------*/
 /* Real-time handlers                                                         */
 /*----------------------------------------------------------------------------*/
-
-#ifdef REALTIME
 
 static void on_squeekboard_set (GtkComboBox *cb, gpointer ptr)
 {
@@ -173,8 +169,6 @@ static gboolean process_vnc_cb (gpointer data)
     clear_watch_cursor ();
     return FALSE;
 }
-
-#endif
 
 /*----------------------------------------------------------------------------*/
 /* Exit processing                                                            */

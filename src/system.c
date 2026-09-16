@@ -62,13 +62,11 @@ static void on_change_hostname (GtkButton* btn, gpointer ptr);
 static void config_boot (void);
 static void boot_update (void);
 static void on_boot_toggle (GtkButton *btn, gpointer ptr);
-#ifdef REALTIME
 static void on_alogin_toggle (GtkSwitch *btn, gpointer, gpointer);
 static gboolean process_alogin (gpointer data);
 static void on_browser_toggle (GtkButton *btn, gpointer ptr);
 static gboolean process_browser (gpointer data);
 static gboolean process_boot (gpointer data);
-#endif
 
 /*----------------------------------------------------------------------------*/
 /* Function definitions                                                       */
@@ -224,19 +222,13 @@ static void boot_update (void)
 
 static void on_boot_toggle (GtkButton *btn, gpointer ptr)
 {
-#ifdef REALTIME
     set_watch_cursor ();
     g_idle_add (process_boot, NULL);
-#else
-    boot_update ();
-#endif
 }
 
 /*----------------------------------------------------------------------------*/
 /* Real-time handlers                                                         */
 /*----------------------------------------------------------------------------*/
-
-#ifdef REALTIME
 
 static void on_alogin_toggle (GtkSwitch *btn, gpointer, gpointer)
 {
@@ -293,8 +285,6 @@ static gboolean process_boot (gpointer data)
     clear_watch_cursor ();
     return FALSE;
 }
-
-#endif
 
 /*----------------------------------------------------------------------------*/
 /* Exit processing                                                            */

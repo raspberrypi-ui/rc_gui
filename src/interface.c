@@ -48,9 +48,7 @@ static int orig_ssh, orig_vnc, orig_spi, orig_i2c, orig_serial, orig_scons, orig
 
 static void serial_update (void);
 static void on_serial_toggle (GtkSwitch *btn, gpointer, gpointer);
-#ifdef REALTIME
 static gboolean process_serial (gpointer data);
-#endif
 
 /*----------------------------------------------------------------------------*/
 /* Function definitions                                                       */
@@ -76,16 +74,10 @@ static void serial_update (void)
 
 static void on_serial_toggle (GtkSwitch *btn, gpointer, gpointer)
 {
-#ifdef REALTIME
     set_watch_cursor ();
     g_idle_add (process_serial, NULL);
-#else
-    if (!gtk_switch_get_active (GTK_SWITCH (serial_sw))) gtk_switch_set_active (GTK_SWITCH (scons_sw), FALSE);
-    serial_update ();
-#endif
 }
 
-#ifdef REALTIME
 static gboolean process_serial (gpointer data)
 {
     vsystem (SET_SERIALHW, (1 - gtk_switch_get_active (GTK_SWITCH (serial_sw))));
@@ -99,7 +91,6 @@ static gboolean process_serial (gpointer data)
     clear_watch_cursor ();
     return FALSE;
 }
-#endif
 
 /*----------------------------------------------------------------------------*/
 /* Exit processing                                                            */

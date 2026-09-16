@@ -57,13 +57,11 @@ static void overclock_config (void);
 static void fan_config (void);
 static void fan_update (void);
 static void on_fan_toggle (GtkSwitch *btn, gpointer, gpointer);
-#ifdef REALTIME
 static void on_overclock_set (GtkComboBox* cb, gpointer ptr);
 static gboolean process_oc (gpointer data);
 static void on_fan_value_changed (GtkSpinButton *sb);
 static gboolean fv_handler (gpointer data);
 static gboolean process_fan (gpointer data);
-#endif
 
 /*----------------------------------------------------------------------------*/
 /* Function definitions                                                       */
@@ -194,14 +192,12 @@ static void overclock_config (void)
 
 static void fan_config (void)
 {
-#ifdef REALTIME
     set_watch_cursor ();
     g_idle_add (process_fan, NULL);
 }
 
 static gboolean process_fan (gpointer data)
 {
-#endif
     int fan_gpio = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_gpio_sb));
     int fan_temp = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (fan_temp_sb));
     if (!gtk_switch_get_active (GTK_SWITCH (fan_sw)))
@@ -213,7 +209,6 @@ static gboolean process_fan (gpointer data)
         vsystem (SET_FAN, 0, fan_gpio, fan_temp);
     }
 
-#ifdef REALTIME
     g_signal_handlers_block_matched (fan_sw, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, on_fan_toggle, NULL);
     g_signal_handlers_block_matched (fan_gpio_sb, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, on_fan_value_changed, NULL);
     g_signal_handlers_block_matched (fan_temp_sb, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, on_fan_value_changed, NULL);
@@ -227,7 +222,6 @@ static gboolean process_fan (gpointer data)
     fan_update ();
     clear_watch_cursor ();
     return FALSE;
-#endif
 }
 
 static void fan_update (void)
@@ -250,18 +244,12 @@ static void fan_update (void)
 
 static void on_fan_toggle (GtkSwitch *btn, gpointer, gpointer)
 {
-#ifdef REALTIME
     fan_config ();
-#else
-    fan_update ();
-#endif
 }
 
 /*----------------------------------------------------------------------------*/
 /* Real-time handlers                                                         */
 /*----------------------------------------------------------------------------*/
-
-#ifdef REALTIME
 
 static void on_overclock_set (GtkComboBox* cb, gpointer ptr)
 {
@@ -324,8 +312,6 @@ static gboolean fv_handler (gpointer data)
     fv_time = 0;
     return FALSE;
 }
-
-#endif
 
 /*----------------------------------------------------------------------------*/
 /* Exit processing                                                            */

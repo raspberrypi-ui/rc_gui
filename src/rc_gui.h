@@ -28,17 +28,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Typedefs and macros                                                        */
 /*----------------------------------------------------------------------------*/
 
-#ifdef PLUGIN_NAME
 extern const char *dgetfixt (const char *domain, const char *msgctxid);
 #undef _
 #define _(a) dgettext(GETTEXT_PACKAGE,a)
 #undef C_
 #define C_(a,b) dgetfixt(GETTEXT_PACKAGE,a"\004"b)
-#endif
-
-#ifdef PLUGIN_NAME
-#define REALTIME
-#endif
 
 #define SUDO_PREFIX     "SUDO_ASKPASS=/usr/bin/sudopwd sudo -A "
 #define GET_PREFIX      "raspi-config nonint "
@@ -133,13 +127,8 @@ extern const char *dgetfixt (const char *domain, const char *msgctxid);
 #define CONFIG_SWITCH(wid,name,var,cmd) wid = gtk_builder_get_object (builder, name); \
                                         gtk_switch_set_active (GTK_SWITCH (wid), !(var = get_status (cmd)));
 
-#ifdef REALTIME
 #define HANDLE_SWITCH(wid,setcmd,getcmd)  g_signal_connect (wid, "notify::active", G_CALLBACK (on_switch), g_strdup_printf ("%s;%s",setcmd, getcmd));
 #define HANDLE_CONTROL(wid,cmd,cb)      g_signal_connect (wid, cmd, G_CALLBACK(cb), NULL);
-#else
-#define HANDLE_SWITCH(wid,setcmd)
-#define HANDLE_CONTROL(wid,cmd,cb)
-#endif
 
 #define READ_SWITCH(wid,var,cmd,reb)    if (var == gtk_switch_get_active (GTK_SWITCH (wid))) \
                                         { \
