@@ -1,3 +1,9 @@
+rc-gui (2.20) trixie; urgency=medium
+
+  * Fix potential crash if locale database files not present
+
+ -- Simon Long <simon@raspberrypi.com>  Thu, 17 Sep 2026 17:09:18 +0100
+
 rc-gui (2.19) trixie; urgency=medium
 
   * Add French and Georgian translations
