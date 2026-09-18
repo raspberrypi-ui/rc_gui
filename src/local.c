@@ -314,6 +314,7 @@ static void read_locales (void)
     buffer = NULL;
     len = 0;
     fp = fopen ("/usr/share/i18n/SUPPORTED", "rb");
+    if (!fp) return;
     while (getline (&buffer, &len, fp) > 0)
     {
         // split into l/c pair and charset
@@ -976,6 +977,7 @@ static void read_keyboards (void)
     cptr = NULL;
     in_list = 0;
     fp = fopen ("/usr/share/console-setup/KeyboardNames.pl", "rb");
+    if (!fp) return;
     while (getline (&cptr, &siz, fp) > 0)
     {
         if (in_list)
@@ -1141,6 +1143,7 @@ static void layout_changed (GtkComboBox *cb, GObject *cb2)
     cptr = NULL;
     in_list = 0;
     fp = fopen ("/usr/share/console-setup/KeyboardNames.pl", "rb");
+    if (!fp) return;
     while (getline (&cptr, &siz, fp) > 0)
     {
         if (in_list)
@@ -1221,14 +1224,17 @@ void on_set_wifi (GtkButton* btn, gpointer ptr)
     n = 1;
     buffer = NULL;
     len = 0;
-    while (getline (&buffer, &len, fp) > 0)
+    if (fp)
     {
-        if (buffer[0] != 0x0A && buffer[0] != '#')
+        while (getline (&buffer, &len, fp) > 0)
         {
-            buffer[strlen(buffer) - 1] = 0;
-            gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (wccountry_cb), buffer);
-            if (!strncmp_safe (cnow, buffer, 2)) found = n;
-            n++;
+            if (buffer[0] != 0x0A && buffer[0] != '#')
+            {
+                buffer[strlen(buffer) - 1] = 0;
+                gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (wccountry_cb), buffer);
+                if (!strncmp_safe (cnow, buffer, 2)) found = n;
+                n++;
+            }
         }
     }
     gtk_combo_box_set_active (GTK_COMBO_BOX (wccountry_cb), found);
