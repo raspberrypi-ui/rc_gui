@@ -1,3 +1,9 @@
+rc-gui (2.21) trixie; urgency=medium
+
+  * Remove standalone build
+
+ -- Simon Long <simon@raspberrypi.com>  Mon, 21 Sep 2026 11:55:27 +0100
+
 rc-gui (2.20) trixie; urgency=medium
 
   * Fix potential crash if locale database files not present
