@@ -1,3 +1,9 @@
+rc-gui (2.22) trixie; urgency=medium
+
+  * Update Japanese translation
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 22 Sep 2026 07:40:17 +0100
+
 rc-gui (2.21) trixie; urgency=medium
 
   * Remove standalone build
