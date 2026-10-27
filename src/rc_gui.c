@@ -100,9 +100,9 @@ int get_status (char *cmd)
         line = &batch[0];
         while (*line)
         {
-            if (strstr (*line, cmd + 20))
+            if (strstr (*line, cmd + 11))
             {
-                ptr = g_strdup_printf ("%s %%d", cmd + 20);
+                ptr = g_strdup_printf ("%s %%d", cmd + 11);
                 if (sscanf (*line, ptr, &val) == 1) res = val;
                 g_free (ptr);
                 return res;
@@ -217,14 +217,14 @@ void batch_get (int n, ...)
     size_t siz;
     va_list args;
 
-    cmdbuf = g_strdup ("raspi-config batch");
+    cmdbuf = g_strdup ("rcn batch");
 
     // append the commands to batch
     va_start (args, n);
     for (i = 0; i < n; i++)
     {
         cmd = va_arg (args, const char *);
-        tmp = g_strdup_printf ("%s '%s'", cmdbuf, cmd + 20);
+        tmp = g_strdup_printf ("%s '%s'", cmdbuf, cmd + 11);
         g_free (cmdbuf);
         cmdbuf = tmp;
     }
@@ -363,7 +363,7 @@ static void init_config (void)
 
     if (dir)
     {
-        batch_get (33, GET_PI_TYPE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_CLI, GET_LEDS,
+        batch_get (33, GET_PI_TYPE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_DESK, GET_LEDS,
             GET_BROWSER, FF_INSTALLED, FFE_INSTALLED, CR_INSTALLED, GET_SSH, GET_VNC, GET_SPI, GET_I2C, GET_1WIRE,
             GET_SERIALCON, GET_SERIALHW, RVNC_INSTALLED, WVNC_INSTALLED, GET_BLANK, GET_OVERSCAN, GET_OVERSCAN2,
             GET_SQUEEK, GET_SQUEEKOUT, GET_VNC_RES, VKBD_INSTALLED, XSCR_INSTALLED, GET_USBI, GET_FAN, GET_FAN_GPIO,
@@ -372,7 +372,7 @@ static void init_config (void)
     }
     else
     {
-        batch_get (20, GET_PI_TYPE, GET_IS_LIVE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_CLI,
+        batch_get (20, GET_PI_TYPE, GET_IS_LIVE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_DESK,
             GET_BROWSER, FF_INSTALLED, FFE_INSTALLED, CR_INSTALLED, GET_SSH, GET_VNC,
             RVNC_INSTALLED, WVNC_INSTALLED, GET_BLANK,
             GET_SQUEEK, GET_SQUEEKOUT, VKBD_INSTALLED, XSCR_INSTALLED);
@@ -384,7 +384,7 @@ static void init_config (void)
     load_performance_tab (builder);
     load_localisation_tab (builder);
 
-    if (get_status (GET_PI_TYPE) != -1) ispi = TRUE;
+    if (get_status (GET_PI_TYPE) != 255) ispi = TRUE;
     else ispi = FALSE;
 
     batch_free ();

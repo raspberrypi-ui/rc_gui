@@ -99,7 +99,7 @@ static void on_squeekboard_set (GtkComboBox *cb, gpointer ptr)
 {
     char *cmd;
     set_watch_cursor ();
-    cmd = g_strdup_printf (SET_SQUEEK, gtk_combo_box_get_active (cb) + 1);
+    cmd = g_strdup_printf (SET_SQUEEK, gtk_combo_box_get_active (cb));
     g_idle_add (process_squeek_cb, cmd);
 }
 
@@ -195,7 +195,7 @@ gboolean read_display_tab (void)
         g_free (cptr);
     }
 
-    if (!vsystem (IS_PI))
+    if (ispi)
     {
         if (wm == WM_OPENBOX)
         {
@@ -221,7 +221,7 @@ gboolean display_reboot (void)
     CHECK_SWITCH (blank_sw, orig_blank);
     if (wm == WM_OPENBOX)
     {
-        if (!vsystem (IS_PI) && orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)))
+        if (ispi && orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)))
             return TRUE;
     }
 
@@ -242,7 +242,7 @@ void load_display_tab (GtkBuilder *builder)
     /* Blanking switch */
     CONFIG_SWITCH (blank_sw, "sw_blank", orig_blank, GET_BLANK);
     HANDLE_SWITCH (blank_sw, SET_BLANK, GET_BLANK);
-    if (get_status (XSCR_INSTALLED))
+    if (!get_status (XSCR_INSTALLED))
     {
         gtk_widget_set_sensitive (GTK_WIDGET (blank_sw), FALSE);
         gtk_widget_set_tooltip_text (GTK_WIDGET (blank_sw), _("This setting is overridden when Xscreensaver is installed"));
@@ -305,7 +305,7 @@ void load_display_tab (GtkBuilder *builder)
         }
         HANDLE_CONTROL (squeekop_cb, "changed", on_squeek_output_set);
 
-        if (!get_status (VKBD_INSTALLED))
+        if (get_status (VKBD_INSTALLED))
         {
             gtk_widget_set_sensitive (GTK_WIDGET (squeek_cb), FALSE);
             gtk_widget_set_tooltip_text (GTK_WIDGET (squeek_cb), _("A virtual keyboard is not installed"));
@@ -315,7 +315,7 @@ void load_display_tab (GtkBuilder *builder)
     }
 
     /* VNC resolution */
-    if (get_status (GET_PI_TYPE) != -1 && wm == WM_OPENBOX)
+    if (get_status (GET_PI_TYPE) != 255 && wm == WM_OPENBOX)
     {
         vnc_res_cb = gtk_builder_get_object (builder, "combo_res");
         gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "640x480");

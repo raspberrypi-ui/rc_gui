@@ -116,11 +116,11 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
     {
         if (ovfs_rb) needs_reboot = TRUE;
         if (orig_bpro && gtk_switch_get_active (GTK_SWITCH (bp_ro_sw)))
-            vsystem (SET_BOOTP_RO);
+            vsystem (SET_BOOTP, 0);
         if (!orig_bpro && !gtk_switch_get_active (GTK_SWITCH (bp_ro_sw)))
-            vsystem (SET_BOOTP_RW);
+            vsystem (SET_BOOTP, 1);
         if (!orig_ofs && !gtk_switch_get_active (GTK_SWITCH (ofs_en_sw)))
-            vsystem (SET_OFS_OFF);
+            vsystem (SET_OFS, 1);
         if (orig_ofs && gtk_switch_get_active (GTK_SWITCH (ofs_en_sw)))
         {
             // warn about a short delay...
@@ -143,7 +143,7 @@ static void overlay_update (GtkSwitch *btn, gpointer, gpointer)
 
 static gpointer initrd_thread (gpointer data)
 {
-    vsystem (SET_OFS_ON);
+    vsystem (SET_OFS, 0);
     g_idle_add (close_msg, NULL);
     return NULL;
 }
@@ -160,34 +160,8 @@ static gboolean close_msg (gpointer data)
 
 static void overclock_config (void)
 {
-    switch (get_status (GET_PI_TYPE))
-    {
-        case 1:
-            switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-            {
-                case 0 :    vsystem (SET_OVERCLOCK, "None");
-                            break;
-                case 1 :    vsystem (SET_OVERCLOCK, "Modest");
-                            break;
-                case 2 :    vsystem (SET_OVERCLOCK, "Medium");
-                            break;
-                case 3 :    vsystem (SET_OVERCLOCK, "High");
-                            break;
-                case 4 :    vsystem (SET_OVERCLOCK, "Turbo");
-                            break;
-            }
-            break;
-
-        case 2:
-            switch (gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-            {
-                case 0 :    vsystem (SET_OVERCLOCK, "None");
-                            break;
-                case 1 :    vsystem (SET_OVERCLOCK, "High");
-                            break;
-            }
-            break;
-    }
+    int setting = gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb));
+    vsystem (SET_OVERCLOCK, setting);
 }
 
 static void fan_config (void)
@@ -321,7 +295,7 @@ gboolean read_performance_tab (void)
 {
     gboolean reboot = FALSE;
 
-    if (!vsystem (IS_PI))
+    if (ispi)
     {
         READ_SWITCH (usb_sw, orig_usbi, SET_USBI, TRUE);
 
@@ -343,7 +317,7 @@ gboolean read_performance_tab (void)
 
 gboolean performance_reboot (void)
 {
-    if (!vsystem (IS_PI))
+    if (ispi)
     {
         CHECK_SWITCH (usb_sw, orig_usbi);
 
@@ -360,7 +334,7 @@ void load_performance_tab (GtkBuilder *builder)
 {
     GtkAdjustment *gadj, *tadj;
 
-    if (get_status (GET_PI_TYPE) != -1)
+    if (get_status (GET_PI_TYPE) != 255)
     {
         /* USB current limit switch */
         CONFIG_SWITCH (usb_sw, "sw_usb", orig_usbi, GET_USBI);

@@ -103,7 +103,7 @@ gboolean read_interfacing_tab (void)
     READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
     READ_SWITCH (vnc_sw, orig_vnc, SET_VNC, FALSE);
 
-    if (!vsystem (IS_PI))
+    if (ispi)
     {
         READ_SWITCH (spi_sw, orig_spi, SET_SPI, FALSE);
         READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
@@ -121,7 +121,7 @@ gboolean read_interfacing_tab (void)
 
 gboolean interfacing_reboot (void)
 {
-    if (!vsystem (IS_PI))
+    if (ispi)
     {
         CHECK_SWITCH (onewire_sw, orig_onewire);
         CHECK_SWITCH (serial_sw, orig_serial);
@@ -144,13 +144,13 @@ void load_interfacing_tab (GtkBuilder *builder)
     /* VNC switch */
     CONFIG_SWITCH (vnc_sw, "sw_vnc", orig_vnc, GET_VNC);
     HANDLE_SWITCH (vnc_sw, SET_VNC, GET_VNC);
-    if ((wm == WM_OPENBOX && !get_status (RVNC_INSTALLED)) || (wm != WM_OPENBOX && !get_status (WVNC_INSTALLED)))
+    if ((wm == WM_OPENBOX && get_status (RVNC_INSTALLED)) || (wm != WM_OPENBOX && get_status (WVNC_INSTALLED)))
     {
         gtk_widget_set_sensitive (GTK_WIDGET (vnc_sw), FALSE);
         gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_sw), _("The VNC server is not installed"));
     }
 
-    if (get_status (GET_PI_TYPE) != -1)
+    if (get_status (GET_PI_TYPE) != 255)
     {
         /* SPI switch */
         CONFIG_SWITCH (spi_sw, "sw_spi", orig_spi, GET_SPI);

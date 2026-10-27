@@ -189,16 +189,22 @@ static void on_change_hostname (GtkButton* btn, gpointer ptr)
 
 static void config_boot (void)
 {
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) vsystem (SET_BOOT_GUI);
-    else vsystem (SET_BOOT_CLI);
+    int setting = 1;
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb))) setting = 0;
+    vsystem (SET_BOOT_GUI, setting);
 }
 
 static void config_autologin (void)
 {
-    int setting = 0;
-    if (gtk_switch_get_active (GTK_SWITCH (alog_cli_sw))) setting += 0x01;
-    if (gtk_switch_get_active (GTK_SWITCH (alog_desk_sw))) setting += 0x02;
-    vsystem (SET_ALOGIN, setting);
+    int setting;
+
+    setting = 1;
+    if (gtk_switch_get_active (GTK_SWITCH (alog_cli_sw))) setting = 0;
+    vsystem (SET_ALOGIN_CLI, setting);
+
+    setting = 1;
+    if (gtk_switch_get_active (GTK_SWITCH (alog_desk_sw))) setting = 0;
+    vsystem (SET_ALOGIN_DESK, setting);
 }
 
 static void boot_update (void)
@@ -261,7 +267,7 @@ static gboolean process_browser (gpointer data)
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
         vsystem (SET_BROWSER, "chromium");
     else
-        vsystem (SET_BROWSER, ffver == 1 ? "firefox" : "firefox-esr");
+        vsystem (SET_BROWSER, "firefox");
     browser = get_string (GET_BROWSER);
     g_signal_handlers_block_matched (chromium_rb, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, on_browser_toggle, NULL);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (firefox_rb), !strncmp_safe (browser, "firefox", 7));
@@ -276,10 +282,10 @@ static gboolean process_boot (gpointer data)
 {
     config_boot ();
     g_signal_handlers_block_matched (boot_cli_rb, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, on_boot_toggle, NULL);
-    if (get_status (GET_BOOT_CLI))
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
-    else
+    if (get_status (GET_BOOT_DESK))
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
+    else
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
     g_signal_handlers_unblock_matched (boot_cli_rb, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, on_boot_toggle, NULL);
     boot_update ();
     clear_watch_cursor ();
@@ -312,9 +318,9 @@ gboolean read_system_tab (void)
     if (g_strcmp0 (orig_browser, "firefox") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (firefox_rb)))
         vsystem (SET_BROWSER, "firefox");
 
-    if (!vsystem (IS_PI))
+    if (ispi)
     {
-        if (orig_leds != -1) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
+        if (orig_leds != 2) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
     }
 
     READ_SWITCH (psudo_sw, orig_psudo, SET_PSUDO, FALSE);
@@ -348,9 +354,9 @@ void load_system_tab (GtkBuilder *builder)
     /* Splash screen switch */
     CONFIG_SWITCH (splash_sw, "sw_splash", orig_splash, GET_SPLASH);
     HANDLE_SWITCH (splash_sw, SET_SPLASH, GET_SPLASH);
-    if (get_status (GET_PI_TYPE) == -1)
+    if (get_status (GET_PI_TYPE) == 255)
     {
-        if (get_status (GET_IS_LIVE))
+        if (!get_status (GET_IS_LIVE))
         {
             islive = TRUE;
             gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
@@ -368,10 +374,10 @@ void load_system_tab (GtkBuilder *builder)
     /* CLI / desktop radio buttons */
     boot_desktop_rb = gtk_builder_get_object (builder, "rb_desktop");
     boot_cli_rb = gtk_builder_get_object (builder, "rb_cli");
-    if ((orig_boot = get_status (GET_BOOT_CLI)))
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
-    else
+    if ((orig_boot = get_status (GET_BOOT_DESK)))
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_cli_rb), TRUE);
+    else
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boot_desktop_rb), TRUE);
     g_signal_connect (boot_cli_rb, "toggled", G_CALLBACK (on_boot_toggle), NULL);
     boot_update ();
 
@@ -381,10 +387,10 @@ void load_system_tab (GtkBuilder *builder)
     orig_browser = get_string_cached (GET_BROWSER);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (firefox_rb), !strncmp_safe (orig_browser, "firefox", 7));
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chromium_rb), !strncmp_safe (orig_browser, "chromium", 8));
-    if (!get_status (FF_INSTALLED) == 0) ffver = 1;
-    else if (!get_status (FFE_INSTALLED) == 0) ffver = 2;
+    if (get_status (FF_INSTALLED) == 0) ffver = 1;
+    else if (get_status (FFE_INSTALLED) == 0) ffver = 2;
     else ffver = 0;
-    if (!get_status (CR_INSTALLED) || ffver == 0)
+    if (get_status (CR_INSTALLED) || ffver == 0)
     {
         gtk_widget_set_sensitive (GTK_WIDGET (chromium_rb), FALSE);
         gtk_widget_set_sensitive (GTK_WIDGET (firefox_rb), FALSE);
@@ -395,11 +401,11 @@ void load_system_tab (GtkBuilder *builder)
 
     /* Power LED switch */
     gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
-    if (get_status (GET_PI_TYPE) != -1)
+    if (get_status (GET_PI_TYPE) != 255)
     {
         led_actpwr_sw = gtk_builder_get_object (builder, "sw_led_actpwr");
         orig_leds = get_status (GET_LEDS);
-        if (orig_leds != -1)
+        if (orig_leds != 2)
         {
             gtk_switch_set_active (GTK_SWITCH (led_actpwr_sw), !(orig_leds));
             gtk_widget_show (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
