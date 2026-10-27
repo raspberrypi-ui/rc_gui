@@ -52,7 +52,7 @@ extern const char *dgetfixt (const char *domain, const char *msgctxid);
       #define SET_BOOT_GUI    SET_PREFIX "set_boot_desktop %d"
 #define GET_SPLASH      GET_PREFIX "get_boot_splash"
       #define SET_SPLASH      SET_PREFIX "set_boot_splash %d"
-#define GET_IS_LIVE     GET_PREFIX "get_is_live"
+      #define GET_IS_LIVE     GET_PREFIX "is_live"
       #define GET_LEDS        GET_PREFIX "get_leds"
       #define SET_LEDS        SET_PREFIX "set_leds %d"
 #define GET_BROWSER     GET_PREFIX "get_browser"
