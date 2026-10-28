@@ -354,7 +354,7 @@ void load_system_tab (GtkBuilder *builder)
     /* Splash screen switch */
     CONFIG_SWITCH (splash_sw, "sw_splash", orig_splash, GET_SPLASH);
     HANDLE_SWITCH (splash_sw, SET_SPLASH, GET_SPLASH);
-    if (get_status (GET_PI_TYPE) == 255)
+    if (!ispi)
     {
         if (!get_status (GET_IS_LIVE))
         {
@@ -401,7 +401,7 @@ void load_system_tab (GtkBuilder *builder)
 
     /* Power LED switch */
     gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
-    if (get_status (GET_PI_TYPE) != 255)
+    if (ispi)
     {
         led_actpwr_sw = gtk_builder_get_object (builder, "sw_led_actpwr");
         orig_leds = get_status (GET_LEDS);

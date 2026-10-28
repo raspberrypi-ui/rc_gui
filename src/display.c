@@ -315,7 +315,7 @@ void load_display_tab (GtkBuilder *builder)
     }
 
     /* VNC resolution */
-    if (get_status (GET_PI_TYPE) != 255 && wm == WM_OPENBOX)
+    if (ispi && wm == WM_OPENBOX)
     {
         vnc_res_cb = gtk_builder_get_object (builder, "combo_res");
         gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "640x480");

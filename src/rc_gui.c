@@ -378,14 +378,14 @@ static void init_config (void)
             GET_SQUEEK, GET_SQUEEKOUT, VKBD_INSTALLED, XSCR_INSTALLED);
     }
 
+    if (get_status (GET_PI_TYPE) != 255) ispi = TRUE;
+    else ispi = FALSE;
+
     load_system_tab (builder);
     load_display_tab (builder);
     load_interfacing_tab (builder);
     load_performance_tab (builder);
     load_localisation_tab (builder);
-
-    if (get_status (GET_PI_TYPE) != 255) ispi = TRUE;
-    else ispi = FALSE;
 
     batch_free ();
     needs_reboot = FALSE;

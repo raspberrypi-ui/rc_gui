@@ -150,7 +150,7 @@ void load_interfacing_tab (GtkBuilder *builder)
         gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_sw), _("The VNC server is not installed"));
     }
 
-    if (get_status (GET_PI_TYPE) != 255)
+    if (ispi)
     {
         /* SPI switch */
         CONFIG_SWITCH (spi_sw, "sw_spi", orig_spi, GET_SPI);

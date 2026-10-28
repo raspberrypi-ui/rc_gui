@@ -306,7 +306,7 @@ void load_performance_tab (GtkBuilder *builder)
 {
     GtkAdjustment *gadj, *tadj;
 
-    if (get_status (GET_PI_TYPE) != 255)
+    if (ispi)
     {
         /* USB current limit switch */
         CONFIG_SWITCH (usb_sw, "sw_usb", orig_usbi, GET_USBI);
