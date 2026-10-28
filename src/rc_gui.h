@@ -38,8 +38,6 @@ extern const char *dgetfixt (const char *domain, const char *msgctxid);
 #define GET_PREFIX      "rcn nonint "
 #define SET_PREFIX      SUDO_PREFIX GET_PREFIX
 #define GET_PI_TYPE     GET_PREFIX "get_pi_type"
-#define IS_PI4          GET_PREFIX "is_pifour"
-#define IS_PI5          GET_PREFIX "is_pifive"
 
 /* system tab */
 #define GET_HOSTNAME    GET_PREFIX "get_hostname"

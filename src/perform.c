@@ -277,7 +277,7 @@ gboolean read_performance_tab (void)
             reboot = TRUE;
         }
 
-        if (!vsystem (IS_PI4)) fan_config ();
+        if (get_status (GET_PI_TYPE) == 4) fan_config ();
     }
 
     return reboot;
