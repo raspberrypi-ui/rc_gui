@@ -233,41 +233,13 @@ static void on_overclock_set (GtkComboBox* cb, gpointer ptr)
 
 static gboolean process_oc (gpointer data)
 {
-    int val, cbval;
+    int val;
 
     overclock_config ();
 
     val = get_status (GET_OVERCLOCK);
-    cbval = 0;
-    switch (get_status (GET_PI_TYPE))
-    {
-        case 1 :    switch (val)
-                    {
-                        case 800  : cbval = 1;
-                                    break;
-                        case 900  : cbval = 2;
-                                    break;
-                        case 950  : cbval = 3;
-                                    break;
-                        case 1000 : cbval = 4;
-                                    break;
-                        default   : break;
-                    }
-                    break;
-
-        case 2 :    switch (val)
-                    {
-                        case 1000 : cbval = 1;
-                                    break;
-                        default   : break;
-                    }
-                    break;
-
-        default :   break;
-    }
-
     g_signal_handlers_block_matched (overclock_cb, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, on_overclock_set, NULL);
-    gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), cbval);
+    gtk_combo_box_set_active (GTK_COMBO_BOX (overclock_cb), val);
     g_signal_handlers_unblock_matched (overclock_cb, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, on_overclock_set, NULL);
 
     clear_watch_cursor ();
@@ -374,6 +346,7 @@ void load_performance_tab (GtkBuilder *builder)
 
         /* Overclock controls */
         overclock_cb = gtk_builder_get_object (builder, "combo_oc");
+        orig_clock = get_status (GET_OVERCLOCK);
         switch (get_status (GET_PI_TYPE))
         {
             case 1 :    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("None (700MHz)"));
@@ -381,32 +354,12 @@ void load_performance_tab (GtkBuilder *builder)
                         gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("Medium (900MHz)"));
                         gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("High (950MHz)"));
                         gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("Turbo (1000MHz)"));
-
-                        switch (get_status (GET_OVERCLOCK))
-                        {
-                            case 800  : orig_clock = 1;
-                                        break;
-                            case 900  : orig_clock = 2;
-                                        break;
-                            case 950  : orig_clock = 3;
-                                        break;
-                            case 1000 : orig_clock = 4;
-                                        break;
-                            default   : orig_clock = 0;
-                                        break;
-                        }
+                        if (orig_clock > 4) orig_clock = 0;
                         break;
 
             case 2 :    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("None (900MHz)"));
                         gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("High (1000MHz)"));
-
-                        switch (get_status (GET_OVERCLOCK))
-                        {
-                            case 1000 : orig_clock = 1;
-                                        break;
-                            default   : orig_clock = 0;
-                                        break;
-                        }
+                        if (orig_clock > 1) orig_clock = 0;
                         break;
 
             default :   orig_clock = -1;

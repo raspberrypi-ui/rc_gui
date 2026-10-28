@@ -300,7 +300,7 @@ gboolean read_system_tab (void)
 {
     gboolean reboot = FALSE;
 
-    if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_desktop_rb)))
+    if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_cli_rb)))
     {
         config_boot ();
     }

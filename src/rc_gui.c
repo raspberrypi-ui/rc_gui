@@ -154,7 +154,7 @@ char *get_string_cached (char *cmd)
         char **ptr = &batch[0];
         while (*ptr)
         {
-            if (strstr (*ptr, cmd + 20))
+            if (strstr (*ptr, cmd + 11))
             {
                 if (strchr (*ptr, ' ')) return g_strdup (strchr (*ptr, ' ') + 1);
                 else return g_strdup ("");
