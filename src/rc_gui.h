@@ -34,9 +34,11 @@ extern const char *dgetfixt (const char *domain, const char *msgctxid);
 #undef C_
 #define C_(a,b) dgetfixt(GETTEXT_PACKAGE,a"\004"b)
 
-#define SUDO_PREFIX     "SUDO_ASKPASS=/usr/bin/sudopwd sudo -A "
 #define GET_PREFIX      "rcn nonint "
+#define PREFIX_LEN      (sizeof (GET_PREFIX) - 1)
+#define SUDO_PREFIX     "SUDO_ASKPASS=/usr/bin/sudopwd sudo -A "
 #define SET_PREFIX      SUDO_PREFIX GET_PREFIX
+
 #define GET_PI_TYPE     GET_PREFIX "get_pi_type"
 
 /* system tab */

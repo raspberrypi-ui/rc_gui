@@ -99,9 +99,9 @@ int get_status (char *cmd)
         line = &batch[0];
         while (*line)
         {
-            if (strstr (*line, cmd + 11))
+            if (strstr (*line, cmd + PREFIX_LEN))
             {
-                ptr = g_strdup_printf ("%s %%d", cmd + 11);
+                ptr = g_strdup_printf ("%s %%d", cmd + PREFIX_LEN);
                 if (sscanf (*line, ptr, &val) == 1) res = val;
                 g_free (ptr);
                 return res;
@@ -153,7 +153,7 @@ char *get_string_cached (char *cmd)
         char **ptr = &batch[0];
         while (*ptr)
         {
-            if (strstr (*ptr, cmd + 11))
+            if (strstr (*ptr, cmd + PREFIX_LEN))
             {
                 if (strchr (*ptr, ' ')) return g_strdup (strchr (*ptr, ' ') + 1);
                 else return g_strdup ("");
@@ -223,7 +223,7 @@ void batch_get (int n, ...)
     for (i = 0; i < n; i++)
     {
         cmd = va_arg (args, const char *);
-        tmp = g_strdup_printf ("%s '%s'", cmdbuf, cmd + 11);
+        tmp = g_strdup_printf ("%s '%s'", cmdbuf, cmd + PREFIX_LEN);
         g_free (cmdbuf);
         cmdbuf = tmp;
     }
