@@ -267,7 +267,7 @@ gboolean read_performance_tab (void)
 {
     gboolean reboot = FALSE;
 
-    if (ispi)
+    if (IS_PI)
     {
         READ_SWITCH (usb_sw, orig_usbi, SET_USBI, TRUE);
 
@@ -277,7 +277,7 @@ gboolean read_performance_tab (void)
             reboot = TRUE;
         }
 
-        if (get_status (GET_PI_TYPE) == 4) fan_config ();
+        if (pi_type % 10 == 4 && pi_type != 44) fan_config ();
     }
 
     return reboot;
@@ -289,7 +289,7 @@ gboolean read_performance_tab (void)
 
 gboolean performance_reboot (void)
 {
-    if (ispi)
+    if (IS_PI)
     {
         CHECK_SWITCH (usb_sw, orig_usbi);
 
@@ -306,18 +306,18 @@ void load_performance_tab (GtkBuilder *builder)
 {
     GtkAdjustment *gadj, *tadj;
 
-    if (ispi)
+    if (IS_PI)
     {
         /* USB current limit switch */
         CONFIG_SWITCH (usb_sw, "sw_usb", orig_usbi, GET_USBI);
         HANDLE_SWITCH (usb_sw, SET_USBI, GET_USBI);
-        if (get_status (GET_PI_TYPE) != 5)
+        if (pi_type % 10 != 5)
         {
             gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox37")));
         }
 
         /* Fan controls */
-        if (get_status (GET_PI_TYPE) == 4)
+        if (pi_type % 10 == 4 && pi_type != 44)
         {
             CONFIG_SWITCH (fan_sw, "sw_fan", orig_fan, GET_FAN);
             fan_gpio_sb = gtk_builder_get_object (builder, "sb_fan_gpio");
@@ -347,9 +347,10 @@ void load_performance_tab (GtkBuilder *builder)
         /* Overclock controls */
         overclock_cb = gtk_builder_get_object (builder, "combo_oc");
         orig_clock = get_status (GET_OVERCLOCK);
-        switch (get_status (GET_PI_TYPE))
+        switch (pi_type)
         {
-            case 1 :    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("None (700MHz)"));
+            case 1 :
+            case 21 :   gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("None (700MHz)"));
                         gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("Modest (800MHz)"));
                         gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("Medium (900MHz)"));
                         gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (overclock_cb), _("High (950MHz)"));

@@ -57,9 +57,9 @@ extern const char *dgetfixt (const char *domain, const char *msgctxid);
 #define SET_BROWSER     SET_PREFIX "set_browser %s"
 #define GET_PSUDO       GET_PREFIX "get_sudo_pass"
 #define SET_PSUDO       SET_PREFIX "set_sudo_pass %d"
-#define FF_INSTALLED    GET_PREFIX "is_installed firefox"
-#define FFE_INSTALLED   GET_PREFIX "is_installed firefox-esr"
-#define CR_INSTALLED    GET_PREFIX "is_installed chromium"
+#define FF_INSTALLED    GET_PREFIX "get_installed firefox"
+#define FFE_INSTALLED   GET_PREFIX "get_installed firefox-esr"
+#define CR_INSTALLED    GET_PREFIX "get_installed chromium"
 
 /* interface tab */
 #define GET_SSH         GET_PREFIX "get_ssh"
@@ -76,8 +76,8 @@ extern const char *dgetfixt (const char *domain, const char *msgctxid);
 #define SET_SERIALHW    SET_PREFIX "set_serial_hw %d"
 #define GET_1WIRE       GET_PREFIX "get_onewire"
 #define SET_1WIRE       SET_PREFIX "set_onewire %d"
-#define RVNC_INSTALLED  GET_PREFIX "is_installed realvnc-vnc-server"
-#define WVNC_INSTALLED  GET_PREFIX "is_installed wayvnc"
+#define RVNC_INSTALLED  GET_PREFIX "get_installed realvnc-vnc-server"
+#define WVNC_INSTALLED  GET_PREFIX "get_installed wayvnc"
 
 /* display tab */
 #define GET_OVERSCAN    GET_PREFIX "get_overscan_kms 1"
@@ -92,8 +92,8 @@ extern const char *dgetfixt (const char *domain, const char *msgctxid);
 #define SET_SQUEEK      SET_PREFIX "set_squeekboard %d"
 #define GET_SQUEEKOUT   GET_PREFIX "get_squeek_output"
 #define SET_SQUEEKOUT   SET_PREFIX "set_squeek_output %s"
-#define VKBD_INSTALLED  GET_PREFIX "is_installed squeekboard"
-#define XSCR_INSTALLED  GET_PREFIX "is_installed xscreensaver"
+#define VKBD_INSTALLED  GET_PREFIX "get_installed squeekboard"
+#define XSCR_INSTALLED  GET_PREFIX "get_installed xscreensaver"
 
 /* performance tab */
 #define GET_OVERCLOCK   GET_PREFIX "get_overclock"
@@ -135,6 +135,8 @@ extern const char *dgetfixt (const char *domain, const char *msgctxid);
                                             return TRUE; \
                                         }
 
+#define IS_PI (pi_type != 255)
+
 typedef enum {
     WM_OPENBOX,
     WM_LABWC
@@ -149,7 +151,7 @@ extern GThread *pthread;
 extern gboolean needs_reboot;
 extern gboolean singledlg;
 extern wm_type wm;
-extern gboolean ispi;
+extern int pi_type;
 
 /*----------------------------------------------------------------------------*/
 /* Prototypes                                                                 */

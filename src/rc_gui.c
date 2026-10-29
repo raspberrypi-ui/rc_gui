@@ -27,7 +27,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /* NOTE raspi-config nonint functions obey sh return codes - 0 is in general success / yes / selected, 1 is failed / no / not selected */
 
-#include <dirent.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <locale.h>
@@ -56,8 +55,8 @@ GtkWidget *cswitch;
 GThread *pthread;
 gboolean needs_reboot;
 gboolean singledlg;
-gboolean ispi;
 wm_type wm;
+int pi_type;
 
 char **batch = NULL;
 
@@ -359,27 +358,13 @@ static gboolean ok_clicked (GtkButton *button, gpointer data)
 
 static void init_config (void)
 {
-    DIR *dir = opendir ("/boot/firmware");
+    batch_get (34, GET_PI_TYPE, GET_IS_LIVE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_DESK, GET_LEDS,
+        GET_BROWSER, FF_INSTALLED, FFE_INSTALLED, CR_INSTALLED, GET_SSH, GET_VNC, GET_SPI, GET_I2C, GET_1WIRE,
+        GET_SERIALCON, GET_SERIALHW, RVNC_INSTALLED, WVNC_INSTALLED, GET_BLANK, GET_OVERSCAN, GET_OVERSCAN2,
+        GET_SQUEEK, GET_SQUEEKOUT, GET_VNC_RES, VKBD_INSTALLED, XSCR_INSTALLED, GET_USBI, GET_FAN, GET_FAN_GPIO,
+        GET_FAN_TEMP, GET_OVERCLOCK);
 
-    if (dir)
-    {
-        batch_get (33, GET_PI_TYPE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_DESK, GET_LEDS,
-            GET_BROWSER, FF_INSTALLED, FFE_INSTALLED, CR_INSTALLED, GET_SSH, GET_VNC, GET_SPI, GET_I2C, GET_1WIRE,
-            GET_SERIALCON, GET_SERIALHW, RVNC_INSTALLED, WVNC_INSTALLED, GET_BLANK, GET_OVERSCAN, GET_OVERSCAN2,
-            GET_SQUEEK, GET_SQUEEKOUT, GET_VNC_RES, VKBD_INSTALLED, XSCR_INSTALLED, GET_USBI, GET_FAN, GET_FAN_GPIO,
-            GET_FAN_TEMP, GET_OVERCLOCK);
-        closedir (dir);
-    }
-    else
-    {
-        batch_get (20, GET_PI_TYPE, GET_IS_LIVE, GET_SPLASH, GET_ALOGIN_CLI, GET_ALOGIN_DESK, GET_PSUDO, GET_BOOT_DESK,
-            GET_BROWSER, FF_INSTALLED, FFE_INSTALLED, CR_INSTALLED, GET_SSH, GET_VNC,
-            RVNC_INSTALLED, WVNC_INSTALLED, GET_BLANK,
-            GET_SQUEEK, GET_SQUEEKOUT, VKBD_INSTALLED, XSCR_INSTALLED);
-    }
-
-    if (get_status (GET_PI_TYPE) != 255) ispi = TRUE;
-    else ispi = FALSE;
+    pi_type = get_status (GET_PI_TYPE);
 
     load_system_tab (builder);
     load_display_tab (builder);
@@ -415,7 +400,7 @@ void init_plugin (GtkWidget *parent)
 
 int plugin_tabs (void)
 {
-    if (ispi) return 5;
+    if (IS_PI) return 5;
     else return 4;
 }
 

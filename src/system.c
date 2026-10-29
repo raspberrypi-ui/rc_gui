@@ -318,7 +318,7 @@ gboolean read_system_tab (void)
     if (g_strcmp0 (orig_browser, "firefox") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (firefox_rb)))
         vsystem (SET_BROWSER, "firefox");
 
-    if (ispi)
+    if (IS_PI)
     {
         if (orig_leds != 2) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
     }
@@ -354,14 +354,11 @@ void load_system_tab (GtkBuilder *builder)
     /* Splash screen switch */
     CONFIG_SWITCH (splash_sw, "sw_splash", orig_splash, GET_SPLASH);
     HANDLE_SWITCH (splash_sw, SET_SPLASH, GET_SPLASH);
-    if (!ispi)
+    if (!IS_PI && !get_status (GET_IS_LIVE))
     {
-        if (!get_status (GET_IS_LIVE))
-        {
-            islive = TRUE;
-            gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
-            gtk_widget_set_tooltip_text (GTK_WIDGET (splash_sw), _("Splash screen cannot be configured on a live image"));
-        }
+        islive = TRUE;
+        gtk_widget_set_sensitive (GTK_WIDGET (splash_sw), FALSE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (splash_sw), _("Splash screen cannot be configured on a live image"));
     }
 
     /* Autologin switch */
@@ -401,7 +398,7 @@ void load_system_tab (GtkBuilder *builder)
 
     /* Power LED switch */
     gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox17")));
-    if (ispi)
+    if (IS_PI)
     {
         led_actpwr_sw = gtk_builder_get_object (builder, "sw_led_actpwr");
         orig_leds = get_status (GET_LEDS);

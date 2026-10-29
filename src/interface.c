@@ -103,7 +103,7 @@ gboolean read_interfacing_tab (void)
     READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
     READ_SWITCH (vnc_sw, orig_vnc, SET_VNC, FALSE);
 
-    if (ispi)
+    if (IS_PI)
     {
         READ_SWITCH (spi_sw, orig_spi, SET_SPI, FALSE);
         READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
@@ -121,7 +121,7 @@ gboolean read_interfacing_tab (void)
 
 gboolean interfacing_reboot (void)
 {
-    if (ispi)
+    if (IS_PI)
     {
         CHECK_SWITCH (onewire_sw, orig_onewire);
         CHECK_SWITCH (serial_sw, orig_serial);
@@ -150,7 +150,7 @@ void load_interfacing_tab (GtkBuilder *builder)
         gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_sw), _("The VNC server is not installed"));
     }
 
-    if (ispi)
+    if (IS_PI)
     {
         /* SPI switch */
         CONFIG_SWITCH (spi_sw, "sw_spi", orig_spi, GET_SPI);
@@ -170,7 +170,7 @@ void load_interfacing_tab (GtkBuilder *builder)
 
         /* Serial hardware switch */
         CONFIG_SWITCH (serial_sw, "sw_ser", orig_serial, GET_SERIALHW);
-        if (get_status (GET_PI_TYPE) == 5)
+        if (pi_type % 10 == 5)
         {
             HANDLE_SWITCH (serial_sw, SET_SERIALHW, GET_SERIALHW);
         }

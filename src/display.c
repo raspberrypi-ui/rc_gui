@@ -195,7 +195,7 @@ gboolean read_display_tab (void)
         g_free (cptr);
     }
 
-    if (ispi)
+    if (IS_PI)
     {
         if (wm == WM_OPENBOX)
         {
@@ -221,7 +221,7 @@ gboolean display_reboot (void)
     CHECK_SWITCH (blank_sw, orig_blank);
     if (wm == WM_OPENBOX)
     {
-        if (ispi && orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)))
+        if (IS_PI && orig_vnc_res != gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)))
             return TRUE;
     }
 
@@ -315,7 +315,7 @@ void load_display_tab (GtkBuilder *builder)
     }
 
     /* VNC resolution */
-    if (ispi && wm == WM_OPENBOX)
+    if (IS_PI && wm == WM_OPENBOX)
     {
         vnc_res_cb = gtk_builder_get_object (builder, "combo_res");
         gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (vnc_res_cb), "640x480");
