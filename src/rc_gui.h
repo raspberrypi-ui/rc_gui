@@ -50,7 +50,7 @@ extern const char *dgetfixt (const char *domain, const char *msgctxid);
 #define SET_BOOT_GUI    SET_PREFIX "set_boot_desktop %d"
 #define GET_SPLASH      GET_PREFIX "get_boot_splash"
 #define SET_SPLASH      SET_PREFIX "set_boot_splash %d"
-#define GET_IS_LIVE     GET_PREFIX "is_live"
+#define GET_IS_LIVE     GET_PREFIX "get_is_live"
 #define GET_LEDS        GET_PREFIX "get_leds"
 #define SET_LEDS        SET_PREFIX "set_leds %d"
 #define GET_BROWSER     GET_PREFIX "get_browser"
@@ -109,7 +109,7 @@ extern const char *dgetfixt (const char *domain, const char *msgctxid);
 #define SET_BOOTP       SET_PREFIX "set_bootro %d"
 #define GET_USBI        GET_PREFIX "get_usb_current"
 #define SET_USBI        SET_PREFIX "set_usb_current %d"
-#define CHECK_UNAME     GET_PREFIX "is_uname_current"
+#define GET_UNAME_CURR  GET_PREFIX "get_is_uname_current"
 
 /* localisation tab */
 #define SET_LOCALE      SET_PREFIX "set_locale %s"

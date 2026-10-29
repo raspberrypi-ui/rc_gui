@@ -79,7 +79,7 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
     textdomain (GETTEXT_PACKAGE);
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
 
-    if (vsystem (CHECK_UNAME))
+    if (get_status (GET_UNAME_CURR))
     {
         info (_("Your system has recently been updated. Please reboot to ensure these updates have loaded before setting up the overlay file system."));
         return;
