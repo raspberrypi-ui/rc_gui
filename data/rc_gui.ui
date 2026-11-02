@@ -1404,7 +1404,7 @@
               <object class="GtkLabel" id="label37">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Disable USB Current Limit:</property>
+                <property name="label" translatable="yes">USB Current Limit:</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -1422,7 +1422,7 @@
                   <object class="GtkSwitch" id="sw_usb">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
-                    <property name="tooltip-text" translatable="yes">Turn on to allow higher currents to USB peripherals</property>
+                    <property name="tooltip-text" translatable="yes">Turn off to allow higher currents to USB peripherals</property>
                     <accessibility>
                       <relation type="labelled-by" target="label37"/>
                     </accessibility>
