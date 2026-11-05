@@ -142,13 +142,17 @@ void load_interfacing_tab (GtkBuilder *builder)
     HANDLE_SWITCH (ssh_sw, SET_SSH, GET_SSH);
 
     /* VNC switch */
-    CONFIG_SWITCH (vnc_sw, "sw_vnc", orig_vnc, GET_VNC);
-    HANDLE_SWITCH (vnc_sw, SET_VNC, GET_VNC);
-    if ((wm == WM_OPENBOX && get_status (RVNC_INSTALLED)) || (wm != WM_OPENBOX && get_status (WVNC_INSTALLED)))
+    if (IS_PI || wm == WM_LABWC)
     {
-        gtk_widget_set_sensitive (GTK_WIDGET (vnc_sw), FALSE);
-        gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_sw), _("The VNC server is not installed"));
+        CONFIG_SWITCH (vnc_sw, "sw_vnc", orig_vnc, GET_VNC);
+        HANDLE_SWITCH (vnc_sw, SET_VNC, GET_VNC);
+        if ((wm == WM_OPENBOX && get_status (RVNC_INSTALLED)) || (wm != WM_OPENBOX && get_status (WVNC_INSTALLED)))
+        {
+            gtk_widget_set_sensitive (GTK_WIDGET (vnc_sw), FALSE);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (vnc_sw), _("The VNC server is not installed"));
+        }
     }
+    else gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox23")));
 
     if (IS_PI)
     {
