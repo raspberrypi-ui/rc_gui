@@ -1216,6 +1216,11 @@ void on_set_wifi (GtkButton* btn, gpointer ptr)
     // get the current country setting
     cnow = get_string (GET_WIFI_CTRY);
     if (!cnow) cnow = g_strdup_printf ("00");
+    else if (!g_strcmp0 (cnow, "unset"))
+    {
+        g_free (cnow);
+        cnow = g_strdup_printf ("00");
+    }
 
     // populate the combobox
     fp = fopen ("/usr/share/zoneinfo/iso3166.tab", "rb");
@@ -1244,11 +1249,13 @@ void on_set_wifi (GtkButton* btn, gpointer ptr)
 
     if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK)
     {
-        // update the wpa_supplicant.conf file
         cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (wccountry_cb));
         if (!g_strcmp0 (cptr, _("<not set>")))
-            vsystem (SET_WIFI_CTRY, "00");
-        else if (strncmp_safe (cnow, cptr, 2))
+        {
+            g_free (cptr);
+            cptr = g_strdup ("00");
+        }
+        if (strncmp_safe (cnow, cptr, 2))
         {
             strncpy (cnow, cptr, 2);
             cnow[2] = 0;
