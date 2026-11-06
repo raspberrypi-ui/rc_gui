@@ -36,7 +36,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Prototypes                                                                 */
 /*----------------------------------------------------------------------------*/
 
-extern gboolean read_performance_tab (void);
 extern gboolean performance_reboot (void);
 extern void load_performance_tab (GtkBuilder *builder);
 

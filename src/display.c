@@ -171,48 +171,6 @@ static gboolean process_vnc_cb (gpointer data)
 }
 
 /*----------------------------------------------------------------------------*/
-/* Exit processing                                                            */
-/*----------------------------------------------------------------------------*/
-
-gboolean read_display_tab (void)
-{
-    gboolean reboot = FALSE;
-    char *cptr;
-
-    READ_SWITCH (blank_sw, orig_blank, SET_BLANK, wm == WM_OPENBOX ? TRUE : FALSE);
-    READ_SWITCH (overscan_sw, orig_overscan, SET_OVERSCAN, FALSE);
-    READ_SWITCH (overscan2_sw, orig_overscan2, SET_OVERSCAN2, FALSE);
-
-    if (gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) != orig_squeek)
-    {
-        vsystem (SET_SQUEEK, gtk_combo_box_get_active (GTK_COMBO_BOX (squeek_cb)) + 1);
-    }
-
-    cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (squeekop_cb));
-    if (cptr)
-    {
-        if (orig_sop && g_strcmp0 (orig_sop, cptr)) vsystem (SET_SQUEEKOUT, cptr);
-        g_free (cptr);
-    }
-
-    if (IS_PI)
-    {
-        if (wm == WM_OPENBOX)
-        {
-            if (gtk_combo_box_get_active (GTK_COMBO_BOX (vnc_res_cb)) != orig_vnc_res)
-            {
-                cptr = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (vnc_res_cb));
-                vsystem (SET_VNC_RES, cptr);
-                g_free (cptr);
-                reboot = TRUE;
-            }
-        }
-    }
-
-    return reboot;
-}
-
-/*----------------------------------------------------------------------------*/
 /* Reboot check                                                               */
 /*----------------------------------------------------------------------------*/
 

@@ -293,42 +293,6 @@ static gboolean process_boot (gpointer data)
 }
 
 /*----------------------------------------------------------------------------*/
-/* Exit processing                                                            */
-/*----------------------------------------------------------------------------*/
-
-gboolean read_system_tab (void)
-{
-    gboolean reboot = FALSE;
-
-    if (orig_boot != gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (boot_cli_rb)))
-    {
-        config_boot ();
-    }
-
-    if (orig_alog_cli == gtk_switch_get_active (GTK_SWITCH (alog_cli_sw))
-        || orig_alog_desk == gtk_switch_get_active (GTK_SWITCH (alog_desk_sw)))
-    {
-        config_autologin ();
-    }
-
-    READ_SWITCH (splash_sw, orig_splash, SET_SPLASH, FALSE);
-
-    if (g_strcmp0 (orig_browser, "chromium") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chromium_rb)))
-        vsystem (SET_BROWSER, "chromium");
-    if (g_strcmp0 (orig_browser, "firefox") && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (firefox_rb)))
-        vsystem (SET_BROWSER, "firefox");
-
-    if (IS_PI)
-    {
-        if (orig_leds != 2) READ_SWITCH (led_actpwr_sw, orig_leds, SET_LEDS, FALSE);
-    }
-
-    READ_SWITCH (psudo_sw, orig_psudo, SET_PSUDO, FALSE);
-
-    return reboot;
-}
-
-/*----------------------------------------------------------------------------*/
 /* Reboot check                                                               */
 /*----------------------------------------------------------------------------*/
 

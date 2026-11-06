@@ -93,29 +93,6 @@ static gboolean process_serial (gpointer data)
 }
 
 /*----------------------------------------------------------------------------*/
-/* Exit processing                                                            */
-/*----------------------------------------------------------------------------*/
-
-gboolean read_interfacing_tab (void)
-{
-    gboolean reboot = FALSE;
-
-    READ_SWITCH (ssh_sw, orig_ssh, SET_SSH, FALSE);
-    READ_SWITCH (vnc_sw, orig_vnc, SET_VNC, FALSE);
-
-    if (IS_PI)
-    {
-        READ_SWITCH (spi_sw, orig_spi, SET_SPI, FALSE);
-        READ_SWITCH (i2c_sw, orig_i2c, SET_I2C, FALSE);
-        READ_SWITCH (onewire_sw, orig_onewire, SET_1WIRE, TRUE);
-        READ_SWITCH (serial_sw, orig_serial, SET_SERIALHW, TRUE);
-        READ_SWITCH (scons_sw, orig_scons, SET_SERIALCON, TRUE);
-     }
-
-     return reboot;
-}
-
-/*----------------------------------------------------------------------------*/
 /* Reboot check                                                               */
 /*----------------------------------------------------------------------------*/
 

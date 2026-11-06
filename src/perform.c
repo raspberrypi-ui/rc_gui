@@ -260,30 +260,6 @@ static gboolean fv_handler (gpointer data)
 }
 
 /*----------------------------------------------------------------------------*/
-/* Exit processing                                                            */
-/*----------------------------------------------------------------------------*/
-
-gboolean read_performance_tab (void)
-{
-    gboolean reboot = FALSE;
-
-    if (IS_PI)
-    {
-        READ_SWITCH (usb_sw, orig_usbi, SET_USBI, TRUE);
-
-        if (orig_clock != -1 && orig_clock != gtk_combo_box_get_active (GTK_COMBO_BOX (overclock_cb)))
-        {
-            overclock_config ();
-            reboot = TRUE;
-        }
-
-        if (pi_type % 10 == 4 && pi_type != 44) fan_config ();
-    }
-
-    return reboot;
-}
-
-/*----------------------------------------------------------------------------*/
 /* Reboot check                                                               */
 /*----------------------------------------------------------------------------*/
 

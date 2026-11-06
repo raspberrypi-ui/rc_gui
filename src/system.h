@@ -36,7 +36,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Prototypes                                                                 */
 /*----------------------------------------------------------------------------*/
 
-extern gboolean read_system_tab (void);
 extern gboolean system_reboot (void);
 extern void load_system_tab (GtkBuilder *builder);
 
