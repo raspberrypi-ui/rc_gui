@@ -126,12 +126,6 @@ extern const char *dgetfixt (const char *domain, const char *msgctxid);
 #define HANDLE_SWITCH(wid,setcmd,getcmd)  g_signal_connect (wid, "notify::active", G_CALLBACK (on_switch), g_strdup_printf ("%s;%s",setcmd, getcmd));
 #define HANDLE_CONTROL(wid,cmd,cb)      g_signal_connect (wid, cmd, G_CALLBACK(cb), NULL);
 
-#define READ_SWITCH(wid,var,cmd,reb)    if (var == gtk_switch_get_active (GTK_SWITCH (wid))) \
-                                        { \
-                                            vsystem (cmd, (1 - var)); \
-                                            if (reb) reboot = 1; \
-                                        }
-
 #define CHECK_SWITCH(wid,var)           if (var == gtk_switch_get_active (GTK_SWITCH (wid))) \
                                         { \
                                             return TRUE; \
