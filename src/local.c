@@ -1216,11 +1216,6 @@ void on_set_wifi (GtkButton* btn, gpointer ptr)
     // get the current country setting
     cnow = get_string (GET_WIFI_CTRY);
     if (!cnow) cnow = g_strdup_printf ("00");
-    else if (!g_strcmp0 (cnow, "unset"))
-    {
-        g_free (cnow);
-        cnow = g_strdup_printf ("00");
-    }
 
     // populate the combobox
     fp = fopen ("/usr/share/zoneinfo/iso3166.tab", "rb");
