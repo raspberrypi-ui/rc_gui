@@ -85,6 +85,12 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
         return;
     }
 
+    if (get_status ("awk '/MemTotal/{print $2; exit}' /proc/meminfo") <= 262144)
+    {
+        info (_("The use of the overlay file system is not recommended on devices with less than 512 kilobytes of RAM."));
+        return;
+    }
+
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "ofsdlg");
     if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
