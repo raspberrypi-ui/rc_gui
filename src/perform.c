@@ -79,18 +79,6 @@ static void on_set_ofs (GtkButton* btn, gpointer ptr)
     textdomain (GETTEXT_PACKAGE);
     builder = gtk_builder_new_from_file (PACKAGE_DATA_DIR "/ui/rc_gui.ui");
 
-    if (get_status (GET_UNAME_CURR))
-    {
-        info (_("Your system has recently been updated. Please reboot to ensure these updates have loaded before setting up the overlay file system."));
-        return;
-    }
-
-    if (get_status ("awk '/MemTotal/{print $2; exit}' /proc/meminfo") <= 262144)
-    {
-        info (_("The use of the overlay file system is not recommended on devices with less than 512 kilobytes of RAM."));
-        return;
-    }
-
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "ofsdlg");
     if (main_dlg) gtk_window_set_transient_for (GTK_WINDOW (dlg), GTK_WINDOW (main_dlg));
 
@@ -358,6 +346,15 @@ void load_performance_tab (GtkBuilder *builder)
         /* Overlay file system button */
         ofs_btn = gtk_builder_get_object (builder, "button_ofs");
         g_signal_connect (ofs_btn, "clicked", G_CALLBACK (on_set_ofs), NULL);
+        if (get_status (GET_MEMORY) < 512)
+        {
+            gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "hbox33")));
+        }
+        if (get_status (GET_UNAME_CURR))
+        {
+            gtk_widget_set_sensitive (GTK_WIDGET (ofs_btn), FALSE);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (ofs_btn), _("Your system has recently been updated. Please reboot to ensure these updates have loaded before setting up the overlay file system."));
+        }
     }
     else
     {
