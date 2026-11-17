@@ -1,3 +1,9 @@
+rc-gui (2.24) trixie; urgency=medium
+
+  * Tidy overlay restrictions
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 17 Nov 2026 12:58:01 +0000
+
 rc-gui (2.23) trixie; urgency=medium
 
   * Modify for rcn
