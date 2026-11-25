@@ -115,8 +115,11 @@ extern const char *dgetfixt (const char *domain, const char *msgctxid);
 #define GET_UNAME_CURR  GET_PREFIX "get_is_uname_current"
 
 /* localisation tab */
+#define GET_LOCALE      GET_PREFIX "get_locale"
 #define SET_LOCALE      SET_PREFIX "set_locale %s"
+#define GET_TIMEZONE    GET_PREFIX "get_timezone"
 #define SET_TIMEZONE    SET_PREFIX "set_timezone %s"
+#define GET_KEYBOARD    GET_PREFIX "get_keyboard"
 #define SET_KEYBOARD    SET_PREFIX "set_keyboard %s"
 #define GET_WIFI_CTRY   GET_PREFIX "get_wifi_country"
 #define SET_WIFI_CTRY   SET_PREFIX "set_wifi_country %s"

@@ -131,16 +131,7 @@ char *get_string (char *cmd)
     FILE *fp = popen (cmd, "r");
 
     if (fp == NULL) return NULL;
-    if (getline (&line, &len, fp) > 0)
-    {
-        res = line;
-        while (*res)
-        {
-            if (g_ascii_isspace (*res)) *res = 0;
-            res++;
-        }
-        res = g_strdup (line);
-    }
+    if (getline (&line, &len, fp) > 0) res = g_strdup (g_strstrip (line));
     pclose (fp);
     g_free (line);
     return res;

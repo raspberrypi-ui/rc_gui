@@ -244,8 +244,12 @@ static void on_set_locale (GtkButton* btn, gpointer ptr)
     gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (locchar_cb), col, "text", LOC_NAME);
 
     // get the current locale setting and save as init_locale
-    init_locale = get_string ("grep LANG= /etc/default/locale | cut -d = -f 2");
-    if (init_locale == NULL) init_locale = g_strdup ("en_GB.UTF-8");
+    init_locale = get_string (GET_LOCALE);
+    if (init_locale == NULL || !g_strcmp0 (init_locale, "unset"))
+    {
+        g_free (init_locale);
+        init_locale = g_strdup ("en_GB.UTF-8");
+    }
 
     // filter and sort the master database
     slang = GTK_TREE_MODEL_SORT (gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (locale_list)));
@@ -539,8 +543,12 @@ static void on_set_timezone (GtkButton* btn, gpointer ptr)
     gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (tzloc_cb), col, "text", TZ_NAME);
 
     // read the current time zone
-    init_tz = get_string ("cat /etc/timezone");
-    if (init_tz == NULL) init_tz = g_strdup ("Europe/London");
+    init_tz = get_string (GET_TIMEZONE);
+    if (init_tz == NULL || !g_strcmp0 (init_tz, "unset"))
+    {
+        g_free (init_tz);
+        init_tz = g_strdup ("Europe/London");
+    }
 
     // filter and sort the master database
     stz = GTK_TREE_MODEL_SORT (gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (timezone_list)));
@@ -749,7 +757,7 @@ void on_set_keyboard (GtkButton* btn, gpointer ptr)
     GtkTreeIter iter;
     char *init_model, *init_layout, *init_variant, *init_alayout, *init_avariant, *init_options;
     char *new_mod, *new_lay, *new_var, *new_alay, *new_avar, *new_opts, *new_opt[2];
-    char *cptr;
+    char *kbd, *cptr;
     gboolean init_alt;
 
     init_model = NULL;
@@ -811,17 +819,25 @@ void on_set_keyboard (GtkButton* btn, gpointer ptr)
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (keyled_cb), col, FALSE);
     gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (keyled_cb), col, "text", KEY_NAME);
 
-    // get the current keyboard settings
-    init_model = get_string ("grep XKBMODEL /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
+    // get the current keyboard settings - get_keyboard prints the model, layout,
+    // variant and options, separated by spaces, with "unset" for any that is
+    // empty, e.g. pc105 gb unset unset
+    kbd = get_string (GET_KEYBOARD);
+    if (kbd)
+    {
+        cptr = strtok (kbd, " ");
+        if (g_strcmp0 (cptr, "unset")) init_model = g_strdup (cptr);
+        cptr = strtok (NULL, " ");
+        if (g_strcmp0 (cptr, "unset")) init_layout = g_strdup (cptr);
+        cptr = strtok (NULL, " ");
+        if (g_strcmp0 (cptr, "unset")) init_variant = g_strdup (cptr);
+        cptr = strtok (NULL, " ");
+        if (g_strcmp0 (cptr, "unset")) init_options = g_strdup (cptr);
+        g_free (kbd);
+    }
     if (init_model == NULL) init_model = g_strdup ("pc105");
-
-    init_layout = get_string ("grep XKBLAYOUT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
     if (init_layout == NULL) init_layout = g_strdup ("gb");
-
-    init_variant = get_string ("grep XKBVARIANT /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
     if (init_variant == NULL) init_variant = g_strdup ("");
-
-    init_options = get_string ("grep XKBOPTIONS /etc/default/keyboard | cut -d = -f 2 | tr -d '\"'");
     if (init_options == NULL) init_options = g_strdup ("");
 
     alt_keys = FALSE;
