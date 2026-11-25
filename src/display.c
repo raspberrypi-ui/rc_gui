@@ -66,10 +66,7 @@ static gboolean process_vnc_cb (gpointer data);
 
 static int num_screens (void)
 {
-    if (wm != WM_OPENBOX)
-        return get_status ("wlr-randr | grep -cv '^ '");
-    else
-        return get_status ("xrandr -q | grep -cw connected");
+    return get_status (GET_NUM_SCREENS);
 }
 
 static void set_cb_text (GObject *cb, const char *str)
