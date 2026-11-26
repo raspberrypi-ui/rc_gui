@@ -1,3 +1,9 @@
+rc-gui (2.25) UNRELEASED; urgency=medium
+
+  * Remove some more direct shell calls to replace with rcn functions
+
+ -- Simon Long <simon@raspberrypi.com>  Thu, 26 Nov 2026 15:21:23 +0000
+
 rc-gui (2.24) trixie; urgency=medium
 
   * Tidy overlay restrictions
