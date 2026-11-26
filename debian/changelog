@@ -1,4 +1,4 @@
-rc-gui (2.25) UNRELEASED; urgency=medium
+rc-gui (2.25) trixie; urgency=medium
 
   * Remove some more direct shell calls to replace with rcn functions
 
