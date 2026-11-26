@@ -42,6 +42,7 @@ extern const char *dgetfixt (const char *domain, const char *msgctxid);
 #define GET_PI_TYPE     GET_PREFIX "get_pi_type"
 #define GET_MEMORY      GET_PREFIX "get_mem"
 #define GET_NUM_SCREENS GET_PREFIX "get_num_screens"
+#define GET_OUTPUTS     GET_PREFIX "get_outputs"
 
 /* system tab */
 #define GET_HOSTNAME    GET_PREFIX "get_hostname"

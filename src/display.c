@@ -189,9 +189,7 @@ gboolean display_reboot (void)
 
 void load_display_tab (GtkBuilder *builder)
 {
-    char *line, *cptr;
-    size_t len;
-    FILE *fp;
+    char *outputs, *cptr;
     int op;
 
     /* Blanking switch */
@@ -234,30 +232,18 @@ void load_display_tab (GtkBuilder *builder)
         /* Squeekboard output */
         squeekop_cb = gtk_builder_get_object (builder, "combo_squeekout");
         orig_sop = get_string_cached (GET_SQUEEKOUT);
-        fp = popen ("wlr-randr", "r");
-        if (fp)
+        outputs = get_string_cached (GET_OUTPUTS);
+        if (outputs && g_strcmp0 (outputs, "none"))
         {
             op = 0;
-            line = NULL;
-            len = 0;
-            while (getline (&line, &len, fp) != -1)
+            for (cptr = strtok (outputs, ","); cptr; cptr = strtok (NULL, ","))
             {
-                if (line[0] != ' ')
-                {
-                    cptr = line;
-                    while (*cptr != ' ') cptr++;
-                    *cptr = 0;
-                    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (squeekop_cb), line);
-                    if (orig_sop && !g_strcmp0 (orig_sop, line))
-                    {
-                        gtk_combo_box_set_active (GTK_COMBO_BOX (squeekop_cb), op);
-                    }
-                    op++;
-                }
+                gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (squeekop_cb), cptr);
+                if (!g_strcmp0 (orig_sop, cptr)) gtk_combo_box_set_active (GTK_COMBO_BOX (squeekop_cb), op);
+                op++;
             }
-            free (line);
-            pclose (fp);
         }
+        g_free (outputs);
         HANDLE_CONTROL (squeekop_cb, "changed", on_squeek_output_set);
 
         if (get_status (VKBD_INSTALLED))
